@@ -60,9 +60,9 @@
               style="height: 100px; padding-top: 0em; padding-left: 0.5em"
             />
           </div>
-          <h3>Can Language Models Resolve Real-World GitHub Issues?</h3>
-          <h3 style="font-size: 20px; padding-top: 1.2em">ICLR 2024</h3>
-          <p style="text-align: center;margin-top:1em;">
+          <h4>Can Language Models Resolve Real-World GitHub Issues?</h4>
+          <h4 style="font-size: 20px; padding-top: 0.6em">ICLR 2024</h4>
+          <p style="text-align: center;margin-top:0.5em;">
             Carlos E. Jimenez*, John Yang*, <br />
             Alexander Wettig, Shunyu Yao, Kexin Pei, <br />
             Ofir Press, Karthik Narasimhan
@@ -93,24 +93,24 @@
       </section>
       <section class="main-container">
         <div class="content-wrapper" style="margin-top: 1em; display: flex; justify-content: center; align-items: center;">
+          <a href="multimodal.html">
+            <button
+              class="outline teaser swebm"
+              style="flex-direction: row; display: flex; justify-content: center; align-items: center; width: 15em; background-color: #fc959a;">
+              <img
+                src="img/swellamamm.png"
+                style="height: 1.3em; margin-right: 0.4em; margin-bottom: 0.1em; background-color: #fc959a;" />
+                SWE-bench Multimodal&nbsp;
+            </button>
+          </a>
           <a href="lite.html">
             <button
               class="outline teaser swebl"
               style="flex-direction: row; display: flex; justify-content: center; align-items: center; width: 15em;">
               <img
                 src="img/swellama.png"
-                style="height: 1.3em; margin-right: 0.4em; margin-bottom: 0.1em;" />
+                style="height: 1.3em; margin-right: 0.4em; margin-bottom: 0.1em; background-color: var(--dark_accent_color);" />
                 SWE-bench Lite&nbsp;
-            </button>
-          </a>
-          <a href="multimodal.html">
-            <button
-              class="outline teaser swebm"
-              style="flex-direction: row; display: flex; justify-content: center; align-items: center; width: 15em;">
-              <img
-                src="img/swellamamm.png"
-                style="height: 1.3em; margin-right: 0.4em; margin-bottom: 0.1em;" />
-                SWE-bench Multimodal&nbsp;
             </button>
           </a>
           <a href="https://openai.com/index/introducing-swe-bench-verified/">
@@ -124,40 +124,14 @@
             </button>
           </a>
         </div>
-        <div class="content-wrapper" style="display: flex; justify-content: center; align-items: center;">
-          <div class="content-box">
-            <h2 class="text-title">News</h2>
-            <p style="margin-bottom: 0.5em">
-              📣 [10/2024] Introducing <b>SWE-bench Multimodal</b>! Can AI systems "see" bugs and fix them? 👀 💻
-              [<a style="color:#0ca7ff" href="multimodal.html">Link</a>]
-            </p>
-            <p style="margin-bottom: 0.5em">
-              📣 [08/2024] SWE-bench x OpenAI = <b>SWE-bench Verified</b>, a human-validated subset of 
-              500 problems reviewed by software engineers!
-              [<a style="color:#0ca7ff" href="https://openai.com/index/introducing-swe-bench-verified/">Report</a>]
-            </p>
-            <p style="margin-bottom: 0.5em">
-              📣 [06/2024] We've <b>Docker</b>-ized SWE-bench for easier, containerized, reproducible evaluation.
-              [<a style="color:#0ca7ff" href="https://github.com/swe-bench/SWE-bench/tree/main/docs/20240627_docker">Report</a>]
-            </p>
-            <p style="margin-bottom: 0.5em">
-              📣 [03/2024] Check out our latest work, <b>SWE-agent</b>, which achieves a 12.47% resolve rate on SWE-bench!
-              [<a href="https://github.com/princeton-nlp/SWE-agent" class="light-blue-link" target="_blank" rel="noopener noreferrer">Link</a>]
-            </p>
-            <p style="margin-bottom: 0.5em">
-              📣 [03/2024] We've released <b>SWE-bench Lite</b>! Running all of SWE-bench can take time. This subset makes it easier!
-              [<a style="color:#0ca7ff" href="lite.html">Report</a>]
-            </p>
-          </div>
-        </div>
         <div class="content-wrapper">
           <div class="content-box leaderboard">
             <h2 class="text-title">Leaderboard</h2>
             <ul class="tab">
-              <li><button id="tab-lite" class="tablinks" data-leaderboard="Lite">Lite</button></li>
-              <li><button id="tab-verified" class="tablinks" data-leaderboard="Verified">Verified</button></li>
-              <li><button id="tab-test" class="tablinks" data-leaderboard="Test">Full</button></li>
-              <li><button id="tab-multimodal" class="tablinks" data-leaderboard="Multimodal">Multimodal</button></li>
+              <li><button id="tab-lite" class="tablinks" data-leaderboard="Lite" style="display: flex; align-items: center;"><img src="img/swellama.png" style="height: 1.3em; margin-right: 0.4em; background-color: var(--dark_accent_color);" />Lite</button></li>
+              <li><button id="tab-verified" class="tablinks" data-leaderboard="Verified" style="display: flex; align-items: center;"><img src="img/swellama.png" style="height: 1.3em; margin-right: 0.4em; background-color: var(--dark_accent_color);" />Verified</button></li>
+              <li><button id="tab-test" class="tablinks" data-leaderboard="Test" style="display: flex; align-items: center;"><img src="img/swellama.png" style="height: 1.3em; margin-right: 0.4em; background-color: var(--dark_accent_color);" />Full</button></li>
+              <li><button id="tab-multimodal" class="tablinks" data-leaderboard="Multimodal" style="display: flex; align-items: center;"><img src="img/swellamamm.png" style="height: 1.3em; margin-right: 0.4em; background-color: #fc959a;" />Multimodal</button></li>
             </ul>
             {% for leaderboard in leaderboards %}
             <div class="tabcontent" style="display: block" id="leaderboard-{{leaderboard.name}}">
@@ -245,6 +219,32 @@
               All submissions are Pass@1, do not use
               <code style="color:black;background-color:#ddd;border-radius: 0.25em">hints_text</code>,
               and are in the unassisted setting.
+            </p>
+          </div>
+        </div>
+        <div class="content-wrapper" style="display: flex; justify-content: center; align-items: center;">
+          <div class="content-box">
+            <h2 class="text-title">News</h2>
+            <p style="margin-bottom: 0.5em">
+              📣 [10/2024] Introducing <b>SWE-bench Multimodal</b>! Can AI systems "see" bugs and fix them? 👀 💻
+              [<a style="color:#0ca7ff" href="multimodal.html">Link</a>]
+            </p>
+            <p style="margin-bottom: 0.5em">
+              📣 [08/2024] SWE-bench x OpenAI = <b>SWE-bench Verified</b>, a human-validated subset of 
+              500 problems reviewed by software engineers!
+              [<a style="color:#0ca7ff" href="https://openai.com/index/introducing-swe-bench-verified/">Report</a>]
+            </p>
+            <p style="margin-bottom: 0.5em">
+              📣 [06/2024] We've <b>Docker</b>-ized SWE-bench for easier, containerized, reproducible evaluation.
+              [<a style="color:#0ca7ff" href="https://github.com/swe-bench/SWE-bench/tree/main/docs/20240627_docker">Report</a>]
+            </p>
+            <p style="margin-bottom: 0.5em">
+              📣 [03/2024] Check out our latest work, <b>SWE-agent</b>, which achieves a 12.47% resolve rate on SWE-bench!
+              [<a href="https://github.com/princeton-nlp/SWE-agent" class="light-blue-link" target="_blank" rel="noopener noreferrer">Link</a>]
+            </p>
+            <p style="margin-bottom: 0.5em">
+              📣 [03/2024] We've released <b>SWE-bench Lite</b>! Running all of SWE-bench can take time. This subset makes it easier!
+              [<a style="color:#0ca7ff" href="lite.html">Report</a>]
             </p>
           </div>
         </div>
@@ -373,7 +373,7 @@
                   <div class="download">
                     <img
                       src="img/swellama.png"
-                      style="height:1.3em;vertical-align: middle;margin-bottom:0.35em;margin-right:0.2em"
+                      style="height:1.3em;vertical-align: middle;margin-bottom:0.35em;margin-right:0.2em;background-color: var(--dark_accent_color)"
                     />
                     SWE-Llama 13b
                   </div>
@@ -385,7 +385,7 @@
                   <div class="download">
                     <img
                       src="img/swellama.png"
-                      style="height:1.3em;vertical-align: middle;margin-bottom:0.35em;margin-right:0.2em"
+                      style="height:1.3em;vertical-align: middle;margin-bottom:0.35em;margin-right:0.2em;background-color: var(--dark_accent_color)"
                     />
                     SWE-Llama 13b (PEFT)
                   </div>
@@ -399,7 +399,7 @@
                   <div class="download">
                     <img
                       src="img/swellama.png"
-                      style="height:1.3em;vertical-align: middle;margin-bottom:0.35em;margin-right:0.2em"
+                      style="height:1.3em;vertical-align: middle;margin-bottom:0.35em;margin-right:0.2em;background-color: var(--dark_accent_color)"
                     />
                     SWE-Llama 7b
                   </div>
@@ -411,7 +411,7 @@
                   <div class="download">
                     <img
                       src="img/swellama.png"
-                      style="height:1.3em;vertical-align: middle;margin-bottom:0.35em;margin-right:0.2em"
+                      style="height:1.3em;vertical-align: middle;margin-bottom:0.35em;margin-right:0.2em;background-color: var(--dark_accent_color)"
                     />
                     SWE-Llama 7b (PEFT)
                   </div>
@@ -514,7 +514,7 @@
             document.querySelector('.leaderboard').scrollIntoView({ behavior: 'smooth' });
           }, 100);
         } else {
-          // Open the 'lite' leaderboard by default if no hash
+          // Open the 'Lite' leaderboard by default if no hash
           openLeaderboard('Lite', false);
         }
       });
