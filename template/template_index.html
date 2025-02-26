@@ -128,10 +128,10 @@
           <div class="content-box leaderboard">
             <h2 class="text-title">Leaderboard</h2>
             <ul class="tab">
-              <li><button id="tab-lite" class="tablinks" data-leaderboard="Lite" style="display: flex; align-items: center;"><img src="img/swellama.png" style="height: 1.3em; margin-right: 0.4em; background-color: var(--dark_accent_color);" />Lite</button></li>
-              <li><button id="tab-verified" class="tablinks" data-leaderboard="Verified" style="display: flex; align-items: center;"><img src="img/swellama.png" style="height: 1.3em; margin-right: 0.4em; background-color: var(--dark_accent_color);" />Verified</button></li>
-              <li><button id="tab-test" class="tablinks" data-leaderboard="Test" style="display: flex; align-items: center;"><img src="img/swellama.png" style="height: 1.3em; margin-right: 0.4em; background-color: var(--dark_accent_color);" />Full</button></li>
-              <li><button id="tab-multimodal" class="tablinks" data-leaderboard="Multimodal" style="display: flex; align-items: center;"><img src="img/swellamamm.png" style="height: 1.3em; margin-right: 0.4em; background-color: #fc959a;" />Multimodal</button></li>
+              <li><button id="tab-lite" class="tablinks" data-leaderboard="Lite" style="display: flex; align-items: center;">Lite</button></li>
+              <li><button id="tab-verified" class="tablinks" data-leaderboard="Verified" style="display: flex; align-items: center;">Verified</button></li>
+              <li><button id="tab-test" class="tablinks" data-leaderboard="Test" style="display: flex; align-items: center;">Full</button></li>
+              <li><button id="tab-multimodal" class="tablinks" data-leaderboard="Multimodal" style="display: flex; align-items: center;">Multimodal</button></li>
             </ul>
             {% for leaderboard in leaderboards %}
             <div class="tabcontent" style="display: block" id="leaderboard-{{leaderboard.name}}">
@@ -152,7 +152,7 @@
                   <tr>
                     <td>
                       <p class="model-type">
-                        {% if item.date >= "2025-01-01" %}🆕 {% endif %}
+                        {% if item.date >= "2025-02-01" %}🆕 {% endif %}
                         {% if loop.index == 1 %}🥇 
                         {% elif loop.index == 2 %}🥈 
                         {% elif loop.index == 3 %}🥉 
@@ -459,6 +459,9 @@
             <div class="content-wrapper" style="display: flex; flex-direction: row; margin-top: 0.5em;">
               <a href="https://princeton-nlp.github.io/">
                 <img src="img/princeton_seal.svg" style="height: 3em;padding-top:0.5em;padding-right: 1em" />
+              </a>
+              <a href="https://www.cs.stanford.edu/">
+                <img src="img/stanford_logo.png" style="height: 3em;padding-top:0.5em;padding-right: 1em;padding-left: 0.25em;" />
               </a>
               <a href="https://pli.princeton.edu/">
                 <img src="img/pli_logo.svg" style="height: 3em;padding-top:0.5em;padding-right: 1em" />

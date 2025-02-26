@@ -98,10 +98,30 @@
         <div class="content-wrapper">
             <div class="content-box">
                 <h3>
+                    Evaluating on SWE-bench
+                </h3>
+                <p>
+                    Check out the main <a href="https://github.com/swe-bench/SWE-bench">SWE-bench</a> repository
+                    for instructions on how to generate and evaluate predictions on SWE-bench [Lite, Verified, Multimodal].
+                </p>
+                <p style="margin-top: 0.5em">
+                    SWE-bench evaluation can be carried out either locally or via cloud compute platforms with our
+                    <a href="https://github.com/swe-bench/sb-cli/">sb-cli</a> tool (Recommended) or
+                    <a href="https://github.com/swe-bench/SWE-bench/blob/main/assets/evaluation.md">Modal</a>.
+                </p>
+                <p style="margin-top: 0.5em">
+                    Evaluation for the test split of SWE-bench Multimodal is exclusively available via
+                    <a href="https://github.com/swe-bench/sb-cli/">sb-cli</a>.
+                </p>
+            </div>
+        </div>
+        <div class="content-wrapper">
+            <div class="content-box">
+                <h3>
                     Submit to SWE-bench Leaderboard
                 </h3>
                 <p>
-                    If you are interested in submitting your model to the <a href="https://www.swebench.com/">SWE-bench Leaderboard</a>, please do the following:
+                    If you are interested in submitting your model to the <a href="https://www.swebench.com/">SWE-bench Leaderboard</a>, please do the following. See <a href="#submit-multimodal">Submit to SWE-bench Multimodal Leaderboard</a> below for instructions SWE-bench Multimodal.
                 </p>
                 <ol>
                     <li>Fork the <a href="https://github.com/swe-bench/experiments">SWE-bench/experiments</a> repository.</li>
@@ -145,6 +165,56 @@
                 <p>
                     You can refer to this <a href="https://github.com/swe-bench/SWE-bench/blob/main/tutorials/evaluation.md">tutorial</a> for a quick overview of how to evaluate your model on SWE-bench.
                 </p>        
+            </div>
+        </div>
+        <div class="content-wrapper">
+            <div class="content-box" id="submit-multimodal">
+                <h3>
+                    Submit to SWE-bench Multimodal Leaderboard
+                </h3>
+                <p>
+                    All SWE-bench Multimodal submissions are done through the SWE-bench API, which you can use with the <a href="https://github.com/SWE-bench/sb-cli/">sb-cli</a> tool. Follow the steps below to submit your model to the leaderboard.
+                </p>
+                <ol>
+                    <li>Submit your predictions via the SWE-bench API using sb-cli:
+                        <pre><code>sb-cli submit swe-bench-m test \
+    --predictions_path ./path/to/preds.json \
+    --run_id your-run-id</code></pre>
+                    </li>
+                    <li>Fork and clone the <a href="https://github.com/swe-bench/experiments">SWE-bench/experiments</a> repository.</li>
+                    <li>Create a new directory under <code>multimodal/YOUR_MODEL_NAME/</code> with the following files:
+                        <ul>
+                            <li><code>README.md</code>: Description of your model and approach</li>
+                            <li><code>metadata.yaml</code>: Submission metadata with the following fields:</li>
+                            <ul>
+                                <li><code>name</code>: Your system's name</li>
+                                <li><code>oss</code>: Whether your system is open source (<code>true</code>/<code>false</code>)</li>
+                                <li><code>site</code>: URL to link to from the leaderboard</li>
+                            </ul>
+                        </ul>
+                    </li>
+                    <li>Create a pull request to the experiments repository including:
+                        <ul>
+                            <li>The email used for sb-cli submission</li>
+                            <li>The <code>run_id</code> used for sb-cli submission</li>
+                        </ul>
+                    </li>
+                </ol>
+                <p>
+                    The SWE-bench team will:
+                </p>
+                <ul>
+                    <li>Add your predictions and results to the PR</li>
+                    <li>Review and merge your submission</li>
+                    <li>Update the leaderboard with your results</li>
+                </ul>
+                <p>
+                    <b>Note:</b> Unlike SWE-bench [Lite, Verified] submissions, you do not need to submit evaluation logs or reasoning traces for SWE-bench Multimodal submissions.
+                </p>
+                <br/>
+                <p>
+                    See <a href="https://www.swebench.com/sb-cli/submit-to-leaderboard">https://www.swebench.com/sb-cli/submit-to-leaderboard</a> for full details on submitting.
+                </p>
             </div>
         </div>
         <div class="content-wrapper">
