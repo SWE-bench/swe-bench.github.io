@@ -1,2 +1,17 @@
 .DS_Store
 
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+
+# Distribution / packaging
+dist/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+

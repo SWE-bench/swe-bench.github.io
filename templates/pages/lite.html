@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+
+{% block title %}SWE-bench Lite{% endblock %}
+
+{% block head_extra %}
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+{% endblock %}
+
+{% block content %}
+    <header class="page-header">
+        <div class="container">
+            <h1>SWE-bench Lite</h1>
+            <p>A curated subset of SWE-bench for faster, more cost-effective evaluation.</p>
+            <div class="authors">
+                <small>Carlos E. Jimenez, John Yang, Jiayi Geng | March 19, 2024</small>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="content-box">
+            <h2>Overview</h2>
+            <p>SWE-bench Lite provides a smaller, carefully selected subset of 300 tasks from the full benchmark, designed to:</p>
+            <ul>
+                <li>Reduce evaluation costs while maintaining benchmark quality</li>
+                <li>Enable faster iteration cycles for model development</li>
+                <li>Provide a more accessible entry point for research groups</li>
+            </ul>
+            <p>The 300 tasks were selected to preserve the distribution and difficulty spectrum of the original benchmark while focusing on more self-contained, functional bug fixes.</p>
+            
+            <p>While the full SWE-bench test split comprises 2,294 issue-commit pairs across 12 Python repositories, SWE-bench Lite covers 11 of the original 12 repositories with a similar diversity and distribution. We also provide 23 development instances that can be useful for active development on the SWE-bench task.</p>
+            
+            <p>We recommend future systems evaluating on SWE-bench to report numbers on SWE-bench Lite in lieu of the full SWE-bench set when compute efficiency is a concern.</p>
+        </section>
+        
+        <!-- Leaderboard Section -->
+        <section class="content-box leaderboard" id="lite-leaderboard">
+            <h2>Lite Leaderboard</h2>
+            <div class="leaderboard-container" style="width: 100%;">
+                {% for leaderboard in leaderboards %}
+                    {% if leaderboard.name == "Lite" %}
+                        <table class="table table-striped scrollable data-table">
+                            <thead>
+                                <tr>
+                                    <th>Model</th>
+                                    <th>% Resolved</th>
+                                    <th>Org</th>
+                                    <th>Date</th>
+                                    <th>Logs</th>
+                                    <th>Trajs</th>
+                                    <th>Site</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in leaderboard.results if not item.warning %}
+                                <tr>
+                                    <td>
+                                        <span class="model-name">
+                                            {% if item.date >= "2025-02-13" %}🆕 {% endif %}
+                                            {% if loop.index == 1 %}🥇
+                                            {% elif loop.index == 2 %}🥈
+                                            {% elif loop.index == 3 %}🥉
+                                            {% endif %}
+                                            {% if item.oss %}🤠 {% endif %}
+                                            {% if item.verified %}✅ {% endif %}
+                                            {{item.name}}
+                                        </span>
+                                    </td>
+                                    <td><span class="number">{{ "%.2f"|format(item.resolved|float) }}</span></td>
+                                    <td>
+                                        {% if item.org_logo %}
+                                        <img src="{{item.org_logo}}" alt="{{item.org}}" style="height: 1.5em; vertical-align: middle;" />
+                                        {% else %} - {% endif %}
+                                    </td>
+                                    <td><span class="label-date">{{item.date}}</span></td>
+                                    <td class="centered-text">
+                                        {% if item.logs %}✓{% else %} - {% endif %}
+                                    </td>
+                                    <td class="centered-text">
+                                        {% if item.trajs %}✓{% else %} - {% endif %}
+                                    </td>
+                                    <td class="centered-text">
+                                        {% if item.site %}
+                                            <a href="{{item.site}}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                                        {% else %}<span class="text-muted">-</span>{% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            
+            <div class="leaderboard-notes">
+                <p>
+                    SWE-bench <b>Lite</b> is a subset curated for less costly evaluation.<br>
+                </p>
+                <p>
+                    - <b>% Resolved</b>: Percentage of instances solved out of 300 instances.<br>
+                    - ✅ <b>Checked</b>: Results reproduced by the SWE-bench team.<br>
+                    - 🤠 <b>Open</b>: Open-source code (model may not be).<br>
+                    - 🆕 <b>New</b>: Recently submitted.<br>
+                </p>
+            </div>
+        </section>
+        
+        <!-- Selection Criteria Section -->
+        <section class="content-box" id="selection-criteria">
+            <h2>Selection Criteria</h2>
+            <p>SWE-bench Lite instances were selected using the following criteria:</p>
+            <ul>
+                <li>Removed instances with images, external hyperlinks, references to specific commit SHAs and references to other pull requests or issues</li>
+                <li>Removed instances with fewer than 40 words in the problem statement</li>
+                <li>Removed instances that edit more than 1 file</li>
+                <li>Removed instances where the gold patch has more than 3 edit hunks</li>
+                <li>Removed instances that create or remove files</li>
+                <li>Removed instances that contain tests with error message checks</li>
+                <li>Finally, sampled 300 test instances and 23 development instances from the remaining candidates</li>
+            </ul>
+            <p>The source code for how SWE-bench Lite was created is available in <a href="https://github.com/SWE-bench/SWE-bench/tree/main/swebench/collect/make_lite" target="_blank">SWE-bench/swebench/collect/make_lite</a>.</p>
+        </section>
+
+        <!-- Distribution Section -->
+        <section class="content-box" id="distribution">
+            <h2>Repository Distribution</h2>
+            <p>SWE-bench Lite distribution across repositories. Compare to the full SWE-bench in Figure 3 of the SWE-bench paper.</p>
+            <div class="distribution-image">
+                <img src="img/swebench-lite-pie.png" alt="SWE-bench Lite repository distribution" class="img-fluid">
+            </div>
+            <br>
+            <h3>Baseline Performance</h3>
+            <p>SWE-bench Lite performance for our baselines. Compare to the full SWE-bench baseline performance in Table 5 of the SWE-bench paper.</p>
+            <div class="performance-image">
+                <img src="img/swe-bench_lite_results.png" alt="SWE-bench Lite baseline performance comparison" class="img-fluid">
+            </div>
+        </section>
+
+        <!-- Resources Section -->
+        <section class="content-box" id="lite-resources">
+            <h2>Resources</h2>
+            <p>SWE-bench Lite datasets:</p>
+            <div class="resource-links">
+                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite">🤗 SWE-bench Lite</a>
+                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite_oracle">🤗 "Oracle" Retrieval Lite</a>
+                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite_bm25_13K">🤗 BM25 Retrieval 13K Lite</a>
+                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite_bm25_27K">🤗 BM25 Retrieval 27K Lite</a>
+            </div>
+        </section>
+
+        <!-- Citation Section -->
+        <section id="citation" class="content-box">
+            <h2>Citation</h2>
+            <p>If you use SWE-bench in your research, please cite our paper:</p>
+            
+            <div class="citation-type">
+                <button class="citation-format-btn active" data-format="bibtex" data-target="lite-citation">BibTeX</button>
+                <button class="citation-format-btn" data-format="apa" data-target="lite-citation">APA</button>
+                <button class="citation-format-btn" data-format="mla" data-target="lite-citation">MLA</button>
+            </div>
+            
+            <div class="citation-container" id="lite-citation-bibtex">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>@article{jimenez2024building,
+    title={Building Specialized Code LLMs: A Real-World Perspective on Scaling, Recipes, and Alignment},
+    author={Carlos E. Jimenez and Alexander Wettig and Shunyu Yao and John Yang and Kexin Pei and Sahil Jain and Ofir Press and Karthik Narasimhan},
+    journal={arXiv preprint arXiv:2404.11486},
+    year={2024}
+}</pre>
+            </div>
+            
+            <div class="citation-container display-none" id="lite-citation-apa">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>Jimenez, C. E., Wettig, A., Yao, S., Yang, J., Pei, K., Jain, S., Press, O., & Narasimhan, K. (2024). Building Specialized Code LLMs: A Real-World Perspective on Scaling, Recipes, and Alignment. arXiv preprint arXiv:2404.11486.</pre>
+            </div>
+            
+            <div class="citation-container display-none" id="lite-citation-mla">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>Jimenez, Carlos E., et al. "Building Specialized Code LLMs: A Real-World Perspective on Scaling, Recipes, and Alignment." arXiv preprint arXiv:2404.11486 (2024).</pre>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block scripts_extra %}
+    <!-- Citation functionality now provided by citation.js and citationFormat.js loaded in base.html -->
+{% endblock %}

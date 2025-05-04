@@ -1,51 +1,48 @@
-function updateTableByYearHelper(data) {
-    const tableBody = document.querySelector('#table-by-year tbody');
-    tableBody.innerHTML = ''; // Clear existing rows
 
-    const sortedEntries = Object.entries(data).sort((a, b) => {
-        const repoA = a[0].toLowerCase();
-        const repoB = b[0].toLowerCase();
-
-        const canBeIntegerA = Number.isInteger(parseInt(repoA, 10));
-        const canBeIntegerB = Number.isInteger(parseInt(repoB, 10));
-
-        if (canBeIntegerA && !canBeIntegerB) return -1;
-        if (!canBeIntegerA && canBeIntegerB) return 1;
-        if (canBeIntegerA && canBeIntegerB) return parseInt(repoB, 10) - parseInt(repoA, 10);
-        return repoA.localeCompare(repoB);
-    });
-
-    for (const [repo, values] of sortedEntries) {
-        const row = document.createElement('tr');
-        
-        const repoCell = document.createElement('td');
-        repoCell.textContent = repo;
-        row.appendChild(repoCell);
-        
-        const resolvedCell = document.createElement('td');
-        resolvedCell.textContent = values.resolved;
-        row.appendChild(resolvedCell);
-        
-        const totalCell = document.createElement('td');
-        totalCell.textContent = values.total;
-        row.appendChild(totalCell);
-
-        const percentageCell = document.createElement('td');
-        percentageCell.textContent = `${((values.resolved / values.total) * 100).toFixed(2)}%`;
-        row.appendChild(percentageCell);
-        
-        tableBody.appendChild(row);
-    }
-}
+console.log("Table by year script loaded");
 
 function updateTableByYear(split, model) {
-    const url = `https://raw.githubusercontent.com/swe-bench/experiments/main/evaluation/${split}/${model}/results/resolved_by_time.json`;
+    const url = `https://raw.githubusercontent.com/swe-bench/experiments/main/evaluation/${split}/${model}/results/by_year.json`;
+    
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            updateTableByYearHelper(data);
+            const tableBody = document.querySelector('#table-by-year tbody');
+            tableBody.innerHTML = '';  // Clear existing rows
+            
+            // Sort years in descending order (newest first)
+            const years = Object.keys(data).sort((a, b) => parseInt(b) - parseInt(a));
+            
+            years.forEach(year => {
+                const row = document.createElement('tr');
+                
+                // Year column
+                const yearCell = document.createElement('td');
+                yearCell.textContent = year;
+                row.appendChild(yearCell);
+                
+                // Resolved count column
+                const resolvedCell = document.createElement('td');
+                resolvedCell.textContent = data[year].resolved;
+                row.appendChild(resolvedCell);
+                
+                // Total count column
+                const totalCell = document.createElement('td');
+                totalCell.textContent = data[year].total;
+                row.appendChild(totalCell);
+                
+                // Percentage column
+                const percentCell = document.createElement('td');
+                const percent = (data[year].resolved / data[year].total * 100).toFixed(2);
+                percentCell.textContent = `${percent}%`;
+                row.appendChild(percentCell);
+                
+                tableBody.appendChild(row);
+            });
         })
         .catch(error => {
-            console.error('Error fetching the JSON data:', error);
+            console.error('Error fetching year data:', error);
+            document.querySelector('#table-by-year tbody').innerHTML = 
+                '<tr><td colspan="4">Error loading year data</td></tr>';
         });
 }

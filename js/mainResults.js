@@ -1,3 +1,6 @@
+console.log("Main results script loaded");
+
+
 // Dictionary mapping status to natual language
 const statusToNaturalLanguage = {
     'no_generation': 'No Generation',
@@ -96,13 +99,98 @@ function updateMainResults(split, model) {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            const resolved = data['resolved'].length;
-            const total = split == 'lite' ? 300 : 'verified' ? 500 : 2294;
-            const percentResolved = (resolved / total * 100).toFixed(2);
-            const resolvedElement = document.getElementById('selectedResolved');
-            resolvedElement.textContent = percentResolved;
+            if (data && data.resolved) {
+                const resolved = data.resolved.length;
+                const total = 
+                    split === 'lite' ? 300 : 
+                    split === 'verified' ? 500 : 
+                    split === 'multimodal' ? 517 : 2294;
+                const percentResolved = (resolved / total * 100).toFixed(2);
+                const resolvedElement = document.getElementById('selectedResolved');
+                resolvedElement.textContent = percentResolved;
+            } else {
+                console.error('Invalid results data format:', data);
+                document.getElementById('selectedResolved').textContent = 'N/A';
+            }
         })
         .catch(error => {
-            console.error('Error fetching the JSON data:', error);
+            console.error('Error fetching the results data:', error);
+            document.getElementById('selectedResolved').textContent = 'Error';
         });
 }
+
+// Function to handle leaderboard tab switching
+function openLeaderboard(leaderboardName) {
+    // Hide all leaderboard tabcontent first
+    const tabcontent = document.querySelectorAll('.tabcontent');
+    tabcontent.forEach(content => content.style.display = 'none');
+    
+    // Remove active class from all leaderboard tablinks
+    const tablinks = document.querySelectorAll('.tablinks');
+    tablinks.forEach(link => link.classList.remove('active'));
+    
+    // Show the current tab and add active class to the button
+    const currentTab = document.getElementById(`leaderboard-${leaderboardName}`);
+    if (currentTab) {
+        currentTab.style.display = 'block';
+    }
+    
+    // Add active class to clicked button
+    const activeButton = document.querySelector(`.tablinks[data-leaderboard="${leaderboardName}"]`);
+    if (activeButton) {
+        activeButton.classList.add('active');
+    }
+}
+
+// Initialize page functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle navigation tab highlighting
+    const currentPath = window.location.pathname;
+    const currentPage = currentPath.split('/').pop().split('.')[0] || 'index';
+    
+    // Only activate nav links based on current page
+    const navLinks = document.querySelectorAll('.nav-link');
+    navLinks.forEach(link => {
+        const linkPage = link.getAttribute('data-page');
+        
+        // Clear any existing active classes to avoid conflicts
+        link.classList.remove('active');
+        
+        // Only set active for exact page matches
+        if (linkPage === currentPage) {
+            link.classList.add('active');
+        }
+        
+        // Special handling for hash links only if we're on index page
+        if (currentPage === 'index' && window.location.hash) {
+            const currentHash = window.location.hash.substring(1);
+            
+            // Only match sections like #about or #citation, not leaderboard tabs
+            if (linkPage === currentHash && !['lite', 'verified', 'test', 'multimodal'].includes(currentHash.toLowerCase())) {
+                link.classList.add('active');
+            }
+        }
+    });
+    
+    // Leaderboard tab setup - completely separate from navigation
+    const tabLinks = document.querySelectorAll('.tablinks');
+    tabLinks.forEach(tab => {
+        tab.addEventListener('click', function() {
+            const leaderboardType = this.getAttribute('data-leaderboard');
+            openLeaderboard(leaderboardType);
+        });
+    });
+    
+    // Handle hash in URL for leaderboard tabs or default to Lite tab
+    const hash = window.location.hash.slice(1).toLowerCase();
+    const validTabs = ['lite', 'verified', 'test', 'multimodal'];
+    
+    if (hash && validTabs.includes(hash)) {
+        // Convert hash to proper case for tab name
+        const tabName = hash.charAt(0).toUpperCase() + hash.slice(1);
+        openLeaderboard(tabName);
+    } else {
+        // Default to Lite tab
+        openLeaderboard('Lite');
+    }
+});

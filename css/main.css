@@ -1,0 +1,18 @@
+/**
+ * Main CSS file for SWE-bench Website
+ */
+
+/* Core styles */
+@import 'core.css';
+
+/* Layout components */
+@import 'layout.css';
+
+/* UI components */
+@import 'components.css';
+
+/* Page-specific styles */
+@import 'pages.css';
+
+/* Utilities */
+@import 'utilities.css'; 

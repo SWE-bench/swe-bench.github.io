@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}Submit Results to SWE-bench{% endblock %}
+
+{% block head_extra %}
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+{% endblock %}
+
+{% block content %}
+    <header class="page-header">
+        <div class="container">
+            <h1>Submit Results</h1>
+            <p>Contribute your model's results to the SWE-bench leaderboard.</p>
+        </div>
+    </header>
+    <div class="container">
+        <section class="content-box" id="submission-guidelines">
+            <h2>Submission Guidelines</h2>
+            <p>To submit your model's results to the SWE-bench leaderboard, please follow these guidelines:</p>
+            
+            <h3>Requirements</h3>
+            <ul>
+                <li>Only <strong>Pass@1</strong> evaluations are accepted (single attempt per issue)</li>
+                <li>Submissions must use the official SWE-bench evaluation framework</li>
+                <li>Results must be reproducible and include logs for verification</li>
+                <li>Open-source submissions should include a link to the code repository</li>
+            </ul>
+            
+            <h3>Required Information</h3>
+            <ul>
+                <li>Model name and version</li>
+                <li>Organization/Team name</li>
+                <li>Benchmark version (Full, Verified, Lite, or Multimodal)</li>
+                <li>Performance metrics (% resolved)</li>
+                <li>Evaluation logs</li>
+                <li>Submission date</li>
+                <li>Optional: Link to paper, blog post, or code repository</li>
+            </ul>
+        </section>
+
+        <section class="content-box" id="submission-form">
+            <h2>Submission Form</h2>
+            <p>Please submit your results directly to us using the following form:</p>
+            
+            <form id="leaderboard-submission-form" action="https://formspree.io/f/xbjnpqjr" method="POST">
+                <div class="form-group">
+                    <label for="model-name">Model Name *</label>
+                    <input type="text" id="model-name" name="model-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="organization">Organization/Team *</label>
+                    <input type="text" id="organization" name="organization" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="benchmark-version">Benchmark Version *</label>
+                    <select id="benchmark-version" name="benchmark-version" required>
+                        <option value="">-- Select --</option>
+                        <option value="Full">Full (Test Set)</option>
+                        <option value="Verified">Verified</option>
+                        <option value="Lite">Lite</option>
+                        <option value="Multimodal">Multimodal</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="performance">Performance (% Resolved) *</label>
+                    <input type="number" id="performance" name="performance" step="0.01" min="0" max="100" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="logs-link">Link to Evaluation Logs *</label>
+                    <input type="url" id="logs-link" name="logs-link" required>
+                    <small>Please provide a link to downloadable logs (e.g., GitHub, Google Drive)</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="trajectories-link">Link to Trajectories</label>
+                    <input type="url" id="trajectories-link" name="trajectories-link">
+                    <small>Optional: Link to model solution trajectories</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="code-link">Link to Code Repository</label>
+                    <input type="url" id="code-link" name="code-link">
+                    <small>For open-source submissions</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="additional-links">Additional Links</label>
+                    <input type="url" id="additional-links" name="additional-links">
+                    <small>Paper, blog post, project website, etc.</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contact-email">Contact Email *</label>
+                    <input type="email" id="contact-email" name="contact-email" required>
+                    <small>For verification purposes, will not be displayed publicly</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">Additional Notes</label>
+                    <textarea id="notes" name="notes" rows="4"></textarea>
+                </div>
+                
+                <div class="form-submit">
+                    <input type="submit" value="Submit Results">
+                </div>
+            </form>
+        </section>
+
+        <section class="content-box" id="verification-process">
+            <h2>Verification Process</h2>
+            <p>After submission, our team will review your results and may request additional information or verification. Verified results will be marked with a ✅ on the leaderboard.</p>
+            <p>Please allow 1-2 weeks for the verification process. For questions, contact <a href="mailto:swebench@princeton.edu">swebench@princeton.edu</a>.</p>
+        </section>
+    </div>
+{% endblock %} 

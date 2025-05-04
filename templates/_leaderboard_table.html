@@ -1,0 +1,69 @@
+{% for leaderboard in leaderboards %}
+<div class="tabcontent" id="leaderboard-{{leaderboard.name}}">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Model</th>
+                    <th>% Resolved</th>
+                    <th>Org</th>
+                    <th>Date</th>
+                    <th>Logs</th>
+                    <th>Trajs</th>
+                    <th>Site</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in leaderboard.results if not item.warning %}
+                <tr>
+                    <td>
+                        <div class="flex items-center gap-1">
+                            {% if item.date >= "2025-02-13" %}<span>🆕</span>{% endif %}
+                            {% if loop.index == 1 %}<span class="text-warning">🥇</span>
+                            {% elif loop.index == 2 %}<span class="text-secondary">🥈</span>
+                            {% elif loop.index == 3 %}<span class="text-warning">🥉</span>
+                            {% endif %}
+                            {% if item.oss %}<span>🤠</span>{% endif %}
+                            {% if item.verified %}<span>✅</span>{% endif %}
+                            <span class="font-mono fw-medium">{{item.name}}</span>
+                        </div>
+                    </td>
+                    <td><span class="fw-medium text-primary">{{ "%.2f"|format(item.resolved|float) }}</span></td>
+                    <td>
+                        {% if item.org_logo %}
+                        <img src="{{item.org_logo}}" alt="{{item.org}}" style="height: 1.5em; vertical-align: middle;" />
+                        {% else %} - {% endif %}
+                    </td>
+                    <td><span class="text-muted">{{item.date}}</span></td>
+                    <td class="text-center">
+                        {% if item.logs %}<span class="text-success">✓</span>{% else %}<span class="text-muted">-</span>{% endif %}
+                    </td>
+                    <td class="text-center">
+                        {% if item.trajs %}<span class="text-success">✓</span>{% else %}<span class="text-muted">-</span>{% endif %}
+                    </td>
+                    <td class="text-center">
+                        {% if item.site %}
+                            <a href="{{item.site}}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        {% else %}<span class="text-muted">-</span>{% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endfor %}
+
+<div class="leaderboard-notes">
+    <p>
+        SWE-bench <b>Lite</b> is a subset curated for less costly evaluation [<a href="lite.html">Post</a>].<br>
+        SWE-bench <b>Verified</b> is a human-filtered subset [<a href="https://openai.com/index/introducing-swe-bench-verified/">Post</a>].<br>
+        SWE-bench <b>Multimodal</b> features issues with visual elements [<a href="multimodal.html">Post</a>].
+    </p>
+    <p>
+        - <b>% Resolved</b>: Percentage of instances solved (out of 2294 Full, 500 Verified, 300 Lite, 517 Multimodal).<br>
+        - ✅ <b>Checked</b>: Results reproduced by the SWE-bench team.<br>
+        - 🤠 <b>Open</b>: Open-source code (model may not be).<br>
+        - 🆕 <b>New</b>: Recently submitted.<br>
+    </p>
+</div>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SWE-bench{% endblock %}</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    {% block head_extra %}{% endblock %}
+</head>
+<body>
+    {% include "_sidebar.html" %}
+    
+    <div class="main-content">
+        {% block content %}
+        <!-- Page-specific content will be injected here -->
+        {% endblock %}
+        
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-copyright">
+                        &copy; 2024 SWE-bench Team. All rights reserved.
+                    </div>
+                    <div class="footer-links">
+                        <a href="https://github.com/swe-bench/SWE-bench" target="_blank">GitHub</a>
+                        <a href="https://huggingface.co/collections/princeton-nlp/swe-bench-67033b68e0b99b458ef6ffc5" target="_blank">HuggingFace</a>
+                        <a href="https://arxiv.org/abs/2310.06770" target="_blank">Paper</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Common JS files -->
+    <script src="js/mainResults.js"></script>
+    <script src="js/citation.js"></script>
+    <script src="js/citationFormat.js"></script>
+    {% block js_files %}
+    <!-- Page-specific JS files will be injected here -->
+    {% endblock %}
+
+    <script>
+        function initTheme() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            const storedTheme = localStorage.getItem('theme');
+            
+            if (storedTheme === 'dark' || (!storedTheme && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
+            }
+            
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    document.body.classList.toggle('dark-mode');
+                    
+                    const isDarkMode = document.body.classList.contains('dark-mode');
+                    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+                });
+            }
+            
+            prefersDarkScheme.addEventListener('change', (e) => {
+                if (!localStorage.getItem('theme')) {
+                    if (e.matches) {
+                        document.body.classList.add('dark-mode');
+                    } else {
+                        document.body.classList.remove('dark-mode');
+                    }
+                }
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            
+            const currentPath = window.location.pathname;
+            const currentPage = currentPath.split('/').pop().split('.')[0] || 'index';
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                const linkPage = link.getAttribute('data-page');
+                if (linkPage === currentPage) {
+                    link.classList.add('active');
+                }
+                
+                if (currentPage === 'index' && window.location.hash) {
+                    const currentHash = window.location.hash.substring(1);
+                    if (linkPage === currentHash) {
+                        link.classList.add('active');
+                    }
+                }
+            });
+            
+            const menuToggle = document.querySelector('.mobile-nav-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            
+            if (menuToggle && sidebar && overlay) {
+                function toggleMenu() {
+                    sidebar.classList.toggle('open');
+                    overlay.classList.toggle('active');
+                    
+                    const icon = menuToggle.querySelector('i');
+                    if (icon) {
+                        if (sidebar.classList.contains('open')) {
+                            icon.classList.remove('fa-bars');
+                            icon.classList.add('fa-times');
+                        } else {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                    }
+                }
+                
+                menuToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleMenu();
+                });
+                
+                overlay.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleMenu();
+                });
+                
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (sidebar.classList.contains('open')) {
+                            toggleMenu();
+                        }
+                    });
+                });
+                
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+                        toggleMenu();
+                    }
+                });
+            }
+        });
+    </script>
+
+    {% block scripts_extra %}
+    <!-- Optional page-specific scripts -->
+    {% endblock %}
+</body>
+</html> 

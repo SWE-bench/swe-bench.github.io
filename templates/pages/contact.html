@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact SWE-bench Team{% endblock %}
+
+{% block head_extra %}
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        .contact-container {
+            max-width: 600px;
+            margin: 3rem auto;
+            text-align: center;
+        }
+        
+        .contact-container p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .contact-container a {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .contact-container a:hover {
+            text-decoration: underline;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <header class="page-header">
+        <div class="container">
+            <h1>Contact Us</h1>
+        </div>
+    </header>
+
+    <section class="container">
+        <div class="content-section">
+            <div class="contact-container">
+                <p>For general inquiries about SWE-bench, please email:</p>
+                <p>
+                    <a href="mailto:carlosej@princeton.edu,johnby@stanford.edu">{carlosej@princeton.edu, johnby@stanford.edu}</a>
+                </p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

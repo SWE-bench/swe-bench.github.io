@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% block title %}SWE-bench Multimodal{% endblock %}
+
+{% block head_extra %}
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+{% endblock %}
+
+{% block content %}
+    <header class="page-header">
+        <div class="container">
+            <div class="d-flex align-center mb-3">
+                <img src="img/swe-llama-mm.svg" alt="SWE-Llama MM Logo" style="height: 84px; width: auto; margin-right: 20px;">
+                <h1 class="mb-0">SWE-bench Multimodal</h1>
+            </div>
+            <p>Do AI Systems Generalize to Visual Software Domains?</p>
+            <div class="authors">
+                <small>John Yang*, Carlos E. Jimenez*, Alex L. Zhang, Kilian Lieret, Joyce Yang, Xindi Wu, Ori Press, Niklas Muennighoff, Gabriel Synnaeve, Karthik Narasimhan, Diyi Yang, Sida I. Wang, Ofir Press</small>
+                <br>
+                <small>*Equal contribution</small>
+            </div>
+            <br>
+            <div class="flex justify-center gap-2">
+                <a href="https://arxiv.org/abs/2410.03859" target="_blank" class="paper-link">Paper</a>
+                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Multimodal" target="_blank" class="paper-link">🤗 Datasets</a>                
+            </div>
+        </div>
+    </header>
+
+        <div class="container">
+            <section class="content-box">
+            <h2>Overview</h2>
+            <div class="multimodal-overview">
+                <img src="img/teaser_mm.png" alt="SWE-bench Multimodal" class="img-fluid">
+            </div>
+            <br>
+            <p>SWE-bench Multimodal augments the original benchmark with 517 issues that contain visual elements such as:</p>
+            <ul>
+                <li>Screenshots of bugs or interface issues</li>
+                <li>Design mockups or wireframes</li>
+                <li>Diagrams explaining desired functionality</li>
+                <li>Error messages with visual context</li>
+            </ul>
+            <p>This extension evaluates models' ability to interpret and act on information presented in both textual and visual formats.</p>
+        </section>
+
+        <!-- Leaderboard Section -->
+        <section class="content-box leaderboard" id="multimodal-leaderboard">
+            <h2>Multimodal Leaderboard</h2>
+            <div class="leaderboard-container" style="width: 100%;">
+                {% for leaderboard in leaderboards %}
+                    {% if leaderboard.name == "Multimodal" %}
+                        <table class="table table-striped scrollable data-table">
+                            <thead>
+                                <tr>
+                                    <th>Model</th>
+                                    <th>% Resolved</th>
+                                    <th>Org</th>
+                                    <th>Date</th>
+                                    <th>Logs</th>
+                                    <th>Trajs</th>
+                                    <th>Site</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in leaderboard.results if not item.warning %}
+                                <tr>
+                                    <td>
+                                        <span class="model-name">
+                                            {% if item.date >= "2025-02-13" %}🆕 {% endif %}
+                                            {% if loop.index == 1 %}🥇
+                                            {% elif loop.index == 2 %}🥈
+                                            {% elif loop.index == 3 %}🥉
+                                            {% endif %}
+                                            {% if item.oss %}🤠 {% endif %}
+                                            {% if item.verified %}✅ {% endif %}
+                                            {{item.name}}
+                                        </span>
+                                    </td>
+                                    <td><span class="number">{{ "%.2f"|format(item.resolved|float) }}</span></td>
+                                    <td>
+                                        {% if item.org_logo %}
+                                        <img src="{{item.org_logo}}" alt="{{item.org}}" style="height: 1.5em; vertical-align: middle;" />
+                                        {% else %} - {% endif %}
+                                    </td>
+                                    <td><span class="label-date">{{item.date}}</span></td>
+                                    <td class="centered-text">
+                                        {% if item.logs %}✓{% else %} - {% endif %}
+                                    </td>
+                                    <td class="centered-text">
+                                        {% if item.trajs %}✓{% else %} - {% endif %}
+                                    </td>
+                                    <td class="centered-text">
+                                        {% if item.site %}
+                                            <a href="{{item.site}}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                                        {% else %}<span class="text-muted">-</span>{% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            
+            <div class="leaderboard-notes">
+                <p>
+                    SWE-bench <b>Multimodal</b> features issues with visual elements [<a href="multimodal.html">Post</a>].<br>
+                </p>
+                <p>
+                    - <b>% Resolved</b>: Percentage of instances solved out of 517 instances.<br>
+                    - ✅ <b>Checked</b>: Results reproduced by the SWE-bench team.<br>
+                    - 🤠 <b>Open</b>: Open-source code (model may not be).<br>
+                    - 🆕 <b>New</b>: Recently submitted.<br>
+                </p>
+            </div>
+        </section>
+        <!-- Correspondence Section -->
+        <section class="content-box" id="correspondence">
+            <h2>Correspondence</h2>
+            <p>For questions about SWE-bench Multimodal, please contact:</p>
+            <div class="contact-info">
+                <p><a href="mailto:johnby@stanford.edu,carlosej@princeton.edu">{johnby@stanford.edu, carlosej@princeton.edu}</a></p>
+            </div>
+        </section>
+
+        <!-- Citation Section -->
+        <section class="content-box" id="citation">
+            <h2>Citation</h2>
+            <p>If you use SWE-bench Multimodal in your research, please cite our paper:</p>
+            
+            <div class="citation-type">
+                <button class="citation-format-btn active" data-format="bibtex" data-target="multimodal-citation">BibTeX</button>
+                <button class="citation-format-btn" data-format="apa" data-target="multimodal-citation">APA</button>
+                <button class="citation-format-btn" data-format="mla" data-target="multimodal-citation">MLA</button>
+            </div>
+            
+            <div class="citation-container" id="multimodal-citation-bibtex">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>@misc{yang2024swebenchmultimodalaisystems,
+      title={SWE-bench Multimodal: Do AI Systems Generalize to Visual Software Domains?}, 
+      author={John Yang and Carlos E. Jimenez and Alex L. Zhang and Kilian Lieret and Joyce Yang and Xindi Wu and Ori Press and Niklas Muennighoff and Gabriel Synnaeve and Karthik R. Narasimhan and Diyi Yang and Sida I. Wang and Ofir Press},
+      year={2024},
+      eprint={2410.03859},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2410.03859},
+}</pre>
+            </div>
+            
+            <div class="citation-container display-none" id="multimodal-citation-apa">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>Yang, J., Jimenez, C. E., Zhang, A. L., Lieret, K., Yang, J., Wu, X., Press, O., Muennighoff, N., Synnaeve, G., Narasimhan, K. R., Yang, D., Wang, S. I., & Press, O. (2024). SWE-bench Multimodal: Do AI Systems Generalize to Visual Software Domains? arXiv preprint arXiv:2410.03859.</pre>
+            </div>
+            
+            <div class="citation-container display-none" id="multimodal-citation-mla">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>Yang, John, et al. "SWE-bench Multimodal: Do AI Systems Generalize to Visual Software Domains?" arXiv preprint arXiv:2410.03859 (2024).</pre>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block scripts_extra %}
+<!-- Citation functionality now provided by citation.js and citationFormat.js loaded in base.html -->
+{% endblock %} 
