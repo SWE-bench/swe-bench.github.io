@@ -14,10 +14,10 @@
     <div class="sidebar-overlay"></div>
 <header class="mobile-header">
     <a href="/" class="mobile-logo"><img src="img/swe-llama.svg" alt="SWE-bench logo" class="sidebar-logo-icon">SWE-bench</a>
+    <button class="sidebar-opener" aria-label="Open menu">
+        <i class="fas fa-bars"></i>
+    </button>
 </header>
-<button class="mobile-nav-toggle">
-    <i class="fas fa-bars"></i>
-</button>
 
 <aside class="sidebar">
     <div class="sidebar-header">
@@ -267,48 +267,57 @@
                 }
             });
             
-            const menuToggle = document.querySelector('.mobile-nav-toggle');
+            const sidebarOpener = document.querySelector('.sidebar-opener');
+            const sidebarCloser = document.querySelector('.sidebar .mobile-nav-toggle');
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.sidebar-overlay');
             
-            if (menuToggle && sidebar && overlay) {
+            if ((sidebarOpener || sidebarCloser) && sidebar && overlay) {
                 function toggleMenu() {
                     sidebar.classList.toggle('open');
                     overlay.classList.toggle('active');
-                    
-                    const icon = menuToggle.querySelector('i');
-                    if (icon) {
-                        if (sidebar.classList.contains('open')) {
-                            icon.classList.remove('fa-bars');
-                            icon.classList.add('fa-times');
-                        } else {
-                            icon.classList.remove('fa-times');
-                            icon.classList.add('fa-bars');
-                        }
-                    }
                 }
                 
-                menuToggle.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    toggleMenu();
-                });
+                function openMenu() {
+                    sidebar.classList.add('open');
+                    overlay.classList.add('active');
+                }
+                
+                function closeMenu() {
+                    sidebar.classList.remove('open');
+                    overlay.classList.remove('active');
+                }
+                
+                if (sidebarOpener) {
+                    sidebarOpener.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        openMenu();
+                    });
+                }
+                
+                if (sidebarCloser) {
+                    sidebarCloser.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        closeMenu();
+                    });
+                }
                 
                 overlay.addEventListener('click', function(e) {
                     e.preventDefault();
-                    toggleMenu();
+                    closeMenu();
                 });
                 
                 navLinks.forEach(link => {
                     link.addEventListener('click', () => {
                         if (sidebar.classList.contains('open')) {
-                            toggleMenu();
+                            closeMenu();
                         }
                     });
                 });
                 
                 document.addEventListener('keydown', function(e) {
                     if (e.key === 'Escape' && sidebar.classList.contains('open')) {
-                        toggleMenu();
+                        closeMenu();
                     }
                 });
             }

@@ -13,15 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     }
 
-    // Initialize data
     const data = loadData();
     
-    // Populate filter dropdowns
     function populateFilters() {
         const modelSelect = document.getElementById('model-select');
         const repoSelect = document.getElementById('repo-select');
         
-        // Clear existing options except the first "All" option
         while (modelSelect.options.length > 1) {
             modelSelect.remove(1);
         }
@@ -30,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
             repoSelect.remove(1);
         }
         
-        // Add model options
         data.models.forEach(model => {
             const option = document.createElement('option');
             option.value = model;
@@ -38,7 +34,6 @@ document.addEventListener('DOMContentLoaded', function() {
             modelSelect.appendChild(option);
         });
         
-        // Add repository options
         data.repositories.forEach(repo => {
             const option = document.createElement('option');
             option.value = repo;
@@ -47,7 +42,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Populate table with results
     function populateTable() {
         const tableBody = document.querySelector('#results-table tbody');
         tableBody.innerHTML = '';
@@ -55,33 +49,27 @@ document.addEventListener('DOMContentLoaded', function() {
         data.results.forEach(result => {
             const row = document.createElement('tr');
             
-            // Repository column
             const repoCell = document.createElement('td');
             repoCell.textContent = result.repo;
             row.appendChild(repoCell);
             
-            // Issue ID column
             const idCell = document.createElement('td');
             idCell.textContent = result.id;
             row.appendChild(idCell);
             
-            // Status column
             const statusCell = document.createElement('td');
             statusCell.textContent = result.status === 'pass' ? '✅ Pass' : '❌ Fail';
             statusCell.className = result.status === 'pass' ? 'status-pass' : 'status-fail';
             row.appendChild(statusCell);
             
-            // Type column
             const typeCell = document.createElement('td');
             typeCell.textContent = result.type;
             row.appendChild(typeCell);
             
-            // Model column
             const modelCell = document.createElement('td');
             modelCell.textContent = result.model;
             row.appendChild(modelCell);
             
-            // Details column
             const detailsCell = document.createElement('td');
             const detailsButton = document.createElement('button');
             detailsButton.textContent = 'View';
@@ -94,7 +82,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Show issue details
     function showIssueDetails(issue) {
         const detailsSection = document.getElementById('issue-details');
         detailsSection.style.display = 'block';
@@ -116,11 +103,9 @@ document.addEventListener('DOMContentLoaded', function() {
             `    return True`;
     }
     
-    // Initialize the page
     populateFilters();
     populateTable();
     
-    // Add event listeners for filter changes
     document.getElementById('model-select').addEventListener('change', function() {
         console.log('Model filter changed:', this.value);
     });

@@ -1,7 +1,3 @@
-/**
- * Page-specific styles for SWE-bench Website
- */
-
 /* Header logo and paper link styles */
 .header-logo-container {
   display: flex;
@@ -98,11 +94,6 @@
 
 .leaderboard-tabs::-webkit-scrollbar {
   display: none;
-}
-
-.tabcontent .table-responsive {
-  max-height: 60vh;
-  overflow-y: auto;
 }
 
 @media (max-height: 700px) {
@@ -464,17 +455,6 @@ code {
     max-width: 100%;
   }
 
-  .logo-container {
-    gap: 1.5rem;
-  }
-  
-  .logo-container img,
-  .institution-logo {
-    height: 45px;
-    max-height: 45px;
-    max-width: 140px;
-  }
-
   .institution-logos p {
     font-size: 0.95rem;
   }
@@ -482,7 +462,7 @@ code {
 
 @media (max-width: 576px) {
   .header-logo {
-    width: 200px;
+    width: 120px;
   }
   
   .hero {
@@ -503,18 +483,39 @@ code {
     padding: 1.25rem;
   }
 
-  .logo-container {
-    gap: 1rem;
+  /* Institution logos in single row for mobile */
+  body .content-section .institution-logos {
+    margin-top: 1rem;
+    width: 100%;
+  }
+
+  body .content-section .institution-logos .logo-container {
+    display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
   }
   
-  .logo-container img,
-  .institution-logo {
-    height: 40px;
-    max-height: 40px;
-    max-width: 120px;
+  body .content-section .institution-logos .logo-container a {
+    display: inline-block;
+    width: 23%;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+  }
+  
+  body .content-section .institution-logos .logo-container a img,
+  body .content-section .institution-logos .logo-container a .institution-logo {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    max-height: none;
+    object-fit: contain;
   }
 
   .institution-logos h3 {

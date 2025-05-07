@@ -1,7 +1,3 @@
-/**
- * Component styles for SWE-bench Website
- */
-
 /* Buttons */
 button,
 .button {
@@ -223,6 +219,19 @@ button:focus,
   white-space: nowrap;
 }
 
+/* Sticky header styles - consolidated */
+.scrollable thead th,
+.table-responsive thead th {
+  background-color: var(--table-header-bg);
+  box-shadow: 0 1px 0 var(--table-border);
+}
+
+.dark-mode .scrollable thead th,
+.dark-mode .table-responsive thead th {
+  background-color: var(--table-header-bg);
+  box-shadow: 0 1px 0 var(--table-border);
+}
+
 .table tbody tr {
   background-color: var(--color-background);
   transition: background-color var(--transition-fast);
@@ -267,6 +276,28 @@ button:focus,
   table-layout: fixed;
 }
 
+/* Sticky header styles for standalone scrollable */
+.scrollable thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* Shadow for sticky headers */
+.scrollable thead::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.dark-mode .scrollable thead::after {
+  background: rgba(255, 255, 255, 0.05);
+}
+
 .data-table {
   width: 100%;
   table-layout: auto;
@@ -274,16 +305,40 @@ button:focus,
 
 .data-table th,
 .data-table td {
-  white-space: nowrap;
+  white-space: normal;
 }
 
-/* Make the model column (first column) expand to fill available space */
+/* Model name and leaderboard specific styles */
+.model-name {
+  display: inline-block;
+  white-space: normal;
+  word-wrap: break-word;
+  line-height: 1.4;
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+.model-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin-right: 5px;
+}
+
+.model-badges span {
+  line-height: 1;
+}
+
+/* Column sizing for tables */
 .table th:first-child,
 .table td:first-child {
-  width: 100%;
+  width: 40%;
+  min-width: 180px;
+  max-width: 350px;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
-/* Set fixed widths for other columns to prevent them from expanding */
 .table th:not(:first-child),
 .table td:not(:first-child) {
   width: 1%;
@@ -495,10 +550,89 @@ button:focus,
 }
 
 /* Responsive adjustments */
+@media (min-width: 992px) {
+  /* On desktop */
+  .table-responsive {
+    overflow-x: visible;
+    overflow-y: auto;
+    max-height: 60vh;
+  }
+  
+  /* Convert scrollable to normal table when inside table-responsive */
+  .table-responsive .scrollable {
+    display: table;
+    overflow: visible;
+    max-height: none;
+  }
+  
+  /* Sticky headers for table-responsive */
+  .table-responsive thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  /* Shadow for table-responsive sticky headers */
+  .table-responsive thead::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: rgba(0, 0, 0, 0.05);
+  }
+  
+  .dark-mode .table-responsive thead::after {
+    background: rgba(255, 255, 255, 0.05);
+  }
+  
+  /* Allow table to take full width on desktop */
+  .data-table {
+    min-width: auto;
+  }
+  
+  /* Ensure first column doesn't take too much space on desktop */
+  .table th:first-child,
+  .table td:first-child {
+    max-width: 40%;
+  }
+}
+
+@media (max-width: 992px) {
+  /* On mobile and tablets */
+  .table-responsive {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 60vh;
+    margin-bottom: 1rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Convert scrollable to normal table when inside table-responsive */
+  .table-responsive .scrollable {
+    display: table;
+    overflow: visible;
+    max-height: none;
+  }
+  
+  /* Sticky headers for table-responsive */
+  .table-responsive thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+}
+
 @media (max-width: 576px) {
+  /* Small mobile devices */
   .table {
     display: block;
     overflow-x: auto;
+  }
+  
+  .model-name {
+    font-size: 0.85rem;
   }
   
   .tabs {
@@ -660,8 +794,7 @@ button:focus,
 .info-section,
 .post-info,
 .info-box,
-.benchmark-info,
-.leaderboard-notes {
+.benchmark-info {
   background-color: var(--color-background-alt);
   border-radius: var(--radius-md);
   padding: 1.25rem;
@@ -673,16 +806,24 @@ button:focus,
 .dark-mode .info-section,
 .dark-mode .post-info,
 .dark-mode .info-box,
-.dark-mode .benchmark-info,
-.dark-mode .leaderboard-notes {
+.dark-mode .benchmark-info {
   background-color: var(--gray-800);
   border-color: var(--gray-700);
 }
 
 /* Leaderboard specific styles */
 .leaderboard-notes {
+  background-color: var(--color-background-alt);
+  border-radius: var(--radius-md);
   padding: 1.5rem;
   margin: 1.5rem 0;
+  border: 1.5px solid var(--color-border);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.dark-mode .leaderboard-notes {
+  background-color: var(--gray-800);
+  border-color: var(--gray-700);
 }
 
 .leaderboard-notes p {

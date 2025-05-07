@@ -1,7 +1,3 @@
-/**
- * Layout styles for SWE-bench Website
- */
-
 /* Container */
 .container {
   width: 100%;
@@ -168,9 +164,24 @@
   justify-content: center;
   padding: 0.5rem;
   transition: color var(--transition-fast);
+  z-index: calc(var(--z-fixed) + 1);
 }
 
-.mobile-nav-toggle:hover {
+.sidebar-opener {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--color-text);
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  transition: color var(--transition-fast);
+  z-index: calc(var(--z-fixed) + 1);
+}
+
+.mobile-nav-toggle:hover, .sidebar-opener:hover {
   color: var(--color-text-secondary);
 }
 
@@ -280,6 +291,23 @@
 .dark-mode .sidebar-nav a.active {
   background-color: var(--color-sidebar-accent);
   color: var(--blue-300);
+}
+
+.sidebar-nav a i.fa-external-link-alt {
+  color: var(--color-link);
+  transition: color var(--transition-fast);
+}
+
+.sidebar-nav a:hover i.fa-external-link-alt {
+  color: var(--color-link-hover);
+}
+
+.dark-mode .sidebar-nav a i.fa-external-link-alt {
+  color: var(--color-link);
+}
+
+.dark-mode .sidebar-nav a:hover i.fa-external-link-alt {
+  color: var(--color-link-hover);
 }
 
 .nav-section-title {
@@ -430,11 +458,13 @@
     margin-left: 0;
     padding-left: 0;
     width: 100%;
+    padding-top: calc(var(--header-height) + 1rem);
   }
   
   .sidebar {
     transform: translateX(-100%);
     box-shadow: var(--shadow-lg);
+    width: 80%;
   }
   
   .sidebar.open {
@@ -442,13 +472,24 @@
   }
   
   .mobile-header,
-  .mobile-nav-toggle {
+  .mobile-nav-toggle,
+  .sidebar-opener {
     display: flex;
   }
   
+  .mobile-header .mobile-nav-toggle,
+  .mobile-header .sidebar-opener {
+    display: flex;
+    position: static;
+  }
+  
+  .mobile-nav-toggle:not(.sidebar .mobile-nav-toggle) {
+    position: static;
+  }
+  
   .content-wrapper {
-    padding-top: calc(var(--header-height) + 1rem);
     padding: 1rem;
+    padding-top: calc(var(--header-height) + 1rem);
   }
   
   .sidebar-nav {

@@ -1,7 +1,3 @@
-/**
- * Utility classes for SWE-bench Website
- */
-
 /* Display utilities */
 .d-none { display: none !important; }
 .d-inline { display: inline !important; }
@@ -263,4 +259,22 @@
 
 .dark-mode a:not([class]):hover {
   color: var(--blue-200);
+}
+
+/* Styling for external link icons */
+.fa-external-link-alt {
+  color: var(--color-link);
+  transition: color var(--transition-fast);
+}
+
+.fa-external-link-alt:hover {
+  color: var(--color-link-hover);
+}
+
+.dark-mode .fa-external-link-alt {
+  color: var(--color-link);
+}
+
+.dark-mode .fa-external-link-alt:hover {
+  color: var(--color-link-hover);
 } 
