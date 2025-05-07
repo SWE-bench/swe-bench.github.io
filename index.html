@@ -8,18 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <style>
-        .tabcontent .table-responsive {
-            max-height: 60vh;
-            overflow-y: auto;
-        }
-        
-        @media (max-height: 700px) {
-            .tabcontent .table-responsive {
-                max-height: 50vh;
-            }
-        }
-    </style>
 
 </head>
 <body>
@@ -51,6 +39,7 @@
             <li><a href="citations.html" class="nav-link" data-page="citations">Citations</a></li>
             <li class="nav-section-title">The SWE-bench Family</li>
             <li><a href="https://swe-agent.com/latest/" class="nav-link" data-page="swe-agent"><img src="img/swe-agent-icon.svg" alt="SWE-agent icon" class="sidebar-family-icon">SWE-agent <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://swesmith.com/" class="nav-link" data-page="swe-smith"><img src="img/swe-smith-icon.svg" alt="SWE-smith icon" class="sidebar-family-icon">SWE-smith <i class="fas fa-external-link-alt"></i></a></li>
             <li><a href="https://swe-rex.com/latest/" class="nav-link" data-page="swe-rex"><img src="img/swe-rex-icon.svg" alt="SWE-ReX icon" class="sidebar-family-icon">SWE-ReX <i class="fas fa-external-link-alt"></i></a></li>
             <li><a href="https://swebench.com/sb-cli/" class="nav-link" data-page="sb-cli"><img src="img/sb-cli-icon.svg" alt="SWE-bench CLI icon" class="sidebar-family-icon">SWE-bench CLI <i class="fas fa-external-link-alt"></i></a></li>
         </ul>
@@ -82,6 +71,19 @@
     </header>
 
     <section class="container">
+
+        <a href="https://swesmith.com/">
+            <div class="announcement-container">
+                <p><img src="img/swe-smith-icon.svg" alt="SWE-smith icon" class="sidebar-family-icon"> Our new paper SWE-smith is out! Train your own models for software engineering agents. </p>
+            </div>
+        </a>
+
+        <a href="https://github.com/SWE-agent/SWE-agent">
+            <div class="announcement-container">
+                <p><img src="img/swe-agent-icon.svg" alt="SWE-agent icon" class="sidebar-family-icon"> SWE-agent 1.0 is the open source SOTA on SWE-bench Lite!</p>
+            </div>
+        </a>
+
         <div class="content-section" id="leaderboard">
             <h2>All Leaderboards</h2>
             <div class="leaderboard-tabs">

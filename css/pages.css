@@ -100,6 +100,17 @@
   display: none;
 }
 
+.tabcontent .table-responsive {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+@media (max-height: 700px) {
+  .tabcontent .table-responsive {
+    max-height: 50vh;
+  }
+}
+
 .leaderboard-tab-list {
   display: flex;
   gap: 0.5rem;
@@ -659,4 +670,27 @@ code {
   -webkit-filter: none;
   -moz-filter: none;
   transform: none;
+}
+
+/* Contact page styles */
+.contact-container {
+    max-width: 600px;
+    margin: 3rem auto;
+    text-align: center;
+}
+
+.contact-container p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.contact-container a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.contact-container a:hover {
+    text-decoration: underline;
 } 

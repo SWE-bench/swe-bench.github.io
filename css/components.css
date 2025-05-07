@@ -434,6 +434,22 @@ button:focus,
   border-left: 4px solid transparent;
 }
 
+/* Announcement container */
+.announcement-container {
+  background-color: var(--color-accent-light);
+  border: 1.5px solid var(--color-accent);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.announcement-container p {
+  margin-bottom: 0;
+}
+
 .alert-info {
   background-color: var(--color-accent-light);
   border-left-color: var(--color-accent);
