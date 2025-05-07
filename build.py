@@ -42,6 +42,10 @@ def main() -> None:
         shutil.copytree(ROOT / "js", DIST / "js")
     if (ROOT / "favicon.ico").exists():
         shutil.copy(ROOT / "favicon.ico", DIST / "favicon.ico")
+    if (ROOT / "CNAME").exists():
+        shutil.copy(ROOT / "CNAME", DIST / "CNAME")
+    else:
+        raise FileNotFoundError("CNAME file not found. Please create a CNAME file in the root directory.")
     
     # load data
     with open(ROOT / "data/leaderboards.json", "r") as f:
