@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact SWE-bench Team</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        .contact-container {
+            max-width: 600px;
+            margin: 3rem auto;
+            text-align: center;
+        }
+        
+        .contact-container p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .contact-container a {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .contact-container a:hover {
+            text-decoration: underline;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="sidebar-overlay"></div>
+<header class="mobile-header">
+    <a href="/" class="mobile-logo"><img src="img/swe-llama.svg" alt="SWE-bench logo" class="sidebar-logo-icon">SWE-bench</a>
+</header>
+<button class="mobile-nav-toggle">
+    <i class="fas fa-bars"></i>
+</button>
+
+<aside class="sidebar">
+    <div class="sidebar-header">
+         <a href="/" class="sidebar-logo"><img src="img/swe-llama.svg" alt="SWE-bench logo" class="sidebar-logo-icon">SWE-bench</a>
+         <button class="mobile-nav-toggle" aria-label="Close menu">
+             <i class="fas fa-times"></i>
+         </button>
+    </div>
+    <nav class="sidebar-nav">
+        <ul>
+            <li class="nav-section-title">Benchmarks</li>
+            <li><a href="index.html" class="nav-link" data-page="index">SWE-bench (all)</a></li>
+            <li><a href="lite.html" class="nav-link" data-page="lite">SWE-bench Lite</a></li>
+            <li><a href="multimodal.html" class="nav-link" data-page="multimodal">SWE-bench Multimodal</a></li>
+            <li><a href="https://openai.com/index/introducing-swe-bench-verified/" class="nav-link" data-page="verified">SWE-bench Verified <i class="fas fa-external-link-alt"></i></a></li>
+            <li class="nav-section-title">About</li>
+            <li><a href="https://swebench.com/SWE-bench/" class="nav-link" data-page="docs">Docs <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="contact.html" class="nav-link" data-page="contact">Contact</a></li>
+            <li><a href="citations.html" class="nav-link" data-page="citations">Citations</a></li>
+            <li class="nav-section-title">The SWE-bench Family</li>
+            <li><a href="https://swe-agent.com/latest/" class="nav-link" data-page="swe-agent"><img src="img/swe-agent-icon.svg" alt="SWE-agent icon" class="sidebar-family-icon">SWE-agent <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://swe-rex.com/latest/" class="nav-link" data-page="swe-rex"><img src="img/swe-rex-icon.svg" alt="SWE-ReX icon" class="sidebar-family-icon">SWE-ReX <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://swebench.com/sb-cli/" class="nav-link" data-page="sb-cli"><img src="img/sb-cli-icon.svg" alt="SWE-bench CLI icon" class="sidebar-family-icon">SWE-bench CLI <i class="fas fa-external-link-alt"></i></a></li>
+        </ul>
+    </nav>
+    <div class="sidebar-footer">
+        <a href="https://github.com/swe-bench/SWE-bench" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github"></i> GitHub
+        </a>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+</aside>
+    
+    <div class="main-content">
+        
+    <header class="page-header">
+        <div class="container">
+            <h1>Contact Us</h1>
+        </div>
+    </header>
+
+    <section class="container">
+        <div class="content-section">
+            <div class="contact-container">
+                <p>For general inquiries about SWE-bench, please email:</p>
+                <p>
+                    <a href="mailto:carlosej@princeton.edu,johnby@stanford.edu">{carlosej@princeton.edu, johnby@stanford.edu}</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+        
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-copyright">
+                        &copy; 2024 SWE-bench Team. All rights reserved.
+                    </div>
+                    <div class="footer-links">
+                        <a href="https://github.com/swe-bench/SWE-bench" target="_blank">GitHub</a>
+                        <a href="https://huggingface.co/collections/princeton-nlp/swe-bench-67033b68e0b99b458ef6ffc5" target="_blank">HuggingFace</a>
+                        <a href="https://arxiv.org/abs/2310.06770" target="_blank">Paper</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Common JS files -->
+    <script src="js/mainResults.js"></script>
+    <script src="js/citation.js"></script>
+    <script src="js/citationFormat.js"></script>
+    
+    <!-- Page-specific JS files will be injected here -->
+    
+
+    <script>
+        function initTheme() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            const storedTheme = localStorage.getItem('theme');
+            
+            if (storedTheme === 'dark' || (!storedTheme && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
+            }
+            
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    document.body.classList.toggle('dark-mode');
+                    
+                    const isDarkMode = document.body.classList.contains('dark-mode');
+                    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+                });
+            }
+            
+            prefersDarkScheme.addEventListener('change', (e) => {
+                if (!localStorage.getItem('theme')) {
+                    if (e.matches) {
+                        document.body.classList.add('dark-mode');
+                    } else {
+                        document.body.classList.remove('dark-mode');
+                    }
+                }
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            
+            const currentPath = window.location.pathname;
+            const currentPage = currentPath.split('/').pop().split('.')[0] || 'index';
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                const linkPage = link.getAttribute('data-page');
+                if (linkPage === currentPage) {
+                    link.classList.add('active');
+                }
+                
+                if (currentPage === 'index' && window.location.hash) {
+                    const currentHash = window.location.hash.substring(1);
+                    if (linkPage === currentHash) {
+                        link.classList.add('active');
+                    }
+                }
+            });
+            
+            const menuToggle = document.querySelector('.mobile-nav-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            
+            if (menuToggle && sidebar && overlay) {
+                function toggleMenu() {
+                    sidebar.classList.toggle('open');
+                    overlay.classList.toggle('active');
+                    
+                    const icon = menuToggle.querySelector('i');
+                    if (icon) {
+                        if (sidebar.classList.contains('open')) {
+                            icon.classList.remove('fa-bars');
+                            icon.classList.add('fa-times');
+                        } else {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                    }
+                }
+                
+                menuToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleMenu();
+                });
+                
+                overlay.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleMenu();
+                });
+                
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (sidebar.classList.contains('open')) {
+                            toggleMenu();
+                        }
+                    });
+                });
+                
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+                        toggleMenu();
+                    }
+                });
+            }
+        });
+    </script>
+
+    
+    <!-- Optional page-specific scripts -->
+    
+</body>
+</html> 

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Results to SWE-bench</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+</head>
+<body>
+    <div class="sidebar-overlay"></div>
+<header class="mobile-header">
+    <a href="/" class="mobile-logo"><img src="img/swe-llama.svg" alt="SWE-bench logo" class="sidebar-logo-icon">SWE-bench</a>
+</header>
+<button class="mobile-nav-toggle">
+    <i class="fas fa-bars"></i>
+</button>
+
+<aside class="sidebar">
+    <div class="sidebar-header">
+         <a href="/" class="sidebar-logo"><img src="img/swe-llama.svg" alt="SWE-bench logo" class="sidebar-logo-icon">SWE-bench</a>
+         <button class="mobile-nav-toggle" aria-label="Close menu">
+             <i class="fas fa-times"></i>
+         </button>
+    </div>
+    <nav class="sidebar-nav">
+        <ul>
+            <li class="nav-section-title">Benchmarks</li>
+            <li><a href="index.html" class="nav-link" data-page="index">SWE-bench (all)</a></li>
+            <li><a href="lite.html" class="nav-link" data-page="lite">SWE-bench Lite</a></li>
+            <li><a href="multimodal.html" class="nav-link" data-page="multimodal">SWE-bench Multimodal</a></li>
+            <li><a href="https://openai.com/index/introducing-swe-bench-verified/" class="nav-link" data-page="verified">SWE-bench Verified <i class="fas fa-external-link-alt"></i></a></li>
+            <li class="nav-section-title">About</li>
+            <li><a href="https://swebench.com/SWE-bench/" class="nav-link" data-page="docs">Docs <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="contact.html" class="nav-link" data-page="contact">Contact</a></li>
+            <li><a href="citations.html" class="nav-link" data-page="citations">Citations</a></li>
+            <li class="nav-section-title">The SWE-bench Family</li>
+            <li><a href="https://swe-agent.com/latest/" class="nav-link" data-page="swe-agent"><img src="img/swe-agent-icon.svg" alt="SWE-agent icon" class="sidebar-family-icon">SWE-agent <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://swe-rex.com/latest/" class="nav-link" data-page="swe-rex"><img src="img/swe-rex-icon.svg" alt="SWE-ReX icon" class="sidebar-family-icon">SWE-ReX <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://swebench.com/sb-cli/" class="nav-link" data-page="sb-cli"><img src="img/sb-cli-icon.svg" alt="SWE-bench CLI icon" class="sidebar-family-icon">SWE-bench CLI <i class="fas fa-external-link-alt"></i></a></li>
+        </ul>
+    </nav>
+    <div class="sidebar-footer">
+        <a href="https://github.com/swe-bench/SWE-bench" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github"></i> GitHub
+        </a>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+</aside>
+    
+    <div class="main-content">
+        
+    <header class="page-header">
+        <div class="container">
+            <h1>Submit Results</h1>
+            <p>Contribute your model's results to the SWE-bench leaderboard.</p>
+        </div>
+    </header>
+    <div class="container">
+        <section class="content-box" id="submission-guidelines">
+            <h2>Submission Guidelines</h2>
+            <p>To submit your model's results to the SWE-bench leaderboard, please follow these guidelines:</p>
+            
+            <h3>Requirements</h3>
+            <ul>
+                <li>Only <strong>Pass@1</strong> evaluations are accepted (single attempt per issue)</li>
+                <li>Submissions must use the official SWE-bench evaluation framework</li>
+                <li>Results must be reproducible and include logs for verification</li>
+                <li>Open-source submissions should include a link to the code repository</li>
+            </ul>
+            
+            <h3>Required Information</h3>
+            <ul>
+                <li>Model name and version</li>
+                <li>Organization/Team name</li>
+                <li>Benchmark version (Full, Verified, Lite, or Multimodal)</li>
+                <li>Performance metrics (% resolved)</li>
+                <li>Evaluation logs</li>
+                <li>Submission date</li>
+                <li>Optional: Link to paper, blog post, or code repository</li>
+            </ul>
+        </section>
+
+        <section class="content-box" id="submission-form">
+            <h2>Submission Form</h2>
+            <p>Please submit your results directly to us using the following form:</p>
+            
+            <form id="leaderboard-submission-form" action="https://formspree.io/f/xbjnpqjr" method="POST">
+                <div class="form-group">
+                    <label for="model-name">Model Name *</label>
+                    <input type="text" id="model-name" name="model-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="organization">Organization/Team *</label>
+                    <input type="text" id="organization" name="organization" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="benchmark-version">Benchmark Version *</label>
+                    <select id="benchmark-version" name="benchmark-version" required>
+                        <option value="">-- Select --</option>
+                        <option value="Full">Full (Test Set)</option>
+                        <option value="Verified">Verified</option>
+                        <option value="Lite">Lite</option>
+                        <option value="Multimodal">Multimodal</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="performance">Performance (% Resolved) *</label>
+                    <input type="number" id="performance" name="performance" step="0.01" min="0" max="100" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="logs-link">Link to Evaluation Logs *</label>
+                    <input type="url" id="logs-link" name="logs-link" required>
+                    <small>Please provide a link to downloadable logs (e.g., GitHub, Google Drive)</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="trajectories-link">Link to Trajectories</label>
+                    <input type="url" id="trajectories-link" name="trajectories-link">
+                    <small>Optional: Link to model solution trajectories</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="code-link">Link to Code Repository</label>
+                    <input type="url" id="code-link" name="code-link">
+                    <small>For open-source submissions</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="additional-links">Additional Links</label>
+                    <input type="url" id="additional-links" name="additional-links">
+                    <small>Paper, blog post, project website, etc.</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contact-email">Contact Email *</label>
+                    <input type="email" id="contact-email" name="contact-email" required>
+                    <small>For verification purposes, will not be displayed publicly</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">Additional Notes</label>
+                    <textarea id="notes" name="notes" rows="4"></textarea>
+                </div>
+                
+                <div class="form-submit">
+                    <input type="submit" value="Submit Results">
+                </div>
+            </form>
+        </section>
+
+        <section class="content-box" id="verification-process">
+            <h2>Verification Process</h2>
+            <p>After submission, our team will review your results and may request additional information or verification. Verified results will be marked with a ✅ on the leaderboard.</p>
+            <p>Please allow 1-2 weeks for the verification process. For questions, contact <a href="mailto:swebench@princeton.edu">swebench@princeton.edu</a>.</p>
+        </section>
+    </div>
+
+        
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-copyright">
+                        &copy; 2024 SWE-bench Team. All rights reserved.
+                    </div>
+                    <div class="footer-links">
+                        <a href="https://github.com/swe-bench/SWE-bench" target="_blank">GitHub</a>
+                        <a href="https://huggingface.co/collections/princeton-nlp/swe-bench-67033b68e0b99b458ef6ffc5" target="_blank">HuggingFace</a>
+                        <a href="https://arxiv.org/abs/2310.06770" target="_blank">Paper</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Common JS files -->
+    <script src="js/mainResults.js"></script>
+    <script src="js/citation.js"></script>
+    <script src="js/citationFormat.js"></script>
+    
+    <!-- Page-specific JS files will be injected here -->
+    
+
+    <script>
+        function initTheme() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            const storedTheme = localStorage.getItem('theme');
+            
+            if (storedTheme === 'dark' || (!storedTheme && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
+            }
+            
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    document.body.classList.toggle('dark-mode');
+                    
+                    const isDarkMode = document.body.classList.contains('dark-mode');
+                    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+                });
+            }
+            
+            prefersDarkScheme.addEventListener('change', (e) => {
+                if (!localStorage.getItem('theme')) {
+                    if (e.matches) {
+                        document.body.classList.add('dark-mode');
+                    } else {
+                        document.body.classList.remove('dark-mode');
+                    }
+                }
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            
+            const currentPath = window.location.pathname;
+            const currentPage = currentPath.split('/').pop().split('.')[0] || 'index';
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                const linkPage = link.getAttribute('data-page');
+                if (linkPage === currentPage) {
+                    link.classList.add('active');
+                }
+                
+                if (currentPage === 'index' && window.location.hash) {
+                    const currentHash = window.location.hash.substring(1);
+                    if (linkPage === currentHash) {
+                        link.classList.add('active');
+                    }
+                }
+            });
+            
+            const menuToggle = document.querySelector('.mobile-nav-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            
+            if (menuToggle && sidebar && overlay) {
+                function toggleMenu() {
+                    sidebar.classList.toggle('open');
+                    overlay.classList.toggle('active');
+                    
+                    const icon = menuToggle.querySelector('i');
+                    if (icon) {
+                        if (sidebar.classList.contains('open')) {
+                            icon.classList.remove('fa-bars');
+                            icon.classList.add('fa-times');
+                        } else {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                    }
+                }
+                
+                menuToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleMenu();
+                });
+                
+                overlay.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleMenu();
+                });
+                
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (sidebar.classList.contains('open')) {
+                            toggleMenu();
+                        }
+                    });
+                });
+                
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+                        toggleMenu();
+                    }
+                });
+            }
+        });
+    </script>
+
+    
+    <!-- Optional page-specific scripts -->
+    
+</body>
+</html> 

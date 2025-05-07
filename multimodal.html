@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWE-bench Multimodal</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+</head>
+<body>
+    <div class="sidebar-overlay"></div>
+<header class="mobile-header">
+    <a href="/" class="mobile-logo"><img src="img/swe-llama.svg" alt="SWE-bench logo" class="sidebar-logo-icon">SWE-bench</a>
+</header>
+<button class="mobile-nav-toggle">
+    <i class="fas fa-bars"></i>
+</button>
+
+<aside class="sidebar">
+    <div class="sidebar-header">
+         <a href="/" class="sidebar-logo"><img src="img/swe-llama.svg" alt="SWE-bench logo" class="sidebar-logo-icon">SWE-bench</a>
+         <button class="mobile-nav-toggle" aria-label="Close menu">
+             <i class="fas fa-times"></i>
+         </button>
+    </div>
+    <nav class="sidebar-nav">
+        <ul>
+            <li class="nav-section-title">Benchmarks</li>
+            <li><a href="index.html" class="nav-link" data-page="index">SWE-bench (all)</a></li>
+            <li><a href="lite.html" class="nav-link" data-page="lite">SWE-bench Lite</a></li>
+            <li><a href="multimodal.html" class="nav-link" data-page="multimodal">SWE-bench Multimodal</a></li>
+            <li><a href="https://openai.com/index/introducing-swe-bench-verified/" class="nav-link" data-page="verified">SWE-bench Verified <i class="fas fa-external-link-alt"></i></a></li>
+            <li class="nav-section-title">About</li>
+            <li><a href="https://swebench.com/SWE-bench/" class="nav-link" data-page="docs">Docs <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="contact.html" class="nav-link" data-page="contact">Contact</a></li>
+            <li><a href="citations.html" class="nav-link" data-page="citations">Citations</a></li>
+            <li class="nav-section-title">The SWE-bench Family</li>
+            <li><a href="https://swe-agent.com/latest/" class="nav-link" data-page="swe-agent"><img src="img/swe-agent-icon.svg" alt="SWE-agent icon" class="sidebar-family-icon">SWE-agent <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://swe-rex.com/latest/" class="nav-link" data-page="swe-rex"><img src="img/swe-rex-icon.svg" alt="SWE-ReX icon" class="sidebar-family-icon">SWE-ReX <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://swebench.com/sb-cli/" class="nav-link" data-page="sb-cli"><img src="img/sb-cli-icon.svg" alt="SWE-bench CLI icon" class="sidebar-family-icon">SWE-bench CLI <i class="fas fa-external-link-alt"></i></a></li>
+        </ul>
+    </nav>
+    <div class="sidebar-footer">
+        <a href="https://github.com/swe-bench/SWE-bench" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github"></i> GitHub
+        </a>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+</aside>
+    
+    <div class="main-content">
+        
+    <header class="page-header">
+        <div class="container">
+            <div class="d-flex align-center mb-3">
+                <img src="img/swe-llama-mm.svg" alt="SWE-Llama MM Logo" style="height: 84px; width: auto; margin-right: 20px;">
+                <h1 class="mb-0">SWE-bench Multimodal</h1>
+            </div>
+            <p>Do AI Systems Generalize to Visual Software Domains?</p>
+            <div class="authors">
+                <small>John Yang*, Carlos E. Jimenez*, Alex L. Zhang, Kilian Lieret, Joyce Yang, Xindi Wu, Ori Press, Niklas Muennighoff, Gabriel Synnaeve, Karthik Narasimhan, Diyi Yang, Sida I. Wang, Ofir Press</small>
+                <br>
+                <small>*Equal contribution</small>
+            </div>
+            <br>
+            <div class="flex justify-center gap-2">
+                <a href="https://arxiv.org/abs/2410.03859" target="_blank" class="paper-link">Paper</a>
+                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Multimodal" target="_blank" class="paper-link">🤗 Datasets</a>                
+            </div>
+        </div>
+    </header>
+
+        <div class="container">
+            <section class="content-box">
+            <h2>Overview</h2>
+            <div class="multimodal-overview">
+                <img src="img/teaser_mm.png" alt="SWE-bench Multimodal" class="img-fluid">
+            </div>
+            <br>
+            <p>SWE-bench Multimodal augments the original benchmark with 517 issues that contain visual elements such as:</p>
+            <ul>
+                <li>Screenshots of bugs or interface issues</li>
+                <li>Design mockups or wireframes</li>
+                <li>Diagrams explaining desired functionality</li>
+                <li>Error messages with visual context</li>
+            </ul>
+            <p>This extension evaluates models' ability to interpret and act on information presented in both textual and visual formats.</p>
+        </section>
+
+        <!-- Leaderboard Section -->
+        <section class="content-box leaderboard" id="multimodal-leaderboard">
+            <h2>Multimodal Leaderboard</h2>
+            <div class="leaderboard-container" style="width: 100%;">
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <table class="table table-striped scrollable data-table">
+                            <thead>
+                                <tr>
+                                    <th>Model</th>
+                                    <th>% Resolved</th>
+                                    <th>Org</th>
+                                    <th>Date</th>
+                                    <th>Logs</th>
+                                    <th>Trajs</th>
+                                    <th>Site</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                <tr>
+                                    <td>
+                                        <span class="model-name">
+                                            🆕 
+                                            🥇
+                                            
+                                            
+                                            ✅ 
+                                            Globant Code Fixer Agent
+                                        </span>
+                                    </td>
+                                    <td><span class="number">29.59</span></td>
+                                    <td>
+                                        
+                                        <img src="https://ai.globant.com/wp-content/uploads/2024/06/favicon.png" alt="" style="height: 1.5em; vertical-align: middle;" />
+                                        
+                                    </td>
+                                    <td><span class="label-date">2025-03-25</span></td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                        
+                                            <a href="https://ai.globant.com/us-en/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                                        
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <span class="model-name">
+                                            🆕 
+                                            🥈
+                                            
+                                            
+                                            ✅ 
+                                            Zencoder (2025-03-10)
+                                        </span>
+                                    </td>
+                                    <td><span class="number">27.08</span></td>
+                                    <td>
+                                        
+                                        <img src="https://storage.googleapis.com/zencoder-public/zencoder-logo.svg" alt="" style="height: 1.5em; vertical-align: middle;" />
+                                        
+                                    </td>
+                                    <td><span class="label-date">2025-03-11</span></td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                        
+                                            <a href="https://zencoder.ai" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                                        
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <span class="model-name">
+                                            🆕 
+                                            🥉
+                                            
+                                            🤠 
+                                            ✅ 
+                                            Agentless Lite + Claude-3.5 Sonnet
+                                        </span>
+                                    </td>
+                                    <td><span class="number">25.34</span></td>
+                                    <td>
+                                        
+                                        <img src="https://brand.illinois.edu/wp-content/uploads/2024/02/Color-Variation-Orange-Block-I-White-Background.png" alt="" style="height: 1.5em; vertical-align: middle;" />
+                                        
+                                    </td>
+                                    <td><span class="label-date">2025-02-26</span></td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                        
+                                            <a href="https://github.com/sorendunn/Agentless-Lite" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                                        
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <span class="model-name">
+                                            
+                                            
+                                            🤠 
+                                            ✅ 
+                                            SWE-agent Multimodal + GPT 4o (2024-08-06)
+                                        </span>
+                                    </td>
+                                    <td><span class="number">12.19</span></td>
+                                    <td>
+                                        
+                                        <img src="https://avatars.githubusercontent.com/u/166046056?s=200&amp;v=4" alt="" style="height: 1.5em; vertical-align: middle;" />
+                                        
+                                    </td>
+                                    <td><span class="label-date">2024-10-06</span></td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                        
+                                            <a href="https://github.com/SWE-agent/SWE-agent" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                                        
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <span class="model-name">
+                                            
+                                            
+                                            🤠 
+                                            ✅ 
+                                            SWE-agent + Claude Sonnet 3.5
+                                        </span>
+                                    </td>
+                                    <td><span class="number">12.19</span></td>
+                                    <td>
+                                        
+                                        <img src="https://avatars.githubusercontent.com/u/166046056?s=200&amp;v=4" alt="" style="height: 1.5em; vertical-align: middle;" />
+                                        
+                                    </td>
+                                    <td><span class="label-date">2024-10-06</span></td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                        
+                                            <a href="https://github.com/SWE-agent/SWE-agent" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                                        
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <span class="model-name">
+                                            
+                                            
+                                            🤠 
+                                            ✅ 
+                                            SWE-agent JavaScript + Claude Sonnet 3.5
+                                        </span>
+                                    </td>
+                                    <td><span class="number">11.99</span></td>
+                                    <td>
+                                        
+                                        <img src="https://avatars.githubusercontent.com/u/166046056?s=200&amp;v=4" alt="" style="height: 1.5em; vertical-align: middle;" />
+                                        
+                                    </td>
+                                    <td><span class="label-date">2024-10-06</span></td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                        
+                                            <a href="https://github.com/SWE-agent/SWE-agent" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                                        
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <span class="model-name">
+                                            
+                                            
+                                            🤠 
+                                            ✅ 
+                                            SWE-agent + GPT 4o (2024-08-06)
+                                        </span>
+                                    </td>
+                                    <td><span class="number">11.99</span></td>
+                                    <td>
+                                        
+                                        <img src="https://avatars.githubusercontent.com/u/166046056?s=200&amp;v=4" alt="" style="height: 1.5em; vertical-align: middle;" />
+                                        
+                                    </td>
+                                    <td><span class="label-date">2024-10-06</span></td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                        
+                                            <a href="https://github.com/SWE-agent/SWE-agent" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                                        
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <span class="model-name">
+                                            
+                                            
+                                            🤠 
+                                            ✅ 
+                                            SWE-agent Multimodal + Claude 3.5 Sonnet
+                                        </span>
+                                    </td>
+                                    <td><span class="number">11.41</span></td>
+                                    <td>
+                                        
+                                        <img src="https://avatars.githubusercontent.com/u/166046056?s=200&amp;v=4" alt="" style="height: 1.5em; vertical-align: middle;" />
+                                        
+                                    </td>
+                                    <td><span class="label-date">2024-10-06</span></td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                        
+                                            <a href="https://github.com/SWE-agent/SWE-agent" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                                        
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <span class="model-name">
+                                            
+                                            
+                                            🤠 
+                                            ✅ 
+                                            SWE-agent JavaScript + GPT 4o (2024-08-06)
+                                        </span>
+                                    </td>
+                                    <td><span class="number">9.28</span></td>
+                                    <td>
+                                        
+                                        <img src="https://avatars.githubusercontent.com/u/166046056?s=200&amp;v=4" alt="" style="height: 1.5em; vertical-align: middle;" />
+                                        
+                                    </td>
+                                    <td><span class="label-date">2024-10-06</span></td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                        
+                                            <a href="https://github.com/SWE-agent/SWE-agent" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                                        
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <span class="model-name">
+                                            
+                                            
+                                            🤠 
+                                            ✅ 
+                                            Agentless + Claude 3.5 Sonnet
+                                        </span>
+                                    </td>
+                                    <td><span class="number">6.19</span></td>
+                                    <td>
+                                        
+                                        <img src="https://brand.illinois.edu/wp-content/uploads/2024/02/Color-Variation-Orange-Block-I-White-Background.png" alt="" style="height: 1.5em; vertical-align: middle;" />
+                                        
+                                    </td>
+                                    <td><span class="label-date">2024-10-06</span></td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                        
+                                            <a href="https://github.com/OpenAutoCoder/Agentless" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                                        
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <span class="model-name">
+                                            
+                                            
+                                            🤠 
+                                            ✅ 
+                                            RAG + GPT 4o (2024-08-06)
+                                        </span>
+                                    </td>
+                                    <td><span class="number">6.00</span></td>
+                                    <td>
+                                        
+                                        <img src="https://avatars.githubusercontent.com/u/139597579?s=200&amp;v=4" alt="" style="height: 1.5em; vertical-align: middle;" />
+                                        
+                                    </td>
+                                    <td><span class="label-date">2024-10-06</span></td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                        
+                                            <a href="https://github.com/SWE-bench/SWE-bench" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                                        
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <span class="model-name">
+                                            
+                                            
+                                            🤠 
+                                            ✅ 
+                                            RAG + Claude 3.5 Sonnet
+                                        </span>
+                                    </td>
+                                    <td><span class="number">5.03</span></td>
+                                    <td>
+                                        
+                                        <img src="https://avatars.githubusercontent.com/u/139597579?s=200&amp;v=4" alt="" style="height: 1.5em; vertical-align: middle;" />
+                                        
+                                    </td>
+                                    <td><span class="label-date">2024-10-06</span></td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                        
+                                            <a href="https://github.com/SWE-bench/SWE-bench" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                                        
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <span class="model-name">
+                                            
+                                            
+                                            🤠 
+                                            ✅ 
+                                            Agentless + GPT 4o (2024-08-06)
+                                        </span>
+                                    </td>
+                                    <td><span class="number">3.09</span></td>
+                                    <td>
+                                        
+                                        <img src="https://brand.illinois.edu/wp-content/uploads/2024/02/Color-Variation-Orange-Block-I-White-Background.png" alt="" style="height: 1.5em; vertical-align: middle;" />
+                                        
+                                    </td>
+                                    <td><span class="label-date">2024-10-06</span></td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                         - 
+                                    </td>
+                                    <td class="centered-text">
+                                        
+                                            <a href="https://github.com/OpenAutoCoder/Agentless" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                                        
+                                    </td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    
+                
+            </div>
+            
+            <div class="leaderboard-notes">
+                <p>
+                    SWE-bench <b>Multimodal</b> features issues with visual elements [<a href="multimodal.html">Post</a>].<br>
+                </p>
+                <p>
+                    - <b>% Resolved</b>: Percentage of instances solved out of 517 instances.<br>
+                    - ✅ <b>Checked</b>: Results reproduced by the SWE-bench team.<br>
+                    - 🤠 <b>Open</b>: Open-source code (model may not be).<br>
+                    - 🆕 <b>New</b>: Recently submitted.<br>
+                </p>
+            </div>
+        </section>
+        <!-- Correspondence Section -->
+        <section class="content-box" id="correspondence">
+            <h2>Correspondence</h2>
+            <p>For questions about SWE-bench Multimodal, please contact:</p>
+            <div class="contact-info">
+                <p><a href="mailto:johnby@stanford.edu,carlosej@princeton.edu">{johnby@stanford.edu, carlosej@princeton.edu}</a></p>
+            </div>
+        </section>
+
+        <!-- Citation Section -->
+        <section class="content-box" id="citation">
+            <h2>Citation</h2>
+            <p>If you use SWE-bench Multimodal in your research, please cite our paper:</p>
+            
+            <div class="citation-type">
+                <button class="citation-format-btn active" data-format="bibtex" data-target="multimodal-citation">BibTeX</button>
+                <button class="citation-format-btn" data-format="apa" data-target="multimodal-citation">APA</button>
+                <button class="citation-format-btn" data-format="mla" data-target="multimodal-citation">MLA</button>
+            </div>
+            
+            <div class="citation-container" id="multimodal-citation-bibtex">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>@misc{yang2024swebenchmultimodalaisystems,
+      title={SWE-bench Multimodal: Do AI Systems Generalize to Visual Software Domains?}, 
+      author={John Yang and Carlos E. Jimenez and Alex L. Zhang and Kilian Lieret and Joyce Yang and Xindi Wu and Ori Press and Niklas Muennighoff and Gabriel Synnaeve and Karthik R. Narasimhan and Diyi Yang and Sida I. Wang and Ofir Press},
+      year={2024},
+      eprint={2410.03859},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2410.03859},
+}</pre>
+            </div>
+            
+            <div class="citation-container display-none" id="multimodal-citation-apa">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>Yang, J., Jimenez, C. E., Zhang, A. L., Lieret, K., Yang, J., Wu, X., Press, O., Muennighoff, N., Synnaeve, G., Narasimhan, K. R., Yang, D., Wang, S. I., & Press, O. (2024). SWE-bench Multimodal: Do AI Systems Generalize to Visual Software Domains? arXiv preprint arXiv:2410.03859.</pre>
+            </div>
+            
+            <div class="citation-container display-none" id="multimodal-citation-mla">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>Yang, John, et al. "SWE-bench Multimodal: Do AI Systems Generalize to Visual Software Domains?" arXiv preprint arXiv:2410.03859 (2024).</pre>
+            </div>
+        </section>
+    </div>
+
+        
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-copyright">
+                        &copy; 2024 SWE-bench Team. All rights reserved.
+                    </div>
+                    <div class="footer-links">
+                        <a href="https://github.com/swe-bench/SWE-bench" target="_blank">GitHub</a>
+                        <a href="https://huggingface.co/collections/princeton-nlp/swe-bench-67033b68e0b99b458ef6ffc5" target="_blank">HuggingFace</a>
+                        <a href="https://arxiv.org/abs/2310.06770" target="_blank">Paper</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Common JS files -->
+    <script src="js/mainResults.js"></script>
+    <script src="js/citation.js"></script>
+    <script src="js/citationFormat.js"></script>
+    
+    <!-- Page-specific JS files will be injected here -->
+    
+
+    <script>
+        function initTheme() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            const storedTheme = localStorage.getItem('theme');
+            
+            if (storedTheme === 'dark' || (!storedTheme && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
+            }
+            
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    document.body.classList.toggle('dark-mode');
+                    
+                    const isDarkMode = document.body.classList.contains('dark-mode');
+                    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+                });
+            }
+            
+            prefersDarkScheme.addEventListener('change', (e) => {
+                if (!localStorage.getItem('theme')) {
+                    if (e.matches) {
+                        document.body.classList.add('dark-mode');
+                    } else {
+                        document.body.classList.remove('dark-mode');
+                    }
+                }
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            
+            const currentPath = window.location.pathname;
+            const currentPage = currentPath.split('/').pop().split('.')[0] || 'index';
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                const linkPage = link.getAttribute('data-page');
+                if (linkPage === currentPage) {
+                    link.classList.add('active');
+                }
+                
+                if (currentPage === 'index' && window.location.hash) {
+                    const currentHash = window.location.hash.substring(1);
+                    if (linkPage === currentHash) {
+                        link.classList.add('active');
+                    }
+                }
+            });
+            
+            const menuToggle = document.querySelector('.mobile-nav-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            
+            if (menuToggle && sidebar && overlay) {
+                function toggleMenu() {
+                    sidebar.classList.toggle('open');
+                    overlay.classList.toggle('active');
+                    
+                    const icon = menuToggle.querySelector('i');
+                    if (icon) {
+                        if (sidebar.classList.contains('open')) {
+                            icon.classList.remove('fa-bars');
+                            icon.classList.add('fa-times');
+                        } else {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                    }
+                }
+                
+                menuToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleMenu();
+                });
+                
+                overlay.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    toggleMenu();
+                });
+                
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (sidebar.classList.contains('open')) {
+                            toggleMenu();
+                        }
+                    });
+                });
+                
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+                        toggleMenu();
+                    }
+                });
+            }
+        });
+    </script>
+
+    
+<!-- Citation functionality now provided by citation.js and citationFormat.js loaded in base.html -->
+
+</body>
+</html> 
