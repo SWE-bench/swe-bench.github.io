@@ -31,9 +31,10 @@ function updateTable() {
             if (showRow) visibleRowCount++;
         });
         
+        const noResultsMessage = leaderboard.querySelector('.no-results');
         // Show/hide no results message
         if (visibleRowCount === 0 && activeFilters.size > 0) {
-            noResultsMessage.style.display = 'block';
+            noResultsMessage.style.display = 'table-row';
         } else {
             noResultsMessage.style.display = 'none';
         }
@@ -223,9 +224,10 @@ updateTable = function() {
             if (showRow) visibleRowCount++;
         });
 
+        const noResultsMessage = leaderboard.querySelector('.no-results');
         // Show/hide no results message
         if (visibleRowCount === 0 && (activeFilters.size > 0 || !allTagsSelected)) {
-            noResultsMessage.style.display = 'block';
+            noResultsMessage.style.display = 'table-row';
         } else {
             noResultsMessage.style.display = 'none';
             if (visibleRowCount > 0) anyVisible = true;
