@@ -98,12 +98,148 @@
     <script src="js/leaderboardFilters.js"></script>
 
 
-<div class="mb-3">
-    <div class="filter-buttons">
-        <button class="btn btn-sm btn-outline-secondary filter-toggle" data-filter="os_model">Open Source Model</button>
+<div class="mb-3 d-flex justify-content-between align-items-center" style="gap:0.5rem;">
+    <div class="filter-buttons" style="flex-shrink: 0;">
+        <button class="btn btn-sm btn-outline-secondary filter-toggle" data-filter="os_model">Open Weight Model</button>
         <button class="btn btn-sm btn-outline-secondary filter-toggle" data-filter="os_system">Open Source System</button>
         <button class="btn btn-sm btn-outline-secondary filter-toggle" data-filter="checked">Checked</button>
     </div>
+    <form id="tag-multiselect-form" style="flex: 1; min-width: 260px; display: flex; justify-content: flex-end;">
+        <div id="tag-multiselect" class="multiselect-dropdown" style="width: 100%;">
+            <div class="multiselect-selected" tabindex="0"><span class="multiselect-placeholder">Select tags...</span></div>
+            <div class="multiselect-options">
+                <input type="text" class="multiselect-search" placeholder="search" onkeyup="filterTagOptions(this)">
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="All" checked onchange="toggleAllTags(this)"> All</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: Llama 3.1" checked onchange="updateTagSelection()"> Model: Llama 3.1</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: Llama3-SWE-RL-70B" checked onchange="updateTagSelection()"> Model: Llama3-SWE-RL-70B</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: Qwen 2.5" checked onchange="updateTagSelection()"> Model: Qwen 2.5</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: SWE-Llama" checked onchange="updateTagSelection()"> Model: SWE-Llama</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: claude-2" checked onchange="updateTagSelection()"> Model: claude-2</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: claude-3-5-sonnet-20241022" checked onchange="updateTagSelection()"> Model: claude-3-5-sonnet-20241022</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: claude-3-haiku-20240307" checked onchange="updateTagSelection()"> Model: claude-3-haiku-20240307</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: claude-3-opus-20240229" checked onchange="updateTagSelection()"> Model: claude-3-opus-20240229</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: claude-3.5-sonnet-20241022" checked onchange="updateTagSelection()"> Model: claude-3.5-sonnet-20241022</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: deepseek-chat" checked onchange="updateTagSelection()"> Model: deepseek-chat</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: deepseek-reasoner" checked onchange="updateTagSelection()"> Model: deepseek-reasoner</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: gemini-2.0-flash-exp" checked onchange="updateTagSelection()"> Model: gemini-2.0-flash-exp</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: gpt-4-0125-preview" checked onchange="updateTagSelection()"> Model: gpt-4-0125-preview</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: gpt-4-0613" checked onchange="updateTagSelection()"> Model: gpt-4-0613</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: gpt-4-1106-preview" checked onchange="updateTagSelection()"> Model: gpt-4-1106-preview</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: gpt-4o-2024-05-13" checked onchange="updateTagSelection()"> Model: gpt-4o-2024-05-13</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: gpt-4o-2024-08-06" checked onchange="updateTagSelection()"> Model: gpt-4o-2024-08-06</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: o1-mini" checked onchange="updateTagSelection()"> Model: o1-mini</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: o1-preview" checked onchange="updateTagSelection()"> Model: o1-preview</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: o3-mini" checked onchange="updateTagSelection()"> Model: o3-mini</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model_size: 70" checked onchange="updateTagSelection()"> Model_size: 70</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Org: AWS" checked onchange="updateTagSelection()"> Org: AWS</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Org: Agentless" checked onchange="updateTagSelection()"> Org: Agentless</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Org: Alibaba" checked onchange="updateTagSelection()"> Org: Alibaba</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Org: Anthropic" checked onchange="updateTagSelection()"> Org: Anthropic</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Org: Bytedance" checked onchange="updateTagSelection()"> Org: Bytedance</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Org: Google" checked onchange="updateTagSelection()"> Org: Google</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Org: IBM" checked onchange="updateTagSelection()"> Org: IBM</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Org: Moatless Tools" checked onchange="updateTagSelection()"> Org: Moatless Tools</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Org: OpenHands" checked onchange="updateTagSelection()"> Org: OpenHands</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Org: SWE-agent" checked onchange="updateTagSelection()"> Org: SWE-agent</label>
+                </div>
+                
+            </div>
+        </div>
+    </form>
 </div>
 
 
@@ -127,6 +263,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -160,6 +297,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Org: AWS"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -195,6 +333,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Org: OpenHands"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -230,6 +369,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -265,6 +405,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -300,6 +441,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Org: AWS"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -335,6 +477,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -370,6 +513,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: gpt-4o-2024-05-13"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -405,6 +549,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -438,6 +583,7 @@
                     data-os_model="true"
                     data-os_system="false"
                     data-checked="true"
+                    data-tags="Model: gpt-4o-2024-05-13"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -473,6 +619,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Org: AWS"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -508,6 +655,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: gpt-4-1106-preview,Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -543,6 +691,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: gpt-4o-2024-05-13,Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -578,6 +727,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-3-opus-20240229,Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -611,6 +761,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-3-opus-20240229"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -646,6 +797,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-2"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -679,6 +831,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: gpt-4-1106-preview"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -712,6 +865,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -745,6 +899,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: SWE-Llama,Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -778,6 +933,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -816,32 +972,6 @@
     No entries match the selected filters. Try adjusting your filters.
 </div>
 
-<style>
-    .filter-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-    
-    .filter-toggle {
-        transition: all 0.2s ease-in-out;
-    }
-    
-    .filter-toggle.active {
-        background-color: #0d6efd;
-        color: white;
-        border-color: #0d6efd;
-    }
-    
-    .filter-toggle:hover {
-        background-color: #e9ecef;
-    }
-    
-    .filter-toggle.active:hover {
-        background-color: #0b5ed7;
-    }
-</style>
-
 <div class="tabcontent" id="leaderboard-Verified">
     <div class="table-responsive">
         <table class="table scrollable data-table">
@@ -862,6 +992,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -897,6 +1028,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: o1-preview"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -932,6 +1064,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -965,6 +1098,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Org: Anthropic"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1000,6 +1134,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1033,6 +1168,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1068,6 +1204,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1101,6 +1238,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Org: OpenHands"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1136,6 +1274,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Org: Google"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1171,6 +1310,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1206,6 +1346,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Model: gpt-4o-2024-08-06"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1241,6 +1382,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1276,6 +1418,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1311,6 +1454,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Org: AWS"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1346,6 +1490,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1381,6 +1526,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1416,6 +1562,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Org: OpenHands"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1451,6 +1598,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Org: Google"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1486,6 +1634,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1521,6 +1670,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1556,6 +1706,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Org: Agentless"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1591,6 +1742,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1626,6 +1778,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Org: Bytedance"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1661,6 +1814,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Model: gpt-4o-2024-08-06"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1696,6 +1850,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Model: claude-3.5-sonnet-20241022,Org: Anthropic"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1731,6 +1886,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Model: o1-mini"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1766,6 +1922,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Model: gpt-4o-2024-08-06"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1801,6 +1958,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Model: gpt-4o-2024-08-06"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1836,6 +1994,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1871,6 +2030,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1906,6 +2066,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1941,6 +2102,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: gemini-2.0-flash-exp"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -1976,6 +2138,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2011,6 +2174,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: o3-mini,Org: Agentless"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2046,6 +2210,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2077,6 +2242,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Model: gpt-4o-2024-08-06,Model: o1-preview"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2112,6 +2278,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: Llama3-SWE-RL-70B,Model_size: 70,Org: Agentless"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2147,6 +2314,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: Llama 3.1,Model: Qwen 2.5"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2182,6 +2350,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: claude-3-haiku-20240307,Org: Anthropic"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2217,6 +2386,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2252,6 +2422,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Model: claude-3.5-sonnet-20241022"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2287,6 +2458,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2322,6 +2494,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Org: AWS"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2357,6 +2530,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: gpt-4o-2024-05-13,Org: Agentless"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2392,6 +2566,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: gpt-4o-2024-05-13"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2427,6 +2602,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2462,6 +2638,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2497,6 +2674,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: gpt-4o-2024-08-06"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2530,6 +2708,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2565,6 +2744,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2600,6 +2780,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: Qwen 2.5"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2635,6 +2816,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Org: Alibaba"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2670,6 +2852,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: gpt-4o-2024-08-06"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2705,6 +2888,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: gpt-4o-2024-05-13"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2740,6 +2924,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2775,6 +2960,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Org: AWS"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2810,6 +2996,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Org: Alibaba"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2845,6 +3032,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: gpt-4o-2024-08-06"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2880,6 +3068,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: gpt-4o-2024-05-13,Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2915,6 +3104,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: gpt-4-1106-preview,Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2950,6 +3140,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-3-opus-20240229,Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -2985,6 +3176,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Org: Alibaba"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3020,6 +3212,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Org: Alibaba"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3055,6 +3248,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-3-opus-20240229"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3090,6 +3284,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-2"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3123,6 +3318,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: gpt-4-1106-preview"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3156,6 +3352,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: SWE-Llama,Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3189,6 +3386,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3222,6 +3420,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3260,32 +3459,6 @@
     No entries match the selected filters. Try adjusting your filters.
 </div>
 
-<style>
-    .filter-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-    
-    .filter-toggle {
-        transition: all 0.2s ease-in-out;
-    }
-    
-    .filter-toggle.active {
-        background-color: #0d6efd;
-        color: white;
-        border-color: #0d6efd;
-    }
-    
-    .filter-toggle:hover {
-        background-color: #e9ecef;
-    }
-    
-    .filter-toggle.active:hover {
-        background-color: #0b5ed7;
-    }
-</style>
-
 <div class="tabcontent" id="leaderboard-Lite">
     <div class="table-responsive">
         <table class="table scrollable data-table">
@@ -3306,6 +3479,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3341,6 +3515,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3374,6 +3549,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3409,6 +3585,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3444,6 +3621,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3479,6 +3657,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Model: deepseek-reasoner"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3514,6 +3693,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3549,6 +3729,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3582,6 +3763,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Org: OpenHands"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3617,6 +3799,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3650,6 +3833,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Org: Agentless"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3685,6 +3869,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Model: o1-mini"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3720,6 +3905,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Org: Agentless"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3755,6 +3941,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: gpt-4o-2024-08-06"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3790,6 +3977,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Org: Bytedance"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3825,6 +4013,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Org: Moatless Tools"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3858,6 +4047,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Org: Moatless Tools"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3891,6 +4081,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3926,6 +4117,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: gpt-4o-2024-05-13"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3959,6 +4151,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: claude-3-5-sonnet-20241022"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -3994,6 +4187,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Model: gpt-4o-2024-08-06"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4029,6 +4223,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4064,6 +4259,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4099,6 +4295,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4132,6 +4329,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4167,6 +4365,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: gpt-4o-2024-05-13,Org: Bytedance"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4202,6 +4401,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Org: Alibaba"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4237,6 +4437,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: o3-mini,Org: Agentless"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4272,6 +4473,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: gpt-4o-2024-05-13,Org: Agentless"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4307,6 +4509,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4342,6 +4545,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: gpt-4o-2024-05-13"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4377,6 +4581,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: gpt-4o-2024-05-13"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4412,6 +4617,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: o3-mini"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4445,6 +4651,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4478,6 +4685,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="true"
+                    data-tags="Model: claude-3-5-sonnet-20241022"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4513,6 +4721,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Org: AWS"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4548,6 +4757,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: gpt-4o-2024-08-06,Org: Agentless"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4583,6 +4793,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: gpt-4-1106-preview"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4618,6 +4829,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: gpt-4o-2024-08-06"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4649,6 +4861,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: gpt-4o-2024-05-13"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4682,6 +4895,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: gpt-4o-2024-05-13"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4715,6 +4929,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: gpt-4o-2024-05-13,Org: Agentless"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4750,6 +4965,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Org: Moatless Tools"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4783,6 +4999,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Org: OpenHands"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4818,6 +5035,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Org: IBM"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4853,6 +5071,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: claude-3-opus-20240229,Model: gpt-4o-2024-08-06"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4888,6 +5107,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: gpt-4o-2024-08-06"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4921,6 +5141,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="true"
+                    data-tags="Model: gpt-4o-2024-05-13,Org: Moatless Tools"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4954,6 +5175,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Org: IBM"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -4989,6 +5211,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: gpt-4-0613"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5022,6 +5245,7 @@
                     data-os_model="true"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: Qwen 2.5"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5057,6 +5281,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5092,6 +5317,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: gpt-4o-2024-05-13"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5127,6 +5353,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: gpt-4o-2024-08-06,Org: Bytedance"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5160,6 +5387,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Org: AWS"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5195,6 +5423,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="false"
+                    data-tags="Model: gpt-4-0125-preview"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5230,6 +5459,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: gpt-4o-2024-05-13,Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5265,6 +5495,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: gpt-4-1106-preview,Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5300,6 +5531,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5335,6 +5567,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-3-opus-20240229"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5370,6 +5603,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-2"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5403,6 +5637,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: gpt-4-1106-preview"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5436,6 +5671,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: SWE-Llama,Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5469,6 +5705,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5502,6 +5739,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5535,6 +5773,7 @@
                     data-os_model="true"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: deepseek-chat,Org: Moatless Tools"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5573,32 +5812,6 @@
     No entries match the selected filters. Try adjusting your filters.
 </div>
 
-<style>
-    .filter-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-    
-    .filter-toggle {
-        transition: all 0.2s ease-in-out;
-    }
-    
-    .filter-toggle.active {
-        background-color: #0d6efd;
-        color: white;
-        border-color: #0d6efd;
-    }
-    
-    .filter-toggle:hover {
-        background-color: #e9ecef;
-    }
-    
-    .filter-toggle.active:hover {
-        background-color: #0b5ed7;
-    }
-</style>
-
 <div class="tabcontent" id="leaderboard-Multimodal">
     <div class="table-responsive">
         <table class="table scrollable data-table">
@@ -5619,6 +5832,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="true"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5654,6 +5868,7 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="true"
+                    data-tags=""
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5689,6 +5904,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Org: Agentless"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5724,6 +5940,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5759,6 +5976,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5794,6 +6012,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5829,6 +6048,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5864,6 +6084,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5899,6 +6120,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Org: SWE-agent"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5934,6 +6156,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Org: Agentless"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -5969,6 +6192,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: gpt-4o-2024-08-06"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -6004,6 +6228,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: claude-3-5-sonnet-20241022"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -6039,6 +6264,7 @@
                     data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
+                    data-tags="Model: gpt-4o-2024-08-06,Org: Agentless"
                 >
                     <td>
                         <div class="flex items-center gap-1">
@@ -6078,32 +6304,6 @@
 <div id="no-results" class="alert alert-info" style="display: none;">
     No entries match the selected filters. Try adjusting your filters.
 </div>
-
-<style>
-    .filter-buttons {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-    
-    .filter-toggle {
-        transition: all 0.2s ease-in-out;
-    }
-    
-    .filter-toggle.active {
-        background-color: #0d6efd;
-        color: white;
-        border-color: #0d6efd;
-    }
-    
-    .filter-toggle:hover {
-        background-color: #e9ecef;
-    }
-    
-    .filter-toggle.active:hover {
-        background-color: #0b5ed7;
-    }
-</style>
 
 
 <div class="leaderboard-notes">

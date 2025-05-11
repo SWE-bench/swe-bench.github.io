@@ -11,4 +11,7 @@
 @import 'pages.css';
 
 /* Utilities */
-@import 'utilities.css'; 
+@import 'utilities.css';
+
+/* Leaderboard filters */
+@import 'leaderboard-filters.css';
