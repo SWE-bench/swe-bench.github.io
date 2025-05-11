@@ -241,14 +241,6 @@ button:focus,
   background-color: var(--table-row-hover);
 }
 
-.table-striped tbody tr:nth-child(even) {
-  background-color: rgba(0, 0, 0, 0.035);
-}
-
-.dark-mode .table-striped tbody tr:nth-child(even) {
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
 .table-bordered th,
 .table-bordered td {
   border: 1.5px solid var(--table-border);

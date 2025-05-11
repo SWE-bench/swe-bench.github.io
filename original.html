@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact SWE-bench Team</title>
+    <title>SWE-bench</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     
@@ -70,20 +70,125 @@
         
     <header class="page-header">
         <div class="container">
-            <h1>Contact Us</h1>
+            <div class="d-flex align-center mb-3">
+                <img src="img/swe-llama.svg" alt="SWE-Llama Logo" style="height: 5em; width: auto; margin-right: 1em;">
+                <h1 class="mb-0">SWE-bench</h1>
+            </div>
+            <p>Can Language Models Resolve Real-world Github Issues?</p>
+            <div class="authors">
+                <small>Carlos E. Jimenez*, John Yang*, Alexander Wettig, Shunyu Yao, Kexin Pei, Ofir Press, Karthik R Narasimhan</small>
+                <br>
+                <small>*Equal contribution</small>
+            </div>
+            <br>
+            <div class="flex gap-2">
+                <a href="https://arxiv.org/abs/2310.06770" target="_blank" class="paper-link">Paper</a>
+                <a href="https://github.com/SWE-bench/SWE-bench" target="_blank" class="paper-link">GitHub</a>  
+                <a href="https://huggingface.co/datasets/SWE-bench/SWE-bench" target="_blank" class="paper-link">Dataset</a>             
+            </div>
         </div>
     </header>
 
-    <section class="container">
-        <div class="content-section">
-            <div class="contact-container">
-                <p>For general inquiries about SWE-bench, please email:</p>
-                <p>
-                    <a href="mailto:carlosej@princeton.edu,johnby@stanford.edu">{carlosej@princeton.edu, johnby@stanford.edu}</a>
-                </p>
+    <div class="container">
+        <section class="content-box">
+            <h2>Overview</h2>
+            <div style="display: flex; align-items: center; flex-direction: column; margin-bottom: 1em;">
+                <img src="img/teaser.png" alt="SWE-bench Teaser Image" class="img-fluid" style="width: 70%;"/>
             </div>
-        </div>
-    </section>
+            <p>SWE-bench tests AI systems' ability to solve GitHub issues.</p>
+            <p>
+                We collect 2,294 task instances by crawling Pull Requests and Issues from 12 popular Python repositories.
+                Each instance is based on a pull request that (1) is associated with an issue, and (2) modified 1+ testing related files.
+            </p>
+            <p>
+                Per instance, we construct an execution environment (Docker Image) with the repository successfully installed
+                at the commit that the Pull Request is based on.
+                Without the Pull Request's changes, a number of test(s) fail.
+                After the Pull Request is merged, the same set of test(s) pass.
+                These "Fail-to-Pass" tests are the primary signal for evaluation.
+            </p>
+            <p>
+                SWE-bench evaluation works as follows.
+                Per task instance, an AI system is given the issue text.
+                The AI system should then modify the codebase in order to resolve the described issues.
+                When the AI system is finished, we run the aforementioned Fail-to-Pass tests to check if the issue was successfully resolved.
+            </p>
+            <p>
+                SWE-bench was released in October 2023, where our initial Retrieval Augmented Generation (RAG) baseline scored just 1.96%.
+                Our follow up work, <a href="https://swe-agent.com/latest/">SWE-agent</a>, was the first agent-based AI system ever introduced
+                for performing software engineering tasks, achieving a score of 12.47% on SWE-bench.
+                You can train your own agentic software engineering models using our <a href="https://swesmith.com/">SWE-smith</a> dataset.
+            </p>
+        </section>
+
+        <!-- Resources Section -->
+        <section class="content-box">
+            <h2>Resources</h2>
+            <p>
+                In the original SWE-bench work, we fine-tuned CodeLlama (<a href="https://arxiv.org/abs/2308.12950">Rozière et al. 2023</a>)
+                to directly generate patches given 1+ files along with the issue text.
+                We provide all assets, including the training data and model weights, for the SWE-Llama models.
+            </p>
+            <p>Base and pre-processed datasets (Oracle, 13K, 27K, 40K, 50K Llama) are available on HuggingFace.</p>
+            <div class="resource-links">
+                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench">🤗 SWE-bench</a>
+                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_oracle">🤗 "Oracle" Retrieval</a>
+                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_bm25_13K">🤗 BM25 Retrieval 13K</a>
+                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_bm25_27K">🤗 BM25 Retrieval 27K</a>
+                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_bm25_40K">🤗 BM25 Retrieval 40K</a>
+                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_bm25_50k_llama">🤗 BM25 Retrieval 50K (Llama)</a>
+            </div>
+            <p>SWE-Llama model weights:</p>
+            <div class="resource-links">
+                <a href="https://huggingface.co/princeton-nlp/SWE-Llama-13b">SWE-Llama 13b</a>
+                <a href="https://huggingface.co/princeton-nlp/SWE-Llama-13b-peft">SWE-Llama 13b (PEFT)</a>
+                <a href="https://huggingface.co/princeton-nlp/SWE-Llama-7b">SWE-Llama 7b</a>
+                <a href="https://huggingface.co/princeton-nlp/SWE-Llama-7b-peft">SWE-Llama 7b (PEFT)</a>
+            </div>
+        </section>
+
+        <!-- Affiliation Section -->
+        <!-- <div class="institution-logos">
+            <div class="logo-container">
+                <a href="https://www.princeton.edu/" target="_blank" title="Princeton University">
+                    <img src="img/princeton_seal.svg" alt="Princeton University" class="institution-logo" style="box-shadow: none; filter: none;">
+                </a>
+                <a href="https://www.stanford.edu/" target="_blank" title="Stanford University">
+                    <img src="img/stanford_seal.png" alt="Stanford University" class="institution-logo" style="box-shadow: none; filter: none;">
+                </a>
+                <a href="https://pli.princeton.edu/" target="_blank" title="Princeton Language and Intelligence">
+                    <img src="img/pli_logo.svg" alt="Princeton Language and Intelligence" class="institution-logo" style="box-shadow: none; filter: none;">
+                </a>
+                <a href="https://www.uchicago.edu/" target="_blank" title="University of Chicago">
+                    <img src="img/chicago_seal.svg" alt="University of Chicago" class="institution-logo" style="box-shadow: none; filter: none;">
+                </a>
+            </div>
+        </div> -->
+
+        <!-- Citation Section -->
+        <section id="citation" class="content-box">
+            <h2>Citation</h2>
+            <p>If you use SWE-bench in your research, please cite our paper:</p>
+            
+            <div class="citation-type">
+                <button class="citation-format-btn active" data-format="bibtex" data-target="citation">BibTeX</button>
+                <button class="citation-format-btn" data-format="apa" data-target="lite-citation">APA</button>
+                <button class="citation-format-btn" data-format="mla" data-target="lite-citation">MLA</button>
+            </div>
+            
+            <div class="citation-container" id="lite-citation-bibtex">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>@inproceedings{
+    jimenez2024swebench,
+    title={{SWE}-bench: Can Language Models Resolve Real-world Github Issues?},
+    author={Carlos E Jimenez and John Yang and Alexander Wettig and Shunyu Yao and Kexin Pei and Ofir Press and Karthik R Narasimhan},
+    booktitle={The Twelfth International Conference on Learning Representations},
+    year={2024},
+    url={https://openreview.net/forum?id=VTF8yNQM66}
+}</pre>
+            </div>
+        </section>
+    </div>
 
         
         <footer class="footer">
@@ -219,7 +324,7 @@
     </script>
 
     
-    <!-- Optional page-specific scripts -->
-    
+    <!-- Citation functionality now provided by citation.js and citationFormat.js loaded in base.html -->
+
 </body>
 </html> 

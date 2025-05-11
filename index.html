@@ -28,8 +28,9 @@
     </div>
     <nav class="sidebar-nav">
         <ul>
+            <li><a href="index.html" class="nav-link" data-page="index">Leaderboards</a></li>
             <li class="nav-section-title">Benchmarks</li>
-            <li><a href="index.html" class="nav-link" data-page="index">SWE-bench (all)</a></li>
+            <li><a href="original.html" class="nav-link" data-page="original">SWE-bench</a></li>
             <li><a href="lite.html" class="nav-link" data-page="lite">SWE-bench Lite</a></li>
             <li><a href="multimodal.html" class="nav-link" data-page="multimodal">SWE-bench Multimodal</a></li>
             <li><a href="https://openai.com/index/introducing-swe-bench-verified/" class="nav-link" data-page="verified">SWE-bench Verified <i class="fas fa-external-link-alt"></i></a></li>
@@ -71,12 +72,6 @@
         <div class="container">
             <div class="header-logo-container">
                 <img src="img/swe-bench-banner.svg" alt="SWE-bench Logo" class="header-logo">
-                <div class="flex justify-center gap-2">
-                    <a href="https://arxiv.org/abs/2310.06770" target="_blank" class="paper-link">Paper</a>
-                    <a href="submit.html" class="paper-link">Submit</a>
-                    <a href="https://github.com/SWE-bench" target="_blank" class="paper-link">GitHub</a>
-                    <a href="https://huggingface.co/collections/SWE-bench/benchmarks-68113bc99eb3a64a91ea33c9" target="_blank" class="paper-link">🤗 Datasets</a>
-                </div>
             </div>
         </div>
     </header>
@@ -89,14 +84,7 @@
             </div>
         </a>
 
-        <a href="https://github.com/SWE-agent/SWE-agent">
-            <div class="announcement-container">
-                <p><img src="img/swe-agent-icon.svg" alt="SWE-agent icon" class="sidebar-family-icon"> SWE-agent 1.0 is the open source SOTA on SWE-bench Lite!</p>
-            </div>
-        </a>
-
         <div class="content-section" id="leaderboard">
-            <h2>All Leaderboards</h2>
             <div class="leaderboard-tabs">
                 <div class="leaderboard-tab-list">
                     <button class="tablinks" data-leaderboard="Lite">Lite</button>
@@ -107,9 +95,21 @@
             </div>
 
             
+    <script src="js/leaderboardFilters.js"></script>
+
+
+<div class="mb-3">
+    <div class="filter-buttons">
+        <button class="btn btn-sm btn-outline-secondary filter-toggle" data-filter="os_model">Open Source Model</button>
+        <button class="btn btn-sm btn-outline-secondary filter-toggle" data-filter="os_system">Open Source System</button>
+        <button class="btn btn-sm btn-outline-secondary filter-toggle" data-filter="checked">Checked</button>
+    </div>
+</div>
+
+
 <div class="tabcontent" id="leaderboard-Test">
     <div class="table-responsive">
-        <table class="table table-striped scrollable data-table">
+        <table class="table scrollable data-table">
             <thead>
                 <tr>
                     <th>Model</th>
@@ -123,14 +123,16 @@
             </thead>
             <tbody>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 <span>🆕</span>
-                                <span class="text-warning">🥇</span>
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-agent 1.0 (Claude 3.7 Sonnet)</span>
@@ -154,12 +156,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
-                                <span class="text-secondary">🥈</span>
                                 
                                 
                                 
@@ -187,14 +191,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
-                                <span class="text-warning">🥉</span>
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">OpenHands + CodeAct v2.1 (claude-3-5-sonnet-20241022)</span>
@@ -220,13 +226,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">AutoCodeRover-v2.0 (Claude-3.5-Sonnet-20241022)</span>
@@ -252,11 +261,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -284,11 +296,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -316,11 +331,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -348,11 +366,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -380,13 +401,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-agent + Claude 3.5 Sonnet</span>
@@ -410,13 +434,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="true"
+                    data-os_system="false"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">AppMap Navie + GPT 4o (2024-05-13)</span>
@@ -442,11 +469,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -474,13 +504,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-agent + GPT 4 (1106)</span>
@@ -506,13 +539,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-agent + GPT 4o (2024-05-13)</span>
@@ -538,13 +574,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-agent + Claude 3 Opus</span>
@@ -568,13 +607,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">RAG + Claude 3 Opus</span>
@@ -600,13 +642,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">RAG + Claude 2</span>
@@ -630,13 +675,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">RAG + GPT 4 (1106)</span>
@@ -660,13 +708,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">RAG + SWE-Llama 13B</span>
@@ -690,13 +741,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">RAG + SWE-Llama 7B</span>
@@ -720,13 +774,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">RAG + ChatGPT 3.5</span>
@@ -755,9 +812,39 @@
     </div>
 </div>
 
+<div id="no-results" class="alert alert-info" style="display: none;">
+    No entries match the selected filters. Try adjusting your filters.
+</div>
+
+<style>
+    .filter-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .filter-toggle {
+        transition: all 0.2s ease-in-out;
+    }
+    
+    .filter-toggle.active {
+        background-color: #0d6efd;
+        color: white;
+        border-color: #0d6efd;
+    }
+    
+    .filter-toggle:hover {
+        background-color: #e9ecef;
+    }
+    
+    .filter-toggle.active:hover {
+        background-color: #0b5ed7;
+    }
+</style>
+
 <div class="tabcontent" id="leaderboard-Verified">
     <div class="table-responsive">
-        <table class="table table-striped scrollable data-table">
+        <table class="table scrollable data-table">
             <thead>
                 <tr>
                     <th>Model</th>
@@ -771,13 +858,15 @@
             </thead>
             <tbody>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 <span>🆕</span>
-                                <span class="text-warning">🥇</span>
-                                
                                 
                                 
                             </div>
@@ -804,12 +893,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
-                                <span class="text-secondary">🥈</span>
                                 
                                 
                                 
@@ -837,12 +928,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
-                                <span class="text-warning">🥉</span>
                                 
                                 
                                 
@@ -868,12 +961,15 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 <span>🆕</span>
-                                
                                 
                                 
                             </div>
@@ -900,12 +996,48 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                
+                                
+                                
+                            </div>
+                            <span class="model-name font-mono fw-medium">Blackbox AI Agent</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">62.80</span></td>
+                    <td>
+                         - 
+                    </td>
+                    <td><span class="label-date text-muted">2025-01-10</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://www.blackbox.ai/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 <span>🆕</span>
-                                
                                 
                                 
                             </div>
@@ -932,13 +1064,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">CodeStory Midwit Agent + swe-search</span>
@@ -962,13 +1097,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">OpenHands + 4x Scaled (2024-02-03)</span>
@@ -994,11 +1132,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1026,11 +1167,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1058,11 +1202,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1090,11 +1237,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1122,11 +1272,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1154,11 +1307,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1186,11 +1342,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1218,11 +1377,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1250,13 +1412,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">OpenHands + CodeAct v2.1 (claude-3-5-sonnet-20241022)</span>
@@ -1282,11 +1447,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1314,11 +1482,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1346,11 +1517,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1378,13 +1552,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">Agentless-1.5 + Claude-3.5 Sonnet (20241022)</span>
@@ -1410,11 +1587,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1442,11 +1622,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1474,11 +1657,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1506,11 +1692,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1538,13 +1727,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">Composio SWE-Kit (2024-10-25)</span>
@@ -1570,13 +1762,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">AppMap Navie v2</span>
@@ -1602,11 +1797,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1634,13 +1832,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">AutoCodeRover-v2.0 (Claude-3.5-Sonnet-20241022)</span>
@@ -1666,11 +1867,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1698,11 +1902,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1730,11 +1937,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1762,11 +1972,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1794,13 +2007,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 <span>🆕</span>
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">Agentless Lite + O3 Mini (20250214)</span>
@@ -1826,11 +2042,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1854,11 +2073,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1886,13 +2108,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 <span>🆕</span>
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-RL (Llama3-SWE-RL-70B + Agentless Mini) (20250226)</span>
@@ -1918,11 +2143,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1950,11 +2178,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -1982,11 +2213,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -2014,13 +2248,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">Composio SWEkit + Claude 3.5 Sonnet (2024-10-16)</span>
@@ -2046,11 +2283,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -2078,11 +2318,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -2110,13 +2353,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">Agentless-1.5 + GPT 4o (2024-05-13)</span>
@@ -2142,11 +2388,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -2174,13 +2423,51 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
+                                
+                            </div>
+                            <span class="model-name font-mono fw-medium">Factory Code Droid</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">37.00</span></td>
+                    <td>
+                        
+                        <img src="https://pbs.twimg.com/profile_images/1768168785733980160/a4hWTSfN_400x400.jpg" alt="" style="height: 1.5em; vertical-align: middle;" />
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2024-06-17</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-muted">-</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://www.factory.ai/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                
+                                
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-agent + Claude 3.5 Sonnet</span>
@@ -2206,11 +2493,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -2236,11 +2526,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -2268,11 +2561,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -2300,13 +2596,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-Fixer (Qwen2.5-7b retriever + Qwen2.5-72b editor) 20241128</span>
@@ -2332,13 +2631,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">Lingma Agent + Lingma SWE-GPT 72b (v0925)</span>
@@ -2364,11 +2666,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -2396,13 +2701,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">AppMap Navie + GPT 4o (2024-05-13)</span>
@@ -2428,11 +2736,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -2460,11 +2771,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -2492,13 +2806,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">Lingma Agent + Lingma SWE-GPT 72b (v0918)</span>
@@ -2524,11 +2841,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -2556,13 +2876,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-agent + GPT 4o (2024-05-13)</span>
@@ -2588,13 +2911,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-agent + GPT 4 (1106)</span>
@@ -2620,13 +2946,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-agent + Claude 3 Opus</span>
@@ -2652,13 +2981,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">Lingma Agent + Lingma SWE-GPT 7b (v0925)</span>
@@ -2684,13 +3016,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">Lingma Agent + Lingma SWE-GPT 7b (v0918)</span>
@@ -2716,13 +3051,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">RAG + Claude 3 Opus</span>
@@ -2748,13 +3086,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">RAG + Claude 2</span>
@@ -2778,13 +3119,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">RAG + GPT 4 (1106)</span>
@@ -2808,13 +3152,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">RAG + SWE-Llama 7B</span>
@@ -2838,13 +3185,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">RAG + SWE-Llama 13B</span>
@@ -2868,13 +3218,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">RAG + ChatGPT 3.5</span>
@@ -2903,9 +3256,39 @@
     </div>
 </div>
 
+<div id="no-results" class="alert alert-info" style="display: none;">
+    No entries match the selected filters. Try adjusting your filters.
+</div>
+
+<style>
+    .filter-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .filter-toggle {
+        transition: all 0.2s ease-in-out;
+    }
+    
+    .filter-toggle.active {
+        background-color: #0d6efd;
+        color: white;
+        border-color: #0d6efd;
+    }
+    
+    .filter-toggle:hover {
+        background-color: #e9ecef;
+    }
+    
+    .filter-toggle.active:hover {
+        background-color: #0b5ed7;
+    }
+</style>
+
 <div class="tabcontent" id="leaderboard-Lite">
     <div class="table-responsive">
-        <table class="table table-striped scrollable data-table">
+        <table class="table scrollable data-table">
             <thead>
                 <tr>
                     <th>Model</th>
@@ -2919,12 +3302,14 @@
             </thead>
             <tbody>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
-                                <span class="text-warning">🥇</span>
                                 
                                 
                                 
@@ -2952,12 +3337,47 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
-                                <span class="text-secondary">🥈</span>
+                                
+                                
+                            </div>
+                            <span class="model-name font-mono fw-medium">Blackbox AI Agent</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">49.00</span></td>
+                    <td>
+                         - 
+                    </td>
+                    <td><span class="label-date text-muted">2024-12-20</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://www.blackbox.ai/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
                                 
                                 
                                 
@@ -2985,12 +3405,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
-                                <span class="text-warning">🥉</span>
                                 
                                 
                                 
@@ -3018,11 +3440,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -3050,13 +3475,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">DARS Agent</span>
@@ -3082,13 +3510,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">Kodu-v1 + Claude-3.5 Sonnet (20241022)</span>
@@ -3114,13 +3545,49 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
+                                
+                            </div>
+                            <span class="model-name font-mono fw-medium">CodeStory Aide + Mixed Models</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">43.00</span></td>
+                    <td>
+                         - 
+                    </td>
+                    <td><span class="label-date text-muted">2024-07-02</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-muted">-</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://aide.dev/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                
+                                
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">OpenHands + CodeAct v2.1 (claude-3-5-sonnet-20241022)</span>
@@ -3146,13 +3613,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">PatchKitty-0.9 + Claude-3.5 Sonnet (20241022)</span>
@@ -3176,13 +3646,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">OrcaLoca + Agentless-1.5 + Claude-3.5 Sonnet (20241022)</span>
@@ -3208,13 +3681,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">Composio SWE-Kit (2024-10-30)</span>
@@ -3240,13 +3716,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">Agentless-1.5 + Claude-3.5 Sonnet (20241022)</span>
@@ -3272,11 +3751,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -3304,11 +3786,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -3336,13 +3821,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">Moatless Tools + Claude 3.5 Sonnet (20241022)</span>
@@ -3366,13 +3854,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">Moatless Tools + Claude 3.5 Sonnet (20241022)</span>
@@ -3396,11 +3887,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -3428,13 +3922,49 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
+                                
+                            </div>
+                            <span class="model-name font-mono fw-medium">AbanteAI MentatBot + GPT 4o (2024-05-13)</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">38.00</span></td>
+                    <td>
+                         - 
+                    </td>
+                    <td><span class="label-date text-muted">2024-06-27</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-muted">-</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://mentat.ai/blog/mentatbot-sota-coding-agent" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                
+                                
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">Patched.Codes Patchwork</span>
@@ -3460,13 +3990,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">AppMap Navie v2</span>
@@ -3492,11 +4025,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -3524,11 +4060,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -3556,11 +4095,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -3586,11 +4128,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -3618,11 +4163,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -3650,11 +4198,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -3682,13 +4233,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 <span>🆕</span>
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">Agentless Lite + O3 Mini (20250214)</span>
@@ -3714,13 +4268,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">Agentless-1.5 + GPT 4o (2024-05-13)</span>
@@ -3746,11 +4303,49 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
+                                
+                                
+                            </div>
+                            <span class="model-name font-mono fw-medium">Factory Code Droid</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">31.33</span></td>
+                    <td>
+                        
+                        <img src="https://pbs.twimg.com/profile_images/1768168785733980160/a4hWTSfN_400x400.jpg" alt="" style="height: 1.5em; vertical-align: middle;" />
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2024-06-17</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-muted">-</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://www.factory.ai/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
                                 
                                 
                                 
@@ -3778,13 +4373,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">AutoCodeRover (v20240620) + GPT 4o (2024-05-13)</span>
@@ -3810,13 +4408,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">Aegis - o3-mini_1.0</span>
@@ -3840,11 +4441,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -3870,13 +4474,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">Kortix AI (claude-3-5-sonnet-20241022)</span>
@@ -3902,11 +4509,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -3934,13 +4544,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">Agentless + RepoGraph + GPT-4o</span>
@@ -3966,11 +4579,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -3998,13 +4614,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">reproducedRG</span>
@@ -4026,11 +4645,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -4056,11 +4678,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -4086,13 +4711,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">Agentless + GPT 4o (2024-05-13)</span>
@@ -4118,13 +4746,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">Moatless Tools + Claude 3.5 Sonnet</span>
@@ -4148,13 +4779,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">OpenHands + CodeAct v1.8</span>
@@ -4180,11 +4814,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -4212,13 +4849,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">Aider + GPT 4o &amp; Claude 3 Opus</span>
@@ -4244,11 +4884,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -4274,13 +4917,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">Moatless Tools + GPT 4o (2024-05-13)</span>
@@ -4304,11 +4950,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -4336,13 +4985,49 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
+                                
+                            </div>
+                            <span class="model-name font-mono fw-medium">OpenCSG StarShip CodeGenAgent + GPT 4 (0613)</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">23.67</span></td>
+                    <td>
+                         - 
+                    </td>
+                    <td><span class="label-date text-muted">2024-05-24</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-muted">-</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://opencsg.com/product?class=StarShip" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="true"
+                    data-os_system="true"
+                    data-checked="false"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                
+                                
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-Fixer (Qwen2.5-7b retriever + Qwen2.5-72b editor) 20241128</span>
@@ -4368,13 +5053,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-agent + Claude 3.5 Sonnet</span>
@@ -4400,13 +5088,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">AppMap Navie + GPT 4o (2024-05-13)</span>
@@ -4432,11 +5123,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -4462,11 +5156,14 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                
                                 
                                 
                                 
@@ -4494,13 +5191,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 
                             </div>
                             <span class="model-name font-mono fw-medium">AutoCodeRover (v20240408) + GPT 4 (0125)</span>
@@ -4526,13 +5226,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-agent + GPT 4o (2024-05-13)</span>
@@ -4558,13 +5261,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-agent + GPT 4 (1106)</span>
@@ -4590,13 +5296,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-agent + Claude 3 Opus</span>
@@ -4622,13 +5331,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">RAG + Claude 3 Opus</span>
@@ -4654,13 +5366,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">RAG + Claude 2</span>
@@ -4684,13 +5399,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">RAG + GPT 4 (1106)</span>
@@ -4714,13 +5432,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">RAG + SWE-Llama 7B</span>
@@ -4744,13 +5465,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">RAG + SWE-Llama 13B</span>
@@ -4774,13 +5498,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">RAG + ChatGPT 3.5</span>
@@ -4804,13 +5531,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="true"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">Moatless Tools + Deepseek V3</span>
@@ -4839,9 +5569,39 @@
     </div>
 </div>
 
+<div id="no-results" class="alert alert-info" style="display: none;">
+    No entries match the selected filters. Try adjusting your filters.
+</div>
+
+<style>
+    .filter-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .filter-toggle {
+        transition: all 0.2s ease-in-out;
+    }
+    
+    .filter-toggle.active {
+        background-color: #0d6efd;
+        color: white;
+        border-color: #0d6efd;
+    }
+    
+    .filter-toggle:hover {
+        background-color: #e9ecef;
+    }
+    
+    .filter-toggle.active:hover {
+        background-color: #0b5ed7;
+    }
+</style>
+
 <div class="tabcontent" id="leaderboard-Multimodal">
     <div class="table-responsive">
-        <table class="table table-striped scrollable data-table">
+        <table class="table scrollable data-table">
             <thead>
                 <tr>
                     <th>Model</th>
@@ -4855,13 +5615,15 @@
             </thead>
             <tbody>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 <span>🆕</span>
-                                <span class="text-warning">🥇</span>
-                                
                                 
                                 <span>✅</span>
                             </div>
@@ -4888,13 +5650,15 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 <span>🆕</span>
-                                <span class="text-secondary">🥈</span>
-                                
                                 
                                 <span>✅</span>
                             </div>
@@ -4921,14 +5685,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 <span>🆕</span>
-                                <span class="text-warning">🥉</span>
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">Agentless Lite + Claude-3.5 Sonnet</span>
@@ -4954,13 +5720,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-agent Multimodal + GPT 4o (2024-08-06)</span>
@@ -4986,13 +5755,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-agent + Claude Sonnet 3.5</span>
@@ -5018,13 +5790,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-agent JavaScript + Claude Sonnet 3.5</span>
@@ -5050,13 +5825,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-agent + GPT 4o (2024-08-06)</span>
@@ -5082,13 +5860,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-agent Multimodal + Claude 3.5 Sonnet</span>
@@ -5114,13 +5895,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">SWE-agent JavaScript + GPT 4o (2024-08-06)</span>
@@ -5146,13 +5930,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">Agentless + Claude 3.5 Sonnet</span>
@@ -5178,13 +5965,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">RAG + GPT 4o (2024-08-06)</span>
@@ -5210,13 +6000,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">RAG + Claude 3.5 Sonnet</span>
@@ -5242,13 +6035,16 @@
                     </td>
                 </tr>
                 
-                <tr>
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                >
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
                                 
                                 
-                                <span>🤠</span>
                                 <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">Agentless + GPT 4o (2024-08-06)</span>
@@ -5279,6 +6075,36 @@
     </div>
 </div>
 
+<div id="no-results" class="alert alert-info" style="display: none;">
+    No entries match the selected filters. Try adjusting your filters.
+</div>
+
+<style>
+    .filter-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .filter-toggle {
+        transition: all 0.2s ease-in-out;
+    }
+    
+    .filter-toggle.active {
+        background-color: #0d6efd;
+        color: white;
+        border-color: #0d6efd;
+    }
+    
+    .filter-toggle:hover {
+        background-color: #e9ecef;
+    }
+    
+    .filter-toggle.active:hover {
+        background-color: #0b5ed7;
+    }
+</style>
+
 
 <div class="leaderboard-notes">
     <p>
@@ -5286,12 +6112,7 @@
         SWE-bench <b>Verified</b> is a human-filtered subset [<a href="https://openai.com/index/introducing-swe-bench-verified/">Post</a>].<br>
         SWE-bench <b>Multimodal</b> features issues with visual elements [<a href="multimodal.html">Post</a>].
     </p>
-    <p>
-        - <b>% Resolved</b>: Percentage of instances solved (out of 2294 Full, 500 Verified, 300 Lite, 517 Multimodal).<br>
-        - ✅ <b>Checked</b>: Results reproduced by the SWE-bench team.<br>
-        - 🤠 <b>Open</b>: Open-source code (model may not be).<br>
-        - 🆕 <b>New</b>: Recently submitted.<br>
-    </p>
+    <p>Each entry reports the <b>% Resolved</b> metric, the percentage of instances solved (out of 2294 Full, 500 Verified, 300 Lite, 517 Multimodal).</p>
 </div>
             
             <div class="view-details-button" style="text-align: center; margin-top: 20px;">
@@ -5304,6 +6125,8 @@
         <div class="content-section" id="news">
             <h2 class="content-section-title">News</h2>
             <ul>
+                <li>[05/2025] <img src="img/swe-smith-icon.svg" alt="SWE-smith icon" class="sidebar-family-icon">Our new paper SWE-smith is out! Train your own models for software engineering agents.</li>
+                <li>[03/2025] <img src="img/swe-agent-icon.svg" alt="SWE-agent icon" class="sidebar-family-icon">SWE-agent 1.0 is the open source SOTA on SWE-bench Lite!</li>
                 <li>[10/2024] Introducing <b>SWE-bench Multimodal</b>! [<a href="multimodal.html">Link</a>]</li>
                 <li>[08/2024] SWE-bench x OpenAI = <b>SWE-bench Verified</b> [<a href="https://openai.com/index/introducing-swe-bench-verified/">Report</a>]</li>
                 <li>[06/2024] <b>Docker</b>-ized SWE-bench for easier evaluation [<a href="https://www.swebench.com/SWE-bench/guides/docker_setup/">Report</a>]</li>
@@ -5314,108 +6137,12 @@
     </section>
 
     <section class="container">
-        <div class="content-section" id="resources">
-            <h2 class="content-section-title">Resources</h2>
-            <p>Base and pre-processed datasets (Oracle, 13K, 27K, 40K, 50K Llama) are available on HuggingFace.</p>
-            <div class="resource-links">
-                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench">🤗 SWE-bench</a>
-                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_oracle">🤗 "Oracle" Retrieval</a>
-                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_bm25_13K">🤗 BM25 Retrieval 13K</a>
-                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_bm25_27K">🤗 BM25 Retrieval 27K</a>
-                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_bm25_40K">🤗 BM25 Retrieval 40K</a>
-                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_bm25_50k_llama">🤗 BM25 Retrieval 50K (Llama)</a>
-            </div>
-            <p>SWE-bench Lite:</p>
-            <div class="resource-links">
-                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite">🤗 SWE-bench Lite</a>
-                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite_oracle">🤗 "Oracle" Retrieval Lite</a>
-                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite_bm25_13K">🤗 BM25 Retrieval 13K Lite</a>
-                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite_bm25_27K">🤗 BM25 Retrieval 27K Lite</a>
-            </div>
-            <p>SWE-bench Verified:</p>
-            <div class="resource-links">
-                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Verified">🤗 SWE-bench Verified</a>
-            </div>
-            <p>SWE-bench Multimodal:</p>
-            <div class="resource-links">
-                <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Multimodal">🤗 SWE-bench Multimodal</a>
-            </div>
-            <p>SWE-Llama model weights:</p>
-            <div class="resource-links">
-                <a href="https://huggingface.co/princeton-nlp/SWE-Llama-13b">SWE-Llama 13b</a>
-                <a href="https://huggingface.co/princeton-nlp/SWE-Llama-13b-peft">SWE-Llama 13b (PEFT)</a>
-                <a href="https://huggingface.co/princeton-nlp/SWE-Llama-7b">SWE-Llama 7b</a>
-                <a href="https://huggingface.co/princeton-nlp/SWE-Llama-7b-peft">SWE-Llama 7b (PEFT)</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="container">
         <div class="content-section" id="about">
-            <h2 class="content-section-title">About</h2>
-            <img src="img/teaser.png" alt="SWE-bench Teaser Image" class="img-fluid"/>
-            <p>SWE-bench tests systems' ability to solve GitHub issues automatically, using 2,294 Issue-Pull Request pairs from 12 popular Python repositories. Evaluation is by unit test verification.</p>
-
-            <h3 id="citation">Citation</h3>
-            <div class="citation-type">
-                <button class="citation-format-btn active" data-format="bibtex" data-target="original-citation">BibTeX</button>
-                <button class="citation-format-btn" data-format="apa" data-target="original-citation">APA</button>
-                <button class="citation-format-btn" data-format="mla" data-target="original-citation">MLA</button>
-            </div>
-            <div class="citation-container" id="original-citation-bibtex">
-                <button class="copy-btn">Copy</button>
-                <pre>@inproceedings{
-    jimenez2024swebench,
-    title={{SWE}-bench: Can Language Models Resolve Real-world Github Issues?},
-    author={Carlos E Jimenez and John Yang and Alexander Wettig and Shunyu Yao and Kexin Pei and Ofir Press and Karthik R Narasimhan},
-    booktitle={The Twelfth International Conference on Learning Representations},
-    year={2024},
-    url={https://openreview.net/forum?id=VTF8yNQM66}
-}</pre>
-            </div>
-            
-            <div class="citation-container display-none" id="original-citation-apa">
-                <button class="copy-btn">Copy</button>
-                <pre>Jimenez, C. E., Yang, J., Wettig, A., Yao, S., Pei, K., Press, O., & Narasimhan, K. R. (2024). SWE-bench: Can Language Models Resolve Real-world Github Issues? In The Twelfth International Conference on Learning Representations. https://openreview.net/forum?id=VTF8yNQM66</pre>
-            </div>
-            
-            <div class="citation-container display-none" id="original-citation-mla">
-                <button class="copy-btn">Copy</button>
-                <pre>Jimenez, Carlos E., et al. "SWE-bench: Can Language Models Resolve Real-world Github Issues?" The Twelfth International Conference on Learning Representations, 2024.</pre>
-            </div>
-            <p><b>Disclaimer:</b> SWE-bench is for research purposes only.</p>
-            <p><b>Usage:</b> If you would like to use this website template for your own leaderboard, please send Carlos & John an email requesting permission. If granted, please make sure to acknowledge the SWE-bench team and link to this leaderboard on the home page of the website.</p>
-
-            <p>For general inquiries about SWE-bench, please email: <a href="mailto:carlosej@princeton.edu,johnby@stanford.edu">{carlosej@princeton.edu, johnby@stanford.edu}</a></p>
-
-
-            <div class="institution-logos">
-                <div class="logo-container">
-                    <a href="https://www.princeton.edu/" target="_blank" title="Princeton University">
-                        <img src="img/princeton_seal.svg" alt="Princeton University" class="institution-logo" style="box-shadow: none; filter: none;">
-                    </a>
-                    <a href="https://www.stanford.edu/" target="_blank" title="Stanford University">
-                        <img src="img/stanford_seal.png" alt="Stanford University" class="institution-logo" style="box-shadow: none; filter: none;">
-                    </a>
-                    <a href="https://pli.princeton.edu/" target="_blank" title="Princeton Language and Intelligence">
-                        <img src="img/pli_logo.svg" alt="Princeton Language and Intelligence" class="institution-logo" style="box-shadow: none; filter: none;">
-                    </a>
-                    <a href="https://www.uchicago.edu/" target="_blank" title="University of Chicago">
-                        <img src="img/chicago_seal.svg" alt="University of Chicago" class="institution-logo" style="box-shadow: none; filter: none;">
-                    </a>
-                </div>
-            </div>
-
-            <h3 id="acknowledgements">Acknowledgements</h3>
-            <p>We thank the following institutions for their generous support:</p>
-            <ul>
-                <li>Open Philanthropy</li>
-                <li>AWS</li>
-                <li>Modal</li>
-                <li>Andreessen Horowitz</li>
-                <li>OpenAI</li>
-                <li>Anthropic</li>
-            </ul>
+            <h2 class="content-section-title">Acknowledgements</h2>
+            <p>
+                We thank the following institutions for their generous support:
+                Open Philanthropy, AWS, Modal, Andreessen Horowitz, OpenAI, and Anthropic.
+            </p>
         </div>
     </section>
 
