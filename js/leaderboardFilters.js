@@ -41,37 +41,29 @@ function updateTable() {
     });
 }
 
-// Filter Button Logic
-function updateActiveFilters(filter) {
-    // Find the button for this filter
-    const button = document.querySelector(`.filter-toggle[data-filter="${filter}"]`);
-    
-    if (activeFilters.has(filter)) {
-        activeFilters.delete(filter);
-        button.classList.remove('active');
-    } else {
+// Updated Filter Button Logic
+function updateActiveFilters(filter, isChecked) {
+    if (isChecked) {
         activeFilters.add(filter);
-        button.classList.add('active');
+    } else {
+        activeFilters.delete(filter);
     }
-    
     updateTable();
 }
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', function() {
     // Set initial active state for default filters
-    document.querySelectorAll('.filter-toggle').forEach(button => {
-        const filter = button.getAttribute('data-filter');
-        if (activeFilters.has(filter)) {
-            button.classList.add('active');
-        }
+    document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
+        const filter = checkbox.getAttribute('data-filter');
+        checkbox.checked = activeFilters.has(filter);
     });
 
-    // Add click event to filter buttons
-    document.querySelectorAll('.filter-toggle').forEach(button => {
-        button.addEventListener('click', function() {
+    // Add change event to filter checkboxes
+    document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
             const filter = this.getAttribute('data-filter');
-            updateActiveFilters(filter);
+            updateActiveFilters(filter, this.checked);
         });
     });
 
@@ -130,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (checked.length === 0) {
                 selected.innerHTML = '<span class="multiselect-placeholder">Select tags...</span>';
             } else if (checked.length === checkboxes.length) {
-                selected.innerHTML = '<span class="multiselect-badge">All</span>';
+                selected.innerHTML = '<span class="multiselect-badge">(All Tags Selected)</span>';
                 multiselect.querySelector('.tag-checkbox[value="All"]').checked = true;
             } else {
                 checked.forEach(tag => {

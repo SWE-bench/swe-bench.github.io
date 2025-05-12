@@ -100,9 +100,15 @@
 
 <div class="mb-3 d-flex justify-content-between align-items-center" style="gap:0.5rem;">
     <div class="filter-buttons" style="flex-shrink: 0;">
-        <button class="btn btn-sm btn-outline-secondary filter-toggle" data-filter="os_model">Open Weight Model</button>
-        <button class="btn btn-sm btn-outline-secondary filter-toggle" data-filter="os_system">Open Source System</button>
-        <button class="btn btn-sm btn-outline-secondary filter-toggle" data-filter="checked">Checked</button>
+        <label class="btn btn-sm btn-outline-secondary filter-toggle">
+            <input type="checkbox" class="filter-checkbox" data-filter="os_model" autocomplete="off"> Open Weight Model
+        </label>
+        <label class="btn btn-sm btn-outline-secondary filter-toggle">
+            <input type="checkbox" class="filter-checkbox" data-filter="os_system" autocomplete="off"> Open Source System
+        </label>
+        <label class="btn btn-sm btn-outline-secondary filter-toggle">
+            <input type="checkbox" class="filter-checkbox" data-filter="checked" autocomplete="off"> Checked
+        </label>
     </div>
     <form id="tag-multiselect-form" style="flex: 1; min-width: 200px; display: flex; justify-content: flex-end;">
         <div id="tag-multiselect" class="multiselect-dropdown" style="width: 100%;">
@@ -110,7 +116,7 @@
             <div class="multiselect-options">
                 <input type="text" class="multiselect-search" placeholder="search" onkeyup="filterTagOptions(this)">
                 <div class="multiselect-option">
-                    <label><input type="checkbox" class="tag-checkbox" value="All" checked onchange="toggleAllTags(this)"> All</label>
+                    <label><input type="checkbox" class="tag-checkbox" value="All" checked onchange="toggleAllTags(this)"> (All Tags)</label>
                 </div>
                 
                 <div class="multiselect-option">
@@ -155,6 +161,10 @@
                 
                 <div class="multiselect-option">
                     <label><input type="checkbox" class="tag-checkbox" value="Model: deepseek-reasoner" checked onchange="updateTagSelection()"> Model: deepseek-reasoner</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: deepseek-v3" checked onchange="updateTagSelection()"> Model: deepseek-v3</label>
                 </div>
                 
                 <div class="multiselect-option">
@@ -230,6 +240,10 @@
                 </div>
                 
                 <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Org: NVIDIA" checked onchange="updateTagSelection()"> Org: NVIDIA</label>
+                </div>
+                
+                <div class="multiselect-option">
                     <label><input type="checkbox" class="tag-checkbox" value="Org: OpenHands" checked onchange="updateTagSelection()"> Org: OpenHands</label>
                 </div>
                 
@@ -268,7 +282,7 @@
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                <span>🆕</span>
+                                
                                 
                                 <span>✅</span>
                             </div>
@@ -991,6 +1005,42 @@
                 
                 <tr
                     data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                    data-tags="Org: OpenHands"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                <span>🆕</span>
+                                
+                                <span>✅</span>
+                            </div>
+                            <span class="model-name font-mono fw-medium">OpenHands</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">65.80</span></td>
+                    <td>
+                        
+                        <img src="https://avatars.githubusercontent.com/u/169105795?s=200&amp;v=4" alt="" style="height: 1.5em; vertical-align: middle;" />
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2025-04-15</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://all-hands.dev/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
                     data-tags=""
@@ -998,7 +1048,7 @@
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                <span>🆕</span>
+                                
                                 
                                 
                             </div>
@@ -1021,6 +1071,42 @@
                     <td class="centered-text text-center">
                         
                             <a href="https://www.augmentcode.com" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                    data-tags="Org: AWS"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                <span>🆕</span>
+                                
+                                
+                            </div>
+                            <span class="model-name font-mono fw-medium">Amazon Q Developer Agent (v20250405-dev)</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">65.40</span></td>
+                    <td>
+                        
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/2560px-Amazon_Web_Services_Logo.svg.png" alt="" style="height: 1.5em; vertical-align: middle;" />
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2025-04-05</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://aws.amazon.com/q/developer/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
                         
                     </td>
                 </tr>
@@ -1104,7 +1190,7 @@
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                <span>🆕</span>
+                                
                                 
                                 
                             </div>
@@ -1174,7 +1260,7 @@
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                <span>🆕</span>
+                                
                                 
                                 
                             </div>
@@ -1238,7 +1324,7 @@
                 <tr
                     data-os_model="false"
                     data-os_system="true"
-                    data-checked="false"
+                    data-checked="true"
                     data-tags="Org: OpenHands"
                 >
                     <td>
@@ -1246,7 +1332,7 @@
                             <div class="model-badges">
                                 
                                 
-                                
+                                <span>✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">OpenHands + 4x Scaled (2024-02-03)</span>
                         </div>
@@ -1303,6 +1389,42 @@
                     <td class="centered-text text-center">
                         
                             <a href="https://arxiv.org/pdf/2501.10893" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="true"
+                    data-tags="Model: claude-3-5-sonnet-20241022,Model: deepseek-v3,Org: NVIDIA"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                <span>🆕</span>
+                                
+                                <span>✅</span>
+                            </div>
+                            <span class="model-name font-mono fw-medium">CORTEXA</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">58.20</span></td>
+                    <td>
+                        
+                        <img src="https://s3.amazonaws.com/cms.ipressroom.com/219/files/20149/544a6120f6091d588d000048_NVLogo_2D_H/NVLogo_2D_H_0b8ebd28-4ba6-403f-864b-f5b4712a5ad6-prv.jpg" alt="" style="height: 1.5em; vertical-align: middle;" />
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2025-04-10</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://research.nvidia.com/labs/adlr/cortexa/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
                         
                     </td>
                 </tr>
@@ -2180,7 +2302,7 @@
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                <span>🆕</span>
+                                
                                 
                                 
                             </div>
@@ -2284,7 +2406,7 @@
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                <span>🆕</span>
+                                
                                 
                                 
                             </div>
@@ -2451,6 +2573,42 @@
                     <td class="centered-text text-center">
                         
                             <a href="https://github.com/ComposioHQ/composio/tree/master/python/swe/agent" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="true"
+                    data-os_system="true"
+                    data-checked="true"
+                    data-tags="Org: SWE-agent,Model: Qwen 2.5"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                <span>🆕</span>
+                                
+                                <span>✅</span>
+                            </div>
+                            <span class="model-name font-mono fw-medium">SWE-agent + SWE-agent-LM-32B</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">40.20</span></td>
+                    <td>
+                        
+                        <img src="https://avatars.githubusercontent.com/u/166046056?s=200&amp;v=4" alt="" style="height: 1.5em; vertical-align: middle;" />
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2025-05-11</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://swesmith.com/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
                         
                     </td>
                 </tr>
@@ -2667,6 +2825,42 @@
                     <td class="centered-text text-center">
                         
                             <a href="https://github.com/SWE-agent/SWE-agent" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="true"
+                    data-os_system="true"
+                    data-checked="true"
+                    data-tags="Model: Qwen 2.5"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                
+                                
+                                <span>✅</span>
+                            </div>
+                            <span class="model-name font-mono fw-medium">SWE-Fixer (Qwen2.5-7b retriever + Qwen2.5-72b editor)</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">32.80</span></td>
+                    <td>
+                        
+                        <img src="https://www.shlab.org.cn/static/img/index_11.1280f447.png" alt="" style="height: 1.5em; vertical-align: middle;" />
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2025-03-06</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://github.com/InternLM/SWE-Fixer" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
                         
                     </td>
                 </tr>
@@ -4444,7 +4638,7 @@
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                <span>🆕</span>
+                                
                                 
                                 
                             </div>
@@ -5135,6 +5329,42 @@
                     <td class="centered-text text-center">
                         
                             <a href="https://arxiv.org/abs/2409.16299" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="true"
+                    data-os_system="true"
+                    data-checked="true"
+                    data-tags="Model: Qwen 2.5"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                
+                                
+                                <span>✅</span>
+                            </div>
+                            <span class="model-name font-mono fw-medium">SWE-Fixer (Qwen2.5-7b retriever + Qwen2.5-72b editor)</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">24.67</span></td>
+                    <td>
+                        
+                        <img src="https://www.shlab.org.cn/static/img/index_11.1280f447.png" alt="" style="height: 1.5em; vertical-align: middle;" />
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2025-03-06</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://github.com/InternLM/SWE-Fixer" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
                         
                     </td>
                 </tr>
@@ -5840,7 +6070,7 @@
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                <span>🆕</span>
+                                
                                 
                                 <span>✅</span>
                             </div>
@@ -5876,7 +6106,7 @@
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                <span>🆕</span>
+                                
                                 
                                 <span>✅</span>
                             </div>
@@ -5912,7 +6142,7 @@
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                <span>🆕</span>
+                                
                                 
                                 <span>✅</span>
                             </div>
