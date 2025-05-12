@@ -10,7 +10,7 @@
         <label class="btn btn-sm btn-outline-secondary filter-toggle">
             <input type="checkbox" class="filter-checkbox" data-filter="os_system" autocomplete="off"> Open Source System
         </label>
-        <label class="btn btn-sm btn-outline-secondary filter-toggle">
+        <label class="btn btn-sm btn-outline-secondary filter-toggle" title="The agent run was performed by or directly verified by the SWE-bench team">
             <input type="checkbox" class="filter-checkbox" data-filter="checked" autocomplete="off"> Checked
         </label>
     </div>
@@ -60,7 +60,7 @@
                             <div class="model-badges">
                                 {% if item.date >= "2025-04-01" %}<span>🆕</span>{% endif %}
                                 {% if item.oss %}<span>🤠</span>{% endif %}
-                                {% if item.checked %}<span>✅</span>{% endif %}
+                                {% if item.checked %}<span title="The agent run was performed by or directly verified by the SWE-bench team">✅</span>{% endif %}
                             </div>
                             <span class="model-name font-mono fw-medium">{{item.name}}</span>
                         </div>
