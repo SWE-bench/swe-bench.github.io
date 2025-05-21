@@ -293,6 +293,7 @@ button:focus,
 .data-table {
   width: 100%;
   table-layout: auto;
+  min-width: auto;
 }
 
 .data-table th,
@@ -577,11 +578,6 @@ button:focus,
   
   .dark-mode .table-responsive thead::after {
     background: rgba(255, 255, 255, 0.05);
-  }
-  
-  /* Allow table to take full width on desktop */
-  .data-table {
-    min-width: auto;
   }
   
   /* Ensure first column doesn't take too much space on desktop */
