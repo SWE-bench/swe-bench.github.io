@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SWE-bench Multilingual</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-H9XFCMDPNS"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-H9XFCMDPNS");
+    </script>
+    
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+</head>
+<body>
+    <div class="sidebar-overlay"></div>
+<header class="mobile-header">
+    <a href="/" class="mobile-logo"><img src="img/swe-llama.svg" alt="SWE-bench logo" class="sidebar-logo-icon">SWE-bench</a>
+    <button class="sidebar-opener" aria-label="Open menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</header>
+
+<aside class="sidebar">
+    <div class="sidebar-header">
+         <a href="/" class="sidebar-logo"><img src="img/swe-llama.svg" alt="SWE-bench logo" class="sidebar-logo-icon">SWE-bench</a>
+         <button class="mobile-nav-toggle" aria-label="Close menu">
+             <i class="fas fa-times"></i>
+         </button>
+    </div>
+    <nav class="sidebar-nav">
+        <ul>
+            <li><a href="index.html" class="nav-link" data-page="index">Leaderboards</a></li>
+            <li class="nav-section-title">Benchmarks</li>
+            <li><a href="original.html" class="nav-link" data-page="original">SWE-bench</a></li>
+            <li><a href="lite.html" class="nav-link" data-page="lite">SWE-bench Lite</a></li>
+            <li><a href="multilingual.html" class="nav-link" data-page="docs">SWE-bench Multilingual</a></li>
+            <li><a href="multimodal.html" class="nav-link" data-page="multimodal">SWE-bench Multimodal</a></li>
+            <li><a href="https://openai.com/index/introducing-swe-bench-verified/" class="nav-link" data-page="verified">SWE-bench Verified <i class="fas fa-external-link-alt"></i></a></li>
+            <li class="nav-section-title">About</li>
+            <li><a href="https://swebench.com/SWE-bench/" class="nav-link" data-page="docs">Docs <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="contact.html" class="nav-link" data-page="contact">Contact</a></li>
+            <li><a href="citations.html" class="nav-link" data-page="citations">Citations</a></li>
+            <li><a href="press.html" class="nav-link" data-page="press">Press</a></li>
+            <li><a href="submit.html" class="nav-link" data-page="submit">Submit</a></li>            
+            <li class="nav-section-title">The SWE-bench Family</li>
+            <li><a href="https://swe-agent.com/latest/" class="nav-link" data-page="swe-agent"><img src="img/swe-agent-icon.svg" alt="SWE-agent icon" class="sidebar-family-icon">SWE-agent <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://swesmith.com/" class="nav-link" data-page="swe-smith"><img src="img/swe-smith-icon.svg" alt="SWE-smith icon" class="sidebar-family-icon">SWE-smith <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://swe-rex.com/latest/" class="nav-link" data-page="swe-rex"><img src="img/swe-rex-icon.svg" alt="SWE-ReX icon" class="sidebar-family-icon">SWE-ReX <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://swebench.com/sb-cli/" class="nav-link" data-page="sb-cli"><img src="img/sb-cli-icon.svg" alt="SWE-bench CLI icon" class="sidebar-family-icon">SWE-bench CLI <i class="fas fa-external-link-alt"></i></a></li>
+        </ul>
+    </nav>
+    <div class="sidebar-footer">
+        <a href="https://github.com/swe-bench/SWE-bench" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github"></i>
+        </a>
+        &nbsp;
+        <a href="https://www.youtube.com/@SWE-bench" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-youtube"></i>
+        </a>
+        &nbsp;
+        <a href="https://discord.gg/AVEFbBn2rH" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-discord"></i>
+        </a>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+</aside>
+    
+    <div class="main-content">
+        
+    <header class="page-header">
+        <div class="container">
+            <div class="d-flex align-center mb-3">
+                <img src="img/swe-llama-ml.svg" alt="SWE-Llama Multilingual Logo" style="height: 5em; width: auto; margin-right: 1em;">
+                <h1 class="mb-0">SWE-bench Multilingual</h1>
+            </div>
+            <p>300 curated SWE-bench style tasks from 42 repositories representing 9 programming languages</p>
+            <div class="authors">
+                <small>Kabir Khandpur, Kilian Lieret, Carlos E. Jimenez, Ofir Press, John Yang</small>
+            </div>
+            <br>
+            <div class="flex  gap-2">
+                <a href="https://github.com/SWE-bench/SWE-bench" target="_blank" class="paper-link">GitHub</a> 
+                <a href="https://huggingface.co/datasets/SWE-bench/SWE-bench_Multilingual" target="_blank" class="paper-link">Dataset</a>                
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <p>Originally posted as a <a href="https://kabirk.com/multilingual">blog post on Kabir's website</a>.</p>
+        <section class="content-box">
+            <h2>Summary</h2>
+            <p>
+This post introduces SWE-bench Multilingual, a new benchmark in the SWE-bench family designed to evaluate the software engineering capabilities of LLMs across a range of programming languages. SWE-bench Multilingual consists of 300 curated software engineering tasks derived from real-world GitHub pull requests across 42 repositories and 9 programming languages. The repositories span a wide range of application domains, including web frameworks, data storage and processing tools, core utilities, and common libraries.
+<br><br>
+Using the SWE-agent framework, <b>Claude 3.7 Sonnet achieves a 43% resolution rate on SWE-bench Multilingual</b>, compared to 63% on SWE-bench Verified, highlighting room for improvement in languages other than Python.
+<br><br>
+The dataset is available on <a href="https://huggingface.co/datasets/SWE-bench/SWE-bench_Multilingual">HuggingFace</a> with evaluation code integrated into the <a href="https://github.com/swe-bench/SWE-bench">SWE-bench repository</a>. Please <a href="mailto:kabir.khandpur@gmail.com">email me</a> with any questions or feedback!
+            </p>
+
+            <h2 style="margin-top:1.5rem;">Introduction</h2>
+            <p>
+SWE-bench is a standard benchmark to evaluate LLMs on software engineering capabilities. The benchmark dataset consists of 500 GitHub issues from 17 different Python projects. Given its focus on Python, the benchmark is not representative of LLM performance in different programming languages and domains. To broaden SWE-bench's evaluation capability, I developed SWE-bench Multilingual in collaboration with the SWE-bench team to accomplish the following goals:
+<ol>
+    <li>Provide a benchmark to evaluate model and agent performance across a large variety of programming languages and domains. Existing agent frameworks often rely on Python-specific tooling, effectively overfitting to SWE-bench Verified.</li>
+    <li>Remain fully compatible with SWE-bench, so existing users can easily evaluate on Multilingual without needing to change their infrastructure.</li>
+    <li>Create a high-quality dataset that is comprehensive but small enough to run quickly. While concurrent work like <a href="https://multi-swe-bench.github.io/#/">Multi-SWE-bench</a> provides more task instances in multiple languages, this dataset is purposely limited to 300 high-quality tasks so that the evaluation is easy to run quickly.</li>
+</ol>
+To achieve these goals, the Multilingual dataset provides 300 tasks across 42 repositories and 9 popular programming languages: C, C++, Go, Java, JavaScript, TypeScript, PHP, Ruby and Rust. See <a href="#appendix-a">Appendix A</a> for dataset details.
+            </p>
+
+            <h2 style="margin-top:1.5rem;">Benchmark construction</h2>
+            <p>
+SWE-bench Multilingual follows the same collection strategy, dataset format and evaluation protocol as SWE-bench. Task instances correspond to real-world GitHub issues and their resolving pull requests (PRs). An agent receives the issue description and a repository snapshot at the pre-solution state and generates code modifications that resolve the issue. Success is determined by passing two sets of unit tests derived from the original PR: fail-to-pass (F2P) tests, which ensure the specific issue is fixed, and pass-to-pass (P2P) tests, which verify that existing functionality remains intact.
+            </p>
+            <div style="width:50%; text-align: center; margin: 0 auto;">
+                <img src="img/multilingual/collection_pipeline.png" alt="SWE-bench Multilingual Collection Pipeline" class="img-fluid">
+                <p><i>Figure 1. Collection pipeline</i></p>
+            </div>
+
+            <h4 style="margin-top:1rem;">1. Repository selection</h4>
+            <p>
+First, 9 popular programming languages are selected based on the annual <a href="https://survey.stackoverflow.co/2024/technology">Stack Overflow Developer Survey</a>. Then, from the top 100 most starred repositories in these languages are selected from <a href="https://github.com/EvanLi/Github-Ranking">GitHub-Ranking</a>, repositories where the primary language is English and there are a large number of candidate issues are selected.
+
+The public contribution guidelines and GitHub action workflow files are used to determine the correct commands to build the codebase and run tests. About 30% of repositories are discarded here because they can't be built locally, take too long to build, or take too long to run tests.
+            </p>
+
+            <h4 style="margin-top:1rem;">2. Issue collection</h4>
+            <p>
+For each repository, the SWE-bench collection pipeline is used to collect issue-PR pairs where the PR contains at least one test file. An issue is rejected if it doesn't describe the problem in sufficient detail, if the corresponding pull request implemented a different approach than the one proposed in the issue, if the pull request contains changes related to multiple issues, and if tests filter out valid solutions (for example, by checking for a specific error message).
+            </p>
+
+            <h4 style="margin-top:1rem;">3. Environment configuration</h4>
+            <p>
+The original SWE-bench repository defines three layers of docker images:
+<ol>
+    <li>A base image that installs the language runtime and operating system packages for all the repositories in that language.</li>
+    <li>An environment image that installs the conda and pip packages required to run tests for a particular task instance. This image acts as a cache to avoid re-downloading dependencies between test runs.</li>
+    <li>An instance image that runs the test. For each instance, the install and test commands are manually specified.</li>
+</ol>
+Multilingual provides base and instance images but opts to skip defining environment images. While environment images worked well for SWE-bench, given its numerous tasks from a few repositories sharing dependencies, Multilingual's 300 tasks across 42 repositories rarely share dependencies, making pre-built environment images less beneficial and significantly increasing manual curation effort compared to the original SWE-bench.
+            </p>
+
+            <h4 style="margin-top:1rem;">4. Task validation</h4>
+            <p>
+A final manual verification procedure is conducted before including a task instance in the dataset.
+<ol>
+    <li>Clone the repository and check out the commit specified by the issue.</li>
+    <li>Run instance-specific pre-install and install commands.</li>
+    <li>Run relevant tests, including tests added by the pull request. If tests added by the pull request pass without any code changes, the task instance is discarded.</li>
+    <li>Apply the test files.</li>
+    <li>Build the codebase.</li>
+    <li>Apply the “gold” patch, i.e. the non-test code changes introduced by the pull request.</li>
+    <li>Run relevant tests again and verify that they pass.</li>
+    <li>Parse the test logs to get the list of tests passing and failing tests for inclusion in the dataset.</li>
+</ol>
+            </p>
+
+            <h2 style="margin-top:1.5rem;">Results</h2>
+<p>
+To establish baseline performance, I evaluated SWE-agent + Claude 3.7 Sonnet on the Multilingual dataset. With a cost limit of $2.50, this setup correctly resolves 43% of tasks.
+<br><br>
+Resolution rate varies by language (figure 2), with Rust having the highest resolution rate and C/C++ the lowest.
+<div style="width:50%; text-align: center; margin: 0 auto;">
+    <img src="img/multilingual/resolve_by_language.png" class="img-fluid">
+    <p><i>Figure 2. Resolution rate by language</i></p>
+</div>
+<p>
+It's possible that the difference in resolution rate is because the dataset happens to contain more difficult tasks in some languages. In the absence of human annotations of difficulty, the number of lines of code modified by the gold patch can be used as an estimate of task difficulty. Figure 3 shows that difficulty distribution within a language isn't obviously correlated with resolution rate. For example, solutions to Rust tasks modify more lines of code on average, yet SWE-agent had the highest resolution rate in Rust.
+</p>
+<div style="width:50%; text-align: center; margin: 0 auto;">
+    <img src="img/multilingual/loc_by_language.png" class="img-fluid">
+    <p><i>Figure 3. Lines of code updated by language</i></p>
+</div>
+<p>
+From this limited analysis, it's hard to say what factors are most important in determining resolution rate, though it looks like language and difficulty are both relevant.
+<a href="#appendix-b">Appendix B</a> contains more cuts of the resolution rate statistics.
+</p>
+
+    <h4 style="margin-top:1rem;">Agent trajectories</h4>
+<p>
+Manual inspection of agent trajectories didn't reveal any obvious patterns in the trajectories of successful and failed tasks (see <a href="#appendix-c">Appendix C</a> for more notes). The distribution of the actions that SWE-agent took was very similar between successful and failed tasks (figure 5), suggesting that model capabilities are the limiting factor in resolution rate rather then agent design.
+</p>
+<div style="width:50%; text-align: center; margin: 0 auto;">
+    <img src="img/multilingual/action_distribution.png" class="img-fluid">
+    <p><i>Figure 5. Action frequency distribution in successful vs. failed tasks. Each action type has two lines - a solid line for successful tasks and a dashed line of the same color for failed ones. Every solid and dashed line pair are similar, indicating actions that are used similarly between successful and failed attempts.</i></p>
+</div>
+
+    <h4 style="margin-top:1rem;">Limitations</h4>
+<p><b>Most tasks require only a few lines of code.</b> SWE-bench's collection strategy looks for issues where the problem is well-defined and unit tests are unambiguous. This naturally selects for pull requests where only a few lines of code are modified. In SWE-bench Multilingual, the gold patch modifies 10 lines of code at the median and 110 lines at the 95th percentile. Real-world software engineering tasks often require significantly larger code modifications.</p>
+<p><b>Only one model is evaluated.</b> Due to budget constraints, only Claude 3.7 Sonnet was evaluated. Other models or agent frameworks may score higher on this dataset, possibly comparable in score to their performance on SWE-bench Verified.</p>
+<p><b>No human annotations.</b> The dataset is manually curated, but no human annotations of difficulty are included, as is done in SWE-bench Verified and Multi-SWE-bench.</p>
+
+    <h2 style="margin-top:1.5rem;">Conclusion</h2>
+<p>SWE-bench Multilingual suggests that LLMs are more proficient in Python than other languages. The dataset is available on <a href="https://huggingface.co/datasets/SWE-bench/SWE-bench_Multilingual">HuggingFace</a> with evaluation code integrated into the <a href="https://github.com/swe-bench/SWE-bench">SWE-bench repository</a>. Please <a href="mailto:kabir.khandpur@gmail.com">email me</a> with any questions or feedback!</p>
+</p>
+        </section>
+
+        <section class="content-box" id="appendix">
+<h2 id="appendix-a">Appendix A: Dataset</h2>
+<h4>Overview</h4>
+<div style="width: 70%;"> 
+<table class="table scrollable data-table" style="max-height: 30vh;">
+    <thead>
+        <tr>
+            <th>Repository</th>
+            <th>Language</th>
+            <th>Issue Count</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>redis/redis</td><td>C</td><td>12</td></tr>
+        <tr><td>jqlang/jq</td><td>C</td><td>9</td></tr>
+        <tr><td>nlohmann/json</td><td>C++</td><td>1</td></tr>
+        <tr><td>micropython/micropython</td><td>C</td><td>5</td></tr>
+        <tr><td>valkey-io/valkey</td><td>C</td><td>4</td></tr>
+        <tr><td>fmtlib/fmt</td><td>C++</td><td>11</td></tr>
+        <tr><td>caddyserver/caddy</td><td>Go</td><td>14</td></tr>
+        <tr><td>hashicorp/terraform</td><td>Go</td><td>5</td></tr>
+        <tr><td>prometheus/prometheus</td><td>Go</td><td>8</td></tr>
+        <tr><td>gohugoio/hugo</td><td>Go</td><td>7</td></tr>
+        <tr><td>gin-gonic/gin</td><td>Go</td><td>8</td></tr>
+        <tr><td>google/gson</td><td>Java</td><td>9</td></tr>
+        <tr><td>apache/druid</td><td>Java</td><td>5</td></tr>
+        <tr><td>projectlombok/lombok</td><td>Java</td><td>17</td></tr>
+        <tr><td>apache/lucene</td><td>Java</td><td>9</td></tr>
+        <tr><td>reactivex/rxjava</td><td>Java</td><td>1</td></tr>
+        <tr><td>javaparser/javaparser</td><td>Java</td><td>2</td></tr>
+        <tr><td>babel/babel</td><td>JavaScript/TypeScript</td><td>5</td></tr>
+        <tr><td>vuejs/core</td><td>JavaScript/TypeScript</td><td>5</td></tr>
+        <tr><td>facebook/docusaurus</td><td>JavaScript/TypeScript</td><td>5</td></tr>
+        <tr><td>immutable-js/immutable-js</td><td>JavaScript/TypeScript</td><td>2</td></tr>
+        <tr><td>mrdoob/three.js</td><td>JavaScript/TypeScript</td><td>3</td></tr>
+        <tr><td>preactjs/preact</td><td>JavaScript/TypeScript</td><td>17</td></tr>
+        <tr><td>axios/axios</td><td>JavaScript/TypeScript</td><td>6</td></tr>
+        <tr><td>phpoffice/phpspreadsheet</td><td>PHP</td><td>10</td></tr>
+        <tr><td>laravel/framework</td><td>PHP</td><td>13</td></tr>
+        <tr><td>php-cs-fixer/php-cs-fixer</td><td>PHP</td><td>10</td></tr>
+        <tr><td>briannesbitt/carbon</td><td>PHP</td><td>10</td></tr>
+        <tr><td>jekyll/jekyll</td><td>Ruby</td><td>5</td></tr>
+        <tr><td>fluent/fluentd</td><td>Ruby</td><td>12</td></tr>
+        <tr><td>fastlane/fastlane</td><td>Ruby</td><td>7</td></tr>
+        <tr><td>jordansissel/fpm</td><td>Ruby</td><td>2</td></tr>
+        <tr><td>faker-ruby/faker</td><td>Ruby</td><td>2</td></tr>
+        <tr><td>rubocop/rubocop</td><td>Ruby</td><td>16</td></tr>
+        <tr><td>tokio-rs/tokio</td><td>Rust</td><td>9</td></tr>
+        <tr><td>uutils/coreutils</td><td>Rust</td><td>5</td></tr>
+        <tr><td>nushell/nushell</td><td>Rust</td><td>5</td></tr>
+        <tr><td>tokio-rs/axum</td><td>Rust</td><td>7</td></tr>
+        <tr><td>burntsushi/ripgrep</td><td>Rust</td><td>2</td></tr>
+        <tr><td>sharkdp/bat</td><td>Rust</td><td>8</td></tr>
+        <tr><td>astral-sh/ruff</td><td>Rust</td><td>7</td></tr>
+    </tbody>
+</table>
+</div>
+
+<h4>Median values</h4>
+<div style="width: 70%;">
+<table class="table scrollable data-table" style="max-height: 30vh;">
+    <thead>
+        <tr>
+            <th rowspan="2">Repository</th>
+            <th colspan="1" style="text-align: center; border-left: 1px solid var(--gray); border-right: 1px solid var(--gray);">Issue text</th>
+            <th colspan="2" style="text-align: center; border-left: 1px solid var(--gray); border-right: 1px solid var(--gray);">Gold patch</th>
+            <th colspan="2" style="text-align: center; border-left: 1px solid var(--gray); border-right: 1px solid var(--gray);">Number of tests</th>
+        </tr>
+        <tr>
+            <th style="text-align: center;">Word count</th>
+            <th style="text-align: center;">Lines</th>
+            <th style="text-align: center;">Files</th>
+            <th style="text-align: center;">F2P</th>
+            <th style="text-align: center;">P2P</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>apache/druid</td><td style="text-align: center;">165</td><td style="text-align: center;">11</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">2</td></tr>
+        <tr><td>apache/lucene</td><td style="text-align: center;">135</td><td style="text-align: center;">7</td><td style="text-align: center;">2</td><td style="text-align: center;">1</td><td style="text-align: center;">11</td></tr>
+        <tr><td>astral-sh/ruff</td><td style="text-align: center;">134</td><td style="text-align: center;">14</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">34</td></tr>
+        <tr><td>axios/axios</td><td style="text-align: center;">197</td><td style="text-align: center;">5</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">2</td></tr>
+        <tr><td>babel/babel</td><td style="text-align: center;">197</td><td style="text-align: center;">2</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">105</td></tr>
+        <tr><td>briannesbitt/carbon</td><td style="text-align: center;">376</td><td style="text-align: center;">16</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">32</td></tr>
+        <tr><td>burntsushi/ripgrep</td><td style="text-align: center;">368</td><td style="text-align: center;">44</td><td style="text-align: center;">2</td><td style="text-align: center;">1</td><td style="text-align: center;">42</td></tr>
+        <tr><td>caddyserver/caddy</td><td style="text-align: center;">126</td><td style="text-align: center;">16</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">0</td></tr>
+        <tr><td>facebook/docusaurus</td><td style="text-align: center;">245</td><td style="text-align: center;">23</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">34</td></tr>
+        <tr><td>faker-ruby/faker</td><td style="text-align: center;">118</td><td style="text-align: center;">3</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">12</td></tr>
+        <tr><td>fastlane/fastlane</td><td style="text-align: center;">1129</td><td style="text-align: center;">5</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">9</td></tr>
+        <tr><td>fluent/fluentd</td><td style="text-align: center;">234</td><td style="text-align: center;">8</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">2</td></tr>
+        <tr><td>fmtlib/fmt</td><td style="text-align: center;">81</td><td style="text-align: center;">8</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">42</td></tr>
+        <tr><td>gin-gonic/gin</td><td style="text-align: center;">158</td><td style="text-align: center;">2</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">7</td></tr>
+        <tr><td>gohugoio/hugo</td><td style="text-align: center;">126</td><td style="text-align: center;">4</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">12</td></tr>
+        <tr><td>google/gson</td><td style="text-align: center;">115</td><td style="text-align: center;">9</td><td style="text-align: center;">1</td><td style="text-align: center;">2</td><td style="text-align: center;">2</td></tr>
+        <tr><td>hashicorp/terraform</td><td style="text-align: center;">277</td><td style="text-align: center;">43</td><td style="text-align: center;">1</td><td style="text-align: center;">2</td><td style="text-align: center;">16</td></tr>
+        <tr><td>immutable-js/immutable-js</td><td style="text-align: center;">156</td><td style="text-align: center;">9</td><td style="text-align: center;">2</td><td style="text-align: center;">2</td><td style="text-align: center;">21</td></tr>
+        <tr><td>javaparser/javaparser</td><td style="text-align: center;">182</td><td style="text-align: center;">82</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td></tr>
+        <tr><td>jekyll/jekyll</td><td style="text-align: center;">181</td><td style="text-align: center;">10</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">4</td></tr>
+        <tr><td>jordansissel/fpm</td><td style="text-align: center;">75</td><td style="text-align: center;">28</td><td style="text-align: center;">1</td><td style="text-align: center;">4</td><td style="text-align: center;">22</td></tr>
+        <tr><td>jqlang/jq</td><td style="text-align: center;">106</td><td style="text-align: center;">32</td><td style="text-align: center;">2</td><td style="text-align: center;">1</td><td style="text-align: center;">27</td></tr>
+        <tr><td>laravel/framework</td><td style="text-align: center;">170</td><td style="text-align: center;">4</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">19</td></tr>
+        <tr><td>micropython/micropython</td><td style="text-align: center;">98</td><td style="text-align: center;">8</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">18</td></tr>
+        <tr><td>mrdoob/three.js</td><td style="text-align: center;">158</td><td style="text-align: center;">6</td><td style="text-align: center;">3</td><td style="text-align: center;">1</td><td style="text-align: center;">13</td></tr>
+        <tr><td>nlohmann/json</td><td style="text-align: center;">373</td><td style="text-align: center;">6</td><td style="text-align: center;">2</td><td style="text-align: center;">1</td><td style="text-align: center;">21</td></tr>
+        <tr><td>nushell/nushell</td><td style="text-align: center;">223</td><td style="text-align: center;">15</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">14</td></tr>
+        <tr><td>php-cs-fixer/php-cs-fixer</td><td style="text-align: center;">140</td><td style="text-align: center;">10</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">70</td></tr>
+        <tr><td>phpoffice/phpspreadsheet</td><td style="text-align: center;">250</td><td style="text-align: center;">12</td><td style="text-align: center;">2</td><td style="text-align: center;">2</td><td style="text-align: center;">11</td></tr>
+        <tr><td>preactjs/preact</td><td style="text-align: center;">187</td><td style="text-align: center;">7</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">16</td></tr>
+        <tr><td>projectlombok/lombok</td><td style="text-align: center;">161</td><td style="text-align: center;">11</td><td style="text-align: center;">2</td><td style="text-align: center;">1</td><td style="text-align: center;">4</td></tr>
+        <tr><td>prometheus/prometheus</td><td style="text-align: center;">161</td><td style="text-align: center;">29</td><td style="text-align: center;">1</td><td style="text-align: center;">2</td><td style="text-align: center;">10</td></tr>
+        <tr><td>reactivex/rxjava</td><td style="text-align: center;">264</td><td style="text-align: center;">5</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">56</td></tr>
+        <tr><td>redis/redis</td><td style="text-align: center;">140</td><td style="text-align: center;">14</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">13</td></tr>
+        <tr><td>rubocop/rubocop</td><td style="text-align: center;">150</td><td style="text-align: center;">10</td><td style="text-align: center;">2</td><td style="text-align: center;">2</td><td style="text-align: center;">40</td></tr>
+        <tr><td>sharkdp/bat</td><td style="text-align: center;">212</td><td style="text-align: center;">18</td><td style="text-align: center;">2</td><td style="text-align: center;">1</td><td style="text-align: center;">2</td></tr>
+        <tr><td>tokio-rs/axum</td><td style="text-align: center;">182</td><td style="text-align: center;">64</td><td style="text-align: center;">4</td><td style="text-align: center;">1</td><td style="text-align: center;">7</td></tr>
+        <tr><td>tokio-rs/tokio</td><td style="text-align: center;">174</td><td style="text-align: center;">7</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">16</td></tr>
+        <tr><td>uutils/coreutils</td><td style="text-align: center;">67</td><td style="text-align: center;">24</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">17</td></tr>
+        <tr><td>valkey-io/valkey</td><td style="text-align: center;">256</td><td style="text-align: center;">7</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">4</td></tr>
+        <tr><td>vuejs/core</td><td style="text-align: center;">246</td><td style="text-align: center;">11</td><td style="text-align: center;">1</td><td style="text-align: center;">1</td><td style="text-align: center;">26</td></tr>
+    </tbody>
+</table>
+</div>
+
+<h2 id="appendix-b">Appendix B: Evaluation results</h2>
+<h4>Resolution rate by repository</h4>
+<div style="width: 70%;">
+<table class="table scrollable data-table" style="max-height: 30vh;">
+    <thead>
+        <tr>
+            <th>Repository</th>
+            <th>Language</th>
+            <th>Resolved</th>
+            <th>Unresolved</th>
+            <th>Resolution rate</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>micropython/micropython</td><td>C</td><td>0</td><td>5</td><td>0.0%</td></tr>
+        <tr><td>babel/babel</td><td>JS/TS</td><td>0</td><td>5</td><td>0.0%</td></tr>
+        <tr><td>faker-ruby/faker</td><td>Ruby</td><td>0</td><td>2</td><td>0.0%</td></tr>
+        <tr><td>caddyserver/caddy</td><td>Go</td><td>2</td><td>12</td><td>14.3%</td></tr>
+        <tr><td>briannesbitt/carbon</td><td>PHP</td><td>2</td><td>8</td><td>20.0%</td></tr>
+        <tr><td>facebook/docusaurus</td><td>JS/TS</td><td>1</td><td>4</td><td>20.0%</td></tr>
+        <tr><td>jqlang/jq</td><td>C</td><td>2</td><td>7</td><td>22.2%</td></tr>
+        <tr><td>valkey-io/valkey</td><td>C</td><td>1</td><td>3</td><td>25.0%</td></tr>
+        <tr><td>fmtlib/fmt</td><td>C++</td><td>3</td><td>8</td><td>27.3%</td></tr>
+        <tr><td>gohugoio/hugo</td><td>Go</td><td>2</td><td>5</td><td>28.6%</td></tr>
+        <tr><td>astral-sh/ruff</td><td>Rust</td><td>2</td><td>5</td><td>28.6%</td></tr>
+        <tr><td>preactjs/preact</td><td>JS/TS</td><td>5</td><td>12</td><td>29.4%</td></tr>
+        <tr><td>rubocop/rubocop</td><td>Ruby</td><td>5</td><td>11</td><td>31.2%</td></tr>
+        <tr><td>apache/lucene</td><td>Java</td><td>3</td><td>6</td><td>33.3%</td></tr>
+        <tr><td>prometheus/prometheus</td><td>Go</td><td>3</td><td>5</td><td>37.5%</td></tr>
+        <tr><td>gin-gonic/gin</td><td>Go</td><td>3</td><td>5</td><td>37.5%</td></tr>
+        <tr><td>uutils/coreutils</td><td>Rust</td><td>2</td><td>3</td><td>40.0%</td></tr>
+        <tr><td>jekyll/jekyll</td><td>Ruby</td><td>2</td><td>3</td><td>40.0%</td></tr>
+        <tr><td>projectlombok/lombok</td><td>Java</td><td>7</td><td>10</td><td>41.2%</td></tr>
+        <tr><td>redis/redis</td><td>C</td><td>5</td><td>7</td><td>41.7%</td></tr>
+        <tr><td>phpoffice/phpspreadsheet</td><td>PHP</td><td>5</td><td>5</td><td>50.0%</td></tr>
+        <tr><td>fluent/fluentd</td><td>Ruby</td><td>6</td><td>6</td><td>50.0%</td></tr>
+        <tr><td>immutable-js/immutable-js</td><td>JS/TS</td><td>1</td><td>1</td><td>50.0%</td></tr>
+        <tr><td>jordansissel/fpm</td><td>Ruby</td><td>1</td><td>1</td><td>50.0%</td></tr>
+        <tr><td>php-cs-fixer/php-cs-fixer</td><td>PHP</td><td>5</td><td>5</td><td>50.0%</td></tr>
+        <tr><td>axios/axios</td><td>JS/TS</td><td>3</td><td>3</td><td>50.0%</td></tr>
+        <tr><td>burntsushi/ripgrep</td><td>Rust</td><td>1</td><td>1</td><td>50.0%</td></tr>
+        <tr><td>tokio-rs/tokio</td><td>Rust</td><td>5</td><td>4</td><td>55.6%</td></tr>
+        <tr><td>tokio-rs/axum</td><td>Rust</td><td>4</td><td>3</td><td>57.1%</td></tr>
+        <tr><td>vuejs/core</td><td>JS/TS</td><td>3</td><td>2</td><td>60.0%</td></tr>
+        <tr><td>hashicorp/terraform</td><td>Go</td><td>3</td><td>2</td><td>60.0%</td></tr>
+        <tr><td>mrdoob/three.js</td><td>JS/TS</td><td>2</td><td>1</td><td>66.7%</td></tr>
+        <tr><td>google/gson</td><td>Java</td><td>6</td><td>3</td><td>66.7%</td></tr>
+        <tr><td>laravel/framework</td><td>PHP</td><td>9</td><td>4</td><td>69.2%</td></tr>
+        <tr><td>fastlane/fastlane</td><td>Ruby</td><td>5</td><td>2</td><td>71.4%</td></tr>
+        <tr><td>sharkdp/bat</td><td>Rust</td><td>6</td><td>2</td><td>75.0%</td></tr>
+        <tr><td>apache/druid</td><td>Java</td><td>4</td><td>1</td><td>80.0%</td></tr>
+        <tr><td>nushell/nushell</td><td>Rust</td><td>5</td><td>0</td><td>100.0%</td></tr>
+        <tr><td>nlohmann/json</td><td>C++</td><td>1</td><td>0</td><td>100.0%</td></tr>
+        <tr><td>javaparser/javaparser</td><td>Java</td><td>2</td><td>0</td><td>100.0%</td></tr>
+        <tr><td>reactivex/rxjava</td><td>Java</td><td>1</td><td>0</td><td>100.0%</td></tr>
+    </tbody>
+</table>
+</div>
+
+<h4>Resolution rate by language</h4>
+<div style="width: 70%;">
+<table class="table scrollable data-table" style="max-height: 30vh;">
+    <thead>
+        <tr>
+            <th class="no-sort">Language</th>
+            <th class="no-sort" style="text-align: center;">Resolved</th>
+            <th class="no-sort" style="text-align: center;">Unresolved</th>
+            <th class="no-sort" style="text-align: center;">Total</th>
+            <th class="no-sort" style="text-align: center;">Resolution rate</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>C/C++</td>
+            <td style="text-align: center;">12</td>
+            <td style="text-align: center;">30</td>
+            <td style="text-align: center;">42</td>
+            <td style="text-align: center;">28.57%</td>
+        </tr>
+        <tr>
+            <td>Go</td>
+            <td style="text-align: center;">13</td>
+            <td style="text-align: center;">29</td>
+            <td style="text-align: center;">42</td>
+            <td style="text-align: center;">30.95%</td>
+        </tr>
+        <tr>
+            <td>JavaScript/TypeScript</td>
+            <td style="text-align: center;">15</td>
+            <td style="text-align: center;">28</td>
+            <td style="text-align: center;">43</td>
+            <td style="text-align: center;">34.88%</td>
+        </tr>
+        <tr>
+            <td>Ruby</td>
+            <td style="text-align: center;">19</td>
+            <td style="text-align: center;">25</td>
+            <td style="text-align: center;">44</td>
+            <td style="text-align: center;">43.18%</td>
+        </tr>
+        <tr>
+            <td>PHP</td>
+            <td style="text-align: center;">21</td>
+            <td style="text-align: center;">22</td>
+            <td style="text-align: center;">43</td>
+            <td style="text-align: center;">48.84%</td>
+        </tr>
+        <tr>
+            <td>Java</td>
+            <td style="text-align: center;">23</td>
+            <td style="text-align: center;">20</td>
+            <td style="text-align: center;">43</td>
+            <td style="text-align: center;">53.49%</td>
+        </tr>
+        <tr style="border-bottom: 1px solid var(--gray);">
+            <td>Rust</td>
+            <td style="text-align: center;">25</td>
+            <td style="text-align: center;">18</td>
+            <td style="text-align: center;">43</td>
+            <td style="text-align: center;">58.14%</td>
+        </tr>
+        <tr>
+            <td><b>Total</b></td>
+            <td style="text-align: center;"><b>128</b></td>
+            <td style="text-align: center;"><b>172</b></td>
+            <td style="text-align: center;"><b>300</b></td>
+            <td style="text-align: center;"><b>42.67%</b></td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<h4>Resolution rate by year</h4>
+<div style="width: 70%;">
+<table class="table data-table" style="max-height: 30vh;">
+    <thead>
+        <tr>
+            <th>Year</th>
+            <th>Resolved</th>
+            <th>Unresolved</th>
+            <th>Resolution rate</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr><td>≤2021</td><td style="text-align: center;">16</td><td style="text-align: center;">22</td><td style="text-align: center;">42.1%</td></tr>
+        <tr><td>2022</td><td style="text-align: center;">24</td><td style="text-align: center;">30</td><td style="text-align: center;">44.4%</td></tr>
+        <tr><td>2023</td><td style="text-align: center;">27</td><td style="text-align: center;">48</td><td style="text-align: center;">36.0%</td></tr>
+        <tr><td>2024</td><td style="text-align: center;">54</td><td style="text-align: center;">63</td><td style="text-align: center;">46.2%</td></tr>
+        <tr><td>2025</td><td style="text-align: center;">7</td><td style="text-align: center;">9</td><td style="text-align: center;">43.8%</td></tr>
+    </tbody>
+</table>
+</div>
+
+<h2 id="appendix-c">Appendix C: Miscellaneous notes</h2>
+<h4>Issue selection</h4>
+<p>
+    During the collection process, I needed to inspect a large number of candidate issues for inclusion in the dataset. I wrote a web app to make it easier to determine whether issues were unsuitable by showing the issue and pull request description side by side. The app also let me keep track of the issues I'd already looked at.
+</p>
+<div style="width:50%; text-align: center; margin: 0 auto;">
+    <img src="img/multilingual/issue_inspection.png" class="img-fluid">
+    <p><i>Figure 6. Issue inspection app</i></p>
+</div>
+<h4>Agent trajectory inspection</h4>
+<p>
+    To help look for patterns in the trajectories of successful and failed tasks, I created a web app that displays the actions taken by the SWE-agent in a task. A chat pane on the side let me ask questions about the trajectory. Unfortunately, I wasn't able to find any patterns in the trajectories.
+</p>
+<div style="width:50%; text-align: center; margin: 0 auto;">
+    <img src="img/multilingual/agent_traj_inspect.png" class="img-fluid">
+    <p><i>Figure 7. Agent trajectory inspection app</i></p>
+</div>
+<p>Nonetheless, I found the pattern of visual inspection to be very useful and a perfect use case for vibe coding. I'll continue to make small user interfaces like this in future projects.</p>
+
+<h4>Notes for agent improvements</h4>
+<p>
+<b>Support link following.</b> A common pattern in bug reports is to provide a link to a reproduction on sites like stackblitz. Many open-source agents are currently unable to follow links or understand how to use such websites to reproduce the issue. SWE-bench Multilingual therefore doesn't include any such issues, but future agents should have this capability.
+<br><br>
+<b>Support multiple languages.</b> As the SWE-bench Multimodal paper notes, many open-source agent frameworks hardcode Python support.
+<blockquote>
+…except for SWE-agent, the systems that we study (Agentless, Moatless, and AutoCodeRover) impose fixed, procedural problem-solving workflows. Every system starts with a bug localization step that relies on abstract syntax tree (AST) parsing libraries to identify programmatic symbols.
+</blockquote>
+</p>
+        </section>
+
+        <!-- Correspondence Section -->
+        <section class="content-box" id="correspondence">
+            <h2>Correspondence</h2>
+            <p>For questions about SWE-bench Multilingual, please contact:</p>
+            <div class="contact-info">
+                <p><a href="mailto:kabir.khandpur@gmail.com,johnby@stanford.edu">{kabir.khandpur@gmail.com,johnby@stanford.edu}</a>
+            </div>
+        </section>
+
+        <!-- Citation Section -->
+        <section class="content-box" id="citation">
+            <h2>Citation</h2>
+            <p>If you use SWE-bench Multilingual in your research, please cite the SWE-smith paper:</p>
+            
+            <div class="citation-type">
+                <button class="citation-format-btn active" data-format="bibtex" data-target="multilingual-citation">BibTeX</button>
+                <button class="citation-format-btn" data-format="apa" data-target="multilingual-citation">APA</button>
+                <button class="citation-format-btn" data-format="mla" data-target="multilingual-citation">MLA</button>
+            </div>
+            
+            <div class="citation-container" id="multilingual-citation-bibtex">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>@misc{yang2025swesmith,
+  title={SWE-smith: Scaling Data for Software Engineering Agents}, 
+  author={John Yang and Kilian Lieret and Carlos E. Jimenez and Alexander Wettig and Kabir Khandpur and Yanzhe Zhang and Binyuan Hui and Ofir Press and Ludwig Schmidt and Diyi Yang},
+  year={2025},
+  eprint={2504.21798},
+  archivePrefix={arXiv},
+  primaryClass={cs.SE},
+  url={https://arxiv.org/abs/2504.21798}, 
+}</pre>
+            </div>
+            
+            <div class="citation-container display-none" id="multilingual-citation-apa">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>Yang, J., Lieret, K., Jimenez, C. E., Wettig, A., Khandpur, K., Zhang, Y., Hui, B., Press, O., Schmidt, L., & Yang, D. (2025). SWE-smith: Scaling Data for Software Engineering Agents. arXiv preprint arXiv:2504.21798.</pre>
+            </div>
+
+            <div class="citation-container display-none" id="multilingual-citation-mla">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>Yang, John, et al. "SWE-smith: Scaling Data for Software Engineering Agents." arXiv preprint arXiv:2504.21798 (2025).</pre>
+            </div>
+        </section>
+    </div>
+
+        
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-copyright">
+                        &copy; 2025 SWE-bench Team. All rights reserved.
+                    </div>
+                    <div class="footer-links">
+                        <a href="https://github.com/swe-bench/SWE-bench" target="_blank">GitHub</a>
+                        <a href="https://huggingface.co/collections/SWE-bench/benchmarks-68113bc99eb3a64a91ea33c9" target="_blank">HuggingFace</a>
+                        <a href="https://arxiv.org/abs/2310.06770" target="_blank">Paper</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Common JS files -->
+    <script src="js/mainResults.js"></script>
+    <script src="js/citation.js"></script>
+    <script src="js/citationFormat.js"></script>
+    
+    <!-- Page-specific JS files will be injected here -->
+    
+
+    <script>
+        function initTheme() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            const storedTheme = localStorage.getItem('theme');
+            
+            if (storedTheme === 'dark' || (!storedTheme && prefersDarkScheme.matches)) {
+                document.body.classList.add('dark-mode');
+            }
+            
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    document.body.classList.toggle('dark-mode');
+                    
+                    const isDarkMode = document.body.classList.contains('dark-mode');
+                    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+                });
+            }
+            
+            prefersDarkScheme.addEventListener('change', (e) => {
+                if (!localStorage.getItem('theme')) {
+                    if (e.matches) {
+                        document.body.classList.add('dark-mode');
+                    } else {
+                        document.body.classList.remove('dark-mode');
+                    }
+                }
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            
+            const currentPath = window.location.pathname;
+            const currentPage = currentPath.split('/').pop().split('.')[0] || 'index';
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                const linkPage = link.getAttribute('data-page');
+                if (linkPage === currentPage) {
+                    link.classList.add('active');
+                }
+                
+                if (currentPage === 'index' && window.location.hash) {
+                    const currentHash = window.location.hash.substring(1);
+                    if (linkPage === currentHash) {
+                        link.classList.add('active');
+                    }
+                }
+            });
+            
+            const sidebarOpener = document.querySelector('.sidebar-opener');
+            const sidebarCloser = document.querySelector('.sidebar .mobile-nav-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            
+            if ((sidebarOpener || sidebarCloser) && sidebar && overlay) {
+                function toggleMenu() {
+                    sidebar.classList.toggle('open');
+                    overlay.classList.toggle('active');
+                }
+                
+                function openMenu() {
+                    sidebar.classList.add('open');
+                    overlay.classList.add('active');
+                }
+                
+                function closeMenu() {
+                    sidebar.classList.remove('open');
+                    overlay.classList.remove('active');
+                }
+                
+                if (sidebarOpener) {
+                    sidebarOpener.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        openMenu();
+                    });
+                }
+                
+                if (sidebarCloser) {
+                    sidebarCloser.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        closeMenu();
+                    });
+                }
+                
+                overlay.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    closeMenu();
+                });
+                
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (sidebar.classList.contains('open')) {
+                            closeMenu();
+                        }
+                    });
+                });
+                
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+                        closeMenu();
+                    }
+                });
+            }
+        });
+    </script>
+
+    
+<!-- Citation functionality now provided by citation.js and citationFormat.js loaded in base.html -->
+
+</body>
+</html> 
