@@ -157,6 +157,10 @@
                 </div>
                 
                 <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: amazon.nova-premier-v1:0" checked onchange="updateTagSelection()"> Model: amazon.nova-premier-v1:0</label>
+                </div>
+                
+                <div class="multiselect-option">
                     <label><input type="checkbox" class="tag-checkbox" value="Model: claude-2" checked onchange="updateTagSelection()"> Model: claude-2</label>
                 </div>
                 
@@ -189,6 +193,14 @@
                 </div>
                 
                 <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: claude-4-opus-20250514" checked onchange="updateTagSelection()"> Model: claude-4-opus-20250514</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: claude-4-sonnet-20250514" checked onchange="updateTagSelection()"> Model: claude-4-sonnet-20250514</label>
+                </div>
+                
+                <div class="multiselect-option">
                     <label><input type="checkbox" class="tag-checkbox" value="Model: deepseek-chat" checked onchange="updateTagSelection()"> Model: deepseek-chat</label>
                 </div>
                 
@@ -202,6 +214,10 @@
                 
                 <div class="multiselect-option">
                     <label><input type="checkbox" class="tag-checkbox" value="Model: gemini-2.0-flash-exp" checked onchange="updateTagSelection()"> Model: gemini-2.0-flash-exp</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Model: gemini-2.5-pro" checked onchange="updateTagSelection()"> Model: gemini-2.5-pro</label>
                 </div>
                 
                 <div class="multiselect-option">
@@ -285,6 +301,14 @@
                 </div>
                 
                 <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Org: Amazon Nova" checked onchange="updateTagSelection()"> Org: Amazon Nova</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Org: Ant Group" checked onchange="updateTagSelection()"> Org: Ant Group</label>
+                </div>
+                
+                <div class="multiselect-option">
                     <label><input type="checkbox" class="tag-checkbox" value="Org: Anthropic" checked onchange="updateTagSelection()"> Org: Anthropic</label>
                 </div>
                 
@@ -329,11 +353,27 @@
                 </div>
                 
                 <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Org: Refact.ai" checked onchange="updateTagSelection()"> Org: Refact.ai</label>
+                </div>
+                
+                <div class="multiselect-option">
                     <label><input type="checkbox" class="tag-checkbox" value="Org: SWE-agent" checked onchange="updateTagSelection()"> Org: SWE-agent</label>
                 </div>
                 
                 <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="Org: devlo" checked onchange="updateTagSelection()"> Org: devlo</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="System: Attempt - 2+" checked onchange="updateTagSelection()"> System: Attempt - 2+</label>
+                </div>
+                
+                <div class="multiselect-option">
                     <label><input type="checkbox" class="tag-checkbox" value="System: Attempts - 1" checked onchange="updateTagSelection()"> System: Attempts - 1</label>
+                </div>
+                
+                <div class="multiselect-option">
+                    <label><input type="checkbox" class="tag-checkbox" value="System: Attempts - 2" checked onchange="updateTagSelection()"> System: Attempts - 2</label>
                 </div>
                 
                 <div class="multiselect-option">
@@ -364,6 +404,46 @@
                 
                 <tr
                     data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                    data-tags="Org: AWS,System: Attempts - 2+"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                <span>🆕</span>
+                                
+                                
+                            </div>
+                            <span class="model-name font-mono fw-medium">Amazon Q Developer Agent (v20250405-dev)</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">37.10</span></td>
+                    <td>
+                        
+                        <div style="display: flex; align-items: center;">
+                            
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/2560px-Amazon_Web_Services_Logo.svg.png" style="height: 1.5em;" />
+                            
+                        </div>
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2025-05-22</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://aws.amazon.com/q/developer/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
                     data-os_system="true"
                     data-checked="true"
                     data-tags="Model: claude-3-7-sonnet-20250219,Org: SWE-agent,System: Attempts - 1"
@@ -381,7 +461,11 @@
                     <td><span class="number fw-medium text-primary">33.83</span></td>
                     <td>
                         
-                            -
+                        <div style="display: flex; align-items: center;">
+                            
+                            <img src="https://avatars.githubusercontent.com/u/166046056?s=200&amp;v=4" style="height: 1.5em;" />
+                            
+                        </div>
                         
                     </td>
                     <td><span class="label-date text-muted">2025-02-27</span></td>
@@ -1174,6 +1258,286 @@
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: claude-4-opus-20250514,System: Attempts - 1"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                <span>🆕</span>
+                                
+                                
+                            </div>
+                            <span class="model-name font-mono fw-medium">Tools + Claude 4 Opus (2025-05-22)</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">73.20</span></td>
+                    <td>
+                        
+                        <div style="display: flex; align-items: center;">
+                            
+                            <img src="https://pbs.twimg.com/profile_images/1798110641414443008/XP8gyBaY_400x400.jpg" style="height: 1.5em;" />
+                            
+                        </div>
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2025-05-22</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://www.anthropic.com/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                    data-tags="Model: claude-4-sonnet-20250514,System: Attempts - 1"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                <span>🆕</span>
+                                
+                                
+                            </div>
+                            <span class="model-name font-mono fw-medium">Tools + Claude 4 Sonnet (2025-05-22)</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">72.40</span></td>
+                    <td>
+                        
+                        <div style="display: flex; align-items: center;">
+                            
+                            <img src="https://pbs.twimg.com/profile_images/1798110641414443008/XP8gyBaY_400x400.jpg" style="height: 1.5em;" />
+                            
+                        </div>
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2025-05-22</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://www.anthropic.com/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                    data-tags="System: Attempts - 2+"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                <span>🆕</span>
+                                
+                                
+                            </div>
+                            <span class="model-name font-mono fw-medium">TRAE</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">70.60</span></td>
+                    <td>
+                        
+                        <div style="display: flex; align-items: center;">
+                            
+                            <img src="https://se-research.bytedance.com/logos/trae.png" style="height: 1.5em;" />
+                            
+                        </div>
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2025-05-19</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://www.trae.ai/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                    data-tags="Model: claude-3-7-sonnet-20250219,Model: o3,Model: o4-mini,Org: Refact.ai,System: Attempts - 1"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                <span>🆕</span>
+                                
+                                
+                            </div>
+                            <span class="model-name font-mono fw-medium">Refact.ai Agent</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">70.40</span></td>
+                    <td>
+                        
+                        <div style="display: flex; align-items: center;">
+                            
+                            <img src="https://refact.ai/favicon.png" style="height: 1.5em;" />
+                            
+                        </div>
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2025-05-15</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://refact.ai" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                    data-tags="Model: claude-4-sonnet-20250514,Org: OpenHands,System: Attempts - 1"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                <span>🆕</span>
+                                
+                                <span title="The agent run was performed by or directly verified by the SWE-bench team">✅</span>
+                            </div>
+                            <span class="model-name font-mono fw-medium">OpenHands + Claude 4 Sonnet</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">70.40</span></td>
+                    <td>
+                        
+                        <div style="display: flex; align-items: center;">
+                            
+                            <img src="https://avatars.githubusercontent.com/u/169105795?s=200&amp;v=4" style="height: 1.5em;" />
+                            
+                        </div>
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2025-05-24</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://all-hands.dev/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                    data-tags="Model: claude-3-7-sonnet-20250219,Model: o3,Model: gemini-2.5-pro,Org: devlo,System: Attempts - 1"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                <span>🆕</span>
+                                
+                                
+                            </div>
+                            <span class="model-name font-mono fw-medium">devlo</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">70.20</span></td>
+                    <td>
+                        
+                        <div style="display: flex; align-items: center;">
+                            
+                            <img src="https://devlo.ai/static/media/devlo.ef99a045eba5ea0bcada.png" style="height: 1.5em;" />
+                            
+                        </div>
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2025-05-19</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://devlo.ai/?utm_source=swe-bench" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
+                    data-tags="Model: claude-3-7-sonnet-20250219,Model: o4-mini,System: Attempts - 2+"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                <span>🆕</span>
+                                
+                                
+                            </div>
+                            <span class="model-name font-mono fw-medium">Zencoder (2025-04-30)</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">70.00</span></td>
+                    <td>
+                        
+                        <div style="display: flex; align-items: center;">
+                            
+                            <img src="https://storage.googleapis.com/zencoder-public/zencoder-logo.svg" style="height: 1.5em;" />
+                            
+                        </div>
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2025-04-30</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://zencoder.ai" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
+                    data-os_system="false"
+                    data-checked="false"
                     data-tags="Model: NV-EmbedCode,Model: o3,Model: o3-mini,Model: o1,Model: gpt-4.1,Model: gpt-4o-2024-05-13,Model: gpt-4-turbo-2024-04-09,Model: claude-3-7-sonnet-20250219,Model: deepseek-v3,Model: Qwen/Qwen2.5-72B-Instruct,Model: meta-llama/Llama-3.1-405B-Instruct,Model: meta-llama/Llama-3.3-70B-Instruct,Org: NVIDIA,System: Attempts - 2+"
                 >
                     <td>
@@ -1206,6 +1570,46 @@
                     <td class="centered-text text-center">
                         
                             <a href="https://research.nvidia.com/labs/adlr/cortexa/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                    data-tags="Model: claude-4-sonnet-20250514,Org: SWE-agent,System: Attempts - 1"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                <span>🆕</span>
+                                
+                                <span title="The agent run was performed by or directly verified by the SWE-bench team">✅</span>
+                            </div>
+                            <span class="model-name font-mono fw-medium">SWE-agent + Claude 4 Sonnet</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">66.60</span></td>
+                    <td>
+                        
+                        <div style="display: flex; align-items: center;">
+                            
+                            <img src="https://avatars.githubusercontent.com/u/166046056?s=200&amp;v=4" style="height: 1.5em;" />
+                            
+                        </div>
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2025-05-22</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://github.com/SWE-agent/SWE-agent" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
                         
                     </td>
                 </tr>
@@ -1259,7 +1663,7 @@
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                <span>🆕</span>
+                                
                                 
                                 <span title="The agent run was performed by or directly verified by the SWE-bench team">✅</span>
                             </div>
@@ -1339,7 +1743,7 @@
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                <span>🆕</span>
+                                
                                 
                                 
                             </div>
@@ -1769,7 +2173,7 @@
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                <span>🆕</span>
+                                
                                 
                                 <span title="The agent run was performed by or directly verified by the SWE-bench team">✅</span>
                             </div>
@@ -2643,6 +3047,46 @@
                 </tr>
                 
                 <tr
+                    data-os_model="true"
+                    data-os_system="true"
+                    data-checked="false"
+                    data-tags="System: Attempts - 2+"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                <span>🆕</span>
+                                
+                                
+                            </div>
+                            <span class="model-name font-mono fw-medium">PatchPilot + Co-PatcheR</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">46.00</span></td>
+                    <td>
+                        
+                        <div style="display: flex; align-items: center;">
+                            
+                            <img src="https://brand.ucsb.edu/sites/default/files/images/pages/Visual-Identity/Marks/Seal/navy-seal.gif" style="height: 1.5em;" />
+                            
+                        </div>
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2025-05-28</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://github.com/ucsb-mlsec/Co-PatcheR" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
                     data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
@@ -2804,8 +3248,48 @@
                 
                 <tr
                     data-os_model="false"
-                    data-os_system="true"
+                    data-os_system="false"
                     data-checked="false"
+                    data-tags="Model: amazon.nova-premier-v1:0,Org: Amazon Nova,System: Attempt - 2+"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                <span>🆕</span>
+                                
+                                
+                            </div>
+                            <span class="model-name font-mono fw-medium">Amazon Nova Premier 1.0 (2025-04-30)</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">42.40</span></td>
+                    <td>
+                        
+                        <div style="display: flex; align-items: center;">
+                            
+                            <img src="https://registry.npmmirror.com/@lobehub/icons-static-png/1.46.0/files/dark/nova-color.png" style="height: 1.5em;" />
+                            
+                        </div>
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2025-05-27</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="aws.amazon.com/nova" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
                     data-tags="Model: o3-mini,Org: Agentless,System: Attempts - 2+"
                 >
                     <td>
@@ -2813,7 +3297,7 @@
                             <div class="model-badges">
                                 
                                 
-                                
+                                <span title="The agent run was performed by or directly verified by the SWE-bench team">✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">Agentless Lite + O3 Mini (20250214)</span>
                         </div>
@@ -4330,6 +4814,86 @@
                 
                 <tr
                     data-os_model="false"
+                    data-os_system="true"
+                    data-checked="false"
+                    data-tags="Model: claude-3-7-sonnet-20250219,Model: o4-mini,Org: Refact.ai,System: Attempts - 1"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                <span>🆕</span>
+                                
+                                
+                            </div>
+                            <span class="model-name font-mono fw-medium">Refact.ai Agent</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">60.00</span></td>
+                    <td>
+                        
+                        <div style="display: flex; align-items: center;">
+                            
+                            <img src="https://refact.ai/favicon.png" style="height: 1.5em;" />
+                            
+                        </div>
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2025-04-25</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://refact.ai" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                    data-tags="Model: claude-4-sonnet-20250514,Org: SWE-agent,System: Attempts - 1"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                <span>🆕</span>
+                                
+                                <span title="The agent run was performed by or directly verified by the SWE-bench team">✅</span>
+                            </div>
+                            <span class="model-name font-mono fw-medium">SWE-agent + Claude 4 Sonnet</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">56.67</span></td>
+                    <td>
+                        
+                        <div style="display: flex; align-items: center;">
+                            
+                            <img src="https://avatars.githubusercontent.com/u/166046056?s=200&amp;v=4" style="height: 1.5em;" />
+                            
+                        </div>
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2025-05-26</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://github.com/SWE-agent/SWE-agent" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
                     data-os_system="false"
                     data-checked="false"
                     data-tags=""
@@ -4640,6 +5204,46 @@
                     <td class="centered-text text-center">
                         
                             <a href="https://www.kodu.ai/" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
+                        
+                    </td>
+                </tr>
+                
+                <tr
+                    data-os_model="false"
+                    data-os_system="true"
+                    data-checked="true"
+                    data-tags="Org: Ant Group,System: Attempts - 2"
+                >
+                    <td>
+                        <div class="flex items-center gap-1">
+                            <div class="model-badges">
+                                
+                                
+                                <span title="The agent run was performed by or directly verified by the SWE-bench team">✅</span>
+                            </div>
+                            <span class="model-name font-mono fw-medium">CodeFuse-CGM</span>
+                        </div>
+                    </td>
+                    <td><span class="number fw-medium text-primary">44.00</span></td>
+                    <td>
+                        
+                        <div style="display: flex; align-items: center;">
+                            
+                            <img src="https://raw.githubusercontent.com/codefuse-ai/codefuse/master/assets/LOGO.png" style="height: 1.5em;" />
+                            
+                        </div>
+                        
+                    </td>
+                    <td><span class="label-date text-muted">2025-03-10</span></td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        <span class="text-success">✓</span>
+                    </td>
+                    <td class="centered-text text-center">
+                        
+                            <a href="https://github.com/codefuse-ai/CodeFuse-CGM" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
                         
                     </td>
                 </tr>
@@ -5501,7 +6105,7 @@
                 <tr
                     data-os_model="false"
                     data-os_system="true"
-                    data-checked="false"
+                    data-checked="true"
                     data-tags="Model: o3-mini,Org: Agentless"
                 >
                     <td>
@@ -5509,7 +6113,7 @@
                             <div class="model-badges">
                                 
                                 
-                                
+                                <span title="The agent run was performed by or directly verified by the SWE-bench team">✅</span>
                             </div>
                             <span class="model-name font-mono fw-medium">Agentless Lite + O3 Mini (20250214)</span>
                         </div>
@@ -7089,7 +7693,7 @@
                     <td>
                         <div class="flex items-center gap-1">
                             <div class="model-badges">
-                                <span>🆕</span>
+                                
                                 
                                 <span title="The agent run was performed by or directly verified by the SWE-bench team">✅</span>
                             </div>
