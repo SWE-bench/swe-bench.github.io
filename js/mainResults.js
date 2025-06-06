@@ -81,7 +81,7 @@ function renderLeaderboardTable(leaderboard) {
                                         ${item.trajs ? '<span class="text-success">✓</span>' : '<span class="text-muted">-</span>'}
                                     </td>
                                     <td class="centered-text text-center">
-                                        ${item.site ? `<a href="${item.site}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
+                                        ${item.site ? `<a href="${item.site}" target="_blank" rel="noopener noreferrer" aria-label="Open site in new tab"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
                                     </td>
                                 </tr>
                             `).join('')}
