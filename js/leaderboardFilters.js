@@ -7,7 +7,7 @@ function updateTable() {
     const container = document.getElementById('leaderboard-container');
     if (!container) return;
     
-    const visibleLeaderboard = container.querySelector('.tabcontent[style*="display: block"], .tabcontent:not([style*="display: none"])');
+    const visibleLeaderboard = container.querySelector('.tabcontent.active');
     if (!visibleLeaderboard) return;
     
     const tableRows = visibleLeaderboard.querySelectorAll('.data-table tbody tr:not(.no-results)');

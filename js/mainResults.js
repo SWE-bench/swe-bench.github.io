@@ -31,7 +31,7 @@ function renderLeaderboardTable(leaderboard) {
     
     // Create table content
     const tableHtml = `
-        <div class="tabcontent" id="leaderboard-${leaderboard.name}" style="display: block;">
+        <div class="tabcontent active" id="leaderboard-${leaderboard.name}">
             <div class="table-responsive">
                 <table class="table scrollable data-table">
                     <thead>
@@ -81,7 +81,7 @@ function renderLeaderboardTable(leaderboard) {
                                         ${item.trajs ? '<span class="text-success">✓</span>' : '<span class="text-muted">-</span>'}
                                     </td>
                                     <td class="centered-text text-center">
-                                        ${item.site ? `<a href="${item.site}" target="_blank" rel="noopener noreferrer" aria-label="Open site in new tab"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
+                                        ${item.site ? `<a href="${item.site}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
                                     </td>
                                 </tr>
                             `).join('')}
@@ -221,9 +221,9 @@ function openLeaderboard(leaderboardName) {
         if (existingTable) {
             // Hide all other tables and show this one
             container.querySelectorAll('.tabcontent').forEach(content => {
-                content.style.display = 'none';
+                content.classList.remove('active');
             });
-            existingTable.style.display = 'block';
+            existingTable.classList.add('active');
         } else {
             // Re-render if somehow missing
             renderLeaderboardTable(leaderboard);
