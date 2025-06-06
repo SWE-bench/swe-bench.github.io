@@ -28,8 +28,7 @@ function updateTable() {
         // Check tag filter
         if (showRow) {
             const selectedTags = getSelectedTags();
-            const multiselect = document.getElementById('tag-multiselect');
-            const allTagsSelected = multiselect ? (selectedTags.length === multiselect.querySelectorAll('.tag-checkbox:not([value="All"])').length) : true;
+            const allTagsSelected = isAllTagsSelected();
             
             if (!allTagsSelected) {
                 const rowTags = (row.getAttribute('data-tags') || '').split(',').map(t => t.trim()).filter(Boolean);
