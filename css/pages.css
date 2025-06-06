@@ -139,6 +139,15 @@
   border-radius: 2px;
 }
 
+/* Tab content visibility */
+.tabcontent {
+  display: none;
+}
+
+.tabcontent.active {
+  display: block;
+}
+
 /* Features section */
 .features {
   display: grid;
