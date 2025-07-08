@@ -1,3 +1,13 @@
+.page-header-index {
+  padding-bottom: 4.5rem;
+}
+
+.page-header-index + .container .announcement-container {
+  position: relative;
+  top: -4rem;
+  margin-bottom: -3rem;
+}
+
 /* Header logo and paper link styles */
 .header-logo-container {
   display: flex;
@@ -11,7 +21,7 @@
   width: 300px;
   max-width: 100%;
   height: auto;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.3rem;
 }
 
 .paper-link {
@@ -88,7 +98,11 @@
   white-space: nowrap;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+#leaderboard {
+  padding-top: 0;
 }
 
 .leaderboard-tabs::-webkit-scrollbar {
@@ -702,4 +716,4 @@ code {
 
 .contact-container a:hover {
     text-decoration: underline;
-} 
+}

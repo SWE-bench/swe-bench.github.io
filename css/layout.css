@@ -102,12 +102,12 @@
 /* Header */
 .page-header {
   background-color: var(--color-header);
-  padding: 2rem 0;
+  padding: 1rem 0 0.5rem 0;
   margin: 0;
   width: 100%;
   position: relative;
   color: #FFF7EC;
-  margin-bottom: 2rem;
+  margin-bottom: 0;
 }
 
 .page-header .container {
@@ -575,4 +575,4 @@
   .title-wrapper h1 {
     font-size: 1.5rem;
   }
-} 
+}
