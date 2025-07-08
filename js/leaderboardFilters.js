@@ -1,44 +1,63 @@
 // Global active filters set
 const activeFilters = new Set(['os_system']);
 
-// Table Update Logic
+// Table Update Logic - Optimized for lazy loading
 function updateTable() {
-    // Get all leaderboard tables
-    const leaderboards = document.querySelectorAll('.tabcontent');
-    const noResultsMessage = document.querySelector('#no-results');
+    // Only process the currently visible leaderboard table
+    const container = document.getElementById('leaderboard-container');
+    if (!container) return;
     
-    leaderboards.forEach(leaderboard => {
-        // Only process visible leaderboard
-        if (leaderboard.style.display !== 'block') return;
+    const visibleLeaderboard = container.querySelector('.tabcontent.active');
+    if (!visibleLeaderboard) return;
+    
+    const tableRows = visibleLeaderboard.querySelectorAll('.data-table tbody tr:not(.no-results)');
+    let visibleRowCount = 0;
+    
+    tableRows.forEach(row => {
+        // Show row by default
+        let showRow = true;
         
-        const tableRows = leaderboard.querySelectorAll('.data-table tbody tr');
-        let visibleRowCount = 0;
+        // Check filters
+        for (const filter of activeFilters) {
+            if (row.getAttribute(`data-${filter}`) !== 'true') {
+                showRow = false;
+                break;
+            }
+        }
         
-        tableRows.forEach(row => {
-            // Show row by default
-            let showRow = true;
+        // Check tag filter
+        if (showRow) {
+            const selectedTags = getSelectedTags();
+            const allTagsSelected = isAllTagsSelected();
             
-            // Check filters
-            for (const filter of activeFilters) {
-                if (row.getAttribute(`data-${filter}`) !== 'true') {
+            if (!allTagsSelected) {
+                const rowTags = (row.getAttribute('data-tags') || '').split(',').map(t => t.trim()).filter(Boolean);
+                if (!rowTags.some(tag => selectedTags.includes(tag))) {
                     showRow = false;
-                    break;
                 }
             }
-            
-            // Toggle row visibility
-            row.style.display = showRow ? '' : 'none';
-            if (showRow) visibleRowCount++;
-        });
-        
-        const noResultsMessage = leaderboard.querySelector('.no-results');
-        // Show/hide no results message
-        if (visibleRowCount === 0 && activeFilters.size > 0) {
-            noResultsMessage.style.display = 'table-row';
-        } else {
-            noResultsMessage.style.display = 'none';
         }
+        
+        // Toggle row visibility
+        row.style.display = showRow ? '' : 'none';
+        if (showRow) visibleRowCount++;
     });
+    
+    const noResultsMessage = visibleLeaderboard.querySelector('.no-results');
+    // Show/hide no results message
+    if (visibleRowCount === 0 && (activeFilters.size > 0 || !isAllTagsSelected())) {
+        noResultsMessage.style.display = 'table-row';
+    } else {
+        noResultsMessage.style.display = 'none';
+    }
+}
+
+function isAllTagsSelected() {
+    const multiselect = document.getElementById('tag-multiselect');
+    if (!multiselect) return true;
+    const selectedTags = getSelectedTags();
+    const allCheckboxes = multiselect.querySelectorAll('.tag-checkbox:not([value="All"])');
+    return selectedTags.length === allCheckboxes.length;
 }
 
 // Updated Filter Button Logic
@@ -66,17 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
             updateActiveFilters(filter, this.checked);
         });
     });
-
-    // Apply filters when switching tabs
-    document.querySelectorAll('.tablinks').forEach(tab => {
-        tab.addEventListener('click', function() {
-            // Wait for the tab content to be shown
-            setTimeout(updateTable, 0);
-        });
-    });
-
-    // Initial application of filters
-    setTimeout(updateTable, 0);
 
     // Multi-select dropdown logic
     const multiselect = document.getElementById('tag-multiselect');
@@ -170,59 +178,3 @@ function getSelectedTags() {
     const checkboxes = multiselect.querySelectorAll('.tag-checkbox:not([value="All"])');
     return Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
 }
-
-// Patch the table update logic to include tag filtering
-const originalUpdateTable = updateTable;
-updateTable = function() {
-    // Get selected tags
-    const selectedTags = getSelectedTags();
-    const multiselect = document.getElementById('tag-multiselect');
-    const allTagsSelected = multiselect ? (selectedTags.length === multiselect.querySelectorAll('.tag-checkbox:not([value="All"])').length) : true;
-
-    // Get all leaderboard tables
-    const leaderboards = document.querySelectorAll('.tabcontent');
-    const noResultsMessage = document.querySelector('#no-results');
-    let anyVisible = false;
-
-    leaderboards.forEach(leaderboard => {
-        // Only process visible leaderboard
-        if (leaderboard.style.display !== 'block') return;
-
-        const tableRows = leaderboard.querySelectorAll('.data-table tbody tr');
-        let visibleRowCount = 0;
-
-        tableRows.forEach(row => {
-            // Show row by default
-            let showRow = true;
-
-            // Check existing filters
-            for (const filter of activeFilters) {
-                if (row.getAttribute(`data-${filter}`) !== 'true') {
-                    showRow = false;
-                    break;
-                }
-            }
-
-            // Check tag filter
-            if (showRow && !allTagsSelected) {
-                const rowTags = (row.getAttribute('data-tags') || '').split(',').map(t => t.trim()).filter(Boolean);
-                if (!rowTags.some(tag => selectedTags.includes(tag))) {
-                    showRow = false;
-                }
-            }
-
-            // Toggle row visibility
-            row.style.display = showRow ? '' : 'none';
-            if (showRow) visibleRowCount++;
-        });
-
-        const noResultsMessage = leaderboard.querySelector('.no-results');
-        // Show/hide no results message
-        if (visibleRowCount === 0 && (activeFilters.size > 0 || !allTagsSelected)) {
-            noResultsMessage.style.display = 'table-row';
-        } else {
-            noResultsMessage.style.display = 'none';
-            if (visibleRowCount > 0) anyVisible = true;
-        }
-    });
-};

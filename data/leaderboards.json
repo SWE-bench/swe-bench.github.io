@@ -4,6 +4,26 @@
       "name": "Test",
       "results": [
         {
+          "name": "Atlassian Rovo Dev (2025-06-05)",
+          "logo": [
+            "https://pf-emoji-service--cdn.us-east-1.prod.public.atl-paas.net/atlassian/productivityEmojis/logo-rovo-64px.png"
+          ],
+          "site": "https://www.atlassian.com/rovo-dev",
+          "folder": "20250605_atlassian-rovo-dev",
+          "resolved": 41.98,
+          "date": "2025-06-05",
+          "logs": "s3://swe-bench-experiments/test/20250605_atlassian-rovo-dev/logs",
+          "trajs": "s3://swe-bench-experiments/test/20250605_atlassian-rovo-dev/trajs",
+          "os_model": false,
+          "os_system": false,
+          "checked": false,
+          "tags": [
+            "Org: Atlassian",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
           "name": "Amazon Q Developer Agent (v20250405-dev)",
           "logo": [
             "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/2560px-Amazon_Web_Services_Logo.svg.png"
@@ -433,6 +453,52 @@
       "name": "Verified",
       "results": [
         {
+          "name": "TRAE",
+          "logo": [
+            "https://se-research.bytedance.com/logos/trae.png"
+          ],
+          "site": "https://www.trae.ai/",
+          "folder": "20250612_trae",
+          "resolved": 75.2,
+          "date": "2025-06-12",
+          "logs": "s3://swe-bench-experiments/verified/20250612_trae/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250612_trae/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": false,
+          "tags": [
+            "Model: claude-4-sonnet-20250522",
+            "Model: claude-4-opus-20250522",
+            "Model: claude-3-7-sonnet-20250219",
+            "Model: gemini-2.5-pro-preview-06-05",
+            "Org: TRAE",
+            "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Refact.ai Agent",
+          "logo": [
+            "https://refact.ai/favicon.png"
+          ],
+          "site": "https://refact.ai",
+          "folder": "20250603_Refact_Agent_claude-4-sonnet",
+          "resolved": 74.4,
+          "date": "2025-06-03",
+          "logs": "s3://swe-bench-experiments/verified/20250603_Refact_Agent_claude-4-sonnet/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250603_Refact_Agent_claude-4-sonnet/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": false,
+          "tags": [
+            "Model: claude-4-sonnet",
+            "Model: o4-mini",
+            "Org: Refact.ai",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
           "name": "Tools + Claude 4 Opus (2025-05-22)",
           "logo": [
             "https://pbs.twimg.com/profile_images/1798110641414443008/XP8gyBaY_400x400.jpg"
@@ -468,6 +534,49 @@
           "checked": false,
           "tags": [
             "Model: claude-4-sonnet-20250514",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Warp",
+          "logo": [
+            "https://storage.googleapis.com/warp-static-assets/logo/logo--black.png"
+          ],
+          "site": "https://www.warp.dev",
+          "folder": "20250623_warp",
+          "resolved": 71.0,
+          "date": "2025-06-23",
+          "logs": "s3://swe-bench-experiments/verified/20250623_warp/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250623_warp/trajs",
+          "os_model": false,
+          "os_system": false,
+          "checked": false,
+          "tags": [
+            "Model: claude-sonnet-4-20250514",
+            "Model: claude-3-7-sonnet-20250219",
+            "Model: gemini-2.5-pro",
+            "Model: gpt-4.1-2025-04-14",
+            "Org: Warp",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Moatless Tools + Claude 4 Sonnet",
+          "logo": null,
+          "site": "https://github.com/aorwall/moatless-tools",
+          "folder": "20250611_moatless_claude-4-sonnet-20250514",
+          "resolved": 70.8,
+          "date": "2025-06-11",
+          "logs": "s3://swe-bench-experiments/verified/20250611_moatless_claude-4-sonnet-20250514/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250611_moatless_claude-4-sonnet-20250514/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: claude-4-sonnet-20250514",
+            "Org: Moatless AI",
             "System: Attempts - 1"
           ],
           "warning": null
@@ -531,6 +640,25 @@
           "tags": [
             "Model: claude-4-sonnet-20250514",
             "Org: OpenHands",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Augment Agent v1",
+          "logo": [
+            "https://augment-assets.com/augmentcode-mark-green.png"
+          ],
+          "site": "https://www.augmentcode.com",
+          "folder": "20250610_augment_agent_v1",
+          "resolved": 70.4,
+          "date": "2025-06-10",
+          "logs": "s3://swe-bench-experiments/verified/20250610_augment_agent_v1/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250610_augment_agent_v1/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": false,
+          "tags": [
             "System: Attempts - 1"
           ],
           "warning": null
@@ -620,8 +748,8 @@
           "folder": "20250522_sweagent_claude-4-sonnet-20250514",
           "resolved": 66.6,
           "date": "2025-05-22",
-          "logs": "s3://swe-bench-experiments/verified/20250522_sweagent_claude-4-sonnet-20250514/trajs",
-          "trajs": "s3://swe-bench-experiments/verified/20250522_sweagent_claude-4-sonnet-20250514/logs",
+          "logs": "s3://swe-bench-experiments/verified/20250522_sweagent_claude-4-sonnet-20250514/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250522_sweagent_claude-4-sonnet-20250514/trajs",
           "os_model": false,
           "os_system": true,
           "checked": true,
@@ -682,8 +810,8 @@
           "folder": "20250316_augment_agent_v0",
           "resolved": 65.4,
           "date": "2025-03-16",
-          "logs": "s3://swe-bench-experiments/evaluation/verified/20250316_augment_agent_v0/logs",
-          "trajs": "s3://swe-bench-experiments/evaluation/verified/20250316_augment_agent_v0/trajs",
+          "logs": "s3://swe-bench-experiments/verified/20250316_augment_agent_v0/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250316_augment_agent_v0/trajs",
           "os_model": false,
           "os_system": true,
           "checked": false,
@@ -911,6 +1039,27 @@
           "warning": null
         },
         {
+          "name": "DeepSWE-Preview",
+          "logo": [
+            "https://sky.cs.berkeley.edu/project/agentica-project/"
+          ],
+          "site": "agentica-project.com/",
+          "folder": "20250629_deepswerl_r2eagent_tts",
+          "resolved": 58.8,
+          "date": "2025-06-29",
+          "logs": "s3://swe-bench-experiments/verified/20250629_deepswerl_r2eagent_tts/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250629_deepswerl_r2eagent_tts/trajs",
+          "os_model": true,
+          "os_system": true,
+          "checked": false,
+          "tags": [
+            "Model: https://huggingface.co/agentica-org/DeepSWE-Preview",
+            "Org: Agentica",
+            "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
           "name": "Nemotron-CORTEXA",
           "logo": [
             "https://research.nvidia.com/labs/adlr/images/nvidia-ai.jpg"
@@ -944,7 +1093,7 @@
           "logo": [
             "https://devlo.ai/static/media/devlo.ef99a045eba5ea0bcada.png"
           ],
-          "site": "https://devlo.ai",
+          "site": "https://devlo.ai/?utm_source=swe-bench",
           "folder": "20241213_devlo",
           "resolved": 58.2,
           "date": "2024-12-13",
@@ -999,6 +1148,23 @@
           "warning": null
         },
         {
+          "name": "SWE-Rizzo",
+          "logo": null,
+          "site": "https://gen42.ai",
+          "folder": "20250405_swe-rizzo_claude37",
+          "resolved": 56.6,
+          "date": "2025-04-05",
+          "logs": "s3://swe-bench-experiments/verified/20250405_swe-rizzo_claude37/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250405_swe-rizzo_claude37/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": false,
+          "tags": [
+            "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
           "name": "EPAM AI/Run Developer Agent v20241212 + Anthopic Claude 3.5 Sonnet",
           "logo": [
             "https://www.epam.com/content/dam/epam/homepage/epam_logo_light.svg"
@@ -1043,7 +1209,7 @@
           "logo": [
             "https://devlo.ai/static/media/devlo.ef99a045eba5ea0bcada.png"
           ],
-          "site": "https://devlo.ai",
+          "site": "https://devlo.ai/?utm_source=swe-bench",
           "folder": "20241108_devlo",
           "resolved": 54.2,
           "date": "2024-11-08",
@@ -1304,6 +1470,27 @@
           "warning": null
         },
         {
+          "name": "Skywork-SWE-32B + TTS(Bo8)",
+          "logo": [
+            "https://avatars.githubusercontent.com/u/147303017?s=200&v=4"
+          ],
+          "site": "https://quixotic-sting-239.notion.site/eb17f379610040ceb54da5d5d24065bd",
+          "folder": "20250616_Skywork-SWE-32B+TTS_Bo8",
+          "resolved": 47.0,
+          "date": "2025-06-16",
+          "logs": "s3://swe-bench-experiments/verified/20250616_Skywork-SWE-32B+TTS_Bo8/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250616_Skywork-SWE-32B+TTS_Bo8/trajs",
+          "os_model": true,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: Qwen2.5-Coder-32B-Instruct",
+            "Org: Skywork AI",
+            "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
           "name": "OpenHands + DevStral Small 2505",
           "logo": [
             "https://avatars.githubusercontent.com/u/169105795?s=200&v=4",
@@ -1480,7 +1667,7 @@
           "tags": [
             "Model: amazon.nova-premier-v1:0",
             "Org: Amazon Nova",
-            "System: Attempt - 2+"
+            "System: Attempts - 2+"
           ],
           "warning": null
         },
@@ -1502,6 +1689,27 @@
             "Model: o3-mini",
             "Org: Agentless",
             "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
+          "name": "DeepSWE-Preview",
+          "logo": [
+            "https://sky.cs.berkeley.edu/project/agentica-project/"
+          ],
+          "site": "agentica-project.com/",
+          "folder": "20250629_deepswerl_r2eagent",
+          "resolved": 42.2,
+          "date": "2025-06-29",
+          "logs": "s3://swe-bench-experiments/verified/20250629_deepswerl_r2eagent/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250629_deepswerl_r2eagent/trajs",
+          "os_model": true,
+          "os_system": true,
+          "checked": false,
+          "tags": [
+            "Model: https://huggingface.co/agentica-org/DeepSWE-Preview",
+            "Org: Agentica",
+            "System: Attempts - 1"
           ],
           "warning": null
         },
@@ -1747,6 +1955,27 @@
           "tags": [
             "Model: gpt-4o-2024-05-13",
             "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Skywork-SWE-32B",
+          "logo": [
+            "https://avatars.githubusercontent.com/u/147303017?s=200&v=4"
+          ],
+          "site": "https://quixotic-sting-239.notion.site/eb17f379610040ceb54da5d5d24065bd",
+          "folder": "20250616_Skywork-SWE-32B",
+          "resolved": 38.0,
+          "date": "2025-06-16",
+          "logs": "s3://swe-bench-experiments/verified/20250616_Skywork-SWE-32B/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250616_Skywork-SWE-32B/trajs",
+          "os_model": true,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: Qwen2.5-Coder-32B-Instruct",
+            "Org: Skywork AI",
+            "System: Attempts - 1"
           ],
           "warning": null
         },
@@ -2026,6 +2255,24 @@
           "warning": null
         },
         {
+          "name": "MCTS-Refine-7B",
+          "logo": null,
+          "site": "https://mcts-refine.github.io/MCTS-Refine",
+          "folder": "20250627_agentless_MCTS-Refine-7B",
+          "resolved": 23.2,
+          "date": "2025-06-27",
+          "logs": "s3://swe-bench-experiments/verified/20250627_agentless_MCTS-Refine-7B/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250627_agentless_MCTS-Refine-7B/trajs",
+          "os_model": true,
+          "os_system": true,
+          "checked": false,
+          "tags": [
+            "Model: MCTS-Refine-7B",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
           "name": "SWE-agent + GPT 4o (2024-05-13)",
           "logo": [
             "https://avatars.githubusercontent.com/u/166046056?s=200&v=4"
@@ -2255,6 +2502,28 @@
       "name": "Lite",
       "results": [
         {
+          "name": "ExpeRepair-v1.0 + Claude 4 Sonnet",
+          "logo": [
+            "http://www.is.cas.cn/dqwh2016/xxbs2016/201609/W020160923674377419690.jpg"
+          ],
+          "site": "https://github.com/ExpeRepair/ExpeRepair",
+          "folder": "20250625_ExpeRepair-v1_claude-4-sonnet-20250514",
+          "resolved": 60.33,
+          "date": "2025-06-25",
+          "logs": "s3://swe-bench-experiments/lite/20250625_ExpeRepair-v1_claude-4-sonnet-20250514/logs",
+          "trajs": "s3://swe-bench-experiments/lite/20250625_ExpeRepair-v1_claude-4-sonnet-20250514/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": false,
+          "tags": [
+            "Model: claude-4-sonnet-20250514",
+            "Model: o3-mini",
+            "Model: o4-mini",
+            "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
           "name": "Refact.ai Agent",
           "logo": [
             "https://refact.ai/favicon.png"
@@ -2315,6 +2584,29 @@
           "warning": null
         },
         {
+          "name": "SemAgent_Multi-v1.0",
+          "logo": [
+            "https://raw.githubusercontent.com/AnvithPabba/SemAgent_Multi/refs/heads/main/images/square_university_logo.jpg"
+          ],
+          "site": "https://arxiv.org/abs/2506.16650",
+          "folder": "20250625_SemAgent_Multi-v1_Claude3.7Sonnet_Gemini2.5Pro",
+          "resolved": 51.67,
+          "date": "2025-06-25",
+          "logs": "s3://swe-bench-experiments/lite/20250625_SemAgent_Multi-v1_Claude3.7Sonnet_Gemini2.5Pro/logs",
+          "trajs": "https://github.com/AnvithPabba/SemAgent_Multi/tree/main/trajs/SWEBench_Lite/20250625_SemAgent_Multi-v1.0_Claude3.7Sonnet_Gemini2.5Pro",
+          "os_model": false,
+          "os_system": false,
+          "checked": false,
+          "tags": [
+            "Model: claude-3-7-sonnet-20250219",
+            "Model: gemini-2.5-pro-preview-05-06",
+            "Org: Columbia",
+            "Org: SemAgent",
+            "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
           "name": "Blackbox AI Agent",
           "logo": null,
           "site": "https://www.blackbox.ai/",
@@ -2327,6 +2619,31 @@
           "os_system": false,
           "checked": false,
           "tags": [],
+          "warning": null
+        },
+        {
+          "name": "Codev",
+          "logo": null,
+          "site": "https://www.co-dev.ai",
+          "folder": "20250528_Codev",
+          "resolved": 49.0,
+          "date": "2025-05-28",
+          "logs": "s3://swe-bench-experiments/lite/20250528_Codev/logs",
+          "trajs": "s3://swe-bench-experiments/lite/20250528_Codev/trajs",
+          "os_model": false,
+          "os_system": false,
+          "checked": false,
+          "tags": [
+            "Model: claude-3-7-sonnet-20250219",
+            "Model: claude-3-5-haiku-20241022",
+            "Model: gemini-2.5-pro-preview-05-06",
+            "Model: gemini-2.5-flash-preview-04-17",
+            "Model: o4-mini-2025-04-16",
+            "Model: gpt-4o-mini",
+            "Model: text-embedding-3-small",
+            "Org: co-dev.ai",
+            "System: Attempts - 1"
+          ],
           "warning": null
         },
         {
@@ -2344,6 +2661,28 @@
           "os_system": false,
           "checked": false,
           "tags": [],
+          "warning": null
+        },
+        {
+          "name": "ExpeRepair-v1.0",
+          "logo": [
+            "http://www.is.cas.cn/dqwh2016/xxbs2016/201609/W020160923674377419690.jpg"
+          ],
+          "site": "https://github.com/ExpeRepair/ExpeRepair",
+          "folder": "20250613_ExpeRepair-v1.0",
+          "resolved": 48.33,
+          "date": "2025-06-13",
+          "logs": "s3://swe-bench-experiments/lite/20250613_ExpeRepair-v1.0/logs",
+          "trajs": "s3://swe-bench-experiments/lite/20250613_ExpeRepair-v1.0/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": false,
+          "tags": [
+            "Model: claude-3.5-sonnet-20241022",
+            "Model: o3-mini",
+            "Model: o4-mini",
+            "System: Attempts - 2+"
+          ],
           "warning": null
         },
         {
@@ -2389,7 +2728,7 @@
           "logo": [
             "https://devlo.ai/static/media/devlo.ef99a045eba5ea0bcada.png"
           ],
-          "site": "https://devlo.ai",
+          "site": "https://devlo.ai/?utm_source=swe-bench",
           "folder": "20241122_devlo",
           "resolved": 47.33,
           "date": "2024-11-22",
@@ -2424,6 +2763,27 @@
           "warning": null
         },
         {
+          "name": "KGCompass + Claude 3.5 Sonnet (20241022)",
+          "logo": [
+            "https://avatars.githubusercontent.com/u/214923202?s=200&v=4"
+          ],
+          "site": "https://github.com/GLEAM-Lab/KGCompass",
+          "folder": "20250619_KGCompass_claude-3.5-sonnet-20241022",
+          "resolved": 46.0,
+          "date": "2025-06-19",
+          "logs": "s3://swe-bench-experiments/lite/20250619_KGCompass_claude-3.5-sonnet-20241022/logs",
+          "trajs": "s3://swe-bench-experiments/lite/20250619_KGCompass_claude-3.5-sonnet-20241022/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": false,
+          "tags": [
+            "Model: claude-3-5-sonnet-20241022",
+            "Org: GLEAM-Lab",
+            "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
           "name": "Kodu-v1 + Claude-3.5 Sonnet (20241022)",
           "logo": [
             "https://raw.githubusercontent.com/kodu-ai/claude-coder/main/extension/assets/kodu.png"
@@ -2453,12 +2813,12 @@
           "date": "2025-03-10",
           "logs": "s3://swe-bench-experiments/lite/20250310_codefuse-cgm/logs",
           "trajs": "s3://swe-bench-experiments/lite/20250310_codefuse-cgm/trajs",
-          "os_model": false,
+          "os_model": true,
           "os_system": true,
           "checked": true,
           "tags": [
             "Org: Ant Group",
-            "System: Attempts - 2"
+            "System: Attempts - 2+"
           ],
           "warning": null
         },
@@ -2567,7 +2927,7 @@
           "logs": null,
           "trajs": null,
           "os_model": false,
-          "os_system": false,
+          "os_system": true,
           "checked": false,
           "tags": [
             "Model: claude-3-5-sonnet-20241022",
@@ -2739,6 +3099,27 @@
           "checked": false,
           "tags": [
             "Model: claude-3-5-sonnet-20241022"
+          ],
+          "warning": null
+        },
+        {
+          "name": "KGCompass + DeepSeek V3",
+          "logo": [
+            "https://avatars.githubusercontent.com/u/214923202?s=200&v=4"
+          ],
+          "site": "https://github.com/GLEAM-Lab/KGCompass",
+          "folder": "20250609_KGCompass_deepseek-v3",
+          "resolved": 36.67,
+          "date": "2025-06-09",
+          "logs": "s3://swe-bench-experiments/lite/20250609_KGCompass_deepseek-v3/logs",
+          "trajs": "s3://swe-bench-experiments/lite/20250609_KGCompass_deepseek-v3/trajs",
+          "os_model": true,
+          "os_system": true,
+          "checked": false,
+          "tags": [
+            "Model: deepseek-v3",
+            "Org: GLEAM-Lab",
+            "System: Attempts - 2+"
           ],
           "warning": null
         },
@@ -2940,6 +3321,24 @@
           "checked": false,
           "tags": [
             "Model: gpt-4o-2024-05-13"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Moatless Tools + Deepseek V3",
+          "logo": null,
+          "site": "https://github.com/aorwall/moatless-tools",
+          "folder": "20250111_moatless_deepseek_v3",
+          "resolved": 30.67,
+          "date": "2025-01-11",
+          "logs": "s3://swe-bench-experiments/lite/20250111_moatless_deepseek_v3/logs",
+          "trajs": "s3://swe-bench-experiments/lite/20250111_moatless_deepseek_v3/trajs",
+          "os_model": true,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: deepseek-chat",
+            "Org: Moatless Tools"
           ],
           "warning": null
         },
@@ -3466,6 +3865,24 @@
           "warning": null
         },
         {
+          "name": "MCTS-Refine-7B",
+          "logo": null,
+          "site": "https://mcts-refine.github.io/MCTS-Refine",
+          "folder": "20250627_agentless_MCTS-Refine-7B",
+          "resolved": 16.33,
+          "date": "2025-06-27",
+          "logs": "s3://swe-bench-experiments/lite/20250627_agentless_MCTS-Refine-7B/logs",
+          "trajs": "s3://swe-bench-experiments/lite/20250627_agentless_MCTS-Refine-7B/trajs",
+          "os_model": true,
+          "os_system": true,
+          "checked": false,
+          "tags": [
+            "Model: MCTS-Refine-7B",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
           "name": "SWE-agent + Claude 3 Opus",
           "logo": [
             "https://avatars.githubusercontent.com/u/166046056?s=200&v=4"
@@ -3598,30 +4015,138 @@
             "Org: SWE-agent"
           ],
           "warning": null
-        },
-        {
-          "name": "Moatless Tools + Deepseek V3",
-          "logo": null,
-          "site": "https://github.com/aorwall/moatless-tools",
-          "folder": "20250111_moatless_deepseek_v3",
-          "resolved": 0.0,
-          "date": "2025-01-11",
-          "logs": "s3://swe-bench-experiments/lite/20250111_moatless_deepseek_v3/logs",
-          "trajs": "s3://swe-bench-experiments/lite/20250111_moatless_deepseek_v3/trajs",
-          "os_model": true,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Model: deepseek-chat",
-            "Org: Moatless Tools"
-          ],
-          "warning": null
         }
       ]
     },
     {
       "name": "Multimodal",
       "results": [
+        {
+          "name": "GUIRepair + o3 (2025-04-16)",
+          "logo": [
+            "https://raw.githubusercontent.com/huangkevin-apr/GUIRepair/refs/heads/main/Image/icon_full.png"
+          ],
+          "site": "https://sites.google.com/view/guirepair",
+          "folder": "20250701_GUIRepair_o3",
+          "resolved": 35.98,
+          "date": "2025-07-01",
+          "logs": null,
+          "trajs": null,
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: o3-2025-04-16",
+            "Org: GUIRepair",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Refact.ai Agent",
+          "logo": [
+            "https://refact.ai/favicon.png"
+          ],
+          "site": "https://refact.ai",
+          "folder": "20250611_Refact_Agent_claude-4-sonnet",
+          "resolved": 35.59,
+          "date": "2025-06-11",
+          "logs": false,
+          "trajs": false,
+          "os_model": false,
+          "os_system": true,
+          "checked": false,
+          "tags": [
+            "Model: claude-4-sonnet",
+            "Org: Refact.ai",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "OpenHands-Versa (Claude-Sonnet 4)",
+          "logo": [
+            "https://avatars.githubusercontent.com/u/169105795?s=200&v=4"
+          ],
+          "site": "https://github.com/adityasoni9998/OpenHands-Versa",
+          "folder": "20250528_OpenHands-Versa-claude4",
+          "resolved": 34.43,
+          "date": "2025-05-28",
+          "logs": false,
+          "trajs": false,
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: claude-4-sonnet-20250514",
+            "Org: OpenHands",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "GUIRepair + o4-mini (2025-04-16)",
+          "logo": [
+            "https://raw.githubusercontent.com/huangkevin-apr/GUIRepair/refs/heads/main/Image/icon_full.png"
+          ],
+          "site": "https://sites.google.com/view/guirepair",
+          "folder": "20250531_GUIRepair_o4mini",
+          "resolved": 33.85,
+          "date": "2025-05-31",
+          "logs": null,
+          "trajs": null,
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: o4-mini-2025-04-16",
+            "Org: GUIRepair",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "OpenHands-Versa (Claude-3.7 Sonnet)",
+          "logo": [
+            "https://avatars.githubusercontent.com/u/169105795?s=200&v=4"
+          ],
+          "site": "https://github.com/adityasoni9998/OpenHands-Versa",
+          "folder": "20250509_OpenHands-Versa_claude3.7",
+          "resolved": 31.33,
+          "date": "2025-05-09",
+          "logs": false,
+          "trajs": false,
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: claude-3-7-sonnet-20250219",
+            "Org: OpenHands",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "GUIRepair + GPT 4.1 (2025-04-14)",
+          "logo": [
+            "https://raw.githubusercontent.com/huangkevin-apr/GUIRepair/refs/heads/main/Image/icon_full.png"
+          ],
+          "site": "https://sites.google.com/view/guirepair",
+          "folder": "20250531_GUIRepair_gpt41",
+          "resolved": 31.14,
+          "date": "2025-05-31",
+          "logs": null,
+          "trajs": null,
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: gpt-4.1-2025-04-14",
+            "Org: GUIRepair",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
         {
           "name": "Zencoder (2025-04-01)",
           "logo": [
@@ -3638,6 +4163,27 @@
           "checked": true,
           "tags": [
             "Model: claude-3-7-sonnet-20250219",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "GUIRepair + GPT 4o (2024-08-06)",
+          "logo": [
+            "https://raw.githubusercontent.com/huangkevin-apr/GUIRepair/refs/heads/main/Image/icon_full.png"
+          ],
+          "site": "https://sites.google.com/view/guirepair",
+          "folder": "20250531_GUIRepair_gpt4o",
+          "resolved": 30.37,
+          "date": "2025-05-31",
+          "logs": null,
+          "trajs": null,
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: gpt-4o-2024-08-06",
+            "Org: GUIRepair",
             "System: Attempts - 1"
           ],
           "warning": null

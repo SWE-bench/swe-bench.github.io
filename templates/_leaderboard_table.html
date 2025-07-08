@@ -32,75 +32,15 @@
     </form>
 </div>
 
-{% for leaderboard in leaderboards %}
-<div class="tabcontent" id="leaderboard-{{leaderboard.name}}">
-    <div class="table-responsive">
-        <table class="table scrollable data-table">
-            <thead>
-                <tr>
-                    <th>Model</th>
-                    <th>% Resolved</th>
-                    <th>Org</th>
-                    <th>Date</th>
-                    <th>Logs</th>
-                    <th>Trajs</th>
-                    <th>Site</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in leaderboard.results if not item.warning %}
-                <tr
-                    data-os_model="{{ 'true' if item.os_model else 'false' }}"
-                    data-os_system="{{ 'true' if item.os_system else 'false' }}"
-                    data-checked="{{ 'true' if item.checked else 'false' }}"
-                    data-tags="{{ item.tags|join(',') if item.tags else '' }}"
-                >
-                    <td>
-                        <div class="flex items-center gap-1">
-                            <div class="model-badges">
-                                {% if item.date >= "2025-04-25" %}<span>🆕</span>{% endif %}
-                                {% if item.oss %}<span>🤠</span>{% endif %}
-                                {% if item.checked %}<span title="The agent run was performed by or directly verified by the SWE-bench team">✅</span>{% endif %}
-                            </div>
-                            <span class="model-name font-mono fw-medium">{{item.name}}</span>
-                        </div>
-                    </td>
-                    <td><span class="number fw-medium text-primary">{{ "%.2f"|format(item.resolved|float) }}</span></td>
-                    <td>
-                        {% if item.logo %}
-                        <div style="display: flex; align-items: center;">
-                            {% for logo_url in item.logo %}
-                            <img src="{{logo_url}}" style="height: 1.5em;" />
-                            {% endfor %}
-                        </div>
-                        {% else %}
-                            -
-                        {% endif %}
-                    </td>
-                    <td><span class="label-date text-muted">{{item.date}}</span></td>
-                    <td class="centered-text text-center">
-                        {% if item.logs %}<span class="text-success">✓</span>{% else %}<span class="text-muted">-</span>{% endif %}
-                    </td>
-                    <td class="centered-text text-center">
-                        {% if item.trajs %}<span class="text-success">✓</span>{% else %}<span class="text-muted">-</span>{% endif %}
-                    </td>
-                    <td class="centered-text text-center">
-                        {% if item.site %}
-                            <a href="{{item.site}}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>
-                        {% else %}<span class="text-muted">-</span>{% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-                <tr class="no-results">
-                    <td colspan="7" class="text-center">
-                        No entries match the selected filters. Try adjusting your filters.
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<!-- Container for dynamically loaded table content -->
+<div id="leaderboard-container">
+    <!-- Initial table will be loaded here -->
 </div>
-{% endfor %}
+
+<!-- Store all leaderboard data in a script tag for lazy loading -->
+<script type="application/json" id="leaderboard-data">
+{{ leaderboards|tojson }}
+</script>
 
 <div class="leaderboard-notes">
     <p>
