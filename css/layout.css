@@ -102,12 +102,15 @@
 /* Header */
 .page-header {
   background-color: var(--color-header);
-  padding: 2rem 0;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  padding-left: 0;
+  padding-right: 0;
   margin: 0;
   width: 100%;
   position: relative;
   color: #FFF7EC;
-  margin-bottom: 2rem;
+  margin-bottom: 0.4rem;
 }
 
 .page-header .container {
@@ -385,7 +388,7 @@
 
 .content-section {
   margin-bottom: 2.5rem;
-  padding: 1.5rem;
+  padding: 0.3rem;
   background-color: var(--color-background);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
@@ -545,7 +548,7 @@
   }
   
   .content-section {
-    padding: 1.25rem;
+    padding: 0.3rem;
   }
   
   .title-wrapper h1 {
@@ -564,7 +567,7 @@
   }
   
   .content-section {
-    padding: 1rem;
+    padding: 0.3rem;
     margin-bottom: 1.5rem;
   }
   
@@ -575,4 +578,4 @@
   .title-wrapper h1 {
     font-size: 1.5rem;
   }
-} 
+}
