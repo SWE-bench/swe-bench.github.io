@@ -135,7 +135,7 @@
   left: 0;
   right: 0;
   height: var(--header-height);
-  background-color: var(--color-sidebar);
+  background-color: var(--color-background);
   border-bottom: 1.5px solid var(--color-border);
   padding: 0 1.5rem;
   align-items: center;
@@ -179,6 +179,85 @@
   padding: 0.5rem;
   transition: color var(--transition-fast);
   z-index: calc(var(--z-fixed) + 1);
+  min-width: 44px;
+  min-height: 44px;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+/* Force button visibility on all mobile screens - base rule */
+@media (max-width: 992px) {
+  .sidebar-opener {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Additional specificity for mobile header */
+  .mobile-header .sidebar-opener {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: static !important;
+    z-index: 9999 !important;
+  }
+  
+  /* Maximum specificity for button element */
+  header.mobile-header button.sidebar-opener {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: static !important;
+    z-index: 9999 !important;
+    background: none !important;
+    border: none !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    flex-shrink: 0 !important;
+    color: var(--color-text) !important;
+  }
+}
+
+.sidebar-opener i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  line-height: 1;
+}
+
+/* Custom hamburger icon */
+.hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  gap: 4px;
+}
+
+.hamburger-icon span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background-color: currentColor;
+  border-radius: 1px;
+  transition: all 0.3s ease;
+}
+
+/* Ensure hamburger icon is visible on mobile */
+@media (max-width: 992px) {
+  .hamburger-icon {
+    display: flex !important;
+  }
+  
+  .hamburger-icon span {
+    display: block !important;
+    background-color: var(--color-text) !important;
+  }
 }
 
 .mobile-nav-toggle:hover, .sidebar-opener:hover {
@@ -452,35 +531,66 @@
   .main-content {
     margin-left: 0;
     padding: 0;
+    padding-top: var(--header-height);
   }
   
   .page-header {
     margin-left: 0;
     padding-left: 0;
     width: 100%;
-    padding-top: calc(var(--header-height) + 1rem);
+    margin-top: var(--header-height);
+    position: relative;
+    z-index: 1;
   }
   
   .sidebar {
     transform: translateX(-100%);
     box-shadow: var(--shadow-lg);
     width: 80%;
+    max-width: 320px;
   }
   
   .sidebar.open {
     transform: translateX(0);
   }
   
-  .mobile-header,
+  .mobile-header {
+    display: flex !important;
+  }
+  
   .mobile-nav-toggle,
   .sidebar-opener {
-    display: flex;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 9999 !important;
   }
   
   .mobile-header .mobile-nav-toggle,
   .mobile-header .sidebar-opener {
-    display: flex;
-    position: static;
+    display: flex !important;
+    position: static !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 9999 !important;
+  }
+  
+  /* Force the button to be visible with maximum specificity */
+  .mobile-header button.sidebar-opener {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: static !important;
+    z-index: 9999 !important;
+    background: none !important;
+    border: none !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    flex-shrink: 0 !important;
+    color: var(--color-text) !important;
   }
   
   .mobile-nav-toggle:not(.sidebar .mobile-nav-toggle) {
@@ -489,7 +599,7 @@
   
   .content-wrapper {
     padding: 1rem;
-    padding-top: calc(var(--header-height) + 1rem);
+    margin-top: 0;
   }
   
   .sidebar-nav {
@@ -538,6 +648,66 @@
   .col-sm-5 { grid-column: span 5; }
   .col-sm-6 { grid-column: span 6; }
   
+  .mobile-header {
+    display: flex !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-fixed);
+    background-color: var(--color-background);
+    border-bottom: 1.5px solid var(--color-border);
+  }
+  
+  /* Force the button to be visible at 768px breakpoint */
+  .mobile-nav-toggle,
+  .sidebar-opener {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 9999 !important;
+  }
+  
+  .mobile-header .mobile-nav-toggle,
+  .mobile-header .sidebar-opener {
+    display: flex !important;
+    position: static !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 9999 !important;
+  }
+  
+  .mobile-header button.sidebar-opener {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: static !important;
+    z-index: 9999 !important;
+    background: none !important;
+    border: none !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    flex-shrink: 0 !important;
+    color: var(--color-text) !important;
+  }
+  
+  .page-header {
+    margin-top: 0;
+    padding: 1rem 0;
+  }
+  
+  .page-header .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .main-content {
+    padding-top: var(--header-height);
+  }
+  
   .footer-content {
     flex-direction: column;
     align-items: flex-start;
@@ -561,6 +731,52 @@
   
   [class^="col-"] {
     grid-column: 1 / -1;
+  }
+  
+  /* Force the button to be visible at 576px breakpoint (iPhone size) */
+  .mobile-header {
+    display: flex !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-fixed);
+    background-color: var(--color-background);
+    border-bottom: 1.5px solid var(--color-border);
+  }
+  
+  .mobile-nav-toggle,
+  .sidebar-opener {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 9999 !important;
+  }
+  
+  .mobile-header .mobile-nav-toggle,
+  .mobile-header .sidebar-opener {
+    display: flex !important;
+    position: static !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 9999 !important;
+  }
+  
+  .mobile-header button.sidebar-opener {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: static !important;
+    z-index: 9999 !important;
+    background: none !important;
+    border: none !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    flex-shrink: 0 !important;
+    color: var(--color-text) !important;
   }
   
   .content-section {
