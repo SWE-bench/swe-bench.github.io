@@ -1,5 +1,13 @@
-.page-header-index {
-  padding-bottom: 4.5rem;
+.page-header-index-sm {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+#random-announcement {
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+  margin-left: 0.4rem;
+  margin-right: 0.4rem;
 }
 
 .page-header-index + .container .announcement-container {
