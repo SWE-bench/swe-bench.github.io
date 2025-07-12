@@ -34,6 +34,7 @@
                     <option value="verified">Verified</option>
                     <option value="lite">Lite</option>
                     <option value="multimodal">Multimodal</option>
+                    <option value="bash-only">Bash Only</option>
                 </select>
                 &nbsp;
                 <label for="model-select">Model:</label>
@@ -135,7 +136,8 @@ document.getElementById('loadData').addEventListener('click', () => {
     document.getElementById('selectedSplitNum').textContent = 
         splitValue === 'lite' ? 300 : 
         splitValue === 'verified' ? 500 : 
-        splitValue === 'multimodal' ? 517 : 2294;
+        splitValue === 'multimodal' ? 517 : 
+        splitValue === 'bash-only' ? 2294 : 2294;
     document.getElementById('modelSplitURL').href = `https://github.com/swe-bench/experiments/tree/main/evaluation/${splitValue}/${modelValue}`;
 
     updateMainResults(splitValue, modelValue);
