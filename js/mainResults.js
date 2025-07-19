@@ -185,11 +185,11 @@ function updateMainResults(split, model) {
         .then(data => {
             if (data && data.resolved) {
                 const resolved = data.resolved.length;
-                const total = 
+                                const total = 
                     split === 'lite' ? 300 : 
                     split === 'verified' ? 500 : 
                     split === 'multimodal' ? 517 : 
-                    split === 'bash-only' ? 2294 : 2294;
+                    split === 'verified-micro' ? 500 : 2294;
                 const percentResolved = (resolved / total * 100).toFixed(2);
                 const resolvedElement = document.getElementById('selectedResolved');
                 resolvedElement.textContent = percentResolved;
@@ -263,7 +263,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (currentPage === 'index' && window.location.hash) {
             const currentHash = window.location.hash.substring(1);
             
-            if (linkPage === currentHash && !['lite', 'verified', 'test', 'multimodal'].includes(currentHash.toLowerCase())) {
+            if (linkPage === currentHash && !['verified-micro', 'verified', 'lite', 'test', 'multimodal'].includes(currentHash.toLowerCase())) {
                 link.classList.add('active');
             }
         }
@@ -277,14 +277,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Load initial tab based on hash or default to Lite
+    // Load initial tab based on hash or default to Verified (micro-SWE-agent)
     const hash = window.location.hash.slice(1).toLowerCase();
-    const validTabs = ['lite', 'verified', 'test', 'multimodal', 'bash-only'];
+    const validTabs = ['verified-micro', 'verified', 'lite', 'test', 'multimodal'];
     
     if (hash && validTabs.includes(hash)) {
         const tabName = hash.charAt(0).toUpperCase() + hash.slice(1);
         openLeaderboard(tabName);
     } else {
-        openLeaderboard('Lite');
+        openLeaderboard('verified-micro');
     }
 });
