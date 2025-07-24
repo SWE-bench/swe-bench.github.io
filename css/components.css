@@ -219,6 +219,35 @@ button:focus,
   white-space: nowrap;
 }
 
+/* Right-align % Resolved columns in main leaderboard tables */
+.data-table th:nth-child(2),
+.data-table td:nth-child(2) {
+  text-align: right;
+}
+
+/* Right-align percentage columns in results tables (viewer page) */
+.table-results th:nth-child(4),
+.table-results td:nth-child(4) {
+  text-align: right;
+}
+
+/* Right-align resolution rate columns in multilingual tables */
+.table th:last-child,
+.table td:last-child {
+  text-align: right;
+}
+
+/* Override for columns that should be centered */
+.table th:last-child.centered-text,
+.table td:last-child.centered-text {
+  text-align: center !important;
+}
+
+/* Centered text columns (for logs, trajs, site columns) */
+.centered-text {
+  text-align: center !important;
+}
+
 /* Sticky header styles - consolidated */
 .scrollable thead th,
 .table-responsive thead th {
