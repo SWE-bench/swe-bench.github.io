@@ -17,23 +17,23 @@
             <input type="checkbox" class="filter-checkbox" data-filter="checked" autocomplete="off"> Checked
         </label>
     </div>
-    <div class="tag-filter-container" style="flex-shrink: 0; position: relative;">
+    <div class="tag-filter-container">
         <button id="tag-filter-toggle" class="btn btn-sm btn-outline-secondary" type="button" title="Filter by tags">
             <span id="tag-filter-summary">All Tags</span>
-            <span class="tag-filter-icon" style="margin-left: 6px;">▼</span>
+            <span class="tag-filter-icon">▼</span>
         </button>
-                 <form id="tag-multiselect-form" class="tag-dropdown-form" style="display: none; position: absolute; top: 100%; left: 0; z-index: 1000;">
-                              <div id="tag-multiselect" class="multiselect-dropdown">
-                 <div class="multiselect-options" style="display: block; background: #2a2d35; color: #e9ecef; border: 1px solid #495057; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.4); max-height: 400px; overflow-y: auto; width: 350px;">
-                     <input type="text" class="multiselect-search" placeholder="Search tags..." onkeyup="filterTagOptions(this)" style="width: calc(100% - 16px); padding: 12px 8px; margin: 8px; border: 1px solid #495057; border-radius: 4px; font-size: 14px; color: #e9ecef; background: #1e2125;">
-                     <div class="multiselect-option">
-                         <label style="padding: 10px 16px; display: block; margin: 0; cursor: pointer; font-size: 14px; border-bottom: 1px solid #495057; color: #e9ecef;"><input type="checkbox" class="tag-checkbox" value="All" checked onchange="toggleAllTags(this)" style="margin-right: 8px;"> <strong>(All Tags)</strong></label>
-                     </div>
-                     {% for tag in all_tags %}
-                     <div class="multiselect-option">
-                         <label style="padding: 10px 16px; display: block; margin: 0; cursor: pointer; font-size: 14px; border-bottom: 1px solid #495057; color: #e9ecef;"><input type="checkbox" class="tag-checkbox" value="{{ tag }}" checked onchange="updateTagSelection()" style="margin-right: 8px;"> {{ tag }}</label>
-                     </div>
-                     {% endfor %}
+        <form id="tag-multiselect-form" class="tag-dropdown-form">
+            <div id="tag-multiselect" class="multiselect-dropdown">
+                <div class="multiselect-options">
+                    <input type="text" class="multiselect-search" placeholder="Search tags..." onkeyup="filterTagOptions(this)">
+                    <div class="multiselect-option">
+                        <label><input type="checkbox" class="tag-checkbox" value="All" checked onchange="toggleAllTags(this)"> <strong>(All Tags)</strong></label>
+                    </div>
+                    {% for tag in all_tags %}
+                    <div class="multiselect-option">
+                        <label><input type="checkbox" class="tag-checkbox" value="{{ tag }}" checked onchange="updateTagSelection()"> {{ tag }}</label>
+                    </div>
+                    {% endfor %}
                  </div>
              </div>
          </form>
