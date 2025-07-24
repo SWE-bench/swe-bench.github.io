@@ -168,7 +168,7 @@ function updateLeaderboardDescription(leaderboardName) {
         'verified': 'Verified is a human-filtered subset of 500 instances (<a href="https://openai.com/index/introducing-swe-bench-verified/">details</a>)',
         'test': 'Full is a large benchmark made of 2000 instances (<a href="original.html">details</a>)',
         'multimodal': 'Multimodal features issues with visual elements (<a href="multimodal.html">details</a>)',
-        'bash-only': 'Bash-only evaluates LMs with a minimal agent on 2294 instances (<a href="bash-only.html">details</a>)'
+        'bash-only': 'Bash-only evaluates LMs with a minimal agent on 500 instances (<a href="bash-only.html">details</a>)'
     };
     
     const normalizedName = leaderboardName.toLowerCase();
