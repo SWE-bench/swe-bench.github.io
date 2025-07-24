@@ -88,23 +88,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Multi-select dropdown logic
     const multiselect = document.getElementById('tag-multiselect');
-    if (multiselect) {
-        const selected = multiselect.querySelector('.multiselect-selected');
-        const options = multiselect.querySelector('.multiselect-options');
-
+    const toggleButton = document.getElementById('tag-filter-toggle');
+    const dropdownForm = document.getElementById('tag-multiselect-form');
+    
+    if (multiselect && toggleButton) {
         // Toggle dropdown open/close
-        selected.addEventListener('click', function(e) {
-            multiselect.classList.toggle('open');
-            if (multiselect.classList.contains('open')) {
-                options.style.display = 'block';
+        toggleButton.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const isOpen = dropdownForm.style.display === 'block';
+            if (isOpen) {
+                dropdownForm.style.display = 'none';
+                toggleButton.querySelector('.tag-filter-icon').textContent = '▼';
             } else {
-                options.style.display = 'none';
+                dropdownForm.style.display = 'block';
+                toggleButton.querySelector('.tag-filter-icon').textContent = '▲';
             }
         });
+        
+        // Close dropdown when clicking outside
         document.addEventListener('click', function(e) {
-            if (!multiselect.contains(e.target)) {
-                multiselect.classList.remove('open');
-                options.style.display = 'none';
+            const container = document.querySelector('.tag-filter-container');
+            if (!container.contains(e.target)) {
+                dropdownForm.style.display = 'none';
+                toggleButton.querySelector('.tag-filter-icon').textContent = '▼';
             }
         });
 
@@ -125,36 +131,17 @@ document.addEventListener('DOMContentLoaded', function() {
         window.updateTagSelection = function() {
             const checkboxes = multiselect.querySelectorAll('.tag-checkbox:not([value="All"])');
             const checked = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
-            // Clear previous content
-            selected.innerHTML = '';
+            const summaryElement = document.getElementById('tag-filter-summary');
+            
             if (checked.length === 0) {
-                selected.innerHTML = '<span class="multiselect-placeholder">Select tags...</span>';
+                summaryElement.textContent = 'Select tags...';
             } else if (checked.length === checkboxes.length) {
-                selected.innerHTML = '<span class="multiselect-badge">(All Tags Selected)</span>';
+                summaryElement.textContent = 'All Tags';
                 multiselect.querySelector('.tag-checkbox[value="All"]').checked = true;
+            } else if (checked.length === 1) {
+                summaryElement.textContent = checked[0];
             } else {
-                checked.forEach(tag => {
-                    const badge = document.createElement('span');
-                    badge.className = 'multiselect-badge';
-                    badge.textContent = tag;
-                    // Add remove 'x' button
-                    const removeBtn = document.createElement('span');
-                    removeBtn.className = 'multiselect-badge-remove';
-                    removeBtn.textContent = '×';
-                    removeBtn.style.marginLeft = '0.5em';
-                    removeBtn.style.cursor = 'pointer';
-                    removeBtn.onclick = function(e) {
-                        e.stopPropagation();
-                        // Uncheck the corresponding checkbox
-                        const cb = Array.from(multiselect.querySelectorAll('.tag-checkbox')).find(cb => cb.value === tag);
-                        if (cb) {
-                            cb.checked = false;
-                            window.updateTagSelection();
-                        }
-                    };
-                    badge.appendChild(removeBtn);
-                    selected.appendChild(badge);
-                });
+                summaryElement.textContent = `${checked.length} Tags Selected`;
                 multiselect.querySelector('.tag-checkbox[value="All"]').checked = false;
             }
             updateTable();

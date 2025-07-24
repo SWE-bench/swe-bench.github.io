@@ -64,6 +64,14 @@
             </div>
         </section>
     </div>
+    
+    <div class="container">
+        <section class="content-box">
+            <h2>Leaderboard</h2>
+            {% set page_context = "bash-only" %}
+            {% include "_leaderboard_table.html" %}
+        </section>
+    </div>
 {% endblock %}
 
 {% block scripts_extra %}
