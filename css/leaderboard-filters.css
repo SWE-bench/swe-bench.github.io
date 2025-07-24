@@ -288,11 +288,11 @@
 
 .tag-dropdown-form .multiselect-options {
     display: block;
-    background: #2a2d35;
-    color: #e9ecef;
-    border: 1px solid #495057;
+    background: #fff;
+    color: #333;
+    border: 1px solid #ced4da;
     border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     max-height: 400px;
     overflow-y: auto;
     width: 350px;
@@ -302,11 +302,11 @@
     width: calc(100% - 16px);
     padding: 12px 8px;
     margin: 8px;
-    border: 1px solid #495057;
+    border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
-    color: #e9ecef;
-    background: #1e2125;
+    color: #333;
+    background: #fff;
 }
 
 .tag-dropdown-form .multiselect-option label {
@@ -315,6 +315,25 @@
     margin: 0;
     cursor: pointer;
     font-size: 14px;
+    border-bottom: 1px solid #f5f5f5;
+    color: #333;
+}
+
+/* Dark mode styles for tag dropdown */
+.dark-mode .tag-dropdown-form .multiselect-options {
+    background: #2a2d35;
+    color: #e9ecef;
+    border: 1px solid #495057;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.dark-mode .tag-dropdown-form .multiselect-search {
+    border: 1px solid #495057;
+    color: #e9ecef;
+    background: #1e2125;
+}
+
+.dark-mode .tag-dropdown-form .multiselect-option label {
     border-bottom: 1px solid #495057;
     color: #e9ecef;
 }
