@@ -240,6 +240,11 @@ function openLeaderboard(leaderboardName) {
         activeButton.classList.add('active');
     }
     
+    // Update the leaderboard description text
+    if (typeof updateLeaderboardDescription === 'function') {
+        updateLeaderboardDescription(leaderboardName);
+    }
+    
     // Apply current filters to the newly displayed table
     if (typeof updateTable === 'function') {
         setTimeout(updateTable, 0);

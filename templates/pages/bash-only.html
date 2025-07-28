@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block title %}SWE-bench (Bash Only){% endblock %}
+
+{% block head_extra %}
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+{% endblock %}
+
+{% block content %}
+    <header class="page-header">
+        <div class="container">
+            <div class="d-flex align-center mb-3">
+                <img src="img/swe-llama.svg" alt="SWE-Llama Logo" style="height: 5em; width: auto; margin-right: 1em;">
+                <h1 class="mb-0">SWE-bench (Bash Only)</h1>
+            </div>
+            <p>Evaluating language models in minimal bash environments (<a href="https://github.com/SWE-agent/micro-swe-agent">Micro-SWE-agent</a>) for fair LM comparison.</p>
+            <br>
+            <div class="flex gap-2">
+                <a href="https://arxiv.org/abs/2310.06770" target="_blank" class="paper-link">Paper</a>
+                <a href="https://github.com/SWE-agent/micro-swe-agent" target="_blank" class="paper-link">Micro-SWE-agent</a>
+                <a href="https://github.com/SWE-bench/SWE-bench" target="_blank" class="paper-link">GitHub</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="content-box">
+            <h2>Overview</h2>
+            <p>The original SWE-bench benchmark aims to evaluate arbitrary systems on their ability to resolve GitHub issues. Currently, top-performing systems represent a wide variety of AI scaffolds; from simple LM agent loops, to RAG systems, to multi-rollout and review type systems. Each of these systems are totally valid solutions to the problem of solving GitHub issues.</p>
+
+            <p>However, when we first created SWE-bench, we were initially interested in evaluating LMs primarily. To make an apples-to-apples comparison of LMs easier, we also have our <strong>SWE-bench (bash only)</strong> leaderboard. In this setting, we use our <a href="https://github.com/SWE-agent/micro-swe-agent">micro-SWE-agent</a> package to evaluate LMs in a minimal bash environment. No tools, no special scaffold structure; just a simple <a href="https://arxiv.org/abs/2210.03629">ReAct</a> agent loop. Results on SWE-bench (bash only) represent the state-of-the-art LM performance when given just a bash shell and a problem.</p>
+        </section>
+
+        <section class="content-box" id="citation">
+            <h2>Citation</h2>
+            <p>If you use SWE-bench (Bash Only) in your research, please cite our paper:</p>
+            
+            <div class="citation-type">
+                <button class="citation-format-btn active" data-format="bibtex" data-target="bash-only-citation">BibTeX</button>
+                <button class="citation-format-btn" data-format="apa" data-target="bash-only-citation">APA</button>
+                <button class="citation-format-btn" data-format="mla" data-target="bash-only-citation">MLA</button>
+            </div>
+            
+            <div class="citation-container" id="bash-only-citation-bibtex">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>@inproceedings{
+    jimenez2024swebench,
+    title={{"{"}}{{"{"}}SWE{{"}"}}-bench: Can Language Models Resolve Real-world Github Issues?},
+    author={Carlos E Jimenez and John Yang and Alexander Wettig and Shunyu Yao and Kexin Pei and Ofir Press and Karthik R Narasimhan},
+    booktitle={The Twelfth International Conference on Learning Representations},
+    year={2024},
+    url={https://openreview.net/forum?id=VTF8yNQM66}
+}</pre>
+            </div>
+            
+            <div class="citation-container display-none" id="bash-only-citation-apa">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>Jimenez, C. E., Yang, J., Wettig, A., Yao, S., Pei, K., Press, O., & Narasimhan, K. R. (2024). SWE-bench: Can Language Models Resolve Real-world Github Issues? arXiv preprint arXiv:2310.06770.</pre>
+            </div>
+            
+            <div class="citation-container display-none" id="bash-only-citation-mla">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>Jimenez, Carlos E., et al. "SWE-bench: Can Language Models Resolve Real-world Github Issues?" arXiv preprint arXiv:2310.06770 (2024).</pre>
+            </div>
+        </section>
+    </div>
+    
+    <div class="container">
+        <section class="content-box">
+            <h2>Leaderboard</h2>
+            {% set page_context = "bash-only" %}
+            {% include "_leaderboard_table.html" %}
+        </section>
+    </div>
+{% endblock %}
+
+{% block scripts_extra %}
+
+{% endblock %} 

@@ -3,33 +3,41 @@
 {% endblock %}
 
 <div class="mb-3 d-flex justify-content-between align-items-center" style="gap:0.5rem;">
+    <div id="leaderboard-description" class="leaderboard-description" style="flex: 1; font-size: 1.1em; line-height: 1.4; max-width: 60%; display: flex; align-items: center; padding-left: 0.75rem;">
+        <!-- Dynamic text will be inserted here -->
+    </div>
     <div class="filter-buttons" style="flex-shrink: 0;">
-        <label class="btn btn-sm btn-outline-secondary filter-toggle">
-            <input type="checkbox" class="filter-checkbox" data-filter="os_model" autocomplete="off"> Open Weight Model
+        <label class="btn btn-sm btn-outline-secondary filter-toggle" title="The agent scaffold is open-source">
+            <input type="checkbox" class="filter-checkbox" data-filter="os_system" autocomplete="off"> Open Scaffold
         </label>
-        <label class="btn btn-sm btn-outline-secondary filter-toggle">
-            <input type="checkbox" class="filter-checkbox" data-filter="os_system" autocomplete="off"> Open Source System
+        <label class="btn btn-sm btn-outline-secondary filter-toggle" title="The model weights are open-source (e.g., GPT-4o, Claude 3.5 Sonnet, etc.)">
+            <input type="checkbox" class="filter-checkbox" data-filter="os_model" autocomplete="off"> Open Weights
         </label>
         <label class="btn btn-sm btn-outline-secondary filter-toggle" title="The agent run was performed by or directly verified by the SWE-bench team">
             <input type="checkbox" class="filter-checkbox" data-filter="checked" autocomplete="off"> Checked
         </label>
     </div>
-    <form id="tag-multiselect-form" style="flex: 1; min-width: 200px; display: flex; justify-content: flex-end;">
-        <div id="tag-multiselect" class="multiselect-dropdown" style="width: 100%;">
-            <div class="multiselect-selected" tabindex="0"><span class="multiselect-placeholder">Select tags...</span></div>
-            <div class="multiselect-options">
-                <input type="text" class="multiselect-search" placeholder="search" onkeyup="filterTagOptions(this)">
-                <div class="multiselect-option">
-                    <label><input type="checkbox" class="tag-checkbox" value="All" checked onchange="toggleAllTags(this)"> (All Tags)</label>
-                </div>
-                {% for tag in all_tags %}
-                <div class="multiselect-option">
-                    <label><input type="checkbox" class="tag-checkbox" value="{{ tag }}" checked onchange="updateTagSelection()"> {{ tag }}</label>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
-    </form>
+    <div class="tag-filter-container">
+        <button id="tag-filter-toggle" class="btn btn-sm btn-outline-secondary" type="button" title="Filter by tags">
+            <span id="tag-filter-summary">All Tags</span>
+            <span class="tag-filter-icon">▼</span>
+        </button>
+        <form id="tag-multiselect-form" class="tag-dropdown-form">
+            <div id="tag-multiselect" class="multiselect-dropdown">
+                <div class="multiselect-options">
+                    <input type="text" class="multiselect-search" placeholder="Search tags..." onkeyup="filterTagOptions(this)">
+                    <div class="multiselect-option">
+                        <label><input type="checkbox" class="tag-checkbox" value="All" checked onchange="toggleAllTags(this)"> <strong>(All Tags)</strong></label>
+                    </div>
+                    {% for tag in all_tags %}
+                    <div class="multiselect-option">
+                        <label><input type="checkbox" class="tag-checkbox" value="{{ tag }}" checked onchange="updateTagSelection()"> {{ tag }}</label>
+                    </div>
+                    {% endfor %}
+                 </div>
+             </div>
+         </form>
+    </div>
 </div>
 
 <!-- Container for dynamically loaded table content -->
@@ -47,7 +55,7 @@
         SWE-bench <b>Lite</b> is a subset curated for less costly evaluation [<a href="lite.html">Post</a>].<br>
         SWE-bench <b>Verified</b> is a human-filtered subset [<a href="https://openai.com/index/introducing-swe-bench-verified/">Post</a>].<br>
         SWE-bench <b>Multimodal</b> features issues with visual elements [<a href="multimodal.html">Post</a>].<br>
-        SWE-bench <b>Verified (micro-SWE-agent)</b> uses the Verified dataset with micro-SWE-agent evaluation [<a href="verified-micro.html">Post</a>].
+        SWE-bench <b>Bash Only</b> evaluates LMs in a minimal bash environment [<a href="bash-only.html">Post</a>].
     </p>
-    <p>Each entry reports the <b>% Resolved</b> metric, the percentage of instances solved (out of 2294 Full, 500 Verified, 300 Lite, 517 Multimodal, 500 Verified (micro-SWE-agent)).</p>
+    <p>Each entry reports the <b>% Resolved</b> metric, the percentage of instances solved (out of 2294 Full, 500 Verified, 300 Lite, 517 Multimodal, 2294 Bash Only).</p>
 </div>
