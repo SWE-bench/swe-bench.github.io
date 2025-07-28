@@ -245,6 +245,11 @@ function openLeaderboard(leaderboardName) {
         updateLeaderboardDescription(leaderboardName);
     }
     
+    // Update filter visibility based on leaderboard type
+    if (typeof updateFilterVisibility === 'function') {
+        updateFilterVisibility(leaderboardName);
+    }
+    
     // Apply current filters to the newly displayed table
     if (typeof updateTable === 'function') {
         setTimeout(updateTable, 0);

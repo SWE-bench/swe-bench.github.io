@@ -1,6 +1,28 @@
 // Global active filters set
 const activeFilters = new Set(['os_system']);
 
+// Function to show/hide filter elements based on leaderboard type
+function updateFilterVisibility(leaderboardName) {
+    const openScaffoldFilter = document.querySelector('[data-filter="os_system"]').closest('.filter-toggle');
+    const openWeightsFilter = document.querySelector('[data-filter="os_model"]').closest('.filter-toggle');
+    const checkedFilter = document.querySelector('[data-filter="checked"]').closest('.filter-toggle');
+    const tagFilterContainer = document.querySelector('.tag-filter-container');
+    
+    if (leaderboardName === 'verified-mini') {
+        // For verified-mini, show only Open Weights, hide Open Scaffold, Checked, and Tags selection
+        if (openScaffoldFilter) openScaffoldFilter.style.display = 'none';
+        if (openWeightsFilter) openWeightsFilter.style.display = '';
+        if (checkedFilter) checkedFilter.style.display = 'none';
+        if (tagFilterContainer) tagFilterContainer.style.display = 'none';
+    } else {
+        // For all other leaderboards, show all filters
+        if (openScaffoldFilter) openScaffoldFilter.style.display = '';
+        if (openWeightsFilter) openWeightsFilter.style.display = '';
+        if (checkedFilter) checkedFilter.style.display = '';
+        if (tagFilterContainer) tagFilterContainer.style.display = '';
+    }
+}
+
 // Table Update Logic - Optimized for lazy loading
 function updateTable() {
     // Only process the currently visible leaderboard table
@@ -153,9 +175,19 @@ document.addEventListener('DOMContentLoaded', function() {
             window.updateTagSelection();
         };
 
-        // Initial selection
-        window.updateTagSelection();
-    }
+            // Initial selection
+    window.updateTagSelection();
+    
+    // Check for initial leaderboard visibility (in case landing directly on verified-mini)
+    setTimeout(() => {
+        const activeLeaderboard = document.querySelector('.tabcontent.active');
+        if (activeLeaderboard) {
+            const leaderboardId = activeLeaderboard.id;
+            const leaderboardName = leaderboardId.replace('leaderboard-', '');
+            updateFilterVisibility(leaderboardName);
+        }
+    }, 100);
+}
 });
 
 // --- Leaderboard Description Update ---
