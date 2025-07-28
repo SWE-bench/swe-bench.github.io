@@ -356,3 +356,9 @@
         justify-content: flex-start !important;
     }
 }
+
+/* Fix leaderboard description text alignment while maintaining vertical centering */
+.leaderboard-description-text {
+    text-align: left !important;
+    width: 100%;
+}

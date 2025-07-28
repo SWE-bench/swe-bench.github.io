@@ -195,9 +195,12 @@ function updateLeaderboardDescription(leaderboardName) {
     const descriptionElement = document.getElementById('leaderboard-description');
     if (!descriptionElement) return;
     
+    const textContainer = descriptionElement.querySelector('.leaderboard-description-text');
+    if (!textContainer) return;
+    
     const descriptions = {
         'lite': 'Lite is a subset of 300 instances for less costly evaluation (<a href="lite.html">details</a>)',
-        'verified-mini': 'Verified (mini-SWE-agent) evaluates LMs with the mini-SWE-agent scaffold on the Verified dataset (<a href="verified-mini.html">details</a>)',
+        'verified-mini': 'Verified (mini-SWE-agent) evaluates LMs with the <a href="https://github.com/SWE-agent/mini-swe-agent">mini-SWE-agent</a> scaffold on the Verified dataset (<a href="verified-mini.html">details</a>)',
         'verified': 'Verified is a human-filtered subset of 500 instances (<a href="https://openai.com/index/introducing-swe-bench-verified/">details</a>)',
         'test': 'Full is a large benchmark made of 2000 instances (<a href="original.html">details</a>)',
         'multimodal': 'Multimodal features issues with visual elements (<a href="multimodal.html">details</a>)',
@@ -205,7 +208,7 @@ function updateLeaderboardDescription(leaderboardName) {
     };
     
     const normalizedName = leaderboardName.toLowerCase();
-    descriptionElement.innerHTML = descriptions[normalizedName] || '';
+    textContainer.innerHTML = descriptions[normalizedName] || '';
 }
 
 // Make the function globally available
