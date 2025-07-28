@@ -165,6 +165,7 @@ function updateLeaderboardDescription(leaderboardName) {
     
     const descriptions = {
         'lite': 'Lite is a subset of 300 instances for less costly evaluation (<a href="lite.html">details</a>)',
+        'verified-micro': 'Verified (micro-SWE-agent) uses the Verified dataset with micro-SWE-agent evaluation (<a href="verified-micro.html">details</a>)',
         'verified': 'Verified is a human-filtered subset of 500 instances (<a href="https://openai.com/index/introducing-swe-bench-verified/">details</a>)',
         'test': 'Full is a large benchmark made of 2000 instances (<a href="original.html">details</a>)',
         'multimodal': 'Multimodal features issues with visual elements (<a href="multimodal.html">details</a>)',

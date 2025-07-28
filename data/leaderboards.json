@@ -4453,7 +4453,7 @@
             ]
         },
         {
-            "name": "bash-only",
+            "name": "verified-micro",
             "results": [
                 {
                     "name": "Claude 4 Sonnet (20250514)",
