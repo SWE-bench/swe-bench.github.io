@@ -4946,7 +4946,7 @@
                     ],
                     "site": "https://ai.google.dev/gemini-api/docs/models",
                     "folder": "20250726_mini-v1.0.0_gemini-2.0-flash",
-                    "resolved": 14.61,
+                    "resolved": 13.52,
                     "date": "2025-05-21",
                     "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.0-flash/logs",
                     "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.0-flash/trajs",
