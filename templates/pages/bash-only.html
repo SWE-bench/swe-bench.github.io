@@ -17,7 +17,7 @@
             <br>
             <div class="flex gap-2">
                 <a href="https://arxiv.org/abs/2310.06770" target="_blank" class="paper-link">Paper</a>
-                <a href="https://github.com/SWE-agent/mini-swe-agent" target="_blank" class="paper-link">Mini-SWE-agent</a>
+                <a href="https://github.com/SWE-agent/mini-swe-agent" target="_blank" class="paper-link">mini-SWE-agent</a>
                 <a href="https://github.com/SWE-bench/SWE-bench" target="_blank" class="paper-link">GitHub</a>
             </div>
         </div>
@@ -31,6 +31,17 @@
             <p>However, when we first created SWE-bench, we were initially interested in evaluating LMs primarily. To make an apples-to-apples comparison of LMs easier, we've introduced the <strong>SWE-bench Bash Only</strong> leaderboard. In this setting, we use our <a href="https://github.com/SWE-agent/mini-swe-agent">mini-SWE-agent</a> package to evaluate LMs in a minimal bash environment. No tools, no special scaffold structure; just a simple <a href="https://arxiv.org/abs/2210.03629">ReAct</a> agent loop. Results on SWE-bench Bash Only represent the state-of-the-art LM performance when given just a bash shell and a problem.</p>
         </section>
 
+    </div>
+    
+    <div class="container">
+        <section class="content-box">
+            <h2>Leaderboard</h2>
+            {% set page_context = "bash-only" %}
+            {% include "_leaderboard_table.html" %}
+        </section>
+    </div>
+
+    <div class="container">
         <section class="content-box" id="citation">
             <h2>Citation</h2>
             <p>If you use SWE-bench Bash Only in your research, please cite our paper:</p>
@@ -62,14 +73,6 @@
                 <button class="copy-btn" aria-label="Copy citation">Copy</button>
                 <pre>Jimenez, Carlos E., et al. "SWE-bench: Can Language Models Resolve Real-world Github Issues?" arXiv preprint arXiv:2310.06770 (2024).</pre>
             </div>
-        </section>
-    </div>
-    
-    <div class="container">
-        <section class="content-box">
-            <h2>Leaderboard</h2>
-            {% set page_context = "bash-only" %}
-            {% include "_leaderboard_table.html" %}
         </section>
     </div>
 {% endblock %}
