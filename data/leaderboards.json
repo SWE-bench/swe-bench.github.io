@@ -841,6 +841,28 @@
                     "warning": null
                 },
                 {
+                    "name": "mini-SWE-agent + Claude 4 Sonnet (20250514)",
+                    "logo": [
+                        "https://mini-swe-agent.com/latest/assets/mini_square.svg"
+                    ],
+                    "site": "https://mini-swe-agent.com/latest/",
+                    "folder": "20250726_mini-v1.0.0_claude-sonnet-4-20250514",
+                    "resolved": 64.93,
+                    "date": "2025-05-21",
+                    "logs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_claude-sonnet-4-20250514/logs",
+                    "trajs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_claude-sonnet-4-20250514/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: Anthropic",
+                        "Model: claude-4-sonnet-20250514",
+                        "System: Attempts - 1",
+                        "Org: SWE-agent"
+                    ],
+                    "warning": null
+                },
+                {
                     "name": "W&B Programmer O1 crosscheck5",
                     "logo": [
                         "https://wandb.ai/logo.png"
@@ -1060,6 +1082,28 @@
                     "warning": null
                 },
                 {
+                    "name": "mini-SWE-agent + o3 (2025-04-16)",
+                    "logo": [
+                        "https://mini-swe-agent.com/latest/assets/mini_square.svg"
+                    ],
+                    "site": "https://mini-swe-agent.com/latest/",
+                    "folder": "20250726_mini-v1.0.0_o3-2025-04-16",
+                    "resolved": 58.4,
+                    "date": "2025-05-21",
+                    "logs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_o3-2025-04-16/logs",
+                    "trajs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_o3-2025-04-16/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: OpenAI",
+                        "Model: o3-20250416",
+                        "System: Attempts - 1",
+                        "Org: SWE-agent"
+                    ],
+                    "warning": null
+                },
+                {
                     "name": "Nemotron-CORTEXA",
                     "logo": [
                         "https://research.nvidia.com/labs/adlr/images/nvidia-ai.jpg"
@@ -1225,6 +1269,28 @@
                     "warning": null
                 },
                 {
+                    "name": "mini-SWE-agent + Gemini 2.5 Pro (2025-05-06)",
+                    "logo": [
+                        "https://mini-swe-agent.com/latest/assets/mini_square.svg"
+                    ],
+                    "site": "https://mini-swe-agent.com/latest/",
+                    "folder": "20250726_mini-v1.0.0_gemini-2.5-pro",
+                    "resolved": 53.6,
+                    "date": "2025-05-21",
+                    "logs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_gemini-2.5-pro/logs",
+                    "trajs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_gemini-2.5-pro/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: Google DeepMind",
+                        "Model: gemini-2.5-pro",
+                        "System: Attempts - 1",
+                        "Org: SWE-agent"
+                    ],
+                    "warning": null
+                },
+                {
                     "name": "Bracket.sh",
                     "logo": [
                         "https://bracket.sh/static/media/bracket_logo.d75584b91faa86a6314b.png"
@@ -1260,6 +1326,28 @@
                     "tags": [
                         "Org: OpenHands",
                         "System: Attempts - 2+"
+                    ],
+                    "warning": null
+                },
+                {
+                    "name": "mini-SWE-agent + Claude 3.7 Sonnet (20250219)",
+                    "logo": [
+                        "https://mini-swe-agent.com/latest/assets/mini_square.svg"
+                    ],
+                    "site": "https://mini-swe-agent.com/latest/",
+                    "folder": "20250720_mini-v0.0.0-claude-3-7-sonnet-20250219",
+                    "resolved": 52.8,
+                    "date": "2025-05-21",
+                    "logs": "s3://swe-bench-experiments/verified/20250720_mini-v0.0.0-claude-3-7-sonnet-20250219/logs",
+                    "trajs": "s3://swe-bench-experiments/verified/20250720_mini-v0.0.0-claude-3-7-sonnet-20250219/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: Anthropic",
+                        "Model: claude-3-7-sonnet-20250219",
+                        "System: Attempts - 1",
+                        "Org: SWE-agent"
                     ],
                     "warning": null
                 },
@@ -1612,6 +1700,28 @@
                     "warning": null
                 },
                 {
+                    "name": "mini-SWE-agent + o4-mini (2025-04-16)",
+                    "logo": [
+                        "https://mini-swe-agent.com/latest/assets/mini_square.svg"
+                    ],
+                    "site": "https://mini-swe-agent.com/latest/",
+                    "folder": "20250726_mini-v1.0.0_o4-mini-2025-04-16",
+                    "resolved": 45.0,
+                    "date": "2025-05-21",
+                    "logs": "s3://swe-bench-experiments/verified/20250521_o4-mini-20250416/logs",
+                    "trajs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_o4-mini-2025-04-16/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: OpenAI",
+                        "Model: o4-mini-20250416",
+                        "System: Attempts - 1",
+                        "Org: SWE-agent"
+                    ],
+                    "warning": null
+                },
+                {
                     "name": "CodeShellAgent + Gemini 2.0 Flash (Experimental)",
                     "logo": [
                         "https://avatars.githubusercontent.com/u/145519942?s=200&v=4"
@@ -1898,6 +2008,28 @@
                     "warning": null
                 },
                 {
+                    "name": "mini-SWE-agent + GPT-4.1 (2025-04-14)",
+                    "logo": [
+                        "https://mini-swe-agent.com/latest/assets/mini_square.svg"
+                    ],
+                    "site": "https://mini-swe-agent.com/latest/",
+                    "folder": "20250726_mini-v1.0.0_gpt-4.1-2025-04-14",
+                    "resolved": 39.58,
+                    "date": "2025-05-21",
+                    "logs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_gpt-4.1-2025-04-14/logs",
+                    "trajs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_gpt-4.1-2025-04-14/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: OpenAI",
+                        "Model: gpt-4.1-20250414",
+                        "System: Attempts - 1",
+                        "Org: SWE-agent"
+                    ],
+                    "warning": null
+                },
+                {
                     "name": "Amazon Q Developer Agent (v20240719-dev)",
                     "logo": [
                         "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/2560px-Amazon_Web_Services_Logo.svg.png"
@@ -2136,6 +2268,28 @@
                     "warning": null
                 },
                 {
+                    "name": "mini-SWE-agent + Gemini 2.5 Flash (2025-04-17)",
+                    "logo": [
+                        "https://mini-swe-agent.com/latest/assets/mini_square.svg"
+                    ],
+                    "site": "https://mini-swe-agent.com/latest/",
+                    "folder": "20250726_mini-v1.0.0_gemini-2.5-flash",
+                    "resolved": 28.73,
+                    "date": "2025-05-21",
+                    "logs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_gemini-2.5-flash/logs",
+                    "trajs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_gemini-2.5-flash/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: Google DeepMind",
+                        "Model: gemini-2.5-flash",
+                        "System: Attempts - 1",
+                        "Org: SWE-agent"
+                    ],
+                    "warning": null
+                },
+                {
                     "name": "EPAM AI/Run Developer Agent + GPT4o",
                     "logo": [
                         "https://pbs.twimg.com/profile_images/1753265803191795712/qg3YENmV_400x400.png"
@@ -2235,6 +2389,28 @@
                     "warning": null
                 },
                 {
+                    "name": "mini-SWE-agent + GPT-4.1-mini (2025-04-14)",
+                    "logo": [
+                        "https://mini-swe-agent.com/latest/assets/mini_square.svg"
+                    ],
+                    "site": "https://mini-swe-agent.com/latest/",
+                    "folder": "20250720_mini-v0.0.0_gpt-4.1-mini-2025-04-14",
+                    "resolved": 24.25,
+                    "date": "2025-05-21",
+                    "logs": "s3://swe-bench-experiments/verified/20250720_mini-v0.0.0_gpt-4.1-mini-2025-04-14/logs",
+                    "trajs": "s3://swe-bench-experiments/verified/20250720_mini-v0.0.0_gpt-4.1-mini-2025-04-14/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: OpenAI",
+                        "Model: gpt-4.1-mini-20250414",
+                        "System: Attempts - 1",
+                        "Org: SWE-agent"
+                    ],
+                    "warning": null
+                },
+                {
                     "name": "EPAM AI/Run Developer Agent + GPT4o",
                     "logo": [
                         "https://pbs.twimg.com/profile_images/1753265803191795712/qg3YENmV_400x400.png"
@@ -2294,6 +2470,28 @@
                     "warning": null
                 },
                 {
+                    "name": "mini-SWE-agent + GPT-4o (2024-11-20)",
+                    "logo": [
+                        "https://mini-swe-agent.com/latest/assets/mini_square.svg"
+                    ],
+                    "site": "https://mini-swe-agent.com/latest/",
+                    "folder": "20250720_mini-v0.0.0-gpt-4o-2024-11-20",
+                    "resolved": 22.53,
+                    "date": "2025-05-21",
+                    "logs": "s3://swe-bench-experiments/verified/20250720_mini-v0.0.0-gpt-4o-2024-11-20/logs",
+                    "trajs": "s3://swe-bench-experiments/verified/20250720_mini-v0.0.0-gpt-4o-2024-11-20/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: OpenAI",
+                        "Model: gpt-4o-20241120",
+                        "System: Attempts - 1",
+                        "Org: SWE-agent"
+                    ],
+                    "warning": null
+                },
+                {
                     "name": "SWE-agent + GPT 4 (1106)",
                     "logo": [
                         "https://avatars.githubusercontent.com/u/166046056?s=200&v=4"
@@ -2311,6 +2509,28 @@
                         "Model: gpt-4-1106-preview",
                         "Org: SWE-agent",
                         "System: Attempts - 1"
+                    ],
+                    "warning": null
+                },
+                {
+                    "name": "mini-SWE-agent + Llama 4 Maverick Instruct",
+                    "logo": [
+                        "https://mini-swe-agent.com/latest/assets/mini_square.svg"
+                    ],
+                    "site": "https://mini-swe-agent.com/latest/",
+                    "folder": "20250720_mini-v0.0.0-Llama-4-Maverick-17B-Instruct",
+                    "resolved": 21.04,
+                    "date": "2025-05-21",
+                    "logs": "s3://swe-bench-experiments/verified/20250720_mini-v0.0.0-Llama-4-Maverick-17B-Instruct/logs",
+                    "trajs": "s3://swe-bench-experiments/verified/20250720_mini-v0.0.0-Llama-4-Maverick-17B-Instruct/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: Meta",
+                        "Model: llama-4-maverick-instruct",
+                        "System: Attempts - 1",
+                        "Org: SWE-agent"
                     ],
                     "warning": null
                 },
@@ -2356,6 +2576,28 @@
                     "warning": null
                 },
                 {
+                    "name": "mini-SWE-agent + Gemini 2.0 flash",
+                    "logo": [
+                        "https://mini-swe-agent.com/latest/assets/mini_square.svg"
+                    ],
+                    "site": "https://mini-swe-agent.com/latest/",
+                    "folder": "20250726_mini-v1.0.0_gemini-2.5-flash",
+                    "resolved": 14.61,
+                    "date": "2025-05-21",
+                    "logs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_gemini-2.5-flash/logs",
+                    "trajs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_gemini-2.5-flash/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: Google DeepMind",
+                        "Model: gemini-2.0-flash",
+                        "System: Attempts - 1",
+                        "Org: SWE-agent"
+                    ],
+                    "warning": null
+                },
+                {
                     "name": "Lingma Agent + Lingma SWE-GPT 7b (v0918)",
                     "logo": [
                         "https://pbs.twimg.com/profile_images/1567807256091308032/4AXfLwia_400x400.jpg"
@@ -2372,6 +2614,28 @@
                     "tags": [
                         "Org: Alibaba",
                         "System: Attempts - 2+"
+                    ],
+                    "warning": null
+                },
+                {
+                    "name": "mini-SWE-agent + Llama 4 Scout Instruct",
+                    "logo": [
+                        "https://mini-swe-agent.com/latest/assets/mini_square.svg"
+                    ],
+                    "site": "https://mini-swe-agent.com/latest/",
+                    "folder": "20250720_mini-v0.0.0-Llama-4-Scout-17B-Instruct",
+                    "resolved": 9.06,
+                    "date": "2025-05-21",
+                    "logs": "s3://swe-bench-experiments/verified/20250720_mini-v0.0.0-Llama-4-Scout-17B-Instruct/logs",
+                    "trajs": "s3://swe-bench-experiments/verified/20250720_mini-v0.0.0-Llama-4-Scout-17B-Instruct/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: Meta",
+                        "Model: llama-4-scout-instruct",
+                        "System: Attempts - 1",
+                        "Org: SWE-agent"
                     ],
                     "warning": null
                 },
@@ -4464,7 +4728,7 @@
                     "folder": "20250726_mini-v1.0.0_claude-sonnet-4-20250514",
                     "resolved": 64.93,
                     "date": "2025-05-21",
-                    "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_claude-sonnet-4-20250514//logs",
+                    "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_claude-sonnet-4-20250514/logs",
                     "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_claude-sonnet-4-20250514/trajs",
                     "os_model": false,
                     "os_system": true,
@@ -4484,7 +4748,7 @@
                     ],
                     "site": "https://platform.openai.com/docs/models/o3",
                     "folder": "20250726_mini-v1.0.0_o3-2025-04-16",
-                    "resolved": 58.40,
+                    "resolved": 58.4,
                     "date": "2025-05-21",
                     "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_o3-2025-04-16/logs",
                     "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_o3-2025-04-16/trajs",
@@ -4506,7 +4770,7 @@
                     ],
                     "site": "https://platform.openai.com/docs/models/o4-mini",
                     "folder": "20250726_mini-v1.0.0_o4-mini-2025-04-16",
-                    "resolved": 45.00,
+                    "resolved": 45.0,
                     "date": "2025-05-21",
                     "logs": "s3://swe-bench-experiments/bash-only/20250521_o4-mini-20250416/logs",
                     "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_o4-mini-2025-04-16/trajs",
