@@ -28,6 +28,7 @@ function loadLeaderboardData() {
 
 function renderLeaderboardTable(leaderboard) {
     const container = document.getElementById('leaderboard-container');
+    const isBashOnly = leaderboard.name.toLowerCase() === 'bash-only';
     
     // Create table content
     const tableHtml = `
@@ -43,6 +44,7 @@ function renderLeaderboardTable(leaderboard) {
                             <th>Logs</th>
                             <th>Trajs</th>
                             <th>Site</th>
+                            ${isBashOnly ? '<th>Release</th>' : ''}
                         </tr>
                     </thead>
                     <tbody>
@@ -83,10 +85,11 @@ function renderLeaderboardTable(leaderboard) {
                                     <td class="centered-text text-center">
                                         ${item.site ? `<a href="${item.site}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
                                     </td>
+                                    ${isBashOnly ? `<td><span class="text-muted font-mono">${item['mini-swe-agent_version'] || '-'}</span></td>` : ''}
                                 </tr>
                             `).join('')}
                         <tr class="no-results" style="display: none;">
-                            <td colspan="7" class="text-center">
+                            <td colspan="${isBashOnly ? '8' : '7'}" class="text-center">
                                 No entries match the selected filters. Try adjusting your filters.
                             </td>
                         </tr>
