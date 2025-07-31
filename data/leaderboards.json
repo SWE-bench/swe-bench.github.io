@@ -4461,11 +4461,11 @@
                         "https://pbs.twimg.com/profile_images/1798110641414443008/XP8gyBaY_400x400.jpg"
                     ],
                     "site": "https://www.anthropic.com/news/claude-4",
-                    "folder": "20250521_claude-sonnet-4-20250514",
-                    "resolved": 65.17,
+                    "folder": "20250726_mini-v1.0.0_claude-sonnet-4-20250514",
+                    "resolved": 64.93,
                     "date": "2025-05-21",
-                    "logs": "s3://swe-bench-experiments/bash-only/20250521_claude-sonnet-4-20250514/logs",
-                    "trajs": "s3://swe-bench-experiments/bash-only/20250521_claude-sonnet-4-20250514/trajs",
+                    "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_claude-sonnet-4-20250514//logs",
+                    "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_claude-sonnet-4-20250514/trajs",
                     "os_model": false,
                     "os_system": true,
                     "checked": true,
@@ -4474,7 +4474,8 @@
                         "Model: claude-4-sonnet-20250514",
                         "System: Attempts - 1"
                     ],
-                    "warning": null
+                    "warning": null,
+                    "mini-swe-agent_version": "1.0.0"
                 },
                 {
                     "name": "o3 (2025-04-16)",
@@ -4482,11 +4483,11 @@
                         "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
                     ],
                     "site": "https://platform.openai.com/docs/models/o3",
-                    "folder": "20250521_o3-20250416",
-                    "resolved": 63.2,
+                    "folder": "20250726_mini-v1.0.0_o3-2025-04-16",
+                    "resolved": 58.40,
                     "date": "2025-05-21",
-                    "logs": "s3://swe-bench-experiments/bash-only/20250521_o3-20250416/logs",
-                    "trajs": "s3://swe-bench-experiments/bash-only/20250521_o3-20250416/trajs",
+                    "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_o3-2025-04-16/logs",
+                    "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_o3-2025-04-16/trajs",
                     "os_model": false,
                     "os_system": true,
                     "checked": true,
@@ -4495,7 +4496,8 @@
                         "Model: o3-20250416",
                         "System: Attempts - 1"
                     ],
-                    "warning": null
+                    "warning": null,
+                    "mini-swe-agent_version": "1.0.0"
                 },
                 {
                     "name": "o4-mini (2025-04-16)",
@@ -4503,11 +4505,11 @@
                         "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
                     ],
                     "site": "https://platform.openai.com/docs/models/o4-mini",
-                    "folder": "20250521_o4-mini-20250416",
-                    "resolved": 53.92,
+                    "folder": "20250726_mini-v1.0.0_o4-mini-2025-04-16",
+                    "resolved": 45.00,
                     "date": "2025-05-21",
                     "logs": "s3://swe-bench-experiments/bash-only/20250521_o4-mini-20250416/logs",
-                    "trajs": "s3://swe-bench-experiments/bash-only/20250521_o4-mini-20250416/trajs",
+                    "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_o4-mini-2025-04-16/trajs",
                     "os_model": false,
                     "os_system": true,
                     "checked": true,
@@ -4516,7 +4518,8 @@
                         "Model: o4-mini-20250416",
                         "System: Attempts - 1"
                     ],
-                    "warning": null
+                    "warning": null,
+                    "mini-swe-agent_version": "1.0.0"
                 },
                 {
                     "name": "Claude 3.7 Sonnet (20250219)",
@@ -4524,11 +4527,11 @@
                         "https://pbs.twimg.com/profile_images/1798110641414443008/XP8gyBaY_400x400.jpg"
                     ],
                     "site": "https://www.anthropic.com/news/claude-3-7-sonnet",
-                    "folder": "20250521_claude-3-7-sonnet-20250219",
+                    "folder": "20250720_mini-v0.0.0-claude-3-7-sonnet-20250219",
                     "resolved": 52.8,
                     "date": "2025-05-21",
-                    "logs": "s3://swe-bench-experiments/bash-only/20250521_claude-3-7-sonnet-20250219/logs",
-                    "trajs": "s3://swe-bench-experiments/bash-only/20250521_claude-3-7-sonnet-20250219/trajs",
+                    "logs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-claude-3-7-sonnet-20250219/logs",
+                    "trajs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-claude-3-7-sonnet-20250219/trajs",
                     "os_model": false,
                     "os_system": true,
                     "checked": true,
@@ -4537,7 +4540,8 @@
                         "Model: claude-3-7-sonnet-20250219",
                         "System: Attempts - 1"
                     ],
-                    "warning": null
+                    "warning": null,
+                    "mini-swe-agent_version": "0.0.0"
                 },
                 {
                     "name": "Gemini 2.5 Pro (2025-05-06)",
@@ -4545,11 +4549,11 @@
                         "https://upload.wikimedia.org/wikipedia/commons/8/8f/Google-gemini-icon.svg"
                     ],
                     "site": "https://ai.google.dev/gemini-api/docs/models",
-                    "folder": "20250521_gemini-2-5-pro-20250506",
-                    "resolved": 50.6,
+                    "folder": "20250726_mini-v1.0.0_gemini-2.5-pro",
+                    "resolved": 53.6,
                     "date": "2025-05-21",
-                    "logs": "s3://swe-bench-experiments/bash-only/20250521_gemini-2-5-pro-20250506/logs",
-                    "trajs": "s3://swe-bench-experiments/bash-only/20250521_gemini-2-5-pro-20250506/trajs",
+                    "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.5-pro/logs",
+                    "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.5-pro/trajs",
                     "os_model": false,
                     "os_system": true,
                     "checked": true,
@@ -4558,7 +4562,8 @@
                         "Model: gemini-2.5-pro",
                         "System: Attempts - 1"
                     ],
-                    "warning": null
+                    "warning": null,
+                    "mini-swe-agent_version": "1.0.0"
                 },
                 {
                     "name": "GPT-4.1 (2025-04-14)",
@@ -4566,11 +4571,11 @@
                         "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
                     ],
                     "site": "https://platform.openai.com/docs/models/gpt-4.1",
-                    "folder": "20250521_gpt-4-1-20250414",
+                    "folder": "20250726_mini-v1.0.0_gpt-4.1-2025-04-14",
                     "resolved": 39.58,
                     "date": "2025-05-21",
-                    "logs": "s3://swe-bench-experiments/bash-only/20250521_gpt-4-1-20250414/logs",
-                    "trajs": "s3://swe-bench-experiments/bash-only/20250521_gpt-4-1-20250414/trajs",
+                    "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gpt-4.1-2025-04-14/logs",
+                    "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gpt-4.1-2025-04-14/trajs",
                     "os_model": false,
                     "os_system": true,
                     "checked": true,
@@ -4579,7 +4584,8 @@
                         "Model: gpt-4.1-20250414",
                         "System: Attempts - 1"
                     ],
-                    "warning": null
+                    "warning": null,
+                    "mini-swe-agent_version": "1.0.0"
                 },
                 {
                     "name": "Gemini 2.5 Flash (2025-04-17)",
@@ -4587,11 +4593,11 @@
                         "https://upload.wikimedia.org/wikipedia/commons/8/8f/Google-gemini-icon.svg"
                     ],
                     "site": "https://ai.google.dev/gemini-api/docs/models",
-                    "folder": "20250521_gemini-2-5-flash-20250417",
+                    "folder": "20250726_mini-v1.0.0_gemini-2.5-flash",
                     "resolved": 28.73,
                     "date": "2025-05-21",
-                    "logs": "s3://swe-bench-experiments/bash-only/20250521_gemini-2-5-flash-20250417/logs",
-                    "trajs": "s3://swe-bench-experiments/bash-only/20250521_gemini-2-5-flash-20250417/trajs",
+                    "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.5-flash/logs",
+                    "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.5-flash/trajs",
                     "os_model": false,
                     "os_system": true,
                     "checked": true,
@@ -4600,7 +4606,8 @@
                         "Model: gemini-2.5-flash",
                         "System: Attempts - 1"
                     ],
-                    "warning": null
+                    "warning": null,
+                    "mini-swe-agent_version": "1.0.0"
                 },
                 {
                     "name": "GPT-4.1-mini (2025-04-14)",
@@ -4608,11 +4615,11 @@
                         "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
                     ],
                     "site": "https://platform.openai.com/docs/models/gpt-4.1-mini",
-                    "folder": "20250521_gpt-4-1-mini-20250414",
+                    "folder": "20250720_mini-v0.0.0_gpt-4.1-mini-2025-04-14",
                     "resolved": 24.25,
                     "date": "2025-05-21",
-                    "logs": "s3://swe-bench-experiments/bash-only/20250521_gpt-4-1-mini-20250414/logs",
-                    "trajs": "s3://swe-bench-experiments/bash-only/20250521_gpt-4-1-mini-20250414/trajs",
+                    "logs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0_gpt-4.1-mini-2025-04-14/logs",
+                    "trajs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0_gpt-4.1-mini-2025-04-14/trajs",
                     "os_model": false,
                     "os_system": true,
                     "checked": true,
@@ -4621,7 +4628,8 @@
                         "Model: gpt-4.1-mini-20250414",
                         "System: Attempts - 1"
                     ],
-                    "warning": null
+                    "warning": null,
+                    "mini-swe-agent_version": "0.0.0"
                 },
                 {
                     "name": "GPT-4o (2024-11-20)",
@@ -4629,11 +4637,11 @@
                         "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
                     ],
                     "site": "https://platform.openai.com/docs/models/gpt-4o",
-                    "folder": "20250521_gpt-4o-20241120",
+                    "folder": "20250720_mini-v0.0.0-gpt-4o-2024-11-20",
                     "resolved": 22.53,
                     "date": "2025-05-21",
-                    "logs": "s3://swe-bench-experiments/bash-only/20250521_gpt-4o-20241120/logs",
-                    "trajs": "s3://swe-bench-experiments/bash-only/20250521_gpt-4o-20241120/trajs",
+                    "logs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-gpt-4o-2024-11-20/logs",
+                    "trajs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-gpt-4o-2024-11-20/trajs",
                     "os_model": false,
                     "os_system": true,
                     "checked": true,
@@ -4642,7 +4650,8 @@
                         "Model: gpt-4o-20241120",
                         "System: Attempts - 1"
                     ],
-                    "warning": null
+                    "warning": null,
+                    "mini-swe-agent_version": "0.0.0"
                 },
                 {
                     "name": "Llama 4 Maverick Instruct",
@@ -4650,11 +4659,11 @@
                         "https://upload.wikimedia.org/wikipedia/commons/d/d0/Meta_Platforms_logo.svg"
                     ],
                     "site": "https://www.together.ai/models/llama-4-maverick",
-                    "folder": "20250521_llama-4-maverick-instruct",
+                    "folder": "20250720_mini-v0.0.0-Llama-4-Maverick-17B-Instruct",
                     "resolved": 21.04,
                     "date": "2025-05-21",
-                    "logs": "s3://swe-bench-experiments/bash-only/20250521_llama-4-maverick-instruct/logs",
-                    "trajs": "s3://swe-bench-experiments/bash-only/20250521_llama-4-maverick-instruct/trajs",
+                    "logs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-Llama-4-Maverick-17B-Instruct/logs",
+                    "trajs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-Llama-4-Maverick-17B-Instruct/trajs",
                     "os_model": false,
                     "os_system": true,
                     "checked": true,
@@ -4663,7 +4672,8 @@
                         "Model: llama-4-maverick-instruct",
                         "System: Attempts - 1"
                     ],
-                    "warning": null
+                    "warning": null,
+                    "mini-swe-agent_version": "0.0.0"
                 },
                 {
                     "name": "Gemini 2.0 flash",
@@ -4671,11 +4681,11 @@
                         "https://upload.wikimedia.org/wikipedia/commons/8/8f/Google-gemini-icon.svg"
                     ],
                     "site": "https://ai.google.dev/gemini-api/docs/models",
-                    "folder": "20250521_gemini-2-0-flash",
+                    "folder": "20250726_mini-v1.0.0_gemini-2.5-flash",
                     "resolved": 14.61,
                     "date": "2025-05-21",
-                    "logs": "s3://swe-bench-experiments/bash-only/20250521_gemini-2-0-flash/logs",
-                    "trajs": "s3://swe-bench-experiments/bash-only/20250521_gemini-2-0-flash/trajs",
+                    "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.5-flash/logs",
+                    "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.5-flash/trajs",
                     "os_model": false,
                     "os_system": true,
                     "checked": true,
@@ -4684,7 +4694,8 @@
                         "Model: gemini-2.0-flash",
                         "System: Attempts - 1"
                     ],
-                    "warning": null
+                    "warning": null,
+                    "mini-swe-agent_version": "0.0.0"
                 },
                 {
                     "name": "Llama 4 Scout Instruct",
@@ -4692,11 +4703,11 @@
                         "https://upload.wikimedia.org/wikipedia/commons/d/d0/Meta_Platforms_logo.svg"
                     ],
                     "site": "https://www.together.ai/models/llama-4-scout",
-                    "folder": "20250521_llama-4-scout-instruct",
+                    "folder": "20250720_mini-v0.0.0-Llama-4-Scout-17B-Instruct",
                     "resolved": 9.06,
                     "date": "2025-05-21",
-                    "logs": "s3://swe-bench-experiments/bash-only/20250521_llama-4-scout-instruct/logs",
-                    "trajs": "s3://swe-bench-experiments/bash-only/20250521_llama-4-scout-instruct/trajs",
+                    "logs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-Llama-4-Scout-17B-Instruct/logs",
+                    "trajs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-Llama-4-Scout-17B-Instruct/trajs",
                     "os_model": false,
                     "os_system": true,
                     "checked": true,
@@ -4705,7 +4716,8 @@
                         "Model: llama-4-scout-instruct",
                         "System: Attempts - 1"
                     ],
-                    "warning": null
+                    "warning": null,
+                    "mini-swe-agent_version": "0.0.0"
                 }
             ]
         }
