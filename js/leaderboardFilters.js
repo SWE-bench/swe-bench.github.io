@@ -108,7 +108,9 @@ class MultiSelectDropdown {
         items.forEach(item => {
             const option = document.createElement('div');
             option.className = 'multiselect-option';
-            option.innerHTML = `<label><input type="checkbox" class="checkbox-item" value="${item}" checked> ${item}</label>`;
+            // Use canonical display names for main filters, raw values for tags
+            const displayName = filterDisplayNames[item] || item;
+            option.innerHTML = `<label><input type="checkbox" class="checkbox-item" value="${item}" checked> ${displayName}</label>`;
             optionsContainer.appendChild(option);
         });
         
@@ -193,7 +195,9 @@ class MultiSelectDropdown {
         } else if (this.isAllSelected()) {
             text = this.options.allSelectedText;
         } else if (selected.length === 1) {
-            text = `${this.options.summaryPrefix}${selected[0]}`.trim();
+            // Use display name mapping for main filters dropdown
+            const displayName = filterDisplayNames[selected[0]] || selected[0];
+            text = `${this.options.summaryPrefix}${displayName}`.trim();
         } else {
             text = `${selected.length} ${this.options.summaryPrefix}Selected`.trim();
         }
@@ -228,6 +232,13 @@ class MultiSelectDropdown {
 
 // Global active filters set
 const activeFilters = new Set(['os_system']);
+
+// Mapping from filter codenames to display names
+const filterDisplayNames = {
+    'os_system': 'Open Scaffold',
+    'os_model': 'Open Weights', 
+    'checked': 'Checked'
+};
 
 // Global data
 let leaderboardTagsData = {};
@@ -331,7 +342,7 @@ let tagFiltersDropdown = null;
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Main Filters Dropdown
+    // Initialize Main Filters Dropdown with dynamic options
     mainFiltersDropdown = new MultiSelectDropdown('main-filters', {
         searchable: false,
         allOptionText: 'All Filters',
@@ -341,6 +352,10 @@ document.addEventListener('DOMContentLoaded', function() {
         defaultSelected: ['os_system'], // Default to Open Scaffold checked
         onSelectionChange: updateActiveFilters
     });
+    
+    // Dynamically rebuild the main filters dropdown with canonical names
+    const filterOptions = Object.keys(filterDisplayNames);
+    mainFiltersDropdown.rebuildOptions(filterOptions);
     
     // Initialize Tag Filters Dropdown
     tagFiltersDropdown = new MultiSelectDropdown('tag-filters', {
