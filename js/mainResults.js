@@ -28,6 +28,7 @@ function loadLeaderboardData() {
 
 function renderLeaderboardTable(leaderboard) {
     const container = document.getElementById('leaderboard-container');
+    const isBashOnly = leaderboard.name.toLowerCase() === 'bash-only';
     
     // Create table content
     const tableHtml = `
@@ -43,6 +44,7 @@ function renderLeaderboardTable(leaderboard) {
                             <th>Logs</th>
                             <th>Trajs</th>
                             <th>Site</th>
+                            ${isBashOnly ? '<th>Release</th>' : ''}
                         </tr>
                     </thead>
                     <tbody>
@@ -83,10 +85,11 @@ function renderLeaderboardTable(leaderboard) {
                                     <td class="centered-text text-center">
                                         ${item.site ? `<a href="${item.site}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
                                     </td>
+                                    ${isBashOnly ? `<td><span class="text-muted font-mono">${item['mini-swe-agent_version'] || '-'}</span></td>` : ''}
                                 </tr>
                             `).join('')}
                         <tr class="no-results" style="display: none;">
-                            <td colspan="7" class="text-center">
+                            <td colspan="${isBashOnly ? '8' : '7'}" class="text-center">
                                 No entries match the selected filters. Try adjusting your filters.
                             </td>
                         </tr>
@@ -185,10 +188,11 @@ function updateMainResults(split, model) {
         .then(data => {
             if (data && data.resolved) {
                 const resolved = data.resolved.length;
-                const total = 
+                                const total = 
                     split === 'lite' ? 300 : 
                     split === 'verified' ? 500 : 
-                    split === 'multimodal' ? 517 : 2294;
+                    split === 'multimodal' ? 517 : 
+                    split === 'bash-only' ? 500 : 2294;
                 const percentResolved = (resolved / total * 100).toFixed(2);
                 const resolvedElement = document.getElementById('selectedResolved');
                 resolvedElement.textContent = percentResolved;
@@ -239,6 +243,21 @@ function openLeaderboard(leaderboardName) {
         activeButton.classList.add('active');
     }
     
+    // Update the leaderboard description text
+    if (typeof updateLeaderboardDescription === 'function') {
+        updateLeaderboardDescription(leaderboardName);
+    }
+    
+    // Update filter visibility based on leaderboard type
+    if (typeof updateFilterVisibility === 'function') {
+        updateFilterVisibility(leaderboardName);
+    }
+    
+    // Update tags dropdown for the new leaderboard
+    if (typeof updateTagsForLeaderboard === 'function') {
+        updateTagsForLeaderboard(leaderboardName);
+    }
+    
     // Apply current filters to the newly displayed table
     if (typeof updateTable === 'function') {
         setTimeout(updateTable, 0);
@@ -262,7 +281,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (currentPage === 'index' && window.location.hash) {
             const currentHash = window.location.hash.substring(1);
             
-            if (linkPage === currentHash && !['lite', 'verified', 'test', 'multimodal'].includes(currentHash.toLowerCase())) {
+            if (linkPage === currentHash && !['bash-only', 'verified', 'lite', 'test', 'multimodal'].includes(currentHash.toLowerCase())) {
                 link.classList.add('active');
             }
         }
@@ -276,14 +295,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Load initial tab based on hash or default to Lite
+    // Load initial tab based on hash or default to Verified (mini-SWE-agent)
     const hash = window.location.hash.slice(1).toLowerCase();
-    const validTabs = ['lite', 'verified', 'test', 'multimodal'];
+    const validTabs = ['bash-only', 'verified', 'lite', 'test', 'multimodal'];
     
     if (hash && validTabs.includes(hash)) {
         const tabName = hash.charAt(0).toUpperCase() + hash.slice(1);
         openLeaderboard(tabName);
     } else {
-        openLeaderboard('Lite');
+        openLeaderboard('bash-only');
     }
 });
