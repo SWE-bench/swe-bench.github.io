@@ -54,13 +54,24 @@ def main() -> None:
         press = json.load(f)
         press = sorted(press, key=lambda x: x["date"], reverse=True)
     
-    # Collect all unique tags
+    # Collect tags per leaderboard and global tags
+    leaderboard_tags = {}
     all_tags = set()
+    
     for leaderboard in leaderboards["leaderboards"] if isinstance(leaderboards, dict) else leaderboards:
+        leaderboard_name = leaderboard["name"]
+        leaderboard_tags[leaderboard_name] = set()
+        
         for entry in leaderboard["results"]:
             if "tags" in entry and entry["tags"]:
-                all_tags.update(entry["tags"])
-    all_tags = sorted(set(list(all_tags)))
+                entry_tags = entry["tags"]
+                leaderboard_tags[leaderboard_name].update(entry_tags)
+                all_tags.update(entry_tags)
+    
+    # Convert sets to sorted lists for JSON serialization
+    for leaderboard_name in leaderboard_tags:
+        leaderboard_tags[leaderboard_name] = sorted(list(leaderboard_tags[leaderboard_name]))
+    all_tags = sorted(list(all_tags))
     
     # render all pages
     for tpl_name, out_name in PAGES.items():
@@ -69,7 +80,8 @@ def main() -> None:
             title="SWE-bench", 
             leaderboards=leaderboards["leaderboards"] if isinstance(leaderboards, dict) else leaderboards,
             press=press,
-            all_tags=all_tags,
+            all_tags=all_tags,  # Keep for backward compatibility
+            leaderboard_tags=leaderboard_tags,  # New per-leaderboard tags
         )
         (DIST / out_name).write_text(html)
         print(f"built {out_name}")
