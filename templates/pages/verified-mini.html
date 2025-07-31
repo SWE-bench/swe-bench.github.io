@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}SWE-bench Verified (mini-SWE-agent){% endblock %}
+{% block title %}SWE-bench Bash Only{% endblock %}
 
 {% block head_extra %}
     <link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -11,9 +11,9 @@
         <div class="container">
             <div class="d-flex align-center mb-3">
                 <img src="img/swe-llama.svg" alt="SWE-Llama Logo" style="height: 5em; width: auto; margin-right: 1em;">
-                <h1 class="mb-0">SWE-bench Verified (mini-SWE-agent)</h1>
+                <h1 class="mb-0">SWE-bench Bash Only</h1>
             </div>
-            <p>Evaluating language models in minimal bash environments (<a href="https://github.com/SWE-agent/mini-swe-agent">Mini-SWE-agent</a>) for fair LM comparison.</p>
+            <p>Evaluating language models in minimal bash environments (<a href="https://github.com/SWE-agent/mini-swe-agent">mini-SWE-agent</a>) for fair LM comparison.</p>
             <br>
             <div class="flex gap-2">
                 <a href="https://arxiv.org/abs/2310.06770" target="_blank" class="paper-link">Paper</a>
@@ -28,12 +28,12 @@
             <h2>Overview</h2>
             <p>The original SWE-bench benchmark aims to evaluate arbitrary systems on their ability to resolve GitHub issues. Currently, top-performing systems represent a wide variety of AI scaffolds; from simple LM agent loops, to RAG systems, to multi-rollout and review type systems. Each of these systems are totally valid solutions to the problem of solving GitHub issues.</p>
 
-            <p>However, when we first created SWE-bench, we were initially interested in evaluating LMs primarily. To make an apples-to-apples comparison of LMs easier, we also have our <strong>SWE-bench Verified (mini-SWE-agent)</strong> leaderboard. In this setting, we use our <a href="https://github.com/SWE-agent/mini-swe-agent">mini-SWE-agent</a> package to evaluate LMs in a minimal bash environment. No tools, no special scaffold structure; just a simple <a href="https://arxiv.org/abs/2210.03629">ReAct</a> agent loop. Results on SWE-bench Verified (mini-SWE-agent) represent the state-of-the-art LM performance when given just a bash shell and a problem.</p>
+            <p>However, when we first created SWE-bench, we were initially interested in evaluating LMs primarily. To make an apples-to-apples comparison of LMs easier, we've introduced the <strong>SWE-bench Bash Only</strong> leaderboard. In this setting, we use our <a href="https://github.com/SWE-agent/mini-swe-agent">mini-SWE-agent</a> package to evaluate LMs in a minimal bash environment. No tools, no special scaffold structure; just a simple <a href="https://arxiv.org/abs/2210.03629">ReAct</a> agent loop. Results on SWE-bench Bash Only represent the state-of-the-art LM performance when given just a bash shell and a problem.</p>
         </section>
 
         <section class="content-box" id="citation">
             <h2>Citation</h2>
-            <p>If you use SWE-bench Verified (mini-SWE-agent) in your research, please cite our paper:</p>
+            <p>If you use SWE-bench Bash Only in your research, please cite our paper:</p>
             
             <div class="citation-type">
                 <button class="citation-format-btn active" data-format="bibtex" data-target="bash-only-citation">BibTeX</button>

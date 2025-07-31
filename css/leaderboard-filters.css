@@ -1,417 +1,344 @@
-/* Responsive leaderboard header layout */
+/* =============================================================================
+   LEADERBOARD FILTERS - Using Design System
+   ============================================================================= */
+
+/* =============================================================================
+   RESPONSIVE LEADERBOARD HEADER LAYOUT
+   ============================================================================= */
+
 .leaderboard-header-container {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--size-sm);
 }
 
 .leaderboard-description {
-    font-size: 1.1em;
-    line-height: 1.4;
-    padding: 0.25rem 0.5rem;
-    flex: 1 1 50%;
-    min-width: 0;
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  padding: var(--size-xs) var(--size-sm);
+  flex: 1 1 50%;
+  min-width: 0;
 }
 
 .filter-controls-section {
-    flex: 1 1 50%;
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
+  flex: 1 1 50%;
+  display: flex;
+  /* flex-direction: column; */
+  gap: var(--size-xs);
 }
 
 .filter-title {
-    font-size: 0.9em;
-    margin-bottom: 0.25rem;
+  font-size: var(--text-sm);
+  margin-bottom: var(--size-xs);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-secondary);
 }
 
 .filter-controls-group {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--size-sm);
+  flex-shrink: 0;
 }
 
-/* Filter Buttons */
+/* =============================================================================
+   FILTER CONTROLS
+   ============================================================================= */
+
 .filter-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size-sm);
 }
 
-/* Fix button height issue */
-.filter-toggle,
-#tag-filter-toggle {
-    height: 31px !important;
-    box-sizing: border-box;
-}
-
+/* Filter button overrides for consistent height */
 .filter-toggle {
-    transition: all 0.2s ease-in-out;
+  height: 31px;
+  font-size: var(--text-sm);
+  padding: var(--size-xs) var(--size-sm);
+  transition: var(--transition-normal);
 }
 
-.filter-toggle.active {
-    background-color: #0d6efd;
-    color: white;
-    border-color: #0d6efd;
-}
-
-.filter-toggle:hover {
-    background-color: #e9ecef;
-}
-
-.filter-toggle.active:hover {
-    background-color: #0b5ed7;
-}
-
-
-
-/* Updated styling for filter checkboxes */
+/* Filter checkbox labels using existing design patterns */
 .filter-buttons label {
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-    padding: 0.25rem 0.5rem;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    background-color: #f8f9fa;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: var(--size-sm);
+  padding: var(--size-xs) var(--size-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-background-alt);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: var(--transition-normal);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
 }
 
 .filter-buttons label:hover {
-    background-color: #e9ecef;
-}
-
-.filter-buttons input[type="checkbox"] {
-    appearance: none;
-    width: 1.25em;
-    height: 1.25em;
-    border: 2px solid #adb5bd;
-    border-radius: 0.25rem;
-    background-color: #fff;
-    display: inline-block;
-    vertical-align: middle;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
-
-.filter-buttons input[type="checkbox"]:checked {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='white' d='M6.173 11.233L3.5 8.56l-.707.707 3.38 3.38.707.707 7.5-7.5-.707-.707-6.5 6.5z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 75%;
-}
-
-.filter-buttons input[type="checkbox"]:focus {
-    outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+  background-color: var(--table-row-hover);
+  border-color: var(--color-accent);
 }
 
 .filter-buttons label.active {
-    background-color: #0d6efd;
-    color: white;
-    border-color: #0d6efd;
+  background-color: var(--color-accent);
+  color: white;
+  border-color: var(--color-accent);
 }
 
 .filter-buttons label.active:hover {
-    background-color: #0b5ed7;
+  background-color: var(--color-accent-dark);
+  border-color: var(--color-accent-dark);
 }
 
-/* Multiselect Dropdown Container */
+/* Custom checkbox using design system colors */
+.checkbox-item {
+  appearance: none;
+  width: 1.25em;
+  height: 1.25em;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-background);
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+  transition: var(--transition-normal);
+}
+
+.checkbox-item:checked {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='white' d='M6.173 11.233L3.5 8.56l-.707.707 3.38 3.38.707.707 7.5-7.5-.707-.707-6.5 6.5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 75%;
+}
+
+.checkbox-item:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.2rem var(--color-accent-light);
+}
+
+/* =============================================================================
+   MULTISELECT COMPONENTS - Using Design System
+   ============================================================================= */
+
+/* Container and positioning */
+.multiselect-container {
+  position: relative;
+  flex-shrink: 0;
+}
+
 .multiselect-dropdown {
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-    font-size: 1rem;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  font-size: var(--text-base);
 }
 
-/* Selected Items Container */
+.multiselect-form {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: var(--z-modal);
+  width: fit-content;
+  max-width: calc(100vw - var(--size-lg));
+  min-width: auto;
+}
+
+.multiselect-form.show {
+  display: block;
+}
+
+/* Selected items display using form-control pattern */
 .multiselect-selected {
-    display: flex;
-    align-items: center;
-    flex-wrap: nowrap;
-    gap: 0.4em;
-    width: 100%;
-    min-height: 38px;
-    padding: 0.375rem 0.75rem;
-    background: #fff;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    cursor: pointer;
-    overflow-x: auto;
-    overflow-y: hidden;
-    white-space: nowrap;
-    scrollbar-width: none;  /* Firefox */
-    -ms-overflow-style: none;  /* IE and Edge */
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: var(--size-xs);
+  width: 100%;
+  min-height: 38px;
+  padding: 0.375rem 0.75rem;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  transition: var(--transition-fast);
 }
 
 .multiselect-selected::-webkit-scrollbar {
-    display: none;  /* Chrome, Safari and Opera */
+  display: none;
 }
 
-/* Dropdown Options */
-.multiselect-dropdown.open .multiselect-options {
-    display: block;
+.multiselect-selected:hover {
+  border-color: var(--color-accent);
 }
 
+/* Dropdown options container using existing shadow system */
 .multiselect-options {
-    display: none;
-    position: absolute;
-    top: 110%;
-    left: 0;
-    width: 100%;
-    max-height: 260px;
-    padding: 0.5rem 0;
-    background: #fff;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    z-index: 100;
-    overflow-y: auto;
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: auto;
+  max-width: calc(100vw - var(--size-2xl));
+  min-width: 200px;
+  max-height: 260px;
+  padding: var(--size-sm) 0;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: var(--z-dropdown);
+  overflow-y: auto;
 }
 
 .multiselect-option {
-    padding: 0 1rem;
-    display: flex;
-    align-items: center;
-    height: 2.2em;
+  padding: 0 var(--size-sm);
+  display: flex;
+  align-items: center;
+  height: 2.2em;
 }
 
 .multiselect-option label {
-    width: 100%;
-    margin-bottom: 0;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
+  width: 100%;
+  margin-bottom: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--size-sm);
+  padding: var(--size-xs) var(--size-sm);
+  font-size: var(--text-sm);
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+  color: var(--color-text);
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  transition: var(--transition-fast);
 }
 
-/* Search Input */
+.multiselect-option label:hover {
+  background-color: var(--table-row-hover);
+}
+
+/* Search input using existing form-control */
 .multiselect-search {
-    width: 90%;
-    margin: 0.25em 5% 0.5em;
-    padding: 0.25em 0.5em;
-    border: 1px solid #e0e0e0;
-    border-radius: 0.2em;
+  width: calc(100% - var(--size-md));
+  margin: var(--size-sm);
+  /* Will inherit from .form-control class in HTML */
 }
 
-/* Selected Item Badges */
+/* Selected item badges using existing design patterns */
 .multiselect-badge {
-    display: inline-block;
-    flex-shrink: 0;
-    vertical-align: middle;
-    padding: 0.15em 0.8em;
-    margin-right: 0.2em;
-    background: #e9ecef;
-    color: #333;
-    border-radius: 1em;
-    font-size: 0.95em;
-    font-weight: 500;
-    white-space: nowrap;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: middle;
+  padding: 0.15em 0.8em;
+  margin-right: 0.2em;
+  background: var(--color-background-alt);
+  color: var(--color-text);
+  border-radius: var(--radius-full);
+  font-size: 0.95em;
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
 }
 
 .multiselect-badge-remove {
-    display: inline-block;
-    margin-left: 0.5em;
-    padding: 0 0.2em;
-    font-size: 1em;
-    line-height: 1;
-    color: #888;
-    background: none;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s;
+  display: inline-block;
+  margin-left: var(--size-sm);
+  padding: 0 0.2em;
+  font-size: 1em;
+  line-height: 1;
+  color: var(--color-text-muted);
+  background: none;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: var(--transition-fast);
 }
 
 .multiselect-badge-remove:hover {
-    background: #dee2e6;
-    color: #c00;
+  background: var(--table-row-hover);
+  color: var(--color-danger);
 }
 
 .multiselect-placeholder {
-    color: #adb5bd;
-    font-size: 1em;
+  color: var(--color-text-muted);
+  font-size: var(--text-base);
 }
 
-/* Dark Mode Styles */
-.dark-mode .multiselect-dropdown,
-.dark-mode .multiselect-selected,
-.dark-mode .multiselect-options {
-    background: var(--gray-800);
-    color: var(--gray-100);
-    border-color: var(--gray-700);
+/* Icons using consistent spacing */
+.tag-filter-icon,
+.multiselect-icon {
+  margin-left: var(--size-xs);
+  font-size: 0.8em;
 }
 
-.dark-mode .multiselect-option label {
-    color: var(--gray-100);
+/* =============================================================================
+   RESPONSIVE DESIGN - Using Design System Breakpoints
+   ============================================================================= */
+
+@media (max-width: 992px) {
+  .leaderboard-description {
+    flex: none;
+    padding: var(--size-sm) 0;
+  }
+  
+  .filter-controls-section {
+    flex: none;
+  }
+  
+  .filter-controls-group {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
 }
 
-.dark-mode .multiselect-badge {
-    background: var(--gray-700);
-    color: var(--gray-100);
+@media (max-width: 768px) {
+  .multiselect-form {
+    width: fit-content;
+    max-width: calc(100vw - var(--size-lg));
+  }
+
+  #main-filters .multiselect-options {
+    /* very manual hack to prevent cutoff */
+    left: -4rem;
+  }
+
+  #tag-filters .multiselect-options {
+    /* very manual hack to prevent cutoff */
+    left: -11rem;
+  }
+  
+  .multiselect-container {
+    /* width: 100%; */
+    flex: 0 0 auto;
+  }
 }
 
-.dark-mode .multiselect-badge-remove {
-    color: var(--gray-400);
+@media (max-width: 576px) {
+  .filter-controls-group {
+    flex-wrap: wrap;
+  }
+  
+  .filter-buttons {
+    gap: var(--size-xs);
+  }
 }
 
-.dark-mode .multiselect-badge-remove:hover {
-    background: var(--gray-600);
-    color: var(--red-500);
-}
+/* =============================================================================
+   UTILITY OVERRIDES
+   ============================================================================= */
 
-.dark-mode .multiselect-placeholder {
-    color: var(--gray-400);
-}
-
-.dark-mode .multiselect-search {
-    background: var(--gray-800);
-    color: var(--gray-100);
-    border-color: var(--gray-700);
-}
-
-.dark-mode .filter-buttons input[type="checkbox"] {
-    background-color: var(--gray-800);
-    border-color: var(--gray-600);
-}
-
-.dark-mode .filter-buttons input[type="checkbox"]:checked {
-    background-color: var(--blue-500);
-    border-color: var(--blue-500);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='white' d='M6.173 11.233L3.5 8.56l-.707.707 3.38 3.38.707.707 7.5-7.5-.707-.707-6.5 6.5z'/%3E%3C/svg%3E");
-}
-
-.dark-mode .filter-buttons input[type="checkbox"]:focus {
-    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-}
-
-.dark-mode .filter-buttons label {
-    background-color: var(--gray-700);
-    color: var(--gray-100);
-    border-color: var(--gray-600);
-}
-.dark-mode .filter-buttons label:hover {
-    background-color: var(--gray-600);
-}
-.dark-mode .filter-buttons label.active {
-    background-color: var(--blue-500);
-    color: white;
-    border-color: var(--blue-500);
-}
-.dark-mode .filter-buttons label.active:hover {
-    background-color: var(--blue-400);
-}
-
-/* Tag Filter Dropdown Styles */
-.tag-filter-container {
-    flex-shrink: 0;
-    position: relative;
-}
-
-.tag-filter-icon {
-    margin-left: 6px;
-}
-
-.tag-dropdown-form {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: calc(100% - 350px);
-    z-index: 1000;
-}
-
-.tag-dropdown-form.show {
-    display: block;
-}
-
-.tag-dropdown-form .multiselect-options {
-    display: block;
-    background: #fff;
-    color: #333;
-    border: 1px solid #ced4da;
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    max-height: 400px;
-    overflow-y: auto;
-    width: 350px;
-}
-
-.tag-dropdown-form .multiselect-search {
-    width: calc(100% - 16px);
-    padding: 12px 8px;
-    margin: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    color: #333;
-    background: #fff;
-}
-
-.tag-dropdown-form .multiselect-option label {
-    padding: 10px 16px;
-    display: block;
-    margin: 0;
-    cursor: pointer;
-    font-size: 14px;
-    border-bottom: 1px solid #f5f5f5;
-    color: #333;
-}
-
-/* Dark mode styles for tag dropdown */
-.dark-mode .tag-dropdown-form .multiselect-options {
-    background: #2a2d35;
-    color: #e9ecef;
-    border: 1px solid #495057;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-}
-
-.dark-mode .tag-dropdown-form .multiselect-search {
-    border: 1px solid #495057;
-    color: #e9ecef;
-    background: #1e2125;
-}
-
-.dark-mode .tag-dropdown-form .multiselect-option label {
-    border-bottom: 1px solid #495057;
-    color: #e9ecef;
-}
-
-.tag-dropdown-form .tag-checkbox {
-    margin-right: 8px;
-}
-
-
-
-/* When space is tight, stack sections vertically */
-@media (max-width: 1000px) {
-    .leaderboard-header-container {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.75rem;
-    }
-    
-    .leaderboard-description {
-        flex: none;
-        padding: 0.5rem 0;
-    }
-    
-    .filter-controls-section {
-        flex: none;
-    }
-    
-    .filter-controls-group {
-        justify-content: flex-start;
-        flex-wrap: wrap;
-    }
-}
-
-/* Fix leaderboard description text alignment */
-.leaderboard-description-text {
-    text-align: left !important;
+#leaderboard-description-text {
+  text-align: left;
 }

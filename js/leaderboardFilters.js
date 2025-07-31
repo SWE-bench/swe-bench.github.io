@@ -1,26 +1,270 @@
+// Generic MultiSelect Dropdown Class
+class MultiSelectDropdown {
+    constructor(containerId, options = {}) {
+        this.containerId = containerId;
+        this.container = document.getElementById(containerId);
+        this.options = {
+            searchable: options.searchable || false,
+            allOptionText: options.allOptionText || 'All',
+            summaryPrefix: options.summaryPrefix || '',
+            noSelectionText: options.noSelectionText || 'Select...',
+            allSelectedText: options.allSelectedText || 'All',
+            items: options.items || [],
+            defaultSelected: options.defaultSelected || [],
+            onSelectionChange: options.onSelectionChange || (() => {}),
+            ...options
+        };
+        
+        this.init();
+    }
+    
+    init() {
+        if (!this.container) return;
+        
+        this.toggleButton = this.container.querySelector('.multiselect-toggle');
+        this.dropdownForm = this.container.querySelector('.multiselect-form');
+        this.multiselect = this.container.querySelector('.multiselect-dropdown');
+        this.summaryElement = this.container.querySelector('.multiselect-summary');
+        
+        if (!this.toggleButton || !this.dropdownForm || !this.multiselect || !this.summaryElement) return;
+        
+        this.setupEventListeners();
+        this.updateSelection();
+    }
+    
+    setupEventListeners() {
+        // Toggle dropdown
+        this.toggleButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleDropdown();
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!this.container.contains(e.target)) {
+                this.closeDropdown();
+            }
+        });
+        
+        // Handle checkbox changes
+        this.multiselect.addEventListener('change', (e) => {
+            if (e.target.classList.contains('checkbox-item')) {
+                this.handleCheckboxChange(e.target);
+            }
+        });
+        
+        // Setup search if enabled
+        if (this.options.searchable) {
+            this.setupSearch();
+        }
+    }
+    
+    setupSearch() {
+        const optionsContainer = this.multiselect.querySelector('.multiselect-options');
+        if (!optionsContainer) return;
+        
+        // Create search input if it doesn't exist
+        let searchInput = optionsContainer.querySelector('.multiselect-search');
+        if (!searchInput) {
+            searchInput = document.createElement('input');
+            searchInput.type = 'text';
+            searchInput.className = 'form-control form-control-sm multiselect-search';
+            searchInput.placeholder = 'Search tags...';
+            optionsContainer.insertBefore(searchInput, optionsContainer.firstChild);
+        }
+        
+        searchInput.addEventListener('input', (e) => {
+            this.filterOptions(e.target.value);
+        });
+    }
+    
+    rebuildOptions(items) {
+        const optionsContainer = this.multiselect.querySelector('.multiselect-options');
+        if (!optionsContainer) return;
+        
+        // Clear existing options
+        optionsContainer.innerHTML = '';
+        
+        // Add search input if searchable
+        if (this.options.searchable) {
+            const searchInput = document.createElement('input');
+            searchInput.type = 'text';
+            searchInput.className = 'form-control form-control-sm multiselect-search';
+            searchInput.placeholder = 'Search tags...';
+            optionsContainer.appendChild(searchInput);
+            
+            searchInput.addEventListener('input', (e) => {
+                this.filterOptions(e.target.value);
+            });
+        }
+        
+        // Add "All" option
+        const allOption = document.createElement('div');
+        allOption.className = 'multiselect-option';
+        allOption.innerHTML = `<label><input type="checkbox" class="checkbox-item" value="All" checked> <strong>(${this.options.allOptionText})</strong></label>`;
+        optionsContainer.appendChild(allOption);
+        
+        // Add individual options
+        items.forEach(item => {
+            const option = document.createElement('div');
+            option.className = 'multiselect-option';
+            option.innerHTML = `<label><input type="checkbox" class="checkbox-item" value="${item}" checked> ${item}</label>`;
+            optionsContainer.appendChild(option);
+        });
+        
+        this.updateSelection();
+    }
+    
+    toggleDropdown() {
+        const isOpen = this.dropdownForm.style.display === 'block';
+        if (isOpen) {
+            this.closeDropdown();
+        } else {
+            this.openDropdown();
+        }
+    }
+    
+    openDropdown() {
+        // Close all other dropdowns before opening this one
+        this.closeOtherDropdowns();
+        
+        this.dropdownForm.style.display = 'block';
+        const icon = this.toggleButton.querySelector('.multiselect-icon');
+        if (icon) icon.textContent = '▲';
+    }
+    
+    closeOtherDropdowns() {
+        // Close all other dropdown instances
+        [window.mainFiltersDropdown, window.tagFiltersDropdown].forEach(dropdown => {
+            if (dropdown && dropdown !== this && dropdown.dropdownForm.style.display === 'block') {
+                dropdown.closeDropdown();
+            }
+        });
+    }
+    
+    closeDropdown() {
+        this.dropdownForm.style.display = 'none';
+        const icon = this.toggleButton.querySelector('.multiselect-icon');
+        if (icon) icon.textContent = '▼';
+    }
+    
+    handleCheckboxChange(checkbox) {
+        if (checkbox.value === 'All') {
+            this.toggleAllItems(checkbox.checked);
+        } else {
+            this.updateAllCheckbox();
+        }
+        this.updateSelection();
+        this.options.onSelectionChange(this.getSelectedValues());
+    }
+    
+    toggleAllItems(checked) {
+        const checkboxes = this.multiselect.querySelectorAll('.checkbox-item:not([value="All"])');
+        checkboxes.forEach(cb => cb.checked = checked);
+    }
+    
+    updateAllCheckbox() {
+        const allCheckbox = this.multiselect.querySelector('.checkbox-item[value="All"]');
+        const otherCheckboxes = this.multiselect.querySelectorAll('.checkbox-item:not([value="All"])');
+        const checkedOthers = Array.from(otherCheckboxes).filter(cb => cb.checked);
+        
+        if (allCheckbox) {
+            allCheckbox.checked = checkedOthers.length === otherCheckboxes.length;
+        }
+    }
+    
+    getSelectedValues() {
+        const checkboxes = this.multiselect.querySelectorAll('.checkbox-item:not([value="All"])');
+        return Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+    }
+    
+    isAllSelected() {
+        const checkboxes = this.multiselect.querySelectorAll('.checkbox-item:not([value="All"])');
+        const selected = this.getSelectedValues();
+        return selected.length === checkboxes.length;
+    }
+    
+    updateSelection() {
+        const selected = this.getSelectedValues();
+        let text;
+        
+        if (selected.length === 0) {
+            text = this.options.noSelectionText;
+        } else if (this.isAllSelected()) {
+            text = this.options.allSelectedText;
+        } else if (selected.length === 1) {
+            text = `${this.options.summaryPrefix}${selected[0]}`.trim();
+        } else {
+            text = `${selected.length} ${this.options.summaryPrefix}Selected`.trim();
+        }
+        
+        this.summaryElement.textContent = text;
+    }
+    
+    filterOptions(searchTerm) {
+        if (!this.options.searchable) return;
+        
+        const filter = searchTerm.toLowerCase();
+        const options = this.multiselect.querySelectorAll('.multiselect-option');
+        options.forEach(opt => {
+            const isAllOption = opt.querySelector('.checkbox-item[value="All"]');
+            if (isAllOption || opt.textContent.toLowerCase().includes(filter)) {
+                opt.style.display = '';
+            } else {
+                opt.style.display = 'none';
+            }
+        });
+    }
+    
+    setSelectedValues(values) {
+        const checkboxes = this.multiselect.querySelectorAll('.checkbox-item:not([value="All"])');
+        checkboxes.forEach(cb => {
+            cb.checked = values.includes(cb.value);
+        });
+        this.updateAllCheckbox();
+        this.updateSelection();
+    }
+}
+
 // Global active filters set
 const activeFilters = new Set(['os_system']);
 
+// Global data
+let leaderboardTagsData = {};
+
+// Function to load leaderboard tags data
+function loadLeaderboardTagsData() {
+    if (Object.keys(leaderboardTagsData).length === 0) {
+        const dataScript = document.getElementById('leaderboard-tags-data');
+        if (dataScript) {
+            leaderboardTagsData = JSON.parse(dataScript.textContent);
+        }
+    }
+    return leaderboardTagsData;
+}
+
+// Function to update tag dropdown based on active leaderboard
+function updateTagsForLeaderboard(leaderboardName) {
+    if (!window.tagFiltersDropdown) return;
+    
+    const tagsData = loadLeaderboardTagsData();
+    const leaderboardTags = tagsData[leaderboardName] || [];
+    
+    // Rebuild the tag dropdown with leaderboard-specific tags
+    window.tagFiltersDropdown.rebuildOptions(leaderboardTags);
+}
+
+// Make function globally accessible
+window.updateTagsForLeaderboard = updateTagsForLeaderboard;
+
 // Function to show/hide filter elements based on leaderboard type
 function updateFilterVisibility(leaderboardName) {
-    const openScaffoldFilter = document.querySelector('[data-filter="os_system"]').closest('.filter-toggle');
-    const openWeightsFilter = document.querySelector('[data-filter="os_model"]').closest('.filter-toggle');
-    const checkedFilter = document.querySelector('[data-filter="checked"]').closest('.filter-toggle');
-    const tagFilterContainer = document.querySelector('.tag-filter-container');
+    const mainFiltersContainer = document.getElementById('main-filters');
+    const tagFiltersContainer = document.getElementById('tag-filters');
     
-    if (leaderboardName === 'verified-mini') {
-        // For verified-mini, show only Open Weights, hide Open Scaffold, Checked, and Tags selection
-        if (openScaffoldFilter) openScaffoldFilter.style.display = 'none';
-        if (openWeightsFilter) openWeightsFilter.style.display = '';
-        if (checkedFilter) checkedFilter.style.display = 'none';
-        if (tagFilterContainer) tagFilterContainer.style.display = 'none';
-    } else {
-        // For all other leaderboards, show all filters
-        if (openScaffoldFilter) openScaffoldFilter.style.display = '';
-        if (openWeightsFilter) openWeightsFilter.style.display = '';
-        if (checkedFilter) checkedFilter.style.display = '';
-        if (tagFilterContainer) tagFilterContainer.style.display = '';
-    }
+    // Show all filters for all leaderboards - consistent interface
+    if (mainFiltersContainer) mainFiltersContainer.style.display = '';
+    if (tagFiltersContainer) tagFiltersContainer.style.display = '';
 }
 
 // Table Update Logic - Optimized for lazy loading
@@ -48,9 +292,9 @@ function updateTable() {
         }
         
         // Check tag filter
-        if (showRow) {
-            const selectedTags = getSelectedTags();
-            const allTagsSelected = isAllTagsSelected();
+        if (showRow && window.tagFiltersDropdown) {
+            const selectedTags = window.tagFiltersDropdown.getSelectedValues();
+            const allTagsSelected = window.tagFiltersDropdown.isAllSelected();
             
             if (!allTagsSelected) {
                 const rowTags = (row.getAttribute('data-tags') || '').split(',').map(t => t.trim()).filter(Boolean);
@@ -74,133 +318,74 @@ function updateTable() {
     }
 }
 
-function isAllTagsSelected() {
-    const multiselect = document.getElementById('tag-multiselect');
-    if (!multiselect) return true;
-    const selectedTags = getSelectedTags();
-    const allCheckboxes = multiselect.querySelectorAll('.tag-checkbox:not([value="All"])');
-    return selectedTags.length === allCheckboxes.length;
-}
-
 // Updated Filter Button Logic
-function updateActiveFilters(filter, isChecked) {
-    if (isChecked) {
-        activeFilters.add(filter);
-    } else {
-        activeFilters.delete(filter);
-    }
+function updateActiveFilters(selectedFilters) {
+    activeFilters.clear();
+    selectedFilters.forEach(filter => activeFilters.add(filter));
     updateTable();
 }
 
+// Global dropdown instances
+let mainFiltersDropdown = null;
+let tagFiltersDropdown = null;
+
 // Event Listeners
 document.addEventListener('DOMContentLoaded', function() {
-    // Set initial active state for default filters
-    document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
-        const filter = checkbox.getAttribute('data-filter');
-        checkbox.checked = activeFilters.has(filter);
+    // Initialize Main Filters Dropdown
+    mainFiltersDropdown = new MultiSelectDropdown('main-filters', {
+        searchable: false,
+        allOptionText: 'All Filters',
+        summaryPrefix: '',
+        noSelectionText: 'No Filters',
+        allSelectedText: 'All Filters',
+        defaultSelected: ['os_system'], // Default to Open Scaffold checked
+        onSelectionChange: updateActiveFilters
     });
-
-    // Add change event to filter checkboxes
-    document.querySelectorAll('.filter-checkbox').forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-            const filter = this.getAttribute('data-filter');
-            updateActiveFilters(filter, this.checked);
-        });
+    
+    // Initialize Tag Filters Dropdown
+    tagFiltersDropdown = new MultiSelectDropdown('tag-filters', {
+        searchable: true,
+        allOptionText: 'All Tags',
+        summaryPrefix: '',
+        noSelectionText: 'No Tags',
+        allSelectedText: 'All Tags',
+        onSelectionChange: (selectedTags) => {
+            updateTable(); // Just update table when tag selection changes
+        }
     });
-
-    // Multi-select dropdown logic
-    const multiselect = document.getElementById('tag-multiselect');
-    const toggleButton = document.getElementById('tag-filter-toggle');
-    const dropdownForm = document.getElementById('tag-multiselect-form');
     
-    if (multiselect && toggleButton) {
-        // Toggle dropdown open/close
-        toggleButton.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const isOpen = dropdownForm.style.display === 'block';
-            if (isOpen) {
-                dropdownForm.style.display = 'none';
-                toggleButton.querySelector('.tag-filter-icon').textContent = '▼';
-            } else {
-                dropdownForm.style.display = 'block';
-                toggleButton.querySelector('.tag-filter-icon').textContent = '▲';
-            }
-        });
-        
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(e) {
-            const container = document.querySelector('.tag-filter-container');
-            if (!container.contains(e.target)) {
-                dropdownForm.style.display = 'none';
-                toggleButton.querySelector('.tag-filter-icon').textContent = '▼';
-            }
-        });
-
-        // Search filter
-        window.filterTagOptions = function(input) {
-            const filter = input.value.toLowerCase();
-            const opts = multiselect.querySelectorAll('.multiselect-option');
-            opts.forEach(opt => {
-                if (opt.textContent.toLowerCase().includes(filter) || opt.querySelector('input').value === 'All') {
-                    opt.style.display = '';
-                } else {
-                    opt.style.display = 'none';
-                }
-            });
-        };
-
-        // Tag selection logic
-        window.updateTagSelection = function() {
-            const checkboxes = multiselect.querySelectorAll('.tag-checkbox:not([value="All"])');
-            const checked = Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
-            const summaryElement = document.getElementById('tag-filter-summary');
-            
-            if (checked.length === 0) {
-                summaryElement.textContent = 'Select tags...';
-            } else if (checked.length === checkboxes.length) {
-                summaryElement.textContent = 'All Tags';
-                multiselect.querySelector('.tag-checkbox[value="All"]').checked = true;
-            } else if (checked.length === 1) {
-                summaryElement.textContent = checked[0];
-            } else {
-                summaryElement.textContent = `${checked.length} Tags Selected`;
-                multiselect.querySelector('.tag-checkbox[value="All"]').checked = false;
-            }
-            updateTable();
-        };
-
-        window.toggleAllTags = function(allCb) {
-            const checkboxes = multiselect.querySelectorAll('.tag-checkbox:not([value="All"])');
-            checkboxes.forEach(cb => cb.checked = allCb.checked);
-            window.updateTagSelection();
-        };
-
-            // Initial selection
-    window.updateTagSelection();
+    // Initialize with tags for the default leaderboard (bash-only)
+    updateTagsForLeaderboard('bash-only');
     
-    // Check for initial leaderboard visibility (in case landing directly on verified-mini)
+    // Set initial selection for main filters
+    if (mainFiltersDropdown) {
+        mainFiltersDropdown.setSelectedValues(['os_system']);
+    }
+    
+    // Make both dropdowns globally accessible
+    window.mainFiltersDropdown = mainFiltersDropdown;
+    window.tagFiltersDropdown = tagFiltersDropdown;
+    
+    // Check for initial leaderboard visibility (in case landing directly on bash-only)
     setTimeout(() => {
         const activeLeaderboard = document.querySelector('.tabcontent.active');
         if (activeLeaderboard) {
             const leaderboardId = activeLeaderboard.id;
             const leaderboardName = leaderboardId.replace('leaderboard-', '');
             updateFilterVisibility(leaderboardName);
+            updateTagsForLeaderboard(leaderboardName); // Update tags for the initial leaderboard
         }
     }, 100);
-}
 });
 
 // --- Leaderboard Description Update ---
 function updateLeaderboardDescription(leaderboardName) {
-    const descriptionElement = document.getElementById('leaderboard-description');
-    if (!descriptionElement) return;
-    
-    const textContainer = descriptionElement.querySelector('.leaderboard-description-text');
+    const textContainer = document.getElementById('leaderboard-description-text');
     if (!textContainer) return;
     
     const descriptions = {
         'lite': 'Lite is a subset of 300 instances for less costly evaluation (<a href="lite.html">details</a>)',
-        'verified-mini': 'Verified (mini-SWE-agent) evaluates LMs with the <a href="https://github.com/SWE-agent/mini-swe-agent">mini-SWE-agent</a> scaffold on the Verified dataset (<a href="verified-mini.html">details</a>)',
+        'bash-only': 'Verified (mini-SWE-agent) evaluates LMs with the <a href="https://github.com/SWE-agent/mini-swe-agent">mini-SWE-agent</a> scaffold on the Verified dataset (<a href="bash-only.html">details</a>)',
         'verified': 'Verified is a human-filtered subset of 500 instances (<a href="https://openai.com/index/introducing-swe-bench-verified/">details</a>)',
         'test': 'Full is a large benchmark made of 2000 instances (<a href="original.html">details</a>)',
         'multimodal': 'Multimodal features issues with visual elements (<a href="multimodal.html">details</a>)',
@@ -214,10 +399,8 @@ function updateLeaderboardDescription(leaderboardName) {
 // Make the function globally available
 window.updateLeaderboardDescription = updateLeaderboardDescription;
 
-// --- Tag Filtering Integration ---
+// --- Legacy Functions for Backward Compatibility ---
+// These functions are kept for any external dependencies but use the new dropdown instances
 function getSelectedTags() {
-    const multiselect = document.getElementById('tag-multiselect');
-    if (!multiselect) return [];
-    const checkboxes = multiselect.querySelectorAll('.tag-checkbox:not([value="All"])');
-    return Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
+    return window.tagFiltersDropdown ? window.tagFiltersDropdown.getSelectedValues() : [];
 }

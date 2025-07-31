@@ -32,7 +32,7 @@
                 <select id="split-select">
                     <option value="test">Test</option>
                     <option value="verified">Verified</option>
-                    <option value="verified-mini">Verified (mini-SWE-agent)</option>
+                    <option value="bash-only">Bash Only</option>
                     <option value="lite">Lite</option>
                     <option value="multimodal">Multimodal</option>
                 </select>
@@ -137,7 +137,7 @@ document.getElementById('loadData').addEventListener('click', () => {
         splitValue === 'lite' ? 300 : 
         splitValue === 'verified' ? 500 : 
         splitValue === 'multimodal' ? 517 : 
-        splitValue === 'verified-mini' ? 500 : 2294;
+        splitValue === 'bash-only' ? 500 : 2294;
     document.getElementById('modelSplitURL').href = `https://github.com/swe-bench/experiments/tree/main/evaluation/${splitValue}/${modelValue}`;
 
     updateMainResults(splitValue, modelValue);

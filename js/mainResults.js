@@ -189,7 +189,7 @@ function updateMainResults(split, model) {
                     split === 'lite' ? 300 : 
                     split === 'verified' ? 500 : 
                     split === 'multimodal' ? 517 : 
-                    split === 'verified-mini' ? 500 : 2294;
+                    split === 'bash-only' ? 500 : 2294;
                 const percentResolved = (resolved / total * 100).toFixed(2);
                 const resolvedElement = document.getElementById('selectedResolved');
                 resolvedElement.textContent = percentResolved;
@@ -250,6 +250,11 @@ function openLeaderboard(leaderboardName) {
         updateFilterVisibility(leaderboardName);
     }
     
+    // Update tags dropdown for the new leaderboard
+    if (typeof updateTagsForLeaderboard === 'function') {
+        updateTagsForLeaderboard(leaderboardName);
+    }
+    
     // Apply current filters to the newly displayed table
     if (typeof updateTable === 'function') {
         setTimeout(updateTable, 0);
@@ -273,7 +278,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (currentPage === 'index' && window.location.hash) {
             const currentHash = window.location.hash.substring(1);
             
-            if (linkPage === currentHash && !['verified-mini', 'verified', 'lite', 'test', 'multimodal'].includes(currentHash.toLowerCase())) {
+            if (linkPage === currentHash && !['bash-only', 'verified', 'lite', 'test', 'multimodal'].includes(currentHash.toLowerCase())) {
                 link.classList.add('active');
             }
         }
@@ -289,12 +294,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Load initial tab based on hash or default to Verified (mini-SWE-agent)
     const hash = window.location.hash.slice(1).toLowerCase();
-    const validTabs = ['verified-mini', 'verified', 'lite', 'test', 'multimodal'];
+    const validTabs = ['bash-only', 'verified', 'lite', 'test', 'multimodal'];
     
     if (hash && validTabs.includes(hash)) {
         const tabName = hash.charAt(0).toUpperCase() + hash.slice(1);
         openLeaderboard(tabName);
     } else {
-        openLeaderboard('verified-mini');
+        openLeaderboard('bash-only');
     }
 });
