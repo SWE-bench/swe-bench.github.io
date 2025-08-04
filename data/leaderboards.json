@@ -740,6 +740,28 @@
                     "warning": null
                 },
                 {
+                    "name": "mini-SWE-agent + Claude 4 Opus (20250514)",
+                    "logo": [
+                        "https://mini-swe-agent.com/latest/assets/mini_square.svg"
+                    ],
+                    "site": "https://mini-swe-agent.com/latest/",
+                    "folder": "20250802_mini-v1.0.0_claude-4-opus-20250514",
+                    "resolved": 67.6,
+                    "date": "2025-08-02",
+                    "logs": "s3://swe-bench-experiments/verified/20250802_mini-v1.0.0_claude-4-opus-20250514/logs",
+                    "trajs": "s3://swe-bench-experiments/verified/20250802_mini-v1.0.0_claude-4-opus-20250514/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: Anthropic",
+                        "Model: claude-4-opus-20250514",
+                        "System: Attempts - 1",
+                        "Org: SWE-agent"
+                    ],
+                    "warning": null
+                },
+                {
                     "name": "SWE-agent + Claude 4 Sonnet",
                     "logo": [
                         "https://avatars.githubusercontent.com/u/166046056?s=200&v=4"
@@ -4719,6 +4741,28 @@
         {
             "name": "bash-only",
             "results": [
+                {
+                    "name": "Claude 4 Opus (20250514)",
+                    "logo": [
+                        "https://pbs.twimg.com/profile_images/1798110641414443008/XP8gyBaY_400x400.jpg"
+                    ],
+                    "site": "https://www.anthropic.com/news/claude-4",
+                    "folder": "20250802_mini-v1.0.0_claude-4-opus-20250514",
+                    "resolved": 67.6,
+                    "date": "2025-08-02",
+                    "logs": "s3://swe-bench-experiments/bash-only/20250802_mini-v1.0.0_claude-4-opus-20250514/logs",
+                    "trajs": "s3://swe-bench-experiments/bash-only/20250802_mini-v1.0.0_claude-4-opus-20250514/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: Anthropic",
+                        "Model: claude-4-opus-20250514",
+                        "System: Attempts - 1"
+                    ],
+                    "warning": null,
+                    "mini-swe-agent_version": "1.0.0"
+                },
                 {
                     "name": "Claude 4 Sonnet (20250514)",
                     "logo": [
