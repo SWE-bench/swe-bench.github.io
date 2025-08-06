@@ -1251,6 +1251,28 @@
                     "warning": null
                 },
                 {
+                    "name": "mini-SWE-agent + Qwen3 Coder 480B/A35B Instruct",
+                    "logo": [
+                        "https://mini-swe-agent.com/latest/assets/mini_square.svg"
+                    ],
+                    "site": "https://mini-swe-agent.com/latest/",
+                    "folder": "20250802_mini-v1.0.0_Qwen3-Coder-480B-A35B-Instruct",
+                    "resolved": 55.4,
+                    "date": "2025-08-02",
+                    "logs": "s3://swe-bench-experiments/verified/20250802_mini-v1.0.0_Qwen3-Coder-480B-A35B-Instruct/logs",
+                    "trajs": "s3://swe-bench-experiments/verified/20250802_mini-v1.0.0_Qwen3-Coder-480B-A35B-Instruct/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: Qwen",
+                        "Model: Qwen3-Coder-480B-A35B-Instruct",
+                        "System: Attempts - 1",
+                        "Org: SWE-agent"
+                    ],
+                    "warning": null
+                },
+                {
                     "name": "Amazon Q Developer Agent (v20241202-dev)",
                     "logo": [
                         "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/2560px-Amazon_Web_Services_Logo.svg.png"
@@ -4802,6 +4824,28 @@
                     "tags": [
                         "Org: OpenAI",
                         "Model: o3-20250416",
+                        "System: Attempts - 1"
+                    ],
+                    "warning": null,
+                    "mini-swe-agent_version": "1.0.0"
+                },
+                {
+                    "name": "Qwen3 Coder 480B/A35B Instruct",
+                    "logo": [
+                        "https://avatars.githubusercontent.com/u/141221163?s=200&v=4"
+                    ],
+                    "site": "https://qwenlm.github.io/blog/qwen3-coder/",
+                    "folder": "20250802_mini-v1.0.0_Qwen3-Coder-480B-A35B-Instruct",
+                    "resolved": 55.4,
+                    "date": "2025-08-02",
+                    "logs": "s3://swe-bench-experiments/bash-only/20250802_mini-v1.0.0_Qwen3-Coder-480B-A35B-Instruct/logs",
+                    "trajs": "s3://swe-bench-experiments/bash-only/20250802_mini-v1.0.0_Qwen3-Coder-480B-A35B-Instruct/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: Qwen",
+                        "Model: Qwen3-Coder-480B-A35B-Instruct",
                         "System: Attempts - 1"
                     ],
                     "warning": null,
