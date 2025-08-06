@@ -4884,7 +4884,7 @@
                     "date": "2025-05-21",
                     "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.5-pro/logs",
                     "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.5-pro/trajs",
-                    "os_model": true,
+                    "os_model": false,
                     "os_system": true,
                     "checked": true,
                     "tags": [
