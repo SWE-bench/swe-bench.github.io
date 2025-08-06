@@ -2684,6 +2684,28 @@
                     "warning": null
                 },
                 {
+                    "name": "mini-SWE-agent + Qwen2.5-Coder 32B Instruct",
+                    "logo": [
+                        "https://mini-swe-agent.com/latest/assets/mini_square.svg"
+                    ],
+                    "site": "https://mini-swe-agent.com/latest/",
+                    "folder": "20250803_mini-v1.0.0_Qwen2.5-Coder-32B-Instruct",
+                    "resolved": 9.0,
+                    "date": "2025-08-03",
+                    "logs": "s3://swe-bench-experiments/verified/20250803_mini-v1.0.0_Qwen2.5-Coder-32B-Instruct/logs",
+                    "trajs": "s3://swe-bench-experiments/verified/20250803_mini-v1.0.0_Qwen2.5-Coder-32B-Instruct/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: Qwen",
+                        "Model: Qwen2.5-Coder-32B-Instruct",
+                        "System: Attempts - 1",
+                        "Org: SWE-agent"
+                    ],
+                    "warning": null
+                },
+                {
                     "name": "RAG + Claude 3 Opus",
                     "logo": [
                         "https://avatars.githubusercontent.com/u/139597579?s=200&v=4"
@@ -5070,6 +5092,28 @@
                     ],
                     "warning": null,
                     "mini-swe-agent_version": "0.0.0"
+                },
+                {
+                    "name": "Qwen2.5-Coder 32B Instruct",
+                    "logo": [
+                        "https://avatars.githubusercontent.com/u/141221163?s=200&v=4"
+                    ],
+                    "site": "https://qwenlm.github.io/blog/qwen2.5-coder/",
+                    "folder": "20250803_mini-v1.0.0_Qwen2.5-Coder-32B-Instruct",
+                    "resolved": 9.0,
+                    "date": "2025-08-03",
+                    "logs": "s3://swe-bench-experiments/bash-only/20250803_mini-v1.0.0_Qwen2.5-Coder-32B-Instruct/logs",
+                    "trajs": "s3://swe-bench-experiments/bash-only/20250803_mini-v1.0.0_Qwen2.5-Coder-32B-Instruct/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: Qwen",
+                        "Model: Qwen2.5-Coder-32B-Instruct",
+                        "System: Attempts - 1"
+                    ],
+                    "warning": null,
+                    "mini-swe-agent_version": "1.0.0"
                 }
             ]
         }
