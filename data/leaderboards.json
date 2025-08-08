@@ -863,6 +863,28 @@
                     "warning": null
                 },
                 {
+                    "name": "mini-SWE-agent + GPT-5 (2025-08-07)",
+                    "logo": [
+                        "https://mini-swe-agent.com/latest/assets/mini_square.svg"
+                    ],
+                    "site": "https://mini-swe-agent.com/latest/",
+                    "folder": "20250807_mini-v1.7.0_gpt-5-2025-08-07",
+                    "resolved": 65.0,
+                    "date": "2025-08-07",
+                    "logs": "s3://swe-bench-experiments/verified/20250807_mini-v1.7.0_gpt-5-2025-08-07/logs",
+                    "trajs": "s3://swe-bench-experiments/verified/20250807_mini-v1.7.0_gpt-5-2025-08-07/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: OpenAI",
+                        "Model: gpt-5-2025-08-07",
+                        "System: Attempts - 1",
+                        "Org: SWE-agent"
+                    ],
+                    "warning": null
+                },
+                {
                     "name": "mini-SWE-agent + Claude 4 Sonnet (20250514)",
                     "logo": [
                         "https://mini-swe-agent.com/latest/assets/mini_square.svg"
@@ -1079,6 +1101,28 @@
                         "Model: claude-3-5-sonnet-20241022",
                         "Org: Google",
                         "System: Attempts - 2+"
+                    ],
+                    "warning": null
+                },
+                {
+                    "name": "mini-SWE-agent + GPT-5 mini (2025-08-07)",
+                    "logo": [
+                        "https://mini-swe-agent.com/latest/assets/mini_square.svg"
+                    ],
+                    "site": "https://mini-swe-agent.com/latest/",
+                    "folder": "20250807_mini-v1.7.0_gpt-5-mini-2025-08-07",
+                    "resolved": 59.8,
+                    "date": "2025-08-07",
+                    "logs": "s3://swe-bench-experiments/verified/20250807_mini-v1.7.0_gpt-5-mini-2025-08-07/logs",
+                    "trajs": "s3://swe-bench-experiments/verified/20250807_mini-v1.7.0_gpt-5-mini-2025-08-07/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: OpenAI",
+                        "Model: gpt-5-mini-2025-08-07",
+                        "System: Attempts - 1",
+                        "Org: SWE-agent"
                     ],
                     "warning": null
                 },
@@ -2171,6 +2215,28 @@
                     "checked": false,
                     "tags": [
                         "System: Attempts - 2+"
+                    ],
+                    "warning": null
+                },
+                {
+                    "name": "mini-SWE-agent + GPT-5 nano (2025-08-07)",
+                    "logo": [
+                        "https://mini-swe-agent.com/latest/assets/mini_square.svg"
+                    ],
+                    "site": "https://mini-swe-agent.com/latest/",
+                    "folder": "20250807_mini-v1.7.0_gpt-5-nano-2025-08-07",
+                    "resolved": 34.8,
+                    "date": "2025-08-07",
+                    "logs": "s3://swe-bench-experiments/verified/20250807_mini-v1.7.0_gpt-5-nano-2025-08-07/logs",
+                    "trajs": "s3://swe-bench-experiments/verified/20250807_mini-v1.7.0_gpt-5-nano-2025-08-07/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: OpenAI",
+                        "Model: gpt-5-nano-2025-08-07",
+                        "System: Attempts - 1",
+                        "Org: SWE-agent"
                     ],
                     "warning": null
                 },
@@ -4808,6 +4874,28 @@
                     "mini-swe-agent_version": "1.0.0"
                 },
                 {
+                    "name": "GPT-5 (2025-08-07)",
+                    "logo": [
+                        "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
+                    ],
+                    "site": "https://platform.openai.com/docs/models/gpt-5",
+                    "folder": "20250807_mini-v1.7.0_gpt-5-2025-08-07",
+                    "resolved": 65.0,
+                    "date": "2025-08-07",
+                    "logs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-5-2025-08-07/logs",
+                    "trajs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-5-2025-08-07/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: OpenAI",
+                        "Model: gpt-5-2025-08-07",
+                        "System: Attempts - 1"
+                    ],
+                    "warning": null,
+                    "mini-swe-agent_version": "1.7.0"
+                },
+                {
                     "name": "Claude 4 Sonnet (20250514)",
                     "logo": [
                         "https://pbs.twimg.com/profile_images/1798110641414443008/XP8gyBaY_400x400.jpg"
@@ -4828,6 +4916,28 @@
                     ],
                     "warning": null,
                     "mini-swe-agent_version": "1.0.0"
+                },
+                {
+                    "name": "GPT-5 mini (2025-08-07)",
+                    "logo": [
+                        "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
+                    ],
+                    "site": "https://platform.openai.com/docs/models/gpt-5-mini",
+                    "folder": "20250807_mini-v1.7.0_gpt-5-mini-2025-08-07",
+                    "resolved": 59.8,
+                    "date": "2025-08-07",
+                    "logs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-5-mini-2025-08-07/logs",
+                    "trajs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-5-mini-2025-08-07/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: OpenAI",
+                        "Model: gpt-5-mini-2025-08-07",
+                        "System: Attempts - 1"
+                    ],
+                    "warning": null,
+                    "mini-swe-agent_version": "1.7.0"
                 },
                 {
                     "name": "o3 (2025-04-16)",
@@ -4960,6 +5070,28 @@
                     ],
                     "warning": null,
                     "mini-swe-agent_version": "1.0.0"
+                },
+                {
+                    "name": "GPT-5 nano (2025-08-07)",
+                    "logo": [
+                        "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
+                    ],
+                    "site": "https://platform.openai.com/docs/models/gpt-5-nano",
+                    "folder": "20250807_mini-v1.7.0_gpt-5-nano-2025-08-07",
+                    "resolved": 34.8,
+                    "date": "2025-08-07",
+                    "logs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-5-nano-2025-08-07/logs",
+                    "trajs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-5-nano-2025-08-07/trajs",
+                    "os_model": false,
+                    "os_system": true,
+                    "checked": true,
+                    "tags": [
+                        "Org: OpenAI",
+                        "Model: gpt-5-nano-2025-08-07",
+                        "System: Attempts - 1"
+                    ],
+                    "warning": null,
+                    "mini-swe-agent_version": "1.7.0"
                 },
                 {
                     "name": "Gemini 2.5 Flash (2025-04-17)",
