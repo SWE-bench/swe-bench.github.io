@@ -342,7 +342,7 @@ button:focus,
 
 .model-badges {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 2px;
   margin-right: 5px;
 }
