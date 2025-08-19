@@ -16,8 +16,6 @@ const statusToNaturalLanguage = {
 const loadedLeaderboards = new Set();
 let leaderboardData = null;
 
-// Track current sort state (default sort by resolved desc)
-// field can be resolved / date. direction can be asc / desc
 const sortState = { field: 'resolved', direction: 'desc' };
 
 function loadLeaderboardData() {
@@ -30,26 +28,64 @@ function loadLeaderboardData() {
     return leaderboardData;
 }
 
+function sortItems(a, b, field, direction) {
+    const getValue = (item, field) => {
+        switch (field) {
+            case 'name':
+                return (item.name || '').toLowerCase();
+            case 'resolved':
+                return parseFloat(item.resolved) || 0;
+            case 'org':
+                return getOrgName(item);
+            case 'date':
+                return item.date || '';
+            case 'logs':
+            case 'trajs':
+            case 'site':
+                return item[field] ? 1 : 0;
+            case 'release':
+                return (item['mini-swe-agent_version'] || '').toLowerCase();
+            default:
+                return '';
+        }
+    };
+    
+    const av = getValue(a, field);
+    const bv = getValue(b, field);
+    
+    let result;
+    if (typeof av === 'number' && typeof bv === 'number') {
+        result = av - bv;
+    } else {
+        result = av.toString().localeCompare(bv.toString());
+    }
+    
+    return direction === 'asc' ? result : -result;
+}
+
+function getOrgName(item) {
+    if (item.tags && item.tags.length > 0) {
+        const orgTag = item.tags.find(tag => tag.startsWith('Org: '));
+        if (orgTag) {
+            return orgTag.substring(5).toLowerCase(); // Remove 'Org: ' prefix
+        }
+    }
+    return (item.name || '').toLowerCase();
+}
+
+function getDefaultSortDirection(field) {
+    const textFields = ['name', 'org', 'release'];
+    return textFields.includes(field) ? 'asc' : 'desc';
+}
+
 function renderLeaderboardTable(leaderboard) {
     const container = document.getElementById('leaderboard-container');
     const isBashOnly = leaderboard.name.toLowerCase() === 'bash-only';
-
-    // Prepare sorted results based on current sort state
+    
     const results = leaderboard.results
         .filter(item => !item.warning)
         .slice()
-        .sort((a, b) => {
-            if (sortState.field === 'date') {
-                const ad = a.date || '';
-                const bd = b.date || '';
-                if (ad === bd) return 0;
-                return sortState.direction === 'asc' ? ad.localeCompare(bd) : bd.localeCompare(ad);
-            } else { // resolved
-                const ar = parseFloat(a.resolved) || 0;
-                const br = parseFloat(b.resolved) || 0;
-                return sortState.direction === 'asc' ? ar - br : br - ar;
-            }
-        });
+        .sort((a, b) => sortItems(a, b, sortState.field, sortState.direction));
 
     // Create table content
     const tableHtml = `
@@ -58,14 +94,14 @@ function renderLeaderboardTable(leaderboard) {
                 <table class="table scrollable data-table">
                     <thead>
                         <tr>
-                            <th>Model</th>
-                            <th class="sortable" data-sort="resolved">% Resolved <span class="sort-indicator"></span></th>
-                            <th>Org</th>
-                            <th class="sortable" data-sort="date">Date <span class="sort-indicator"></span></th>
-                            <th>Logs</th>
-                            <th>Trajs</th>
-                            <th>Site</th>
-                            ${isBashOnly ? '<th>Release</th>' : ''}
+                            <th class="sortable" data-sort="name">Model</th>
+                            <th class="sortable" data-sort="resolved">% Resolved</th>
+                            <th class="sortable" data-sort="org">Org</th>
+                            <th class="sortable" data-sort="date">Date</th>
+                            <th class="sortable" data-sort="logs">Logs</th>
+                            <th class="sortable" data-sort="trajs">Trajs</th>
+                            <th class="sortable" data-sort="site">Site</th>
+                            ${isBashOnly ? '<th class="sortable" data-sort="release">Release</th>' : ''}
                         </tr>
                     </thead>
                     <tbody>
@@ -129,42 +165,43 @@ function attachSortHandlers(leaderboardName) {
     const container = document.getElementById('leaderboard-container');
     const tableWrapper = container.querySelector(`#leaderboard-${leaderboardName}`);
     if (!tableWrapper) return;
+    
     const sortableHeaders = tableWrapper.querySelectorAll('th.sortable');
     sortableHeaders.forEach(th => {
-        th.style.cursor = 'pointer';
-        th.addEventListener('click', () => {
-            const field = th.getAttribute('data-sort');
-            if (sortState.field === field) {
-                // Toggle direction
-                sortState.direction = sortState.direction === 'asc' ? 'desc' : 'asc';
-            } else {
-                sortState.field = field;
-                // Default direction: desc
-                sortState.direction = 'desc';
-            }
-            // Re-render leaderboard with new sort
-            const data = loadLeaderboardData();
-            if (!data) return;
-            const leaderboard = data.find(lb => lb.name === leaderboardName);
-            if (!leaderboard) return;
-            renderLeaderboardTable(leaderboard);
-        });
+        th.addEventListener('click', () => handleSortClick(th, leaderboardName));
     });
+}
+
+function handleSortClick(header, leaderboardName) {
+    const field = header.getAttribute('data-sort');
+    
+    if (sortState.field === field) {
+        sortState.direction = sortState.direction === 'asc' ? 'desc' : 'asc';
+    } else {
+        sortState.field = field;
+        sortState.direction = getDefaultSortDirection(field);
+    }
+    
+    const data = loadLeaderboardData();
+    if (!data) return;
+    
+    const leaderboard = data.find(lb => lb.name === leaderboardName);
+    if (leaderboard) {
+        renderLeaderboardTable(leaderboard);
+    }
 }
 
 function updateSortIndicators() {
     const container = document.getElementById('leaderboard-container');
     if (!container) return;
+    
     const headers = container.querySelectorAll('th.sortable');
     headers.forEach(th => {
-        const indicator = th.querySelector('.sort-indicator');
-        if (!indicator) return;
         const field = th.getAttribute('data-sort');
-        if (field === sortState.field) {
-            indicator.textContent = sortState.direction === 'asc' ? '▲' : '▼';
-        } else {
-            indicator.textContent = '';
-        }
+        const isActive = field === sortState.field;
+        
+        th.classList.remove('sort-active', 'sort-inactive');
+        th.classList.add(isActive ? 'sort-active' : 'sort-inactive');
     });
 }
 
@@ -293,8 +330,8 @@ function openLeaderboard(leaderboardName) {
                 content.classList.remove('active');
             });
             existingTable.classList.add('active');
+            updateSortIndicators();
         } else {
-            // Re-render if somehow missing
             renderLeaderboardTable(leaderboard);
         }
     }
