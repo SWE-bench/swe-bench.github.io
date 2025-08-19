@@ -888,3 +888,34 @@ button:focus,
 .dark-mode .sidebar-family-icon {
   filter: brightness(1.2);
 }
+
+/* Sort indicator styles - using design system variables */
+.table thead th.sortable {
+  cursor: pointer;
+  transition: background-color var(--transition-fast), text-decoration-color var(--transition-fast);
+}
+
+.table thead th.sortable:hover {
+  background-color: var(--table-row-hover);
+}
+
+/* Active sort column indicator */
+.table thead th.sortable.sort-active {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--color-accent);
+}
+
+.dark-mode .table thead th.sortable.sort-active {
+  text-decoration-color: var(--blue-300);
+}
+
+.table thead th.sortable.sort-inactive {
+  text-decoration: none;
+}
+
+.table thead th.sortable.sort-inactive:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--color-text-muted);
+}
