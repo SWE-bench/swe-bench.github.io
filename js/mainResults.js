@@ -16,6 +16,10 @@ const statusToNaturalLanguage = {
 const loadedLeaderboards = new Set();
 let leaderboardData = null;
 
+// Track current sort state (default sort by resolved desc)
+// field can be resolved / date. direction can be asc / desc
+const sortState = { field: 'resolved', direction: 'desc' };
+
 function loadLeaderboardData() {
     if (!leaderboardData) {
         const dataScript = document.getElementById('leaderboard-data');
@@ -29,7 +33,24 @@ function loadLeaderboardData() {
 function renderLeaderboardTable(leaderboard) {
     const container = document.getElementById('leaderboard-container');
     const isBashOnly = leaderboard.name.toLowerCase() === 'bash-only';
-    
+
+    // Prepare sorted results based on current sort state
+    const results = leaderboard.results
+        .filter(item => !item.warning)
+        .slice()
+        .sort((a, b) => {
+            if (sortState.field === 'date') {
+                const ad = a.date || '';
+                const bd = b.date || '';
+                if (ad === bd) return 0;
+                return sortState.direction === 'asc' ? ad.localeCompare(bd) : bd.localeCompare(ad);
+            } else { // resolved
+                const ar = parseFloat(a.resolved) || 0;
+                const br = parseFloat(b.resolved) || 0;
+                return sortState.direction === 'asc' ? ar - br : br - ar;
+            }
+        });
+
     // Create table content
     const tableHtml = `
         <div class="tabcontent active" id="leaderboard-${leaderboard.name}">
@@ -38,9 +59,9 @@ function renderLeaderboardTable(leaderboard) {
                     <thead>
                         <tr>
                             <th>Model</th>
-                            <th>% Resolved</th>
+                            <th class="sortable" data-sort="resolved">% Resolved <span class="sort-indicator"></span></th>
                             <th>Org</th>
-                            <th>Date</th>
+                            <th class="sortable" data-sort="date">Date <span class="sort-indicator"></span></th>
                             <th>Logs</th>
                             <th>Trajs</th>
                             <th>Site</th>
@@ -48,9 +69,7 @@ function renderLeaderboardTable(leaderboard) {
                         </tr>
                     </thead>
                     <tbody>
-                        ${leaderboard.results
-                            .filter(item => !item.warning)
-                            .map(item => `
+                        ${results.map(item => `
                                 <tr
                                     data-os_model="${item.os_model ? 'true' : 'false'}"
                                     data-os_system="${item.os_system ? 'true' : 'false'}"
@@ -98,9 +117,55 @@ function renderLeaderboardTable(leaderboard) {
             </div>
         </div>
     `;
-    
+
     container.innerHTML = tableHtml;
     loadedLeaderboards.add(leaderboard.name);
+
+    updateSortIndicators();
+    attachSortHandlers(leaderboard.name);
+}
+
+function attachSortHandlers(leaderboardName) {
+    const container = document.getElementById('leaderboard-container');
+    const tableWrapper = container.querySelector(`#leaderboard-${leaderboardName}`);
+    if (!tableWrapper) return;
+    const sortableHeaders = tableWrapper.querySelectorAll('th.sortable');
+    sortableHeaders.forEach(th => {
+        th.style.cursor = 'pointer';
+        th.addEventListener('click', () => {
+            const field = th.getAttribute('data-sort');
+            if (sortState.field === field) {
+                // Toggle direction
+                sortState.direction = sortState.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortState.field = field;
+                // Default direction: desc
+                sortState.direction = 'desc';
+            }
+            // Re-render leaderboard with new sort
+            const data = loadLeaderboardData();
+            if (!data) return;
+            const leaderboard = data.find(lb => lb.name === leaderboardName);
+            if (!leaderboard) return;
+            renderLeaderboardTable(leaderboard);
+        });
+    });
+}
+
+function updateSortIndicators() {
+    const container = document.getElementById('leaderboard-container');
+    if (!container) return;
+    const headers = container.querySelectorAll('th.sortable');
+    headers.forEach(th => {
+        const indicator = th.querySelector('.sort-indicator');
+        if (!indicator) return;
+        const field = th.getAttribute('data-sort');
+        if (field === sortState.field) {
+            indicator.textContent = sortState.direction === 'asc' ? '▲' : '▼';
+        } else {
+            indicator.textContent = '';
+        }
+    });
 }
 
 function updateLogViewer(inst_id, split, model) {
