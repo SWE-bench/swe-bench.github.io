@@ -16,6 +16,8 @@ const statusToNaturalLanguage = {
 const loadedLeaderboards = new Set();
 let leaderboardData = null;
 
+const sortState = { field: 'resolved', direction: 'desc' };
+
 function loadLeaderboardData() {
     if (!leaderboardData) {
         const dataScript = document.getElementById('leaderboard-data');
@@ -26,10 +28,65 @@ function loadLeaderboardData() {
     return leaderboardData;
 }
 
+function sortItems(a, b, field, direction) {
+    const getValue = (item, field) => {
+        switch (field) {
+            case 'name':
+                return (item.name || '').toLowerCase();
+            case 'resolved':
+                return parseFloat(item.resolved) || 0;
+            case 'org':
+                return getOrgName(item);
+            case 'date':
+                return item.date || '';
+            case 'logs':
+            case 'trajs':
+            case 'site':
+                return item[field] ? 1 : 0;
+            case 'release':
+                return (item['mini-swe-agent_version'] || '').toLowerCase();
+            default:
+                return '';
+        }
+    };
+    
+    const av = getValue(a, field);
+    const bv = getValue(b, field);
+    
+    let result;
+    if (typeof av === 'number' && typeof bv === 'number') {
+        result = av - bv;
+    } else {
+        result = av.toString().localeCompare(bv.toString());
+    }
+    
+    return direction === 'asc' ? result : -result;
+}
+
+function getOrgName(item) {
+    if (item.tags && item.tags.length > 0) {
+        const orgTag = item.tags.find(tag => tag.startsWith('Org: '));
+        if (orgTag) {
+            return orgTag.substring(5).toLowerCase(); // Remove 'Org: ' prefix
+        }
+    }
+    return (item.name || '').toLowerCase();
+}
+
+function getDefaultSortDirection(field) {
+    const textFields = ['name', 'org', 'release'];
+    return textFields.includes(field) ? 'asc' : 'desc';
+}
+
 function renderLeaderboardTable(leaderboard) {
     const container = document.getElementById('leaderboard-container');
     const isBashOnly = leaderboard.name.toLowerCase() === 'bash-only';
     
+    const results = leaderboard.results
+        .filter(item => !item.warning)
+        .slice()
+        .sort((a, b) => sortItems(a, b, sortState.field, sortState.direction));
+
     // Create table content
     const tableHtml = `
         <div class="tabcontent active" id="leaderboard-${leaderboard.name}">
@@ -37,20 +94,18 @@ function renderLeaderboardTable(leaderboard) {
                 <table class="table scrollable data-table">
                     <thead>
                         <tr>
-                            <th>Model</th>
-                            <th>% Resolved</th>
-                            <th>Org</th>
-                            <th>Date</th>
-                            <th>Logs</th>
-                            <th>Trajs</th>
-                            <th>Site</th>
-                            ${isBashOnly ? '<th>Release</th>' : ''}
+                            <th class="sortable" data-sort="name">Model</th>
+                            <th class="sortable" data-sort="resolved">% Resolved</th>
+                            <th class="sortable" data-sort="org">Org</th>
+                            <th class="sortable" data-sort="date">Date</th>
+                            <th class="sortable" data-sort="logs">Logs</th>
+                            <th class="sortable" data-sort="trajs">Trajs</th>
+                            <th class="sortable" data-sort="site">Site</th>
+                            ${isBashOnly ? '<th class="sortable" data-sort="release">Release</th>' : ''}
                         </tr>
                     </thead>
                     <tbody>
-                        ${leaderboard.results
-                            .filter(item => !item.warning)
-                            .map(item => `
+                        ${results.map(item => `
                                 <tr
                                     data-os_model="${item.os_model ? 'true' : 'false'}"
                                     data-os_system="${item.os_system ? 'true' : 'false'}"
@@ -98,9 +153,56 @@ function renderLeaderboardTable(leaderboard) {
             </div>
         </div>
     `;
-    
+
     container.innerHTML = tableHtml;
     loadedLeaderboards.add(leaderboard.name);
+
+    updateSortIndicators();
+    attachSortHandlers(leaderboard.name);
+}
+
+function attachSortHandlers(leaderboardName) {
+    const container = document.getElementById('leaderboard-container');
+    const tableWrapper = container.querySelector(`#leaderboard-${leaderboardName}`);
+    if (!tableWrapper) return;
+    
+    const sortableHeaders = tableWrapper.querySelectorAll('th.sortable');
+    sortableHeaders.forEach(th => {
+        th.addEventListener('click', () => handleSortClick(th, leaderboardName));
+    });
+}
+
+function handleSortClick(header, leaderboardName) {
+    const field = header.getAttribute('data-sort');
+    
+    if (sortState.field === field) {
+        sortState.direction = sortState.direction === 'asc' ? 'desc' : 'asc';
+    } else {
+        sortState.field = field;
+        sortState.direction = getDefaultSortDirection(field);
+    }
+    
+    const data = loadLeaderboardData();
+    if (!data) return;
+    
+    const leaderboard = data.find(lb => lb.name === leaderboardName);
+    if (leaderboard) {
+        renderLeaderboardTable(leaderboard);
+    }
+}
+
+function updateSortIndicators() {
+    const container = document.getElementById('leaderboard-container');
+    if (!container) return;
+    
+    const headers = container.querySelectorAll('th.sortable');
+    headers.forEach(th => {
+        const field = th.getAttribute('data-sort');
+        const isActive = field === sortState.field;
+        
+        th.classList.remove('sort-active', 'sort-inactive');
+        th.classList.add(isActive ? 'sort-active' : 'sort-inactive');
+    });
 }
 
 function updateLogViewer(inst_id, split, model) {
@@ -228,8 +330,8 @@ function openLeaderboard(leaderboardName) {
                 content.classList.remove('active');
             });
             existingTable.classList.add('active');
+            updateSortIndicators();
         } else {
-            // Re-render if somehow missing
             renderLeaderboardTable(leaderboard);
         }
     }
