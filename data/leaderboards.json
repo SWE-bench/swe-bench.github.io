@@ -1,6 +1,431 @@
 {
   "leaderboards": [
     {
+      "name": "bash-only",
+      "results": [
+        {
+          "name": "Claude 4 Opus (20250514)",
+          "logo": [
+            "https://pbs.twimg.com/profile_images/1798110641414443008/XP8gyBaY_400x400.jpg"
+          ],
+          "site": "https://www.anthropic.com/news/claude-4",
+          "folder": "20250802_mini-v1.0.0_claude-4-opus-20250514",
+          "resolved": 67.6,
+          "date": "2025-08-02",
+          "logs": "s3://swe-bench-experiments/bash-only/20250802_mini-v1.0.0_claude-4-opus-20250514/logs",
+          "trajs": "s3://swe-bench-experiments/bash-only/20250802_mini-v1.0.0_claude-4-opus-20250514/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: claude-4-opus-20250514",
+            "Org: Anthropic",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "GPT-5 (2025-08-07) (medium reasoning)",
+          "logo": [
+            "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
+          ],
+          "site": "https://platform.openai.com/docs/models/gpt-5",
+          "folder": "20250807_mini-v1.7.0_gpt-5-2025-08-07",
+          "resolved": 65.0,
+          "date": "2025-08-07",
+          "logs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-5-2025-08-07/logs",
+          "trajs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-5-2025-08-07/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: gpt-5-2025-08-07",
+            "Org: OpenAI",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Claude 4 Sonnet (20250514)",
+          "logo": [
+            "https://pbs.twimg.com/profile_images/1798110641414443008/XP8gyBaY_400x400.jpg"
+          ],
+          "site": "https://www.anthropic.com/news/claude-4",
+          "folder": "20250726_mini-v1.0.0_claude-sonnet-4-20250514",
+          "resolved": 64.93,
+          "date": "2025-07-26",
+          "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_claude-sonnet-4-20250514/logs",
+          "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_claude-sonnet-4-20250514/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: claude-4-sonnet-20250514",
+            "Org: Anthropic",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "GPT-5 mini (2025-08-07) (medium reasoning)",
+          "logo": [
+            "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
+          ],
+          "site": "https://platform.openai.com/docs/models/gpt-5-mini",
+          "folder": "20250807_mini-v1.7.0_gpt-5-mini-2025-08-07",
+          "resolved": 59.8,
+          "date": "2025-08-07",
+          "logs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-5-mini-2025-08-07/logs",
+          "trajs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-5-mini-2025-08-07/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: gpt-5-mini-2025-08-07",
+            "Org: OpenAI",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "o3 (2025-04-16)",
+          "logo": [
+            "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
+          ],
+          "site": "https://platform.openai.com/docs/models/o3",
+          "folder": "20250726_mini-v1.0.0_o3-2025-04-16",
+          "resolved": 58.4,
+          "date": "2025-07-26",
+          "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_o3-2025-04-16/logs",
+          "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_o3-2025-04-16/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: o3-20250416",
+            "Org: OpenAI",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Qwen3-Coder 480B/A35B Instruct",
+          "logo": [
+            "https://avatars.githubusercontent.com/u/141221163?s=200&v=4"
+          ],
+          "site": "https://qwenlm.github.io/blog/qwen3-coder/",
+          "folder": "20250802_mini-v1.0.0_Qwen3-Coder-480B-A35B-Instruct",
+          "resolved": 55.4,
+          "date": "2025-08-02",
+          "logs": "s3://swe-bench-experiments/bash-only/20250802_mini-v1.0.0_Qwen3-Coder-480B-A35B-Instruct/logs",
+          "trajs": "s3://swe-bench-experiments/bash-only/20250802_mini-v1.0.0_Qwen3-Coder-480B-A35B-Instruct/trajs",
+          "os_model": true,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: Qwen3-Coder-480B-A35B-Instruct",
+            "Org: Qwen",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Gemini 2.5 Pro (2025-05-06)",
+          "logo": [
+            "https://upload.wikimedia.org/wikipedia/commons/8/8f/Google-gemini-icon.svg"
+          ],
+          "site": "https://ai.google.dev/gemini-api/docs/models",
+          "folder": "20250726_mini-v1.0.0_gemini-2.5-pro",
+          "resolved": 53.6,
+          "date": "2025-07-26",
+          "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.5-pro/logs",
+          "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.5-pro/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: gemini-2.5-pro",
+            "Org: Google DeepMind",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Claude 3.7 Sonnet (20250219)",
+          "logo": [
+            "https://pbs.twimg.com/profile_images/1798110641414443008/XP8gyBaY_400x400.jpg"
+          ],
+          "site": "https://www.anthropic.com/news/claude-3-7-sonnet",
+          "folder": "20250720_mini-v0.0.0-claude-3-7-sonnet-20250219",
+          "resolved": 52.8,
+          "date": "2025-07-20",
+          "logs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-claude-3-7-sonnet-20250219/logs",
+          "trajs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-claude-3-7-sonnet-20250219/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: claude-3-7-sonnet-20250219",
+            "Org: Anthropic",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "o4-mini (2025-04-16)",
+          "logo": [
+            "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
+          ],
+          "site": "https://platform.openai.com/docs/models/o4-mini",
+          "folder": "20250726_mini-v1.0.0_o4-mini-2025-04-16",
+          "resolved": 45.0,
+          "date": "2025-07-26",
+          "logs": "s3://swe-bench-experiments/bash-only/20250521_o4-mini-20250416/logs",
+          "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_o4-mini-2025-04-16/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: o4-mini-20250416",
+            "Org: OpenAI",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Kimi K2 Instruct",
+          "logo": [
+            "https://avatars.githubusercontent.com/u/129152888?s=200&v=4"
+          ],
+          "site": "https://moonshotai.github.io/Kimi-K2/",
+          "folder": "20250807_mini-v1.7.0_Kimi-K2-Instruct",
+          "resolved": 43.8,
+          "date": "2025-08-07",
+          "logs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_Kimi-K2-Instruct/logs",
+          "trajs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_Kimi-K2-Instruct/trajs",
+          "os_model": true,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: Kimi-K2-Instruct",
+            "Org: Moonshot AI",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "GPT-4.1 (2025-04-14)",
+          "logo": [
+            "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
+          ],
+          "site": "https://platform.openai.com/docs/models/gpt-4.1",
+          "folder": "20250726_mini-v1.0.0_gpt-4.1-2025-04-14",
+          "resolved": 39.58,
+          "date": "2025-07-26",
+          "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gpt-4.1-2025-04-14/logs",
+          "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gpt-4.1-2025-04-14/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: gpt-4.1-20250414",
+            "Org: OpenAI",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "GPT-5 nano (2025-08-07) (medium reasoning)",
+          "logo": [
+            "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
+          ],
+          "site": "https://platform.openai.com/docs/models/gpt-5-nano",
+          "folder": "20250807_mini-v1.7.0_gpt-5-nano-2025-08-07",
+          "resolved": 34.8,
+          "date": "2025-08-07",
+          "logs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-5-nano-2025-08-07/logs",
+          "trajs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-5-nano-2025-08-07/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: gpt-5-nano-2025-08-07",
+            "Org: OpenAI",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Gemini 2.5 Flash (2025-04-17)",
+          "logo": [
+            "https://upload.wikimedia.org/wikipedia/commons/8/8f/Google-gemini-icon.svg"
+          ],
+          "site": "https://ai.google.dev/gemini-api/docs/models",
+          "folder": "20250726_mini-v1.0.0_gemini-2.5-flash",
+          "resolved": 28.73,
+          "date": "2025-07-26",
+          "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.5-flash/logs",
+          "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.5-flash/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: gemini-2.5-flash",
+            "Org: Google DeepMind",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "gpt-oss-120b",
+          "logo": [
+            "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
+          ],
+          "site": "https://platform.openai.com/docs/models/gpt-oss-120b",
+          "folder": "20250807_mini-v1.7.0_gpt-oss-120b",
+          "resolved": 26.0,
+          "date": "2025-08-07",
+          "logs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-oss-120b/logs",
+          "trajs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-oss-120b/trajs",
+          "os_model": true,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: gpt-oss-120b",
+            "Org: OpenAI",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "GPT-4.1-mini (2025-04-14)",
+          "logo": [
+            "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
+          ],
+          "site": "https://platform.openai.com/docs/models/gpt-4.1-mini",
+          "folder": "20250720_mini-v0.0.0_gpt-4.1-mini-2025-04-14",
+          "resolved": 23.94,
+          "date": "2025-07-20",
+          "logs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0_gpt-4.1-mini-2025-04-14/logs",
+          "trajs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0_gpt-4.1-mini-2025-04-14/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: gpt-4.1-mini-20250414",
+            "Org: OpenAI",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "GPT-4o (2024-11-20)",
+          "logo": [
+            "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
+          ],
+          "site": "https://platform.openai.com/docs/models/gpt-4o",
+          "folder": "20250720_mini-v0.0.0-gpt-4o-2024-11-20",
+          "resolved": 21.62,
+          "date": "2025-07-20",
+          "logs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-gpt-4o-2024-11-20/logs",
+          "trajs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-gpt-4o-2024-11-20/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: gpt-4o-20241120",
+            "Org: OpenAI",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Llama 4 Maverick Instruct",
+          "logo": [
+            "https://upload.wikimedia.org/wikipedia/commons/d/d0/Meta_Platforms_logo.svg"
+          ],
+          "site": "https://www.together.ai/models/llama-4-maverick",
+          "folder": "20250720_mini-v0.0.0-Llama-4-Maverick-17B-Instruct",
+          "resolved": 21.04,
+          "date": "2025-07-20",
+          "logs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-Llama-4-Maverick-17B-Instruct/logs",
+          "trajs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-Llama-4-Maverick-17B-Instruct/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: llama-4-maverick-instruct",
+            "Org: Meta",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Gemini 2.0 flash",
+          "logo": [
+            "https://upload.wikimedia.org/wikipedia/commons/8/8f/Google-gemini-icon.svg"
+          ],
+          "site": "https://ai.google.dev/gemini-api/docs/models",
+          "folder": "20250726_mini-v1.0.0_gemini-2.0-flash",
+          "resolved": 13.52,
+          "date": "2025-07-26",
+          "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.0-flash/logs",
+          "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.0-flash/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: gemini-2.0-flash",
+            "Org: Google DeepMind",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Llama 4 Scout Instruct",
+          "logo": [
+            "https://upload.wikimedia.org/wikipedia/commons/d/d0/Meta_Platforms_logo.svg"
+          ],
+          "site": "https://www.together.ai/models/llama-4-scout",
+          "folder": "20250720_mini-v0.0.0-Llama-4-Scout-17B-Instruct",
+          "resolved": 9.06,
+          "date": "2025-07-20",
+          "logs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-Llama-4-Scout-17B-Instruct/logs",
+          "trajs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-Llama-4-Scout-17B-Instruct/trajs",
+          "os_model": false,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: llama-4-scout-instruct",
+            "Org: Meta",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Qwen2.5-Coder 32B Instruct",
+          "logo": [
+            "https://avatars.githubusercontent.com/u/141221163?s=200&v=4"
+          ],
+          "site": "https://qwenlm.github.io/blog/qwen2.5-coder/",
+          "folder": "20250803_mini-v1.0.0_Qwen2.5-Coder-32B-Instruct",
+          "resolved": 9.0,
+          "date": "2025-08-03",
+          "logs": "s3://swe-bench-experiments/bash-only/20250803_mini-v1.0.0_Qwen2.5-Coder-32B-Instruct/logs",
+          "trajs": "s3://swe-bench-experiments/bash-only/20250803_mini-v1.0.0_Qwen2.5-Coder-32B-Instruct/trajs",
+          "os_model": true,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: Qwen2.5-Coder-32B-Instruct",
+            "Org: Qwen",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        }
+      ]
+    },
+    {
       "name": "Test",
       "results": [
         {
@@ -628,7 +1053,7 @@
         {
           "name": "Qodo Command",
           "logo": [
-            "https://drive.google.com/file/d/12nZ7ENjIWOzZJCexe8cZg8fMVxxaaQfx/view"
+            "https://pbs.twimg.com/profile_images/1891442891190304768/MINu6Uxr_400x400.png"
           ],
           "site": "https://www.qodo.ai/",
           "folder": "20250715_qodo_command",
@@ -796,7 +1221,7 @@
         {
           "name": "devlo",
           "logo": [
-            "https://devlo.ai/static/media/devlo.ef99a045eba5ea0bcada.png"
+            "https://pbs.twimg.com/profile_images/1943555811420311552/LPDc77rv_400x400.jpg"
           ],
           "site": "https://devlo.ai/?utm_source=swe-bench",
           "folder": "20250519_devlo",
@@ -844,7 +1269,7 @@
             "https://huybery.github.io/images/nicons/logo.png"
           ],
           "site": "qwenlm.github.io/",
-          "folder": "20250805-openhands-Qwen3-Coder-480B-A35B-Instruct",
+          "folder": "20250805_openhands-Qwen3-Coder-480B-A35B-Instruct",
           "resolved": 69.6,
           "date": "2025-08-05",
           "logs": "s3://swe-bench-experiments/verified/20250805-openhands-Qwen3-Coder-480B-A35B-Instruct/logs",
@@ -907,8 +1332,8 @@
           "os_system": true,
           "checked": true,
           "tags": [
-            "Org: Anthropic",
             "Model: claude-4-opus-20250514",
+            "Org: Anthropic",
             "System: Attempts - 1",
             "Org: SWE-agent"
           ],
@@ -1051,8 +1476,8 @@
           "os_system": true,
           "checked": true,
           "tags": [
-            "Org: OpenAI",
             "Model: gpt-5-2025-08-07",
+            "Org: OpenAI",
             "System: Attempts - 1",
             "Org: SWE-agent"
           ],
@@ -1066,15 +1491,15 @@
           "site": "https://mini-swe-agent.com/latest/",
           "folder": "20250726_mini-v1.0.0_claude-sonnet-4-20250514",
           "resolved": 64.93,
-          "date": "2025-05-21",
+          "date": "2025-07-26",
           "logs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_claude-sonnet-4-20250514/logs",
           "trajs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_claude-sonnet-4-20250514/trajs",
           "os_model": false,
           "os_system": true,
           "checked": true,
           "tags": [
-            "Org: Anthropic",
             "Model: claude-4-sonnet-20250514",
+            "Org: Anthropic",
             "System: Attempts - 1",
             "Org: SWE-agent"
           ],
@@ -1123,7 +1548,7 @@
         {
           "name": "GLM-4.5",
           "logo": [
-            "https://lobehub.com/zh/icons/zai"
+            "https://pbs.twimg.com/profile_images/1911947416678350848/USaKwZgh_400x400.jpg"
           ],
           "site": "https://chat.z.ai/",
           "folder": "20250728_zai_glm4-5",
@@ -1314,17 +1739,17 @@
           "os_system": true,
           "checked": true,
           "tags": [
-            "Org: OpenAI",
             "Model: gpt-5-mini-2025-08-07",
+            "Org: OpenAI",
             "System: Attempts - 1",
             "Org: SWE-agent"
           ],
           "warning": null
         },
         {
-          "name": "DeepSWE-Preview",
+          "name": "DeepSWE-Preview + TTS(Bo16)",
           "logo": [
-            "https://sky.cs.berkeley.edu/project/agentica-project/"
+            "https://pbs.twimg.com/profile_images/1884509075607805955/Ix2PoQbu_400x400.jpg"
           ],
           "site": "agentica-project.com/",
           "folder": "20250629_deepswerl_r2eagent_tts",
@@ -1350,15 +1775,15 @@
           "site": "https://mini-swe-agent.com/latest/",
           "folder": "20250726_mini-v1.0.0_o3-2025-04-16",
           "resolved": 58.4,
-          "date": "2025-05-21",
+          "date": "2025-07-26",
           "logs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_o3-2025-04-16/logs",
           "trajs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_o3-2025-04-16/trajs",
           "os_model": false,
           "os_system": true,
           "checked": true,
           "tags": [
-            "Org: OpenAI",
             "Model: o3-20250416",
+            "Org: OpenAI",
             "System: Attempts - 1",
             "Org: SWE-agent"
           ],
@@ -1396,7 +1821,7 @@
         {
           "name": "devlo",
           "logo": [
-            "https://devlo.ai/static/media/devlo.ef99a045eba5ea0bcada.png"
+            "https://pbs.twimg.com/profile_images/1943555811420311552/LPDc77rv_400x400.jpg"
           ],
           "site": "https://devlo.ai/?utm_source=swe-bench",
           "folder": "20241213_devlo",
@@ -1500,12 +1925,12 @@
           "date": "2025-08-02",
           "logs": "s3://swe-bench-experiments/verified/20250802_mini-v1.0.0_Qwen3-Coder-480B-A35B-Instruct/logs",
           "trajs": "s3://swe-bench-experiments/verified/20250802_mini-v1.0.0_Qwen3-Coder-480B-A35B-Instruct/trajs",
-          "os_model": false,
+          "os_model": true,
           "os_system": true,
           "checked": true,
           "tags": [
-            "Org: Qwen",
             "Model: Qwen3-Coder-480B-A35B-Instruct",
+            "Org: Qwen",
             "System: Attempts - 1",
             "Org: SWE-agent"
           ],
@@ -1534,7 +1959,7 @@
         {
           "name": "devlo",
           "logo": [
-            "https://devlo.ai/static/media/devlo.ef99a045eba5ea0bcada.png"
+            "https://pbs.twimg.com/profile_images/1943555811420311552/LPDc77rv_400x400.jpg"
           ],
           "site": "https://devlo.ai/?utm_source=swe-bench",
           "folder": "20241108_devlo",
@@ -1559,15 +1984,15 @@
           "site": "https://mini-swe-agent.com/latest/",
           "folder": "20250726_mini-v1.0.0_gemini-2.5-pro",
           "resolved": 53.6,
-          "date": "2025-05-21",
+          "date": "2025-07-26",
           "logs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_gemini-2.5-pro/logs",
           "trajs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_gemini-2.5-pro/trajs",
           "os_model": false,
           "os_system": true,
           "checked": true,
           "tags": [
-            "Org: Google DeepMind",
             "Model: gemini-2.5-pro",
+            "Org: Google DeepMind",
             "System: Attempts - 1",
             "Org: SWE-agent"
           ],
@@ -1620,15 +2045,15 @@
           "site": "https://mini-swe-agent.com/latest/",
           "folder": "20250720_mini-v0.0.0-claude-3-7-sonnet-20250219",
           "resolved": 52.8,
-          "date": "2025-05-21",
+          "date": "2025-07-20",
           "logs": "s3://swe-bench-experiments/verified/20250720_mini-v0.0.0-claude-3-7-sonnet-20250219/logs",
           "trajs": "s3://swe-bench-experiments/verified/20250720_mini-v0.0.0-claude-3-7-sonnet-20250219/trajs",
           "os_model": false,
           "os_system": true,
           "checked": true,
           "tags": [
-            "Org: Anthropic",
             "Model: claude-3-7-sonnet-20250219",
+            "Org: Anthropic",
             "System: Attempts - 1",
             "Org: SWE-agent"
           ],
@@ -1682,7 +2107,7 @@
             "https://huybery.github.io/images/nicons/logo.png"
           ],
           "site": "qwenlm.github.io/",
-          "folder": "20250805-openhands-Qwen3-Coder-30B-A3B-Instruct",
+          "folder": "20250805_openhands-Qwen3-Coder-30B-A3B-Instruct",
           "resolved": 51.6,
           "date": "2025-08-05",
           "logs": "s3://swe-bench-experiments/verified/20250805-openhands-Qwen3-Coder-30B-A3B-Instruct/logs",
@@ -2013,15 +2438,15 @@
           "site": "https://mini-swe-agent.com/latest/",
           "folder": "20250726_mini-v1.0.0_o4-mini-2025-04-16",
           "resolved": 45.0,
-          "date": "2025-05-21",
+          "date": "2025-07-26",
           "logs": "s3://swe-bench-experiments/verified/20250521_o4-mini-20250416/logs",
           "trajs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_o4-mini-2025-04-16/trajs",
           "os_model": false,
           "os_system": true,
           "checked": true,
           "tags": [
-            "Org: OpenAI",
             "Model: o4-mini-20250416",
+            "Org: OpenAI",
             "System: Attempts - 1",
             "Org: SWE-agent"
           ],
@@ -2062,8 +2487,8 @@
           "os_system": true,
           "checked": true,
           "tags": [
-            "Org: Moonshot AI",
             "Model: Kimi-K2-Instruct",
+            "Org: Moonshot AI",
             "System: Attempts - 1",
             "Org: SWE-agent"
           ],
@@ -2133,7 +2558,7 @@
         {
           "name": "DeepSWE-Preview",
           "logo": [
-            "https://sky.cs.berkeley.edu/project/agentica-project/"
+            "https://pbs.twimg.com/profile_images/1884509075607805955/Ix2PoQbu_400x400.jpg"
           ],
           "site": "agentica-project.com/",
           "folder": "20250629_deepswerl_r2eagent",
@@ -2364,15 +2789,15 @@
           "site": "https://mini-swe-agent.com/latest/",
           "folder": "20250726_mini-v1.0.0_gpt-4.1-2025-04-14",
           "resolved": 39.58,
-          "date": "2025-05-21",
+          "date": "2025-07-26",
           "logs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_gpt-4.1-2025-04-14/logs",
           "trajs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_gpt-4.1-2025-04-14/trajs",
           "os_model": false,
           "os_system": true,
           "checked": true,
           "tags": [
-            "Org: OpenAI",
             "Model: gpt-4.1-20250414",
+            "Org: OpenAI",
             "System: Attempts - 1",
             "Org: SWE-agent"
           ],
@@ -2462,7 +2887,9 @@
         },
         {
           "name": "SWE-agent + DevStral Small 2507",
-          "logo": null,
+          "logo": [
+            "https://avatars.githubusercontent.com/u/166046056?s=200&v=4"
+          ],
           "site": "https://swe-agent.com/",
           "folder": "20250725_sweagent_devstral_small_2507",
           "resolved": 38.0,
@@ -2471,7 +2898,7 @@
           "trajs": "s3://swe-bench-experiments/verified/20250725_sweagent_devstral_small_2507/trajs",
           "os_model": true,
           "os_system": true,
-          "checked": "false (See README.md for info on how to get your results verified)",
+          "checked": true,
           "tags": [
             "Model: devstral-small-2507",
             "Org: SWE-agent",
@@ -2513,8 +2940,8 @@
           "os_system": true,
           "checked": true,
           "tags": [
-            "Org: OpenAI",
             "Model: gpt-5-nano-2025-08-07",
+            "Org: OpenAI",
             "System: Attempts - 1",
             "Org: SWE-agent"
           ],
@@ -2665,15 +3092,15 @@
           "site": "https://mini-swe-agent.com/latest/",
           "folder": "20250726_mini-v1.0.0_gemini-2.5-flash",
           "resolved": 28.73,
-          "date": "2025-05-21",
+          "date": "2025-07-26",
           "logs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_gemini-2.5-flash/logs",
           "trajs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_gemini-2.5-flash/trajs",
           "os_model": false,
           "os_system": true,
           "checked": true,
           "tags": [
-            "Org: Google DeepMind",
             "Model: gemini-2.5-flash",
+            "Org: Google DeepMind",
             "System: Attempts - 1",
             "Org: SWE-agent"
           ],
@@ -2734,8 +3161,8 @@
           "os_system": true,
           "checked": true,
           "tags": [
-            "Org: OpenAI",
             "Model: gpt-oss-120b",
+            "Org: OpenAI",
             "System: Attempts - 1",
             "Org: SWE-agent"
           ],
@@ -2828,15 +3255,15 @@
           "site": "https://mini-swe-agent.com/latest/",
           "folder": "20250720_mini-v0.0.0_gpt-4.1-mini-2025-04-14",
           "resolved": 23.94,
-          "date": "2025-05-21",
+          "date": "2025-07-20",
           "logs": "s3://swe-bench-experiments/verified/20250720_mini-v0.0.0_gpt-4.1-mini-2025-04-14/logs",
           "trajs": "s3://swe-bench-experiments/verified/20250720_mini-v0.0.0_gpt-4.1-mini-2025-04-14/trajs",
           "os_model": false,
           "os_system": true,
           "checked": true,
           "tags": [
-            "Org: OpenAI",
             "Model: gpt-4.1-mini-20250414",
+            "Org: OpenAI",
             "System: Attempts - 1",
             "Org: SWE-agent"
           ],
@@ -2910,15 +3337,15 @@
           "site": "https://mini-swe-agent.com/latest/",
           "folder": "20250720_mini-v0.0.0-gpt-4o-2024-11-20",
           "resolved": 21.62,
-          "date": "2025-05-21",
+          "date": "2025-07-20",
           "logs": "s3://swe-bench-experiments/verified/20250720_mini-v0.0.0-gpt-4o-2024-11-20/logs",
           "trajs": "s3://swe-bench-experiments/verified/20250720_mini-v0.0.0-gpt-4o-2024-11-20/trajs",
           "os_model": false,
           "os_system": true,
           "checked": true,
           "tags": [
-            "Org: OpenAI",
             "Model: gpt-4o-20241120",
+            "Org: OpenAI",
             "System: Attempts - 1",
             "Org: SWE-agent"
           ],
@@ -2932,15 +3359,15 @@
           "site": "https://mini-swe-agent.com/latest/",
           "folder": "20250720_mini-v0.0.0-Llama-4-Maverick-17B-Instruct",
           "resolved": 21.04,
-          "date": "2025-05-21",
+          "date": "2025-07-20",
           "logs": "s3://swe-bench-experiments/verified/20250720_mini-v0.0.0-Llama-4-Maverick-17B-Instruct/logs",
           "trajs": "s3://swe-bench-experiments/verified/20250720_mini-v0.0.0-Llama-4-Maverick-17B-Instruct/trajs",
           "os_model": false,
           "os_system": true,
           "checked": true,
           "tags": [
-            "Org: Meta",
             "Model: llama-4-maverick-instruct",
+            "Org: Meta",
             "System: Attempts - 1",
             "Org: SWE-agent"
           ],
@@ -2995,15 +3422,15 @@
           "site": "https://mini-swe-agent.com/latest/",
           "folder": "20250726_mini-v1.0.0_gemini-2.0-flash",
           "resolved": 13.52,
-          "date": "2025-05-21",
+          "date": "2025-07-26",
           "logs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_gemini-2.0-flash/logs",
           "trajs": "s3://swe-bench-experiments/verified/20250726_mini-v1.0.0_gemini-2.0-flash/trajs",
           "os_model": false,
           "os_system": true,
           "checked": true,
           "tags": [
-            "Org: Google DeepMind",
             "Model: gemini-2.0-flash",
+            "Org: Google DeepMind",
             "System: Attempts - 1",
             "Org: SWE-agent"
           ],
@@ -3037,15 +3464,15 @@
           "site": "https://mini-swe-agent.com/latest/",
           "folder": "20250720_mini-v0.0.0-Llama-4-Scout-17B-Instruct",
           "resolved": 9.06,
-          "date": "2025-05-21",
+          "date": "2025-07-20",
           "logs": "s3://swe-bench-experiments/verified/20250720_mini-v0.0.0-Llama-4-Scout-17B-Instruct/logs",
           "trajs": "s3://swe-bench-experiments/verified/20250720_mini-v0.0.0-Llama-4-Scout-17B-Instruct/trajs",
           "os_model": false,
           "os_system": true,
           "checked": true,
           "tags": [
-            "Org: Meta",
             "Model: llama-4-scout-instruct",
+            "Org: Meta",
             "System: Attempts - 1",
             "Org: SWE-agent"
           ],
@@ -3066,8 +3493,8 @@
           "os_system": true,
           "checked": true,
           "tags": [
-            "Org: Qwen",
             "Model: Qwen2.5-Coder-32B-Instruct",
+            "Org: Qwen",
             "System: Attempts - 1",
             "Org: SWE-agent"
           ],
@@ -3426,7 +3853,7 @@
         {
           "name": "devlo",
           "logo": [
-            "https://devlo.ai/static/media/devlo.ef99a045eba5ea0bcada.png"
+            "https://pbs.twimg.com/profile_images/1943555811420311552/LPDc77rv_400x400.jpg"
           ],
           "site": "https://devlo.ai/?utm_source=swe-bench",
           "folder": "20241122_devlo",
@@ -5149,451 +5576,6 @@
             "System: Attempts - 1"
           ],
           "warning": null
-        }
-      ]
-    },
-    {
-      "name": "bash-only",
-      "results": [
-        {
-          "name": "Claude 4 Opus (20250514)",
-          "logo": [
-            "https://pbs.twimg.com/profile_images/1798110641414443008/XP8gyBaY_400x400.jpg"
-          ],
-          "site": "https://www.anthropic.com/news/claude-4",
-          "folder": "20250802_mini-v1.0.0_claude-4-opus-20250514",
-          "resolved": 67.6,
-          "date": "2025-08-02",
-          "logs": "s3://swe-bench-experiments/bash-only/20250802_mini-v1.0.0_claude-4-opus-20250514/logs",
-          "trajs": "s3://swe-bench-experiments/bash-only/20250802_mini-v1.0.0_claude-4-opus-20250514/trajs",
-          "os_model": false,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Org: Anthropic",
-            "Model: claude-4-opus-20250514",
-            "System: Attempts - 1"
-          ],
-          "warning": null,
-          "mini-swe-agent_version": "1.0.0"
-        },
-        {
-          "name": "GPT-5 (2025-08-07) (medium reasoning)",
-          "logo": [
-            "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
-          ],
-          "site": "https://platform.openai.com/docs/models/gpt-5",
-          "folder": "20250807_mini-v1.7.0_gpt-5-2025-08-07",
-          "resolved": 65.0,
-          "date": "2025-08-07",
-          "logs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-5-2025-08-07/logs",
-          "trajs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-5-2025-08-07/trajs",
-          "os_model": false,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Org: OpenAI",
-            "Model: gpt-5-2025-08-07",
-            "System: Attempts - 1"
-          ],
-          "warning": null,
-          "mini-swe-agent_version": "1.7.0"
-        },
-        {
-          "name": "Claude 4 Sonnet (20250514)",
-          "logo": [
-            "https://pbs.twimg.com/profile_images/1798110641414443008/XP8gyBaY_400x400.jpg"
-          ],
-          "site": "https://www.anthropic.com/news/claude-4",
-          "folder": "20250726_mini-v1.0.0_claude-sonnet-4-20250514",
-          "resolved": 64.93,
-          "date": "2025-05-21",
-          "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_claude-sonnet-4-20250514/logs",
-          "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_claude-sonnet-4-20250514/trajs",
-          "os_model": false,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Org: Anthropic",
-            "Model: claude-4-sonnet-20250514",
-            "System: Attempts - 1"
-          ],
-          "warning": null,
-          "mini-swe-agent_version": "1.0.0"
-        },
-        {
-          "name": "GPT-5 mini (2025-08-07) (medium reasoning)",
-          "logo": [
-            "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
-          ],
-          "site": "https://platform.openai.com/docs/models/gpt-5-mini",
-          "folder": "20250807_mini-v1.7.0_gpt-5-mini-2025-08-07",
-          "resolved": 59.8,
-          "date": "2025-08-07",
-          "logs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-5-mini-2025-08-07/logs",
-          "trajs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-5-mini-2025-08-07/trajs",
-          "os_model": false,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Org: OpenAI",
-            "Model: gpt-5-mini-2025-08-07",
-            "System: Attempts - 1"
-          ],
-          "warning": null,
-          "mini-swe-agent_version": "1.7.0"
-        },
-        {
-          "name": "o3 (2025-04-16)",
-          "logo": [
-            "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
-          ],
-          "site": "https://platform.openai.com/docs/models/o3",
-          "folder": "20250726_mini-v1.0.0_o3-2025-04-16",
-          "resolved": 58.4,
-          "date": "2025-05-21",
-          "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_o3-2025-04-16/logs",
-          "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_o3-2025-04-16/trajs",
-          "os_model": false,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Org: OpenAI",
-            "Model: o3-20250416",
-            "System: Attempts - 1"
-          ],
-          "warning": null,
-          "mini-swe-agent_version": "1.0.0"
-        },
-        {
-          "name": "Qwen3-Coder 480B/A35B Instruct",
-          "logo": [
-            "https://avatars.githubusercontent.com/u/141221163?s=200&v=4"
-          ],
-          "site": "https://qwenlm.github.io/blog/qwen3-coder/",
-          "folder": "20250802_mini-v1.0.0_Qwen3-Coder-480B-A35B-Instruct",
-          "resolved": 55.4,
-          "date": "2025-08-02",
-          "logs": "s3://swe-bench-experiments/bash-only/20250802_mini-v1.0.0_Qwen3-Coder-480B-A35B-Instruct/logs",
-          "trajs": "s3://swe-bench-experiments/bash-only/20250802_mini-v1.0.0_Qwen3-Coder-480B-A35B-Instruct/trajs",
-          "os_model": true,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Org: Qwen",
-            "Model: Qwen3-Coder-480B-A35B-Instruct",
-            "System: Attempts - 1"
-          ],
-          "warning": null,
-          "mini-swe-agent_version": "1.0.0"
-        },
-        {
-          "name": "Gemini 2.5 Pro (2025-05-06)",
-          "logo": [
-            "https://upload.wikimedia.org/wikipedia/commons/8/8f/Google-gemini-icon.svg"
-          ],
-          "site": "https://ai.google.dev/gemini-api/docs/models",
-          "folder": "20250726_mini-v1.0.0_gemini-2.5-pro",
-          "resolved": 53.6,
-          "date": "2025-05-21",
-          "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.5-pro/logs",
-          "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.5-pro/trajs",
-          "os_model": false,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Org: Google DeepMind",
-            "Model: gemini-2.5-pro",
-            "System: Attempts - 1"
-          ],
-          "warning": null,
-          "mini-swe-agent_version": "1.0.0"
-        },
-        {
-          "name": "Claude 3.7 Sonnet (20250219)",
-          "logo": [
-            "https://pbs.twimg.com/profile_images/1798110641414443008/XP8gyBaY_400x400.jpg"
-          ],
-          "site": "https://www.anthropic.com/news/claude-3-7-sonnet",
-          "folder": "20250720_mini-v0.0.0-claude-3-7-sonnet-20250219",
-          "resolved": 52.8,
-          "date": "2025-05-21",
-          "logs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-claude-3-7-sonnet-20250219/logs",
-          "trajs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-claude-3-7-sonnet-20250219/trajs",
-          "os_model": false,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Org: Anthropic",
-            "Model: claude-3-7-sonnet-20250219",
-            "System: Attempts - 1"
-          ],
-          "warning": null,
-          "mini-swe-agent_version": "0.0.0"
-        },
-        {
-          "name": "o4-mini (2025-04-16)",
-          "logo": [
-            "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
-          ],
-          "site": "https://platform.openai.com/docs/models/o4-mini",
-          "folder": "20250726_mini-v1.0.0_o4-mini-2025-04-16",
-          "resolved": 45.0,
-          "date": "2025-05-21",
-          "logs": "s3://swe-bench-experiments/bash-only/20250521_o4-mini-20250416/logs",
-          "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_o4-mini-2025-04-16/trajs",
-          "os_model": false,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Org: OpenAI",
-            "Model: o4-mini-20250416",
-            "System: Attempts - 1"
-          ],
-          "warning": null,
-          "mini-swe-agent_version": "1.0.0"
-        },
-        {
-          "name": "Kimi K2 Instruct",
-          "logo": [
-            "https://avatars.githubusercontent.com/u/129152888?s=200&v=4"
-          ],
-          "site": "https://moonshotai.github.io/Kimi-K2/",
-          "folder": "20250807_mini-v1.7.0_Kimi-K2-Instruct",
-          "resolved": 43.8,
-          "date": "2025-08-07",
-          "logs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_Kimi-K2-Instruct/logs",
-          "trajs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_Kimi-K2-Instruct/trajs",
-          "os_model": true,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Org: Moonshot AI",
-            "Model: Kimi-K2-Instruct",
-            "System: Attempts - 1"
-          ],
-          "warning": null,
-          "mini-swe-agent_version": "1.7.0"
-        },
-        {
-          "name": "GPT-4.1 (2025-04-14)",
-          "logo": [
-            "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
-          ],
-          "site": "https://platform.openai.com/docs/models/gpt-4.1",
-          "folder": "20250726_mini-v1.0.0_gpt-4.1-2025-04-14",
-          "resolved": 39.58,
-          "date": "2025-05-21",
-          "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gpt-4.1-2025-04-14/logs",
-          "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gpt-4.1-2025-04-14/trajs",
-          "os_model": false,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Org: OpenAI",
-            "Model: gpt-4.1-20250414",
-            "System: Attempts - 1"
-          ],
-          "warning": null,
-          "mini-swe-agent_version": "1.0.0"
-        },
-        {
-          "name": "GPT-5 nano (2025-08-07) (medium reasoning)",
-          "logo": [
-            "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
-          ],
-          "site": "https://platform.openai.com/docs/models/gpt-5-nano",
-          "folder": "20250807_mini-v1.7.0_gpt-5-nano-2025-08-07",
-          "resolved": 34.8,
-          "date": "2025-08-07",
-          "logs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-5-nano-2025-08-07/logs",
-          "trajs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-5-nano-2025-08-07/trajs",
-          "os_model": false,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Org: OpenAI",
-            "Model: gpt-5-nano-2025-08-07",
-            "System: Attempts - 1"
-          ],
-          "warning": null,
-          "mini-swe-agent_version": "1.7.0"
-        },
-        {
-          "name": "Gemini 2.5 Flash (2025-04-17)",
-          "logo": [
-            "https://upload.wikimedia.org/wikipedia/commons/8/8f/Google-gemini-icon.svg"
-          ],
-          "site": "https://ai.google.dev/gemini-api/docs/models",
-          "folder": "20250726_mini-v1.0.0_gemini-2.5-flash",
-          "resolved": 28.73,
-          "date": "2025-05-21",
-          "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.5-flash/logs",
-          "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.5-flash/trajs",
-          "os_model": false,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Org: Google DeepMind",
-            "Model: gemini-2.5-flash",
-            "System: Attempts - 1"
-          ],
-          "warning": null,
-          "mini-swe-agent_version": "1.0.0"
-        },
-        {
-          "name": "gpt-oss-120b",
-          "logo": [
-            "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
-          ],
-          "site": "https://platform.openai.com/docs/models/gpt-oss-120b",
-          "folder": "20250807_mini-v1.7.0_gpt-oss-120b",
-          "resolved": 26.0,
-          "date": "2025-08-07",
-          "logs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-oss-120b/logs",
-          "trajs": "s3://swe-bench-experiments/bash-only/20250807_mini-v1.7.0_gpt-oss-120b/trajs",
-          "os_model": true,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Org: OpenAI",
-            "Model: gpt-oss-120b",
-            "System: Attempts - 1"
-          ],
-          "warning": null,
-          "mini-swe-agent_version": "1.7.0"
-        },
-        {
-          "name": "GPT-4.1-mini (2025-04-14)",
-          "logo": [
-            "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
-          ],
-          "site": "https://platform.openai.com/docs/models/gpt-4.1-mini",
-          "folder": "20250720_mini-v0.0.0_gpt-4.1-mini-2025-04-14",
-          "resolved": 23.94,
-          "date": "2025-05-21",
-          "logs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0_gpt-4.1-mini-2025-04-14/logs",
-          "trajs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0_gpt-4.1-mini-2025-04-14/trajs",
-          "os_model": false,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Org: OpenAI",
-            "Model: gpt-4.1-mini-20250414",
-            "System: Attempts - 1"
-          ],
-          "warning": null,
-          "mini-swe-agent_version": "0.0.0"
-        },
-        {
-          "name": "GPT-4o (2024-11-20)",
-          "logo": [
-            "https://upload.wikimedia.org/wikipedia/commons/6/66/OpenAI_logo_2025_%28symbol%29.svg"
-          ],
-          "site": "https://platform.openai.com/docs/models/gpt-4o",
-          "folder": "20250720_mini-v0.0.0-gpt-4o-2024-11-20",
-          "resolved": 21.62,
-          "date": "2025-05-21",
-          "logs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-gpt-4o-2024-11-20/logs",
-          "trajs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-gpt-4o-2024-11-20/trajs",
-          "os_model": false,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Org: OpenAI",
-            "Model: gpt-4o-20241120",
-            "System: Attempts - 1"
-          ],
-          "warning": null,
-          "mini-swe-agent_version": "0.0.0"
-        },
-        {
-          "name": "Llama 4 Maverick Instruct",
-          "logo": [
-            "https://upload.wikimedia.org/wikipedia/commons/d/d0/Meta_Platforms_logo.svg"
-          ],
-          "site": "https://www.together.ai/models/llama-4-maverick",
-          "folder": "20250720_mini-v0.0.0-Llama-4-Maverick-17B-Instruct",
-          "resolved": 21.04,
-          "date": "2025-05-21",
-          "logs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-Llama-4-Maverick-17B-Instruct/logs",
-          "trajs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-Llama-4-Maverick-17B-Instruct/trajs",
-          "os_model": false,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Org: Meta",
-            "Model: llama-4-maverick-instruct",
-            "System: Attempts - 1"
-          ],
-          "warning": null,
-          "mini-swe-agent_version": "0.0.0"
-        },
-        {
-          "name": "Gemini 2.0 flash",
-          "logo": [
-            "https://upload.wikimedia.org/wikipedia/commons/8/8f/Google-gemini-icon.svg"
-          ],
-          "site": "https://ai.google.dev/gemini-api/docs/models",
-          "folder": "20250726_mini-v1.0.0_gemini-2.0-flash",
-          "resolved": 13.52,
-          "date": "2025-05-21",
-          "logs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.0-flash/logs",
-          "trajs": "s3://swe-bench-experiments/bash-only/20250726_mini-v1.0.0_gemini-2.0-flash/trajs",
-          "os_model": false,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Org: Google DeepMind",
-            "Model: gemini-2.0-flash",
-            "System: Attempts - 1"
-          ],
-          "warning": null,
-          "mini-swe-agent_version": "0.0.0"
-        },
-        {
-          "name": "Llama 4 Scout Instruct",
-          "logo": [
-            "https://upload.wikimedia.org/wikipedia/commons/d/d0/Meta_Platforms_logo.svg"
-          ],
-          "site": "https://www.together.ai/models/llama-4-scout",
-          "folder": "20250720_mini-v0.0.0-Llama-4-Scout-17B-Instruct",
-          "resolved": 9.06,
-          "date": "2025-05-21",
-          "logs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-Llama-4-Scout-17B-Instruct/logs",
-          "trajs": "s3://swe-bench-experiments/bash-only/20250720_mini-v0.0.0-Llama-4-Scout-17B-Instruct/trajs",
-          "os_model": false,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Org: Meta",
-            "Model: llama-4-scout-instruct",
-            "System: Attempts - 1"
-          ],
-          "warning": null,
-          "mini-swe-agent_version": "0.0.0"
-        },
-        {
-          "name": "Qwen2.5-Coder 32B Instruct",
-          "logo": [
-            "https://avatars.githubusercontent.com/u/141221163?s=200&v=4"
-          ],
-          "site": "https://qwenlm.github.io/blog/qwen2.5-coder/",
-          "folder": "20250803_mini-v1.0.0_Qwen2.5-Coder-32B-Instruct",
-          "resolved": 9.0,
-          "date": "2025-08-03",
-          "logs": "s3://swe-bench-experiments/bash-only/20250803_mini-v1.0.0_Qwen2.5-Coder-32B-Instruct/logs",
-          "trajs": "s3://swe-bench-experiments/bash-only/20250803_mini-v1.0.0_Qwen2.5-Coder-32B-Instruct/trajs",
-          "os_model": true,
-          "os_system": true,
-          "checked": true,
-          "tags": [
-            "Org: Qwen",
-            "Model: Qwen2.5-Coder-32B-Instruct",
-            "System: Attempts - 1"
-          ],
-          "warning": null,
-          "mini-swe-agent_version": "1.0.0"
         }
       ]
     }
