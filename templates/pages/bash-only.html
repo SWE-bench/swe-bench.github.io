@@ -29,6 +29,23 @@
             <p>The original SWE-bench benchmark aims to evaluate arbitrary systems on their ability to resolve GitHub issues. Currently, top-performing systems represent a wide variety of AI scaffolds; from simple LM agent loops, to RAG systems, to multi-rollout and review type systems. Each of these systems are totally valid solutions to the problem of solving GitHub issues.</p>
 
             <p>However, when we first created SWE-bench, we were initially interested in evaluating LMs primarily. To make an apples-to-apples comparison of LMs easier, we've introduced the <strong>SWE-bench Bash Only</strong> leaderboard. In this setting, we use our <a href="https://github.com/SWE-agent/mini-swe-agent">mini-SWE-agent</a> package to evaluate LMs in a minimal bash environment. No tools, no special scaffold structure; just a simple <a href="https://arxiv.org/abs/2210.03629">ReAct</a> agent loop. Results on SWE-bench Bash Only represent the state-of-the-art LM performance when given just a bash shell and a problem.</p>
+
+            <details>
+                <summary>Details</summary>
+
+                <ul>
+                    <li>We use <a href="https://github.com/SWE-agent/mini-swe-agent/blob/main/src/minisweagent/config/extra/swebench.yaml">this configuration</a> for all models.</li>
+                    <li>The LM temperature is set to 0.0 if the temperature parameter is supported.</li>
+                    <li><a href="https://mini-swe-agent.com/latest/usage/swebench/">This guide</a> shows how to run the evaluation yourself.</li>
+                    <li>
+                        Small changes in the setup and configuration are captured by the version number in the leaderboard. 
+                        Version numbers correspond to tags in the mini-SWE-agent repository. 
+                        Since the mini-SWE-agent repository contains other components as well, a new version number does not necessarily mean that anything of relevance has changed for the bash-only leaderboard setting.
+                        We do <em>not</em> aim to tune the configuration and setup to reach higher and higher scores. 
+                        Instead, we only make general fixes to the framework, as well as clarifications in the prompt to provide a maximally fair evaluation setup for the LMs. </li>
+                </ul>
+
+            </details>
         </section>
 
     </div>
