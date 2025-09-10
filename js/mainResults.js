@@ -98,8 +98,6 @@ function renderLeaderboardTable(leaderboard) {
                             <th class="sortable" data-sort="resolved">% Resolved</th>
                             <th class="sortable" data-sort="org">Org</th>
                             <th class="sortable" data-sort="date">Date</th>
-                            <th class="sortable" data-sort="logs">Logs</th>
-                            <th class="sortable" data-sort="trajs">Trajs</th>
                             <th class="sortable" data-sort="site">Site</th>
                             ${isBashOnly ? '<th class="sortable" data-sort="release">Release</th>' : ''}
                         </tr>
@@ -131,12 +129,6 @@ function renderLeaderboardTable(leaderboard) {
                                         ` : '-'}
                                     </td>
                                     <td><span class="label-date text-muted">${item.date}</span></td>
-                                    <td class="centered-text text-center">
-                                        ${item.logs ? '<span class="text-success">✓</span>' : '<span class="text-muted">-</span>'}
-                                    </td>
-                                    <td class="centered-text text-center">
-                                        ${item.trajs ? '<span class="text-success">✓</span>' : '<span class="text-muted">-</span>'}
-                                    </td>
                                     <td class="centered-text text-center">
                                         ${item.site ? `<a href="${item.site}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
                                     </td>
