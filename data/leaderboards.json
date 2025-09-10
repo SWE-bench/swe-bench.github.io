@@ -926,7 +926,7 @@
                     ],
                     "site": "https://mini-swe-agent.com/latest/",
                     "folder": "20250822_mini-v1.9.1_GLM-4.5",
-                    "resolved": 271.0,
+                    "resolved": 54.2,
                     "date": "2025-08-22",
                     "logs": "s3://swe-bench-experiments/verified/20250822_mini-v1.9.1_GLM-4.5/logs",
                     "trajs": "s3://swe-bench-experiments/verified/20250822_mini-v1.9.1_GLM-4.5/trajs",
