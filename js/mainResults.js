@@ -100,11 +100,11 @@ function renderLeaderboardTable(leaderboard) {
                         <tr>
                             <th class="sortable" data-sort="name">Model</th>
                             <th class="sortable" data-sort="resolved">% Resolved</th>
-                            ${isBashOnly ? '<th class="sortable" data-sort="instance_cost">Avg. $</th>' : ''}
+                            ${isBashOnly ? '<th class="sortable" data-sort="instance_cost" title="Average cost per task instance in the benchmark">Avg. $</th>' : ''}
                             <th class="sortable" data-sort="org">Org</th>
                             <th class="sortable" data-sort="date">Date</th>
                             ${!isBashOnly ? '<th class="sortable" data-sort="site">Site</th>' : ''}
-                            ${isBashOnly ? '<th class="sortable" data-sort="release">Release</th>' : ''}
+                            ${isBashOnly ? '<th class="sortable" data-sort="release" title="mini-swe-agent release with which the benchmark was run. Click the release to see the release note. Generally, results should be very comparable across releases.">Release</th>' : ''}
                         </tr>
                     </thead>
                     <tbody>
@@ -126,7 +126,7 @@ function renderLeaderboardTable(leaderboard) {
                                         </div>
                                     </td>
                                     <td><span class="number fw-medium text-primary">${parseFloat(item.resolved).toFixed(2)}</span></td>
-                                    ${isBashOnly ? `<td><span class="number fw-medium text-primary">${item.instance_cost !== null && item.instance_cost !== undefined ? parseFloat(item.instance_cost).toFixed(2) : ''}</span></td>` : ''}
+                                    ${isBashOnly ? `<td class="text-right"><span class="number fw-medium text-primary">${item.instance_cost !== null && item.instance_cost !== undefined ? parseFloat(item.instance_cost).toFixed(2) : ''}</span></td>` : ''}
                                     <td>
                                         ${item.logo && item.logo.length > 0 ? `
                                             <div style="display: flex; align-items: center;">
