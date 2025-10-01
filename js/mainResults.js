@@ -43,6 +43,10 @@ function sortItems(a, b, field, direction) {
             case 'trajs':
             case 'site':
                 return item[field] ? 1 : 0;
+            case 'instance_cost':
+                return parseFloat(item.instance_cost) || 0;
+            case 'trajs_docent':
+                return item.trajs_docent && item.trajs_docent !== false ? 1 : 0;
             case 'release':
                 return (item['mini-swe-agent_version'] || '').toLowerCase();
             default:
@@ -96,10 +100,11 @@ function renderLeaderboardTable(leaderboard) {
                         <tr>
                             <th class="sortable" data-sort="name">Model</th>
                             <th class="sortable" data-sort="resolved">% Resolved</th>
+                            ${isBashOnly ? '<th class="sortable" data-sort="instance_cost" title="Average cost per task instance in the benchmark">Avg. $</th>' : ''}
                             <th class="sortable" data-sort="org">Org</th>
                             <th class="sortable" data-sort="date">Date</th>
-                            <th class="sortable" data-sort="site">Site</th>
-                            ${isBashOnly ? '<th class="sortable" data-sort="release">Release</th>' : ''}
+                            ${!isBashOnly ? '<th class="sortable" data-sort="site">Site</th>' : ''}
+                            ${isBashOnly ? '<th class="sortable" data-sort="release" title="mini-swe-agent release with which the benchmark was run. Click the release to see the release note. Generally, results should be very comparable across releases.">Release</th>' : ''}
                         </tr>
                     </thead>
                     <tbody>
@@ -121,6 +126,7 @@ function renderLeaderboardTable(leaderboard) {
                                         </div>
                                     </td>
                                     <td><span class="number fw-medium text-primary">${parseFloat(item.resolved).toFixed(2)}</span></td>
+                                    ${isBashOnly ? `<td class="text-right"><span class="number fw-medium text-primary">${item.instance_cost !== null && item.instance_cost !== undefined ? parseFloat(item.instance_cost).toFixed(2) : ''}</span></td>` : ''}
                                     <td>
                                         ${item.logo && item.logo.length > 0 ? `
                                             <div style="display: flex; align-items: center;">
@@ -129,14 +135,14 @@ function renderLeaderboardTable(leaderboard) {
                                         ` : '-'}
                                     </td>
                                     <td><span class="label-date text-muted">${item.date}</span></td>
-                                    <td class="centered-text text-center">
+                                    ${!isBashOnly ? `<td class="centered-text text-center">
                                         ${item.site ? `<a href="${item.site}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
-                                    </td>
-                                    ${isBashOnly ? `<td><span class="text-muted font-mono">${item['mini-swe-agent_version'] || '-'}</span></td>` : ''}
+                                    </td>` : ''}
+                                    ${isBashOnly ? `<td><span class="text-muted font-mono">${item['mini-swe-agent_version'] && item['mini-swe-agent_version'] !== '0.0.0' ? `<a href="https://github.com/SWE-agent/mini-swe-agent/tree/v${item['mini-swe-agent_version']}" target="_blank" rel="noopener noreferrer">${item['mini-swe-agent_version']}</a>` : (item['mini-swe-agent_version'] || '-')}</span></td>` : ''}
                                 </tr>
                             `).join('')}
                         <tr class="no-results" style="display: none;">
-                            <td colspan="${isBashOnly ? '8' : '7'}" class="text-center">
+                            <td colspan="${isBashOnly ? '9' : '7'}" class="text-center">
                                 No entries match the selected filters. Try adjusting your filters.
                             </td>
                         </tr>
