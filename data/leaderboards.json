@@ -1118,6 +1118,61 @@
       "name": "Verified",
       "results": [
         {
+          "name": "TRAE + Doubao-Seed-Code",
+          "logo": [
+            "https://se-research.bytedance.com/logos/bytedance.jpg"
+          ],
+          "site": [
+            "https://github.com/bytedance/trae-agent",
+            "https://seed.bytedance.com/"
+          ],
+          "folder": "20250928_trae_doubao_seed_code",
+          "resolved": 78.8,
+          "date": "2025-09-28",
+          "logs": "s3://swe-bench-experiments/verified/20250928_trae_doubao_seed_code/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250928_trae_doubao_seed_code/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": false,
+          "os_system": true,
+          "checked": false,
+          "tags": [
+            "Model: Doubao-Seed-Code",
+            "Model: Doubao-Seed-1.6",
+            "Org: ByteDance",
+            "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Atlassian Rovo Dev (2025-09-02)",
+          "logo": [
+            "https://pf-emoji-service--cdn.us-east-1.prod.public.atl-paas.net/atlassian/productivityEmojis/logo-rovo-64px.png"
+          ],
+          "site": "https://www.atlassian.com/rovo-dev",
+          "folder": "20250902_atlassian-rovo-dev",
+          "resolved": 76.8,
+          "date": "2025-09-02",
+          "logs": "s3://swe-bench-experiments/verified/20250902_atlassian-rovo-dev/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250902_atlassian-rovo-dev/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": false,
+          "os_system": false,
+          "checked": false,
+          "tags": [
+            "Model: claude-sonnet-4-20250514",
+            "Model: gpt-5",
+            "Org: Atlassian",
+            "System: Attempts - 2"
+          ],
+          "warning": null
+        },
+        {
           "name": "EPAM AI/Run Developer Agent v20250719 + Claude 4 Sonnet",
           "logo": [
             "https://www.epam.com/content/dam/epam/homepage/epam_logo_light.svg"
@@ -1166,6 +1221,32 @@
             "Model: gpt-5-0807-global",
             "Model: gemini-2.5-pro-06-17",
             "Org: ACoder",
+            "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Warp",
+          "logo": [
+            "https://storage.googleapis.com/warp-static-assets/logo/logo--black.png"
+          ],
+          "site": "https://www.warp.dev",
+          "folder": "20250901_warp",
+          "resolved": 75.6,
+          "date": "2025-09-01",
+          "logs": "s3://swe-bench-experiments/verified/20250901_warp/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250901_warp/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": false,
+          "os_system": false,
+          "checked": false,
+          "tags": [
+            "Model: gpt-5",
+            "Model: claude-sonnet-4-20250514",
+            "Org: Warp",
             "System: Attempts - 2+"
           ],
           "warning": null
@@ -1249,6 +1330,32 @@
           "warning": null
         },
         {
+          "name": "JoyCode",
+          "logo": [
+            "https://joycode.s3.cn-north-1.jdcloud-oss.com/joycodelogo.png"
+          ],
+          "site": "https://joycode.jd.com",
+          "folder": "20250915_JoyCode",
+          "resolved": 74.6,
+          "date": "2025-09-15",
+          "logs": "s3://swe-bench-experiments/verified/20250915_JoyCode/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250915_JoyCode/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": false,
+          "os_system": true,
+          "checked": false,
+          "tags": [
+            "Model: claude-4-sonnet",
+            "Model: gpt-4.1",
+            "Org: JoyCode",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
           "name": "Refact.ai Agent",
           "logo": [
             "https://refact.ai/favicon.png"
@@ -1318,6 +1425,58 @@
           "checked": false,
           "tags": [
             "Model: claude-4-sonnet-20250514",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "OpenHands + GPT-5",
+          "logo": [
+            "https://avatars.githubusercontent.com/u/169105795?s=200&v=4"
+          ],
+          "site": "https://all-hands.dev/",
+          "folder": "20250807_openhands_gpt5",
+          "resolved": 71.8,
+          "date": "2025-08-07",
+          "logs": "s3://swe-bench-experiments/verified/20250807_openhands_gpt5/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250807_openhands_gpt5/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": true,
+          "os_system": true,
+          "checked": true,
+          "tags": [
+            "Model: openai/gpt-5-2025-08-07",
+            "Org: OpenHands",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Prometheus-v1.2 + GPT-5",
+          "logo": [
+            "https://raw.githubusercontent.com/EuniAI/Prometheus/main/docs/static/images/icon.jpg",
+            "https://raw.githubusercontent.com/EuniAI/Prometheus/main/docs/static/images/delysium.jpg"
+          ],
+          "site": "https://euni.ai/",
+          "folder": "20250929_Prometheus_v1.2_gpt5",
+          "resolved": 71.2,
+          "date": "2025-09-29",
+          "logs": "s3://swe-bench-experiments/verified/20250929_Prometheus_v1.2_gpt5/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250929_Prometheus_v1.2_gpt5/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": false,
+          "os_system": false,
+          "checked": false,
+          "tags": [
+            "Model: gpt-5-2025-08-07",
+            "Org: EuniAI",
+            "Org: Delysium",
             "System: Attempts - 1"
           ],
           "warning": null
@@ -1661,6 +1820,31 @@
             "Model: meta-llama/Llama-3.3-70B-Instruct",
             "Org: NVIDIA",
             "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
+          "name": "GLM-4.6",
+          "logo": [
+            "https://lobehub.com/zh/icons/zai"
+          ],
+          "site": "https://chat.z.ai/",
+          "folder": "20250930_zai_glm4-6",
+          "resolved": 68.2,
+          "date": "2025-09-30",
+          "logs": "s3://swe-bench-experiments/verified/20250930_zai_glm4-6/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250930_zai_glm4-6/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": true,
+          "os_system": true,
+          "checked": false,
+          "tags": [
+            "Model: https://huggingface.co/zai-org/GLM-4.6",
+            "Org: Z.ai",
+            "System: Attempts - 1"
           ],
           "warning": null
         },
@@ -2130,6 +2314,31 @@
           "warning": null
         },
         {
+          "name": "EntroPO + R2E + Qwen3-Coder-30B-A3B-Instruct",
+          "logo": [
+            "https://github.com/sherdencooper/R2E-Gym/blob/EntroPO/assets/42_logo.png"
+          ],
+          "site": "https://github.com/sherdencooper/R2E-Gym",
+          "folder": "20250901_entroPO_R2E_QwenCoder30BA3B_tts",
+          "resolved": 60.4,
+          "date": "2025-09-01",
+          "logs": "s3://swe-bench-experiments/verified/20250901_entroPO_R2E_QwenCoder30BA3B_tts/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250901_entroPO_R2E_QwenCoder30BA3B_tts/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": true,
+          "os_system": true,
+          "checked": "false (See README.md for info on how to get your results verified)",
+          "tags": [
+            "Model: Qwen3-Coder-30B-A3B-Instruct",
+            "Org: 42-b3yond-6ug",
+            "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
           "name": "Learn-by-interact",
           "logo": [
             "https://static-00.iconduck.com/assets.00/google-cloud-icon-2048x1646-7admxejz.png"
@@ -2338,6 +2547,31 @@
           "warning": null
         },
         {
+          "name": "Artemis Agent v2 (2025-09-24)",
+          "logo": [
+            "https://pbs.twimg.com/profile_images/1815722024121077760/KKFl48WM_400x400.jpg"
+          ],
+          "site": "https://www.turintech.ai/",
+          "folder": "20250924_artemis_agent_v2",
+          "resolved": 57.0,
+          "date": "2025-09-24",
+          "logs": "s3://swe-bench-experiments/verified/20250924_artemis_agent_v2/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250924_artemis_agent_v2/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": false,
+          "os_system": false,
+          "checked": false,
+          "tags": [
+            "Model: claude-sonnet-4-20250514",
+            "Org: Turintech",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
           "name": "SWE-Rizzo",
           "logo": null,
           "site": "https://gen42.ai",
@@ -2512,6 +2746,31 @@
           "mini-swe-agent_version": "1.0.0"
         },
         {
+          "name": "CodeSweep - SWE-agent - Kimi K2 Instruct",
+          "logo": [
+            "https://codesweep.ai/favicon.svg"
+          ],
+          "site": "https://codesweep.ai/",
+          "folder": "20250804_codesweep_sweagent_kimi_k2_instruct",
+          "resolved": 53.4,
+          "date": "2025-08-04",
+          "logs": "s3://swe-bench-experiments/verified/20250804_codesweep_sweagent_kimi_k2_instruct/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250804_codesweep_sweagent_kimi_k2_instruct/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": true,
+          "os_system": true,
+          "checked": false,
+          "tags": [
+            "Model: kimi-k2-instruct",
+            "Org: CodeSweep Inc.",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
           "name": "Bracket.sh",
           "logo": [
             "https://bracket.sh/static/media/bracket_logo.d75584b91faa86a6314b.png"
@@ -2584,6 +2843,31 @@
           ],
           "warning": null,
           "mini-swe-agent_version": "0.0.0"
+        },
+        {
+          "name": "EntroPO + R2E + Qwen3-Coder-30B-A3B-Instruct",
+          "logo": [
+            "https://github.com/sherdencooper/R2E-Gym/blob/EntroPO/assets/42_logo.png"
+          ],
+          "site": "https://github.com/sherdencooper/R2E-Gym",
+          "folder": "20250901_entroPO_R2E_QwenCoder30BA3B",
+          "resolved": 52.2,
+          "date": "2025-09-01",
+          "logs": "s3://swe-bench-experiments/verified/20250901_entroPO_R2E_QwenCoder30BA3B/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20250901_entroPO_R2E_QwenCoder30BA3B/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": true,
+          "os_system": true,
+          "checked": "false (See README.md for info on how to get your results verified)",
+          "tags": [
+            "Model: Qwen3-Coder-30B-A3B-Instruct",
+            "Org: 42-b3yond-6ug",
+            "System: Attempts - 1"
+          ],
+          "warning": null
         },
         {
           "name": "Google Jules + Gemini 2.0 Flash (v20241212-experimental)",
@@ -4521,6 +4805,31 @@
           "warning": null
         },
         {
+          "name": "KGCompass + Claude 4 Sonnet (20250514)",
+          "logo": [
+            "https://avatars.githubusercontent.com/u/214923202?s=200&v=4"
+          ],
+          "site": "https://github.com/GLEAM-Lab/KGCompass",
+          "folder": "20250906_KGCompass_claude-4-sonnet-20250514",
+          "resolved": 58.33,
+          "date": "2025-09-06",
+          "logs": "s3://swe-bench-experiments/lite/20250906_KGCompass_claude-4-sonnet-20250514/logs",
+          "trajs": "s3://swe-bench-experiments/lite/20250906_KGCompass_claude-4-sonnet-20250514/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": false,
+          "os_system": true,
+          "checked": false,
+          "tags": [
+            "Model: claude-4-sonnet-20250514",
+            "Org: GLEAM-Lab",
+            "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
           "name": "SWE-agent + Claude 4 Sonnet",
           "logo": [
             "https://avatars.githubusercontent.com/u/166046056?s=200&v=4"
@@ -4591,6 +4900,53 @@
             "Model: gemini-2.5-pro-preview-05-06",
             "Org: Columbia",
             "Org: SemAgent",
+            "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Isea",
+          "logo": null,
+          "site": null,
+          "folder": "20250911_isea_claude-3.5-sonnet-20241022",
+          "resolved": 51.33,
+          "date": "2025-09-11",
+          "logs": "s3://swe-bench-experiments/lite/20250911_isea_claude-3.5-sonnet-20241022/logs",
+          "trajs": "s3://swe-bench-experiments/lite/20250911_isea_claude-3.5-sonnet-20241022/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": false,
+          "os_system": false,
+          "checked": false,
+          "tags": [
+            "Model: claude-3.5-sonnet-20241022",
+            "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
+          "name": "EntroPO + R2E + Qwen3-Coder-30B-A3B-Instruct",
+          "logo": [
+            "https://github.com/sherdencooper/R2E-Gym/blob/EntroPO/assets/42_logo.png"
+          ],
+          "site": "https://github.com/sherdencooper/R2E-Gym",
+          "folder": "20250901_entroPO_R2E_QwenCoder30BA3B_tts",
+          "resolved": 49.67,
+          "date": "2025-09-01",
+          "logs": "s3://swe-bench-experiments/lite/20250901_entroPO_R2E_QwenCoder30BA3B_tts/logs",
+          "trajs": "s3://swe-bench-experiments/lite/20250901_entroPO_R2E_QwenCoder30BA3B_tts/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": true,
+          "os_system": true,
+          "checked": "false (See README.md for info on how to get your results verified)",
+          "tags": [
+            "Model: Qwen3-Coder-30B-A3B-Instruct",
+            "Org: 42-b3yond-6ug",
             "System: Attempts - 2+"
           ],
           "warning": null
@@ -4805,6 +5161,31 @@
             "Model: claude-3-5-sonnet-20241022",
             "Org: GLEAM-Lab",
             "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
+          "name": "EntroPO + R2E + Qwen3-Coder-30B-A3B-Instruct",
+          "logo": [
+            "https://github.com/sherdencooper/R2E-Gym/blob/EntroPO/assets/42_logo.png"
+          ],
+          "site": "https://github.com/sherdencooper/R2E-Gym",
+          "folder": "20250901_entroPO_R2E_QwenCoder30BA3B",
+          "resolved": 45.0,
+          "date": "2025-09-01",
+          "logs": "s3://swe-bench-experiments/lite/20250901_entroPO_R2E_QwenCoder30BA3B/logs",
+          "trajs": "s3://swe-bench-experiments/lite/20250901_entroPO_R2E_QwenCoder30BA3B/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": true,
+          "os_system": true,
+          "checked": "false (See README.md for info on how to get your results verified)",
+          "tags": [
+            "Model: Qwen3-Coder-30B-A3B-Instruct",
+            "Org: 42-b3yond-6ug",
+            "System: Attempts - 1"
           ],
           "warning": null
         },
