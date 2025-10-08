@@ -9,10 +9,18 @@
         const active = container ? container.querySelector('.tabcontent.active') : null;
         if (!active) return [];
         const checkboxes = active.querySelectorAll('input.row-select:checked');
-        return Array.from(checkboxes).map(cb => ({
-            name: cb.getAttribute('data-model'),
-            resolved: parseFloat(cb.getAttribute('data-resolved')) || 0
-        }));
+        return Array.from(checkboxes).map(cb => {
+            const row = cb.closest('tr');
+            const costCell = row ? row.querySelector('td:nth-child(4) .number') : null;
+            const costText = costCell ? costCell.textContent.trim().replace('$', '') : '';
+            const cost = costText ? parseFloat(costText) : null;
+            
+            return {
+                name: cb.getAttribute('data-model'),
+                resolved: parseFloat(cb.getAttribute('data-resolved')) || 0,
+                cost: cost
+            };
+        });
     }
 
     function getThemeColors(theme) {
@@ -139,8 +147,6 @@
         if (empty) empty.style.display = 'none';
 
         const ctx = canvas.getContext('2d');
-        const labels = selected.map(s => s.name);
-        const values = selected.map(s => s.resolved);
         const colors = getThemeColors(chartTheme);
 
         // Set canvas background via container
@@ -162,62 +168,189 @@
             }
         };
 
-        compareChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels,
-                datasets: [{
-                    label: '% Resolved',
-                    data: values,
-                    backgroundColor: colors.barBackground,
-                    borderColor: colors.barBorder,
-                    borderWidth: 1,
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: { 
-                            display: true, 
-                            text: '% Resolved',
-                            color: colors.textColor
+        const chartTypeSelect = document.getElementById('compare-chart-type');
+        const chartType = chartTypeSelect ? chartTypeSelect.value : 'bar';
+
+        if (chartType === 'scatter') {
+            // Filter out models without cost data
+            const modelsWithCost = selected.filter(s => s.cost !== null && s.cost !== undefined);
+            
+            // Plugin to draw labels on scatter plot
+            const labelPlugin = {
+                id: 'scatterLabels',
+                afterDatasetsDraw: (chart, args, options) => {
+                    if (chart.config.type !== 'scatter') return;
+                    const {ctx, chartArea} = chart;
+                    if (!chartArea) return;
+                    
+                    ctx.save();
+                    ctx.font = '11px sans-serif';
+                    ctx.fillStyle = colors.textColor;
+                    ctx.textAlign = 'left';
+                    ctx.textBaseline = 'middle';
+                    
+                    chart.data.datasets[0].data.forEach((point, index) => {
+                        const meta = chart.getDatasetMeta(0);
+                        const element = meta.data[index];
+                        if (!element) return;
+                        
+                        const x = element.x;
+                        const y = element.y;
+                        const label = modelsWithCost[index].name;
+                        
+                        // Draw label with slight offset
+                        ctx.fillText(label, x + 5, y);
+                    });
+                    
+                    ctx.restore();
+                }
+            };
+            
+            if (modelsWithCost.length === 0) {
+                if (empty) {
+                    empty.textContent = 'No cost data available for selected models.';
+                    empty.style.display = '';
+                }
+                return;
+            }
+
+            const scatterData = modelsWithCost.map(s => ({
+                x: s.cost,
+                y: s.resolved
+            }));
+
+            // Calculate y-axis range
+            const resolvedValues = modelsWithCost.map(s => s.resolved);
+            const minResolved = Math.min(...resolvedValues);
+            const maxResolved = Math.max(...resolvedValues);
+            const yMin = Math.max(0, minResolved * 0.9); // Don't go below 0
+            const yMax = Math.min(100, maxResolved * 1.05); // Don't go above 100
+
+            compareChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Models',
+                        data: scatterData,
+                        backgroundColor: colors.barBackground,
+                        borderColor: colors.barBorder,
+                        borderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            min: yMin,
+                            max: yMax,
+                            title: { 
+                                display: true, 
+                                text: '% Resolved',
+                                color: colors.textColor
+                            },
+                            ticks: { 
+                                callback: (v) => v + '%',
+                                color: colors.textColor
+                            },
+                            grid: {
+                                color: colors.gridColor
+                            }
                         },
-                        ticks: { 
-                            callback: (v) => v + '%',
-                            color: colors.textColor
-                        },
-                        grid: {
-                            color: colors.gridColor
+                        x: {
+                            beginAtZero: true,
+                            title: { 
+                                display: true, 
+                                text: 'Average Cost ($)',
+                                color: colors.textColor
+                            },
+                            ticks: {
+                                callback: (v) => '$' + v.toFixed(2),
+                                color: colors.textColor
+                            },
+                            grid: {
+                                color: colors.gridColor
+                            }
                         }
                     },
-                    x: {
-                        title: { 
-                            display: true, 
-                            text: 'Model',
-                            color: colors.textColor
-                        },
-                        ticks: {
-                            color: colors.textColor
-                        },
-                        grid: {
-                            color: colors.gridColor
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (ctx) => {
+                                    const model = modelsWithCost[ctx.dataIndex];
+                                    return `${model.name}: $${ctx.parsed.x.toFixed(2)}, ${ctx.parsed.y.toFixed(2)}%`;
+                                }
+                            }
                         }
                     }
                 },
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        callbacks: {
-                            label: (ctx) => `${ctx.parsed.y.toFixed(2)}%`
+                plugins: [backgroundPlugin, labelPlugin]
+            });
+        } else {
+            // Bar chart
+            const labels = selected.map(s => s.name);
+            const values = selected.map(s => s.resolved);
+
+            compareChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [{
+                        label: '% Resolved',
+                        data: values,
+                        backgroundColor: colors.barBackground,
+                        borderColor: colors.barBorder,
+                        borderWidth: 1,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { 
+                                display: true, 
+                                text: '% Resolved',
+                                color: colors.textColor
+                            },
+                            ticks: { 
+                                callback: (v) => v + '%',
+                                color: colors.textColor
+                            },
+                            grid: {
+                                color: colors.gridColor
+                            }
+                        },
+                        x: {
+                            title: { 
+                                display: true, 
+                                text: 'Model',
+                                color: colors.textColor
+                            },
+                            ticks: {
+                                color: colors.textColor
+                            },
+                            grid: {
+                                color: colors.gridColor
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (ctx) => `${ctx.parsed.y.toFixed(2)}%`
+                            }
                         }
                     }
-                }
-            },
-            plugins: [backgroundPlugin]
-        });
+                },
+                plugins: [backgroundPlugin]
+            });
+        }
     }
 
     function toggleChartTheme() {
