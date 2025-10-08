@@ -72,20 +72,45 @@
             <button class="modal-close" aria-label="Close" data-close="true"><i class="fa fa-times"></i></button>
         </div>
         <div class="modal-body">
-            <div class="form-group">
-                <label for="compare-chart-type" class="form-label">Chart</label>
-                <select id="compare-chart-type" class="form-control form-select">
-                    <option value="bar" selected>Performance bar chart</option>
-                </select>
+            <div class="form-group d-flex justify-content-between align-items-center">
+                <div class="flex-grow-1">
+                    <label for="compare-chart-type" class="form-label">Chart</label>
+                    <select id="compare-chart-type" class="form-control form-select">
+                        <option value="bar" selected>Performance bar chart</option>
+                    </select>
+                </div>
+                <button id="chart-theme-toggle" class="button button-secondary button-icon ml-2" type="button" title="Switch to light mode" style="margin-top: 1.5rem;">
+                    <i class="fa fa-sun"></i> Light mode
+                </button>
             </div>
-            <div class="mt-2">
-                <canvas id="compare-chart" height="260"></canvas>
+            <div class="mt-2 chart-container">
+                <canvas id="compare-chart"></canvas>
                 <div id="compare-empty" class="text-muted mt-2">Select models via the checkboxes, then click <em>Compare results</em>.</div>
             </div>
         </div>
     </div>
     
     
+</div>
+
+<!-- No Selection Modal -->
+<div id="no-selection-modal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close="true"></div>
+    <div class="modal-dialog modal-dialog-small" role="dialog" aria-modal="true" aria-labelledby="no-selection-modal-title">
+        <div class="modal-header">
+            <h3 id="no-selection-modal-title" class="m-0">No models selected</h3>
+            <button class="modal-close" aria-label="Close" data-close="true"><i class="fa fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <p class="mb-3">Please select at least one model using the checkboxes before comparing results.</p>
+            <p class="mb-2 fw-medium">Quick select:</p>
+            <div class="d-flex gap-2 flex-wrap">
+                <button id="select-top-5" class="button button-primary" type="button">Select top 5</button>
+                <button id="select-top-10" class="button button-primary" type="button">Select top 10</button>
+                <button id="select-top-20" class="button button-primary" type="button">Select top 20</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="leaderboard-notes">
