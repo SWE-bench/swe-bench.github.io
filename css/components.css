@@ -367,6 +367,40 @@ button:focus,
   white-space: nowrap;
 }
 
+/* Selection checkbox column (fixed slim width) */
+.data-table.has-select-col th.select-col,
+.data-table.has-select-col td.select-col {
+  width: 36px;
+  min-width: 36px;
+  max-width: 36px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Prevent first (model) column from expanding when selection column present */
+.data-table.has-select-col th.sortable[data-sort="name"],
+.data-table.has-select-col td:first-of-type + td {
+  width: auto;
+  white-space: normal;
+}
+
+/* Ensure model column remains flexible when select column exists */
+.data-table.has-select-col th:nth-child(2),
+.data-table.has-select-col td:nth-child(2) {
+  width: 40%;
+  min-width: 180px;
+  max-width: 350px;
+  white-space: normal;
+  word-wrap: break-word;
+  text-align: left; /* override default % resolved right alignment */
+}
+
+/* Keep % Resolved right-aligned (now 3rd column when select column exists) */
+.data-table.has-select-col th:nth-child(3),
+.data-table.has-select-col td:nth-child(3) {
+  text-align: right;
+}
+
 /* Cards */
 .card {
   background-color: var(--color-background);
@@ -615,6 +649,15 @@ button:focus,
     max-width: 40%;
   }
 }
+
+/* Modal basic styles */
+.modal { display: none; position: fixed; inset: 0; z-index: var(--z-modal); }
+.modal.show { display: block; }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.45); }
+.modal-dialog { position: relative; background: var(--color-background); color: var(--color-text); width: min(720px, calc(100vw - 2rem)); margin: 5vh auto; border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); border: 1.5px solid var(--color-border); resize: both; overflow: auto; min-width: 400px; min-height: 300px; max-width: 90vw; max-height: 90vh; }
+.modal-header { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; border-bottom: 1.5px solid var(--color-border); }
+.modal-body { padding: 1rem; overflow: auto; }
+.modal-close { background: transparent; border: none; cursor: pointer; color: var(--color-text-secondary); }
 
 @media (max-width: 992px) {
   /* On mobile and tablets */

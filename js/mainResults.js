@@ -95,9 +95,10 @@ function renderLeaderboardTable(leaderboard) {
     const tableHtml = `
         <div class="tabcontent active" id="leaderboard-${leaderboard.name}">
             <div class="table-responsive">
-                <table class="table scrollable data-table">
+                <table class="table scrollable data-table ${isBashOnly ? 'has-select-col' : ''}">
                     <thead>
                         <tr>
+                            ${isBashOnly ? '<th class="select-col"></th>' : ''}
                             <th class="sortable" data-sort="name">Model</th>
                             <th class="sortable" data-sort="resolved">% Resolved</th>
                             ${isBashOnly ? '<th class="sortable" data-sort="instance_cost" title="Average cost per task instance in the benchmark">Avg. $</th>' : ''}
@@ -115,6 +116,7 @@ function renderLeaderboardTable(leaderboard) {
                                     data-checked="${item.checked ? 'true' : 'false'}"
                                     data-tags="${item.tags ? item.tags.join(',') : ''}"
                                 >
+                                    ${isBashOnly ? `<td class="select-col centered-text"><input type="checkbox" class="row-select" aria-label="Select ${item.name}" data-model="${item.name}" data-resolved="${parseFloat(item.resolved).toFixed(2)}"></td>` : ''}
                                     <td>
                                         <div class="flex items-center gap-1">
                                             <div class="model-badges">
@@ -142,7 +144,7 @@ function renderLeaderboardTable(leaderboard) {
                                 </tr>
                             `).join('')}
                         <tr class="no-results" style="display: none;">
-                            <td colspan="${isBashOnly ? '9' : '7'}" class="text-center">
+                            <td colspan="${isBashOnly ? '7' : '7'}" class="text-center">
                                 No entries match the selected filters. Try adjusting your filters.
                             </td>
                         </tr>
@@ -361,6 +363,16 @@ function openLeaderboard(leaderboardName) {
     // Apply current filters to the newly displayed table
     if (typeof updateTable === 'function') {
         setTimeout(updateTable, 0);
+    }
+    
+    // Show/hide compare button based on leaderboard type
+    const compareBtn = document.getElementById('compare-btn');
+    if (compareBtn) {
+        if (leaderboardName.toLowerCase() === 'bash-only') {
+            compareBtn.style.display = '';
+        } else {
+            compareBtn.style.display = 'none';
+        }
     }
 }
 

@@ -7,6 +7,10 @@
         <!-- Dynamic text will be inserted here -->
     </div>
     <div class="filter-controls-group border-top pt-2">
+        <button id="compare-btn" class="button button-primary button-icon" type="button" title="Compare selected results" style="display: none;">
+            <i class="fa-solid fa-chart-column"></i>
+            <span>Compare results</span>
+        </button>
         <div class="filter-title">Filters:</div>
         <div class="filter-buttons">
             <!-- Main Filters Dropdown -->
@@ -54,6 +58,35 @@
 <script type="application/json" id="leaderboard-tags-data">
     {{ leaderboard_tags | tojson }}
 </script>
+
+<!-- Chart.js and analysis for comparison -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/analysis.js"></script>
+
+<!-- Compare Results Modal -->
+<div id="compare-modal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close="true"></div>
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="compare-modal-title">
+        <div class="modal-header">
+            <h3 id="compare-modal-title" class="m-0">Compare results</h3>
+            <button class="modal-close" aria-label="Close" data-close="true"><i class="fa fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="compare-chart-type" class="form-label">Chart</label>
+                <select id="compare-chart-type" class="form-control form-select">
+                    <option value="bar" selected>Performance bar chart</option>
+                </select>
+            </div>
+            <div class="mt-2">
+                <canvas id="compare-chart" height="260"></canvas>
+                <div id="compare-empty" class="text-muted mt-2">Select models via the checkboxes, then click <em>Compare results</em>.</div>
+            </div>
+        </div>
+    </div>
+    
+    
+</div>
 
 <div class="leaderboard-notes">
     <p>
