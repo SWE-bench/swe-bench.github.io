@@ -98,7 +98,7 @@ function renderLeaderboardTable(leaderboard) {
                 <table class="table scrollable data-table ${isBashOnly ? 'has-select-col' : ''}">
                     <thead>
                         <tr>
-                            ${isBashOnly ? '<th class="select-col"></th>' : ''}
+                            ${isBashOnly ? '<th class="select-col"><input type="checkbox" id="select-all-checkbox" aria-label="Select all models" title="Select all visible models"></th>' : ''}
                             <th class="sortable" data-sort="name">Model</th>
                             <th class="sortable" data-sort="resolved">% Resolved</th>
                             ${isBashOnly ? '<th class="sortable" data-sort="instance_cost" title="Average cost per task instance in the benchmark">Avg. $</th>' : ''}
@@ -159,6 +159,11 @@ function renderLeaderboardTable(leaderboard) {
 
     updateSortIndicators();
     attachSortHandlers(leaderboard.name);
+    
+    if (isBashOnly) {
+        attachSelectAllHandler(leaderboard.name);
+        updateSelectAllCheckbox();
+    }
 }
 
 function attachSortHandlers(leaderboardName) {
@@ -204,6 +209,82 @@ function updateSortIndicators() {
         th.classList.add(isActive ? 'sort-active' : 'sort-inactive');
     });
 }
+
+function attachSelectAllHandler(leaderboardName) {
+    const selectAllCheckbox = document.getElementById('select-all-checkbox');
+    if (!selectAllCheckbox) return;
+    
+    selectAllCheckbox.addEventListener('change', (e) => {
+        const container = document.getElementById('leaderboard-container');
+        const active = container ? container.querySelector('.tabcontent.active') : null;
+        if (!active) return;
+        
+        const visibleCheckboxes = Array.from(active.querySelectorAll('tbody tr:not(.no-results)'))
+            .filter(row => row.style.display !== 'none')
+            .map(row => row.querySelector('input.row-select'))
+            .filter(cb => cb !== null);
+        
+        const isChecked = e.target.checked;
+        visibleCheckboxes.forEach(cb => {
+            cb.checked = isChecked;
+        });
+        
+        // Trigger chart update if modal is open
+        if (document.getElementById('compare-modal')?.classList.contains('show')) {
+            // Dispatch change event to trigger chart update
+            const changeEvent = new Event('change', { bubbles: true });
+            if (visibleCheckboxes.length > 0) {
+                visibleCheckboxes[0].dispatchEvent(changeEvent);
+            }
+        }
+    });
+    
+    // Listen for changes to individual checkboxes to update select-all state
+    const container = document.getElementById('leaderboard-container');
+    if (container) {
+        container.addEventListener('change', (e) => {
+            if (e.target && e.target.classList.contains('row-select')) {
+                updateSelectAllCheckbox();
+            }
+        });
+    }
+}
+
+function updateSelectAllCheckbox() {
+    const selectAllCheckbox = document.getElementById('select-all-checkbox');
+    if (!selectAllCheckbox) return;
+    
+    const container = document.getElementById('leaderboard-container');
+    const active = container ? container.querySelector('.tabcontent.active') : null;
+    if (!active) return;
+    
+    const visibleCheckboxes = Array.from(active.querySelectorAll('tbody tr:not(.no-results)'))
+        .filter(row => row.style.display !== 'none')
+        .map(row => row.querySelector('input.row-select'))
+        .filter(cb => cb !== null);
+    
+    if (visibleCheckboxes.length === 0) {
+        selectAllCheckbox.checked = false;
+        selectAllCheckbox.indeterminate = false;
+        return;
+    }
+    
+    const checkedCount = visibleCheckboxes.filter(cb => cb.checked).length;
+    
+    if (checkedCount === 0) {
+        selectAllCheckbox.checked = false;
+        selectAllCheckbox.indeterminate = false;
+    } else if (checkedCount === visibleCheckboxes.length) {
+        selectAllCheckbox.checked = true;
+        selectAllCheckbox.indeterminate = false;
+    } else {
+        selectAllCheckbox.checked = false;
+        selectAllCheckbox.indeterminate = true;
+    }
+}
+
+// Make the function globally accessible for filter updates
+window.updateSelectAllCheckbox = updateSelectAllCheckbox;
 
 function updateLogViewer(inst_id, split, model) {
     if (inst_id == 'No Instance Selected') {
