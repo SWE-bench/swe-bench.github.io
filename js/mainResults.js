@@ -16,10 +16,10 @@ const statusToNaturalLanguage = {
 const loadedLeaderboards = new Set();
 let leaderboardData = null;
 
-const sortState = { field: 'resolved', direction: 'desc' };
-
-// Track badges shown during this page load only (not persisted)
+// Track which badges have been shown to avoid re-animating
 const badgesShown = new Set();
+
+const sortState = { field: 'resolved', direction: 'desc' };
 
 function loadLeaderboardData() {
     if (!leaderboardData) {

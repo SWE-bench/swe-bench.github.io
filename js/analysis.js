@@ -4,21 +4,46 @@
     let resizeObserver = null;
     let chartTheme = 'dark'; // 'light' or 'dark'
 
+    function getLeaderboardData() {
+        const dataScript = document.getElementById('leaderboard-data');
+        if (!dataScript) return null;
+        try {
+            return JSON.parse(dataScript.textContent);
+        } catch (e) {
+            console.error('Error parsing leaderboard data:', e);
+            return null;
+        }
+    }
+
     function getSelectedModels() {
         const container = document.getElementById('leaderboard-container');
         const active = container ? container.querySelector('.tabcontent.active') : null;
         if (!active) return [];
         const checkboxes = active.querySelectorAll('input.row-select:checked');
+        
+        // Get full leaderboard data (it's a direct array, not wrapped in a property)
+        const leaderboardData = getLeaderboardData();
+        
+        const activeLeaderboard = leaderboardData?.find(lb => {
+            return active.id === `leaderboard-${lb.name}`;
+        });
+        
         return Array.from(checkboxes).map(cb => {
             const row = cb.closest('tr');
             const costCell = row ? row.querySelector('td:nth-child(4) .number') : null;
             const costText = costCell ? costCell.textContent.trim().replace('$', '') : '';
             const cost = costText ? parseFloat(costText) : null;
             
+            const modelName = cb.getAttribute('data-model');
+            
+            // Find full model data from leaderboard
+            const fullModelData = activeLeaderboard?.results?.find(r => r.name === modelName);
+            
             return {
-                name: cb.getAttribute('data-model'),
+                name: modelName,
                 resolved: parseFloat(cb.getAttribute('data-resolved')) || 0,
-                cost: cost
+                cost: cost,
+                per_instance_details: fullModelData?.per_instance_details || null
             };
         });
     }
@@ -335,6 +360,141 @@
                 },
                 plugins: [backgroundPlugin, labelPlugin]
             });
+        } else if (chartType === 'cumulative-cost') {
+            // Cumulative cost distribution
+            const modelsWithDetails = selected.filter(s => s.per_instance_details !== null);
+            
+            if (modelsWithDetails.length === 0) {
+                if (empty) {
+                    empty.textContent = 'No per-instance cost data available for selected models.';
+                    empty.style.display = '';
+                }
+                return;
+            }
+
+            // Generate distinct colors for each model
+            const colorPalette = [
+                'rgb(37, 99, 235)',   // blue
+                'rgb(220, 38, 38)',   // red
+                'rgb(22, 163, 74)',   // green
+                'rgb(234, 88, 12)',   // orange
+                'rgb(168, 85, 247)',  // purple
+                'rgb(236, 72, 153)',  // pink
+                'rgb(14, 165, 233)',  // cyan
+                'rgb(234, 179, 8)',   // yellow
+                'rgb(156, 163, 175)', // gray
+                'rgb(251, 146, 60)',  // amber
+            ];
+
+            const datasets = modelsWithDetails.map((model, idx) => {
+                // Extract costs from per_instance_details
+                const costs = Object.values(model.per_instance_details).map(d => d.cost);
+                
+                // Sort costs
+                const sortedCosts = [...costs].sort((a, b) => a - b);
+                
+                // Create cumulative distribution
+                const cumulativeData = sortedCosts.map((cost, i) => ({
+                    x: cost,
+                    y: ((i + 1) / sortedCosts.length) * 100
+                }));
+                
+                const color = colorPalette[idx % colorPalette.length];
+                
+                return {
+                    label: model.name,
+                    data: cumulativeData,
+                    borderColor: color,
+                    backgroundColor: 'transparent',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    pointHoverRadius: 4,
+                    tension: 0,
+                    stepped: false
+                };
+            });
+
+            // Calculate x-axis range
+            const allCosts = modelsWithDetails.flatMap(m => 
+                Object.values(m.per_instance_details).map(d => d.cost)
+            );
+            const maxCost = Math.max(...allCosts);
+
+            compareChart = new Chart(ctx, {
+                type: 'line',
+                data: { datasets },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: false,
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            beginAtZero: true,
+                            max: maxCost * 1.05,
+                            title: { 
+                                display: true, 
+                                text: 'Cost per Instance ($)',
+                                color: colors.textColor,
+                                font: { size: 14 }
+                            },
+                            ticks: {
+                                callback: (v) => '$' + v.toFixed(2),
+                                color: colors.textColor,
+                                font: { size: 12 }
+                            },
+                            grid: {
+                                color: colors.gridColor
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            title: { 
+                                display: true, 
+                                text: 'Cumulative % of Instances',
+                                color: colors.textColor,
+                                font: { size: 14 }
+                            },
+                            ticks: { 
+                                callback: (v) => v + '%',
+                                color: colors.textColor,
+                                font: { size: 12 }
+                            },
+                            grid: {
+                                color: colors.gridColor
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { 
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                color: colors.textColor,
+                                font: { size: 12 },
+                                usePointStyle: true,
+                                padding: 10
+                            }
+                        },
+                        tooltip: {
+                            mode: 'nearest',
+                            intersect: false,
+                            callbacks: {
+                                label: (ctx) => {
+                                    return `${ctx.dataset.label}: $${ctx.parsed.x.toFixed(2)} (${ctx.parsed.y.toFixed(1)}%)`;
+                                }
+                            }
+                        }
+                    },
+                    interaction: {
+                        mode: 'nearest',
+                        axis: 'x',
+                        intersect: false
+                    }
+                },
+                plugins: [backgroundPlugin]
+            });
         } else {
             // Bar chart
             const labels = selected.map(s => s.name);
@@ -424,11 +584,20 @@
         
         const data = {
             timestamp: new Date().toISOString(),
-            models: selected.map(s => ({
-                name: s.name,
-                resolved: s.resolved,
-                cost: s.cost
-            }))
+            models: selected.map(s => {
+                const modelData = {
+                    name: s.name,
+                    resolved: s.resolved,
+                    cost: s.cost
+                };
+                
+                // Include per_instance_details if available
+                if (s.per_instance_details) {
+                    modelData.per_instance_details = s.per_instance_details;
+                }
+                
+                return modelData;
+            })
         };
         
         const jsonStr = JSON.stringify(data, null, 2);
