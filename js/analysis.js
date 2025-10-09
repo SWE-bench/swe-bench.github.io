@@ -71,7 +71,7 @@
         modal.setAttribute('aria-hidden', 'true');
     }
 
-    function selectTopN(n) {
+    function selectAll() {
         const container = document.getElementById('leaderboard-container');
         const active = container ? container.querySelector('.tabcontent.active') : null;
         if (!active) return;
@@ -84,8 +84,38 @@
         const visibleRows = Array.from(active.querySelectorAll('tbody tr:not(.no-results)'))
             .filter(row => row.style.display !== 'none');
         
-        // Select top N visible rows
-        const rowsToSelect = visibleRows.slice(0, n);
+        // Select all visible rows
+        visibleRows.forEach(row => {
+            const checkbox = row.querySelector('input.row-select');
+            if (checkbox) {
+                checkbox.checked = true;
+            }
+        });
+        
+        closeNoSelectionModal();
+        openModal();
+    }
+
+    function selectTopN(n, openWeightsOnly = false) {
+        const container = document.getElementById('leaderboard-container');
+        const active = container ? container.querySelector('.tabcontent.active') : null;
+        if (!active) return;
+        
+        // First uncheck all
+        const allCheckboxes = active.querySelectorAll('input.row-select');
+        allCheckboxes.forEach(cb => cb.checked = false);
+        
+        // Get visible rows (not filtered out)
+        let visibleRows = Array.from(active.querySelectorAll('tbody tr:not(.no-results)'))
+            .filter(row => row.style.display !== 'none');
+        
+        // Filter by open weights if requested
+        if (openWeightsOnly) {
+            visibleRows = visibleRows.filter(row => row.getAttribute('data-os_model') === 'true');
+        }
+        
+        // Select top N visible rows (or all if n is null/undefined)
+        const rowsToSelect = n ? visibleRows.slice(0, n) : visibleRows;
         rowsToSelect.forEach(row => {
             const checkbox = row.querySelector('input.row-select');
             if (checkbox) {
@@ -219,12 +249,16 @@
                 y: s.resolved
             }));
 
-            // Calculate y-axis range
+            // Calculate y-axis range with nice round numbers
             const resolvedValues = modelsWithCost.map(s => s.resolved);
             const minResolved = Math.min(...resolvedValues);
             const maxResolved = Math.max(...resolvedValues);
-            const yMin = Math.max(0, minResolved * 0.9); // Don't go below 0
-            const yMax = Math.min(100, maxResolved * 1.05); // Don't go above 100
+            
+            // Round to nice values (multiples of 5)
+            const yMinRaw = Math.max(0, minResolved * 0.9);
+            const yMaxRaw = Math.min(100, maxResolved * 1.05);
+            const yMin = Math.floor(yMinRaw / 5) * 5; // Round down to nearest 5
+            const yMax = Math.ceil(yMaxRaw / 5) * 5;  // Round up to nearest 5
 
             compareChart = new Chart(ctx, {
                 type: 'scatter',
@@ -242,6 +276,7 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    animation: false,
                     scales: {
                         y: {
                             min: yMin,
@@ -252,6 +287,7 @@
                                 color: colors.textColor
                             },
                             ticks: { 
+                                stepSize: 5,
                                 callback: (v) => v + '%',
                                 color: colors.textColor
                             },
@@ -309,6 +345,7 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    animation: false,
                     scales: {
                         y: {
                             beginAtZero: true,
@@ -363,10 +400,10 @@
         const btn = document.getElementById('chart-theme-toggle');
         if (!btn) return;
         if (chartTheme === 'light') {
-            btn.innerHTML = '<i class="fa fa-moon"></i> Dark mode';
+            btn.innerHTML = '<i class="fa fa-moon"></i>';
             btn.title = 'Switch to dark mode';
         } else {
-            btn.innerHTML = '<i class="fa fa-sun"></i> Light mode';
+            btn.innerHTML = '<i class="fa fa-sun"></i>';
             btn.title = 'Switch to light mode';
         }
     }
@@ -410,6 +447,16 @@
             });
         }
 
+        // Quickselect button handler
+        const quickselectBtn = document.getElementById('quickselect-btn');
+        if (quickselectBtn) {
+            quickselectBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                closeModal();
+                openNoSelectionModal();
+            });
+        }
+
         // No selection modal close handlers
         const noSelectionModal = document.getElementById('no-selection-modal');
         if (noSelectionModal) {
@@ -423,19 +470,24 @@
         }
 
         // Quick select buttons
-        const selectTop5 = document.getElementById('select-top-5');
-        if (selectTop5) {
-            selectTop5.addEventListener('click', () => selectTopN(5));
-        }
-
         const selectTop10 = document.getElementById('select-top-10');
         if (selectTop10) {
-            selectTop10.addEventListener('click', () => selectTopN(10));
+            selectTop10.addEventListener('click', () => selectTopN(10, false));
         }
 
         const selectTop20 = document.getElementById('select-top-20');
         if (selectTop20) {
-            selectTop20.addEventListener('click', () => selectTopN(20));
+            selectTop20.addEventListener('click', () => selectTopN(20, false));
+        }
+
+        const selectAllBtn = document.getElementById('select-all');
+        if (selectAllBtn) {
+            selectAllBtn.addEventListener('click', () => selectAll());
+        }
+
+        const selectAllOW = document.getElementById('select-all-ow');
+        if (selectAllOW) {
+            selectAllOW.addEventListener('click', () => selectTopN(null, true));
         }
 
         document.addEventListener('change', (e) => {
