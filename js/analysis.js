@@ -236,10 +236,34 @@
                 }
             }
         } else if (chartType === 'cumulative-cost') {
-            compareChart = renderCumulativeCostChart(ctx, selected, colors, backgroundPlugin);
+            compareChart = renderCumulativeChart(ctx, selected, colors, backgroundPlugin, 'cost', false);
             if (!compareChart) {
                 if (empty) {
                     empty.textContent = 'No per-instance cost data available for selected models.';
+                    empty.style.display = '';
+                }
+            }
+        } else if (chartType === 'cumulative-cost-resolved') {
+            compareChart = renderCumulativeChart(ctx, selected, colors, backgroundPlugin, 'cost', true);
+            if (!compareChart) {
+                if (empty) {
+                    empty.textContent = 'No per-instance cost data available for resolved instances.';
+                    empty.style.display = '';
+                }
+            }
+        } else if (chartType === 'cumulative-steps') {
+            compareChart = renderCumulativeChart(ctx, selected, colors, backgroundPlugin, 'api_calls', false);
+            if (!compareChart) {
+                if (empty) {
+                    empty.textContent = 'No per-instance API call data available for selected models.';
+                    empty.style.display = '';
+                }
+            }
+        } else if (chartType === 'cumulative-steps-resolved') {
+            compareChart = renderCumulativeChart(ctx, selected, colors, backgroundPlugin, 'api_calls', true);
+            if (!compareChart) {
+                if (empty) {
+                    empty.textContent = 'No per-instance API call data available for resolved instances.';
                     empty.style.display = '';
                 }
             }
