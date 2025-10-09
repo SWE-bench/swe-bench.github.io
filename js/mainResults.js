@@ -129,7 +129,7 @@ function renderLeaderboardTable(leaderboard) {
                                         </div>
                                     </td>
                                     <td><span class="number fw-medium text-primary">${parseFloat(item.resolved).toFixed(2)}</span></td>
-                                    ${isBashOnly ? `<td class="text-right"><span class="number fw-medium text-primary">$${item.instance_cost !== null && item.instance_cost !== undefined ? parseFloat(item.instance_cost).toFixed(2) : ''}</span></td>` : ''}
+                                    ${isBashOnly ? `<td class="text-right"><span class="number fw-medium text-primary">${item.instance_cost !== null && item.instance_cost !== undefined && item.instance_cost !== 0 && !isNaN(item.instance_cost) ? '$' + parseFloat(item.instance_cost).toFixed(2) : ''}</span></td>` : ''}
                                     ${isBashOnly ? `<td class="centered-text text-center">
                                         ${item.trajs_docent && item.trajs_docent !== false ? `<a href="${item.trajs_docent}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
                                     </td>` : ''}
