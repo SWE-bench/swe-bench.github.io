@@ -656,6 +656,7 @@ button:focus,
 .modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.45); }
 .modal-dialog { position: relative; background: var(--color-background); color: var(--color-text); width: min(720px, calc(100vw - 2rem)); margin: 5vh auto; border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); border: 1.5px solid var(--color-border); resize: both; overflow: auto; min-width: 400px; min-height: 300px; max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column; }
 .modal-dialog-small { width: min(480px, calc(100vw - 2rem)); min-width: 320px; min-height: auto; resize: none; }
+.modal-dialog-large { width: min(1200px, 90vw); height: min(800px, 90vh); }
 .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; border-bottom: 1.5px solid var(--color-border); }
 .modal-body { padding: 1rem; overflow: auto; flex: 1; display: flex; flex-direction: column; }
 .modal-close { background: transparent; border: none; cursor: pointer; color: var(--color-text-secondary); }

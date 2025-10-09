@@ -214,7 +214,7 @@
                     if (!chartArea) return;
                     
                     ctx.save();
-                    ctx.font = '11px sans-serif';
+                    ctx.font = '12px sans-serif';
                     ctx.fillStyle = colors.textColor;
                     ctx.textAlign = 'left';
                     ctx.textBaseline = 'middle';
@@ -259,6 +259,11 @@
             const yMaxRaw = Math.min(100, maxResolved * 1.05);
             const yMin = Math.floor(yMinRaw / 5) * 5; // Round down to nearest 5
             const yMax = Math.ceil(yMaxRaw / 5) * 5;  // Round up to nearest 5
+            
+            // Calculate x-axis range with extra padding for labels
+            const costValues = modelsWithCost.map(s => s.cost);
+            const maxCost = Math.max(...costValues);
+            const xMax = maxCost * 1.15; // Add 15% padding for labels
 
             compareChart = new Chart(ctx, {
                 type: 'scatter',
@@ -284,12 +289,14 @@
                             title: { 
                                 display: true, 
                                 text: '% Resolved',
-                                color: colors.textColor
+                                color: colors.textColor,
+                                font: { size: 14 }
                             },
                             ticks: { 
                                 stepSize: 5,
                                 callback: (v) => v + '%',
-                                color: colors.textColor
+                                color: colors.textColor,
+                                font: { size: 12 }
                             },
                             grid: {
                                 color: colors.gridColor
@@ -297,14 +304,17 @@
                         },
                         x: {
                             beginAtZero: true,
+                            max: xMax,
                             title: { 
                                 display: true, 
                                 text: 'Average Cost ($)',
-                                color: colors.textColor
+                                color: colors.textColor,
+                                font: { size: 14 }
                             },
                             ticks: {
                                 callback: (v) => '$' + v.toFixed(2),
-                                color: colors.textColor
+                                color: colors.textColor,
+                                font: { size: 12 }
                             },
                             grid: {
                                 color: colors.gridColor
@@ -400,12 +410,55 @@
         const btn = document.getElementById('chart-theme-toggle');
         if (!btn) return;
         if (chartTheme === 'light') {
-            btn.innerHTML = '<i class="fa fa-moon"></i>';
+            btn.innerHTML = '<i class="fa fa-moon"></i>&nbsp;Dark';
             btn.title = 'Switch to dark mode';
         } else {
-            btn.innerHTML = '<i class="fa fa-sun"></i>';
+            btn.innerHTML = '<i class="fa fa-sun"></i>&nbsp;Light';
             btn.title = 'Switch to light mode';
         }
+    }
+
+    function downloadJSON() {
+        const selected = getSelectedModels();
+        if (!selected.length) return;
+        
+        const data = {
+            timestamp: new Date().toISOString(),
+            models: selected.map(s => ({
+                name: s.name,
+                resolved: s.resolved,
+                cost: s.cost
+            }))
+        };
+        
+        const jsonStr = JSON.stringify(data, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `swe-bench-comparison-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    function downloadPNG() {
+        if (!compareChart) return;
+        
+        const canvas = document.getElementById('compare-chart');
+        if (!canvas) return;
+        
+        canvas.toBlob((blob) => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `swe-bench-chart-${new Date().toISOString().split('T')[0]}.png`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
     }
 
     function initEvents() {
@@ -454,6 +507,24 @@
                 e.preventDefault();
                 closeModal();
                 openNoSelectionModal();
+            });
+        }
+
+        // Download JSON button handler
+        const downloadJsonBtn = document.getElementById('download-json-btn');
+        if (downloadJsonBtn) {
+            downloadJsonBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                downloadJSON();
+            });
+        }
+
+        // Download PNG button handler
+        const downloadPngBtn = document.getElementById('download-png-btn');
+        if (downloadPngBtn) {
+            downloadPngBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                downloadPNG();
             });
         }
 

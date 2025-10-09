@@ -66,23 +66,28 @@
 <!-- Compare Results Modal -->
 <div id="compare-modal" class="modal" aria-hidden="true">
     <div class="modal-backdrop" data-close="true"></div>
-    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="compare-modal-title">
+    <div class="modal-dialog modal-dialog-large" role="dialog" aria-modal="true" aria-labelledby="compare-modal-title">
         <div class="modal-header">
             <h3 id="compare-modal-title" class="m-0">Compare results</h3>
             <button class="modal-close" aria-label="Close" data-close="true"><i class="fa fa-times"></i></button>
         </div>
         <div class="modal-body">
-            <div class="d-flex align-items-center gap-2 mb-2">
-                <label for="compare-chart-type" class="m-0 fw-medium">Chart</label>
-                <select id="compare-chart-type" class="form-control form-select flex-grow-1">
+            <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                <select id="compare-chart-type" class="form-control form-select" style="flex: 1 1 200px;">
                     <option value="bar" selected>Performance bar chart</option>
                     <option value="scatter">Cost vs Performance scatter plot</option>
                 </select>
-                <button id="chart-theme-toggle" class="btn btn-sm btn-outline-secondary" type="button" title="Switch to light mode">
-                    <i class="fa fa-sun"></i>
+                <button id="chart-theme-toggle" class="btn btn-sm btn-outline-secondary" type="button" title="Switch theme">
+                    <i class="fa fa-sun"></i>&nbsp;Light
                 </button>
                 <button id="quickselect-btn" class="btn btn-sm btn-outline-secondary" type="button" title="Quick select models">
-                    <i class="fa fa-check-square"></i>
+                    <i class="fa fa-check-square"></i>&nbsp;Selection
+                </button>
+                <button id="download-json-btn" class="btn btn-sm btn-outline-secondary" type="button" title="Download data as JSON">
+                    <i class="fa fa-download"></i>&nbsp;JSON
+                </button>
+                <button id="download-png-btn" class="btn btn-sm btn-outline-secondary" type="button" title="Download chart as PNG">
+                    <i class="fa fa-download"></i>&nbsp;PNG
                 </button>
             </div>
             <div class="mt-2 chart-container">
@@ -104,7 +109,7 @@
             <button class="modal-close" aria-label="Close" data-close="true"><i class="fa fa-times"></i></button>
         </div>
         <div class="modal-body">
-            <p class="mb-3">Please select at least one model using the checkboxes before comparing results.</p>
+            <p class="mb-3">Select at least one model using the checkboxes in the first columns, or click one of the following buttons for a pre-defined selection.</p>
             <p class="mb-2 fw-medium">Quick select:</p>
             <div class="d-flex gap-2 flex-wrap">
                 <button id="select-top-10" class="button button-primary" type="button">Select top 10</button>
