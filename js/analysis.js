@@ -203,7 +203,7 @@
 
         if (chartType === 'scatter') {
             // Filter out models without cost data
-            const modelsWithCost = selected.filter(s => s.cost !== null && s.cost !== undefined);
+            const modelsWithCost = selected.filter(s => s.cost !== null && s.cost !== undefined && s.cost !== 0 && !isNaN(s.cost));
             
             // Plugin to draw labels on scatter plot
             const labelPlugin = {
