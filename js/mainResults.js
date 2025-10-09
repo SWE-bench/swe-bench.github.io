@@ -18,6 +18,9 @@ let leaderboardData = null;
 
 const sortState = { field: 'resolved', direction: 'desc' };
 
+// Track badges shown during this page load only (not persisted)
+const badgesShown = new Set();
+
 function loadLeaderboardData() {
     if (!leaderboardData) {
         const dataScript = document.getElementById('leaderboard-data');
@@ -102,7 +105,7 @@ function renderLeaderboardTable(leaderboard) {
                             <th class="sortable" data-sort="name">Model</th>
                             <th class="sortable" data-sort="resolved">% Resolved</th>
                             ${isBashOnly ? '<th class="sortable" data-sort="instance_cost" title="Average cost per task instance in the benchmark">Avg. $</th>' : ''}
-                            ${isBashOnly ? '<th class="sortable" data-sort="trajs_docent">Trajs</th>' : ''}
+                            ${isBashOnly ? '<th class="sortable" data-sort="trajs_docent"><span style="position: relative; display: inline-block;">Trajs<span class="new-badge" data-badge-shown="false">New!</span></span></th>' : ''}
                             <th class="sortable" data-sort="org">Org</th>
                             <th class="sortable" data-sort="date">Date</th>
                             ${!isBashOnly ? '<th class="sortable" data-sort="site">Site</th>' : ''}
@@ -168,6 +171,24 @@ function renderLeaderboardTable(leaderboard) {
         attachSelectAllHandler(leaderboard.name);
         updateSelectAllCheckbox();
     }
+    
+    // Handle new badges - only show animation once per page load
+    const isBashOnlyTab = leaderboard.name.toLowerCase() === 'bash-only';
+    const badges = container.querySelectorAll('.new-badge');
+    badges.forEach(badge => {
+        const badgeKey = 'trajs-badge-' + leaderboard.name;
+        const hasBeenShown = badgesShown.has(badgeKey);
+        
+        if (!isBashOnlyTab || hasBeenShown) {
+            badge.style.display = 'none';
+        } else {
+            badge.style.display = '';
+            // Mark as shown after animation completes
+            badge.addEventListener('animationend', () => {
+                badgesShown.add(badgeKey);
+            }, { once: true });
+        }
+    });
 }
 
 function attachSortHandlers(leaderboardName) {
@@ -450,13 +471,26 @@ function openLeaderboard(leaderboardName) {
         setTimeout(updateTable, 0);
     }
     
-    // Show/hide compare button based on leaderboard type
+    // Show/hide compare button and badge based on leaderboard type
     const compareBtn = document.getElementById('compare-btn');
+    const compareButtonBadge = document.querySelector('.new-badge-button');
+    const isBashOnlyTab = leaderboardName.toLowerCase() === 'bash-only';
+    
     if (compareBtn) {
-        if (leaderboardName.toLowerCase() === 'bash-only') {
+        if (isBashOnlyTab) {
             compareBtn.style.display = '';
         } else {
             compareBtn.style.display = 'none';
+        }
+    }
+    
+    // Hide/show compare button badge based on tab and if already shown
+    if (compareButtonBadge) {
+        const hasBeenShown = badgesShown.has('compare-button-badge');
+        if (!isBashOnlyTab || hasBeenShown) {
+            compareButtonBadge.style.display = 'none';
+        } else {
+            compareButtonBadge.style.display = '';
         }
     }
 }
@@ -491,6 +525,19 @@ document.addEventListener('DOMContentLoaded', function() {
             openLeaderboard(leaderboardType);
         });
     });
+    
+    // Handle compare button badge - only show once per page load, only on bash-only
+    const compareButtonBadge = document.querySelector('.new-badge-button');
+    if (compareButtonBadge) {
+        const hasBeenShown = badgesShown.has('compare-button-badge');
+        if (hasBeenShown) {
+            compareButtonBadge.style.display = 'none';
+        } else {
+            compareButtonBadge.addEventListener('animationend', () => {
+                badgesShown.add('compare-button-badge');
+            }, { once: true });
+        }
+    }
     
     // Load initial tab based on hash or default to Verified (mini-SWE-agent)
     const hash = window.location.hash.slice(1).toLowerCase();
