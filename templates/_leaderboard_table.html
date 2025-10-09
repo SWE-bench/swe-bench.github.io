@@ -67,6 +67,9 @@
 <script src="js/charts/barChart.js"></script>
 <script src="js/charts/scatterChart.js"></script>
 <script src="js/charts/cumulativeCostChart.js"></script>
+<script src="js/charts/groupedBarChart.js"></script>
+<script src="js/charts/resolvedVsLimitChart.js"></script>
+<script src="js/charts/resolvedVsAvgCostChart.js"></script>
 <script src="js/analysis.js"></script>
 
 <!-- Compare Results Modal -->
@@ -80,8 +83,12 @@
         <div class="modal-body">
             <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
                 <select id="compare-chart-type" class="form-control form-select" style="flex: 1 1 200px;">
-                    <option value="bar" selected>Performance bar chart</option>
-                    <option value="scatter">Cost vs Performance scatter plot</option>
+                    <option value="bar" selected>Resolved (bar chart)</option>
+                    <option value="grouped-bar">Resolved by repository</option>
+                    <option value="scatter">Resolved vs cost (scatter plot)</option>
+                    <option value="resolved-vs-avg-cost">Resolved vs average cost</option>
+                    <option value="resolved-vs-cost-limit">Resolved vs cost limit</option>
+                    <option value="resolved-vs-step-limit">Resolved vs step limit</option>
                     <option value="cumulative-cost">Cumulative cost distribution</option>
                     <option value="cumulative-cost-resolved">Cumulative cost distribution (resolved only)</option>
                     <option value="cumulative-steps">Cumulative step distribution</option>

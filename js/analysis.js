@@ -267,6 +267,38 @@
                     empty.style.display = '';
                 }
             }
+        } else if (chartType === 'grouped-bar') {
+            compareChart = renderGroupedBarChart(ctx, selected, colors, backgroundPlugin);
+            if (!compareChart) {
+                if (empty) {
+                    empty.textContent = 'No per-instance data available for selected models.';
+                    empty.style.display = '';
+                }
+            }
+        } else if (chartType === 'resolved-vs-avg-cost') {
+            compareChart = renderResolvedVsAvgCostChart(ctx, selected, colors, backgroundPlugin);
+            if (!compareChart) {
+                if (empty) {
+                    empty.textContent = 'No per-instance data available for selected models.';
+                    empty.style.display = '';
+                }
+            }
+        } else if (chartType === 'resolved-vs-cost-limit') {
+            compareChart = renderResolvedVsLimitChart(ctx, selected, colors, backgroundPlugin, 'cost');
+            if (!compareChart) {
+                if (empty) {
+                    empty.textContent = 'No per-instance cost data available for selected models.';
+                    empty.style.display = '';
+                }
+            }
+        } else if (chartType === 'resolved-vs-step-limit') {
+            compareChart = renderResolvedVsLimitChart(ctx, selected, colors, backgroundPlugin, 'api_calls');
+            if (!compareChart) {
+                if (empty) {
+                    empty.textContent = 'No per-instance API call data available for selected models.';
+                    empty.style.display = '';
+                }
+            }
         } else {
             // Default to bar chart
             compareChart = renderBarChart(ctx, selected, colors, backgroundPlugin);

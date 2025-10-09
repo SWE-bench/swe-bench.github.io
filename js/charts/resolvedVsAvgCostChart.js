@@ -1,8 +1,5 @@
-// Cumulative distribution chart (generic for cost or api_calls)
-// Parameters:
-//   metric: 'cost' or 'api_calls'
-//   resolvedOnly: if true, only include instances where resolved === true
-function renderCumulativeChart(ctx, selected, colors, backgroundPlugin, metric = 'cost', resolvedOnly = false) {
+// Resolved vs Average Cost chart
+function renderResolvedVsAvgCostChart(ctx, selected, colors, backgroundPlugin) {
     // Filter models that have per_instance_details
     const modelsWithDetails = selected.filter(s => s.per_instance_details !== null);
     
@@ -25,62 +22,72 @@ function renderCumulativeChart(ctx, selected, colors, backgroundPlugin, metric =
     ];
 
     const datasets = modelsWithDetails.map((model, idx) => {
-        // Extract values from per_instance_details
         const allDetails = Object.values(model.per_instance_details);
+        const totalInstances = allDetails.length;
         
-        let values = allDetails
-            .filter(d => !resolvedOnly || d.resolved === true)
-            .map(d => d[metric]);
-        
-        // If no values after filtering, skip this model
-        if (values.length === 0) {
-            return null;
-        }
-        
-        // Sort values
-        const sortedValues = [...values].sort((a, b) => a - b);
-        
-        // Create cumulative distribution
-        const cumulativeData = sortedValues.map((value, i) => ({
-            x: value,
-            y: ((i + 1) / sortedValues.length) * 100
+        // Get all instances with their data
+        const instances = allDetails.map(d => ({
+            api_calls: d.api_calls,
+            cost: d.cost,
+            resolved: d.resolved === true
         }));
+        
+        // Find max api_calls
+        const maxApiCalls = Math.max(...instances.map(i => i.api_calls));
+        
+        // For each step limit, calculate resolved % and average cost
+        const chartData = [];
+        
+        // Scan through step limits
+        for (let stepLimit = 0; stepLimit <= maxApiCalls; stepLimit++) {
+            // Filter instances with api_calls <= stepLimit
+            const filteredInstances = instances.filter(i => i.api_calls <= stepLimit);
+            
+            if (filteredInstances.length === 0) {
+                continue;
+            }
+            
+            // Calculate resolved count
+            const resolvedCount = filteredInstances.filter(i => i.resolved).length;
+            const resolvedPercentage = (resolvedCount / totalInstances) * 100;
+            
+            // Calculate average cost of filtered instances
+            const avgCost = filteredInstances.reduce((sum, i) => sum + i.cost, 0) / filteredInstances.length;
+            
+            chartData.push({ 
+                x: avgCost, 
+                y: resolvedPercentage,
+                stepLimit: stepLimit,
+                numInstances: filteredInstances.length
+            });
+        }
         
         const color = colorPalette[idx % colorPalette.length];
         
         return {
-            label: model.name,
-            data: cumulativeData,
+            label: `${model.name} (${model.resolved.toFixed(1)}%)`,
+            data: chartData,
             borderColor: color,
             backgroundColor: 'transparent',
             borderWidth: 2,
             pointRadius: 0,
-            pointHoverRadius: 4,
-            tension: 0,
-            stepped: false
+            pointHoverRadius: 5,
+            tension: 0.1
         };
-    }).filter(d => d !== null);
+    });
 
-    // If no valid datasets after filtering, return null
-    if (datasets.length === 0) {
-        return null;
+    // Calculate max resolved percentage across all datasets
+    const maxResolved = Math.max(...datasets.flatMap(d => d.data.map(p => p.y)));
+    const tentativeMax = maxResolved * 1.1;
+    // Round up to nearest 5 or 10 for cleaner y-axis labels
+    let yAxisMax;
+    if (tentativeMax > 100) {
+        yAxisMax = 100;
+    } else if (tentativeMax > 50) {
+        yAxisMax = Math.ceil(tentativeMax / 10) * 10; // Round to nearest 10
+    } else {
+        yAxisMax = Math.ceil(tentativeMax / 5) * 5; // Round to nearest 5
     }
-
-    // Calculate x-axis range
-    const allValues = modelsWithDetails.flatMap(m => 
-        Object.values(m.per_instance_details)
-            .filter(d => !resolvedOnly || d.resolved === true)
-            .map(d => d[metric])
-    );
-    const maxValue = Math.max(...allValues);
-
-    // Configure labels based on metric
-    const isApiCalls = metric === 'api_calls';
-    const xAxisLabel = isApiCalls ? 'API Calls per Instance' : 'Cost per Instance ($)';
-    const xTickCallback = isApiCalls ? (v) => v.toFixed(0) : (v) => '$' + v.toFixed(2);
-    const tooltipCallback = isApiCalls 
-        ? (ctx) => `${ctx.dataset.label}: ${ctx.parsed.x.toFixed(0)} calls (${ctx.parsed.y.toFixed(1)}%)`
-        : (ctx) => `${ctx.dataset.label}: $${ctx.parsed.x.toFixed(2)} (${ctx.parsed.y.toFixed(1)}%)`;
 
     return new Chart(ctx, {
         type: 'line',
@@ -93,15 +100,14 @@ function renderCumulativeChart(ctx, selected, colors, backgroundPlugin, metric =
                 x: {
                     type: 'linear',
                     beginAtZero: true,
-                    max: maxValue * 1.05,
                     title: { 
                         display: true, 
-                        text: xAxisLabel,
+                        text: 'Average Cost per Instance ($)',
                         color: colors.textColor,
                         font: { size: 14 }
                     },
                     ticks: {
-                        callback: xTickCallback,
+                        callback: (v) => '$' + v.toFixed(2),
                         color: colors.textColor,
                         font: { size: 12 }
                     },
@@ -111,10 +117,10 @@ function renderCumulativeChart(ctx, selected, colors, backgroundPlugin, metric =
                 },
                 y: {
                     beginAtZero: true,
-                    max: 100,
+                    max: yAxisMax,
                     title: { 
                         display: true, 
-                        text: 'Cumulative % of Instances',
+                        text: 'Resolved (%)',
                         color: colors.textColor,
                         font: { size: 14 }
                     },
@@ -143,7 +149,16 @@ function renderCumulativeChart(ctx, selected, colors, backgroundPlugin, metric =
                     mode: 'nearest',
                     intersect: false,
                     callbacks: {
-                        label: tooltipCallback
+                        label: (ctx) => {
+                            const dataPoint = ctx.dataset.data[ctx.dataIndex];
+                            return [
+                                `${ctx.dataset.label}`,
+                                `Avg cost: $${ctx.parsed.x.toFixed(3)}`,
+                                `Resolved: ${ctx.parsed.y.toFixed(1)}%`,
+                                `Step limit: ${dataPoint.stepLimit}`,
+                                `Instances: ${dataPoint.numInstances}`
+                            ];
+                        }
                     }
                 }
             },
@@ -155,10 +170,5 @@ function renderCumulativeChart(ctx, selected, colors, backgroundPlugin, metric =
         },
         plugins: [backgroundPlugin]
     });
-}
-
-// Backward compatibility wrapper
-function renderCumulativeCostChart(ctx, selected, colors, backgroundPlugin) {
-    return renderCumulativeChart(ctx, selected, colors, backgroundPlugin, 'cost', false);
 }
 
