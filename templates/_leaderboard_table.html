@@ -70,6 +70,7 @@
 <script src="js/charts/groupedBarChart.js"></script>
 <script src="js/charts/resolvedVsLimitChart.js"></script>
 <script src="js/charts/resolvedVsAvgCostChart.js"></script>
+<script src="js/charts/resolvedInstancesMatrix.js"></script>
 <script src="js/analysis.js"></script>
 
 <!-- Compare Results Modal -->
@@ -85,6 +86,7 @@
                 <select id="compare-chart-type" class="form-control form-select" style="flex: 1 1 200px;">
                     <option value="bar" selected>Resolved (bar chart)</option>
                     <option value="grouped-bar">Resolved by repository</option>
+                    <option value="resolved-instances-matrix">Resolved instances matrix</option>
                     <option value="scatter">Resolved vs cost (scatter plot)</option>
                     <option value="resolved-vs-avg-cost">Resolved vs average cost</option>
                     <option value="resolved-vs-cost-limit">Resolved vs cost limit</option>
@@ -106,6 +108,15 @@
                 <button id="download-png-btn" class="btn btn-sm btn-outline-secondary" type="button" title="Download chart as PNG">
                     <i class="fa fa-download"></i>&nbsp;PNG
                 </button>
+            </div>
+            <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                <select id="matrix-chunk-selector" class="form-control form-select" style="flex: 1 1 200px; display: none;">
+                    <option value="0">Instances 1-100</option>
+                    <option value="100">Instances 101-200</option>
+                    <option value="200">Instances 201-300</option>
+                    <option value="300">Instances 301-400</option>
+                    <option value="400">Instances 401-500</option>
+                </select>
             </div>
             <div class="mt-2 chart-container">
                 <canvas id="compare-chart"></canvas>

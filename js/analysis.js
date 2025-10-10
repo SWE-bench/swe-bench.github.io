@@ -190,6 +190,12 @@
         const canvas = document.getElementById('compare-chart');
         if (!canvas) return;
 
+        // Hide matrix tooltip if it exists (safety check)
+        const matrixTooltip = document.getElementById('matrix-tooltip');
+        if (matrixTooltip) {
+            matrixTooltip.style.display = 'none';
+        }
+
         if (compareChart) {
             compareChart.destroy();
             compareChart = null;
@@ -269,6 +275,16 @@
             }
         } else if (chartType === 'grouped-bar') {
             compareChart = renderGroupedBarChart(ctx, selected, colors, backgroundPlugin);
+            if (!compareChart) {
+                if (empty) {
+                    empty.textContent = 'No per-instance data available for selected models.';
+                    empty.style.display = '';
+                }
+            }
+        } else if (chartType === 'resolved-instances-matrix') {
+            const chunkSelector = document.getElementById('matrix-chunk-selector');
+            const chunkStart = chunkSelector ? parseInt(chunkSelector.value) : 0;
+            compareChart = renderResolvedInstancesMatrix(ctx, selected, colors, backgroundPlugin, chunkStart, 100);
             if (!compareChart) {
                 if (empty) {
                     empty.textContent = 'No per-instance data available for selected models.';
@@ -399,10 +415,23 @@
         }
 
         const chartType = document.getElementById('compare-chart-type');
+        const chunkSelector = document.getElementById('matrix-chunk-selector');
+        
         if (chartType) {
             chartType.addEventListener('change', () => {
-                // Future chart types can be handled here; for now just re-render
+                // Show/hide chunk selector for matrix chart
+                if (chunkSelector) {
+                    chunkSelector.style.display = chartType.value === 'resolved-instances-matrix' ? '' : 'none';
+                }
                 renderChart();
+            });
+        }
+        
+        if (chunkSelector) {
+            chunkSelector.addEventListener('change', () => {
+                if (chartType && chartType.value === 'resolved-instances-matrix') {
+                    renderChart();
+                }
             });
         }
 
