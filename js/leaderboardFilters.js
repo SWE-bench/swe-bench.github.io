@@ -327,6 +327,11 @@ function updateTable() {
     } else {
         noResultsMessage.style.display = 'none';
     }
+    
+    // Update the select-all checkbox state after filtering
+    if (typeof updateSelectAllCheckbox === 'function') {
+        updateSelectAllCheckbox();
+    }
 }
 
 // Updated Filter Button Logic
