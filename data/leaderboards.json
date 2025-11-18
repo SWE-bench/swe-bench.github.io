@@ -1334,7 +1334,7 @@
           "logo": [
             "https://joycode.s3.cn-north-1.jdcloud-oss.com/joycodelogo.png"
           ],
-          "site": "https://joycode.jd.com",
+          "site": "https://github.com/jd-opensource/joycode-agent",
           "folder": "20250915_JoyCode",
           "resolved": 74.6,
           "date": "2025-09-15",
@@ -1382,6 +1382,33 @@
           "warning": null
         },
         {
+          "name": "Prometheus-v1.2.1 + GPT-5",
+          "logo": [
+            "https://raw.githubusercontent.com/EuniAI/Prometheus/main/docs/static/images/icon.jpg",
+            "https://raw.githubusercontent.com/EuniAI/Prometheus/main/docs/static/images/delysium.jpg"
+          ],
+          "site": "https://euni.ai/",
+          "folder": "20251015_Prometheus_v1.2.1_gpt5",
+          "resolved": 74.4,
+          "date": "2025-10-15",
+          "logs": "s3://swe-bench-experiments/verified/20251015_Prometheus_v1.2.1_gpt5/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20251015_Prometheus_v1.2.1_gpt5/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": false,
+          "os_system": true,
+          "checked": false,
+          "tags": [
+            "Model: gpt-5-2025-08-07",
+            "Org: EuniAI",
+            "Org: Delysium",
+            "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
           "name": "Tools + Claude 4 Opus (2025-05-22)",
           "logo": [
             "https://pbs.twimg.com/profile_images/1798110641414443008/XP8gyBaY_400x400.jpg"
@@ -1402,6 +1429,32 @@
           "tags": [
             "Model: claude-4-opus-20250514",
             "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Salesforce AI Research SAGE (bash-only)",
+          "logo": [
+            "https://avatars.githubusercontent.com/u/137096229"
+          ],
+          "site": "https://www.salesforce.com/blog/sage-swe/",
+          "folder": "20251021_SalesforceAIResearch_SAGE_bash_only",
+          "resolved": 73.0,
+          "date": "2025-10-21",
+          "logs": "s3://swe-bench-experiments/verified/20251021_SalesforceAIResearch_SAGE_bash_only/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20251021_SalesforceAIResearch_SAGE_bash_only/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": false,
+          "os_system": false,
+          "checked": false,
+          "tags": [
+            "Model: claude-sonnet-4.5",
+            "Model: gpt-5",
+            "Org: Salesforce AI Research",
+            "System: Attempts - 2+"
           ],
           "warning": null
         },
@@ -1471,7 +1524,7 @@
           "instance_cost": null,
           "instance_calls": null,
           "os_model": false,
-          "os_system": false,
+          "os_system": true,
           "checked": false,
           "tags": [
             "Model: gpt-5-2025-08-07",
@@ -1528,6 +1581,31 @@
           "tags": [
             "Model: claude-4-sonnet-20250514",
             "Org: Bloop AI",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Lingxi v1.5 x Kimi K2",
+          "logo": [
+            "https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Huawei_Standard_logo.svg/1200px-Huawei_Standard_logo.svg.png"
+          ],
+          "site": "https://github.com/lingxi-agent/Lingxi/tree/master",
+          "folder": "20251014_Lingxi_kimi_k2",
+          "resolved": 71.2,
+          "date": "2025-10-14",
+          "logs": "s3://swe-bench-experiments/verified/20251014_Lingxi_kimi_k2/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20251014_Lingxi_kimi_k2/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": true,
+          "os_system": true,
+          "checked": false,
+          "tags": [
+            "Model: kimi-k2-0905-preview",
+            "Org: Huawei",
             "System: Attempts - 1"
           ],
           "warning": null
@@ -2719,6 +2797,31 @@
           "mini-swe-agent_version": "1.9.1"
         },
         {
+          "name": "FrogBoss-32B-2510",
+          "logo": [
+            "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"
+          ],
+          "site": "https://microsoft.github.io/debug-gym/blog/2025/10/bug-pilot/",
+          "folder": "20251110_frogboss-32b",
+          "resolved": 53.6,
+          "date": "2025-11-10",
+          "logs": "s3://swe-bench-experiments/verified/20251110_frogboss-32b/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20251110_frogboss-32b/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": false,
+          "os_system": true,
+          "checked": "false (See README.md for info on how to get your results verified)",
+          "tags": [
+            "Model: FrogBoss-32B-2510",
+            "Org: Microsoft",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
           "name": "mini-SWE-agent + Gemini 2.5 Pro (2025-05-06)",
           "logo": [
             "https://mini-swe-agent.com/latest/assets/mini_square.svg"
@@ -3309,6 +3412,31 @@
           "checked": false,
           "tags": [
             "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
+          "name": "FrogMini-14B-2510",
+          "logo": [
+            "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"
+          ],
+          "site": "https://microsoft.github.io/debug-gym/blog/2025/10/bug-pilot/",
+          "folder": "20251110_frogmini-14b",
+          "resolved": 45.0,
+          "date": "2025-11-10",
+          "logs": "s3://swe-bench-experiments/verified/20251110_frogmini-14b/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20251110_frogmini-14b/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": false,
+          "os_system": true,
+          "checked": "false (See README.md for info on how to get your results verified)",
+          "tags": [
+            "Model: FrogMini-14B-2510",
+            "Org: Microsoft",
+            "System: Attempts - 1"
           ],
           "warning": null
         },
