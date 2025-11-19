@@ -2,7 +2,13 @@
 (function() {
     let compareChart = null;
     let resizeObserver = null;
-    let chartTheme = 'dark'; // 'light' or 'dark'
+    
+    // Initialize chartTheme based on global dark mode state
+    function getGlobalTheme() {
+        return document.body.classList.contains('dark-mode') ? 'dark' : 'light';
+    }
+    
+    let chartTheme = getGlobalTheme();
 
     function getLeaderboardData() {
         const dataScript = document.getElementById('leaderboard-data');
@@ -76,6 +82,11 @@
         }
         const modal = document.getElementById('compare-modal');
         if (!modal) return;
+        
+        // Sync chart theme with global theme when opening modal
+        chartTheme = getGlobalTheme();
+        updateThemeButton();
+        
         modal.classList.add('show');
         modal.setAttribute('aria-hidden', 'false');
         renderChart();
@@ -322,7 +333,15 @@
     }
 
     function toggleChartTheme() {
-        chartTheme = chartTheme === 'light' ? 'dark' : 'light';
+        // Toggle global dark mode
+        document.body.classList.toggle('dark-mode');
+        
+        // Update localStorage to persist the preference
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        
+        // Update chart theme to match global theme
+        chartTheme = getGlobalTheme();
         updateThemeButton();
         renderChart();
     }
@@ -392,6 +411,24 @@
     }
 
     function initEvents() {
+        // Listen for global theme changes (e.g., from sidebar toggle)
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    const newTheme = getGlobalTheme();
+                    if (newTheme !== chartTheme) {
+                        chartTheme = newTheme;
+                        updateThemeButton();
+                        // Only re-render if modal is open
+                        if (document.getElementById('compare-modal')?.classList.contains('show')) {
+                            renderChart();
+                        }
+                    }
+                }
+            });
+        });
+        observer.observe(document.body, { attributes: true });
+        
         // Open via delegated event to handle dynamic rendering
         document.addEventListener('click', (e) => {
             const trigger = e.target && typeof e.target.closest === 'function' ? e.target.closest('#compare-btn') : null;
