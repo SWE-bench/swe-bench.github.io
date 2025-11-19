@@ -7,6 +7,13 @@
         <!-- Dynamic text will be inserted here -->
     </div>
     <div class="filter-controls-group border-top pt-2">
+        <div style="position: relative; display: inline-flex;">
+            <button id="compare-btn" class="button button-primary button-icon" type="button" title="Compare selected results" style="display: none;">
+                <i class="fa-solid fa-chart-column"></i>
+                <span>Compare results</span>
+            </button>
+            <span class="new-badge new-badge-button">New!</span>
+        </div>
         <div class="filter-title">Filters:</div>
         <div class="filter-buttons">
             <!-- Main Filters Dropdown -->
@@ -54,6 +61,93 @@
 <script type="application/json" id="leaderboard-tags-data">
     {{ leaderboard_tags | tojson }}
 </script>
+
+<!-- Chart.js and analysis for comparison -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="js/charts/barChart.js"></script>
+<script src="js/charts/scatterChart.js"></script>
+<script src="js/charts/cumulativeCostChart.js"></script>
+<script src="js/charts/groupedBarChart.js"></script>
+<script src="js/charts/resolvedVsLimitChart.js"></script>
+<script src="js/charts/resolvedVsAvgCostChart.js"></script>
+<script src="js/charts/resolvedInstancesMatrix.js"></script>
+<script src="js/analysis.js"></script>
+
+<!-- Compare Results Modal -->
+<div id="compare-modal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close="true"></div>
+    <div class="modal-dialog modal-dialog-large" role="dialog" aria-modal="true" aria-labelledby="compare-modal-title">
+        <div class="modal-header">
+            <h3 id="compare-modal-title" class="m-0">Compare results</h3>
+            <button class="modal-close" aria-label="Close" data-close="true"><i class="fa fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                <select id="compare-chart-type" class="form-control form-select" style="flex: 1 1 200px;">
+                    <option value="bar" selected>Resolved (bar chart)</option>
+                    <option value="grouped-bar">Resolved by repository</option>
+                    <option value="resolved-instances-matrix">Resolved instances matrix</option>
+                    <option value="scatter">Resolved vs cost (scatter plot)</option>
+                    <option value="resolved-vs-avg-cost">Resolved vs average cost</option>
+                    <option value="resolved-vs-cost-limit">Resolved vs cost limit</option>
+                    <option value="resolved-vs-step-limit">Resolved vs step limit</option>
+                    <option value="cumulative-cost">Cumulative cost distribution</option>
+                    <option value="cumulative-cost-resolved">Cumulative cost distribution (resolved only)</option>
+                    <option value="cumulative-steps">Cumulative step distribution</option>
+                    <option value="cumulative-steps-resolved">Cumulative step distribution (resolved only)</option>
+                </select>
+                <button id="chart-theme-toggle" class="btn btn-sm btn-outline-secondary" type="button" title="Switch theme">
+                    <i class="fa fa-sun"></i>&nbsp;Light
+                </button>
+                <button id="quickselect-btn" class="btn btn-sm btn-outline-secondary" type="button" title="Quick select models">
+                    <i class="fa fa-check-square"></i>&nbsp;Selection
+                </button>
+                <button id="download-json-btn" class="btn btn-sm btn-outline-secondary" type="button" title="Download data as JSON">
+                    <i class="fa fa-download"></i>&nbsp;JSON
+                </button>
+                <button id="download-png-btn" class="btn btn-sm btn-outline-secondary" type="button" title="Download chart as PNG">
+                    <i class="fa fa-download"></i>&nbsp;PNG
+                </button>
+            </div>
+            <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+                <select id="matrix-chunk-selector" class="form-control form-select" style="flex: 1 1 200px; display: none;">
+                    <option value="0">Instances 1-100</option>
+                    <option value="100">Instances 101-200</option>
+                    <option value="200">Instances 201-300</option>
+                    <option value="300">Instances 301-400</option>
+                    <option value="400">Instances 401-500</option>
+                </select>
+            </div>
+            <div class="mt-2 chart-container">
+                <canvas id="compare-chart"></canvas>
+                <div id="compare-empty" class="text-muted mt-2">Select models via the checkboxes, then click <em>Compare results</em>.</div>
+            </div>
+        </div>
+    </div>
+    
+    
+</div>
+
+<!-- No Selection Modal -->
+<div id="no-selection-modal" class="modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close="true"></div>
+    <div class="modal-dialog modal-dialog-small" role="dialog" aria-modal="true" aria-labelledby="no-selection-modal-title">
+        <div class="modal-header">
+            <h3 id="no-selection-modal-title" class="m-0">No models selected</h3>
+            <button class="modal-close" aria-label="Close" data-close="true"><i class="fa fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <p class="mb-3">Select at least one model using the checkboxes in the first columns, or click one of the following buttons for a pre-defined selection.</p>
+            <p class="mb-2 fw-medium">Quick select:</p>
+            <div class="d-flex gap-2 flex-wrap">
+                <button id="select-top-10" class="button button-primary" type="button">Select top 10</button>
+                <button id="select-top-20" class="button button-secondary" type="button">Select top 20</button>
+                <button id="select-all" class="button button-secondary" type="button">Select all</button>
+                <button id="select-all-ow" class="button button-secondary" type="button">Select all (open weights)</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="leaderboard-notes">
     <p>

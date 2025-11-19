@@ -367,6 +367,40 @@ button:focus,
   white-space: nowrap;
 }
 
+/* Selection checkbox column (fixed slim width) */
+.data-table.has-select-col th.select-col,
+.data-table.has-select-col td.select-col {
+  width: 36px;
+  min-width: 36px;
+  max-width: 36px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Prevent first (model) column from expanding when selection column present */
+.data-table.has-select-col th.sortable[data-sort="name"],
+.data-table.has-select-col td:first-of-type + td {
+  width: auto;
+  white-space: normal;
+}
+
+/* Ensure model column remains flexible when select column exists */
+.data-table.has-select-col th:nth-child(2),
+.data-table.has-select-col td:nth-child(2) {
+  width: 40%;
+  min-width: 180px;
+  max-width: 350px;
+  white-space: normal;
+  word-wrap: break-word;
+  text-align: left; /* override default % resolved right alignment */
+}
+
+/* Keep % Resolved right-aligned (now 3rd column when select column exists) */
+.data-table.has-select-col th:nth-child(3),
+.data-table.has-select-col td:nth-child(3) {
+  text-align: right;
+}
+
 /* Cards */
 .card {
   background-color: var(--color-background);
@@ -615,6 +649,19 @@ button:focus,
     max-width: 40%;
   }
 }
+
+/* Modal basic styles */
+.modal { display: none; position: fixed; inset: 0; z-index: var(--z-modal); }
+.modal.show { display: block; }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.45); }
+.modal-dialog { position: relative; background: var(--color-background); color: var(--color-text); width: min(720px, calc(100vw - 2rem)); margin: 5vh auto; border-radius: var(--radius-lg); box-shadow: var(--shadow-xl); border: 1.5px solid var(--color-border); resize: both; overflow: auto; min-width: 400px; min-height: 300px; max-width: 90vw; max-height: 90vh; display: flex; flex-direction: column; }
+.modal-dialog-small { width: min(480px, calc(100vw - 2rem)); min-width: 320px; min-height: auto; resize: none; }
+.modal-dialog-large { width: min(1200px, 90vw); height: min(800px, 90vh); }
+.modal-header { display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; border-bottom: 1.5px solid var(--color-border); }
+.modal-body { padding: 1rem; overflow: auto; flex: 1; display: flex; flex-direction: column; }
+.modal-close { background: transparent; border: none; cursor: pointer; color: var(--color-text-secondary); }
+.chart-container { flex: 1; display: flex; flex-direction: column; min-height: 0; position: relative; }
+.chart-container canvas { flex: 1; min-height: 260px; }
 
 @media (max-width: 992px) {
   /* On mobile and tablets */
@@ -918,4 +965,78 @@ button:focus,
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-decoration-color: var(--color-text-muted);
+}
+
+/* New Feature Badge */
+.new-badge {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 2px;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-full);
+  font-size: 0.7rem;
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.4);
+  z-index: 100;
+  animation: newBadgeAnimation 6s ease-in-out forwards;
+  pointer-events: none;
+}
+
+.dark-mode .new-badge {
+  background: linear-gradient(135deg, var(--blue-400), var(--blue-600));
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.6);
+}
+
+.new-badge-button {
+  top: -12px;
+  left: auto;
+  right: -45px;
+}
+
+@keyframes newBadgeAnimation {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.8);
+  }
+  10% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+  15% {
+    transform: translateX(-50%) scale(1.1);
+  }
+  20% {
+    transform: translateX(-50%) scale(1);
+  }
+  30% {
+    transform: translateX(-50%) scale(1.05);
+  }
+  35% {
+    transform: translateX(-50%) scale(1);
+  }
+  45% {
+    transform: translateX(-50%) scale(1.05);
+  }
+  50% {
+    transform: translateX(-50%) scale(1);
+  }
+  60% {
+    transform: translateX(-50%) scale(1.05);
+  }
+  65% {
+    transform: translateX(-50%) scale(1);
+  }
+  85% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(0.8);
+  }
 }
