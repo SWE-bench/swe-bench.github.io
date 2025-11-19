@@ -16,6 +16,9 @@ const statusToNaturalLanguage = {
 const loadedLeaderboards = new Set();
 let leaderboardData = null;
 
+// Track which badges have been shown to avoid re-animating
+const badgesShown = new Set();
+
 const sortState = { field: 'resolved', direction: 'desc' };
 
 function loadLeaderboardData() {
@@ -95,12 +98,14 @@ function renderLeaderboardTable(leaderboard) {
     const tableHtml = `
         <div class="tabcontent active" id="leaderboard-${leaderboard.name}">
             <div class="table-responsive">
-                <table class="table scrollable data-table">
+                <table class="table scrollable data-table ${isBashOnly ? 'has-select-col' : ''}">
                     <thead>
                         <tr>
+                            ${isBashOnly ? '<th class="select-col"><input type="checkbox" id="select-all-checkbox" aria-label="Select all models" title="Select all visible models"></th>' : ''}
                             <th class="sortable" data-sort="name">Model</th>
                             <th class="sortable" data-sort="resolved">% Resolved</th>
                             ${isBashOnly ? '<th class="sortable" data-sort="instance_cost" title="Average cost per task instance in the benchmark">Avg. $</th>' : ''}
+                            ${isBashOnly ? '<th class="sortable" data-sort="trajs_docent"><span style="position: relative; display: inline-block;">Trajs<span class="new-badge" data-badge-shown="false">New!</span></span></th>' : ''}
                             <th class="sortable" data-sort="org">Org</th>
                             <th class="sortable" data-sort="date">Date</th>
                             ${!isBashOnly ? '<th class="sortable" data-sort="site">Site</th>' : ''}
@@ -115,18 +120,22 @@ function renderLeaderboardTable(leaderboard) {
                                     data-checked="${item.checked ? 'true' : 'false'}"
                                     data-tags="${item.tags ? item.tags.join(',') : ''}"
                                 >
+                                    ${isBashOnly ? `<td class="select-col centered-text"><input type="checkbox" class="row-select" aria-label="Select ${item.name}" data-model="${item.name}" data-resolved="${parseFloat(item.resolved).toFixed(2)}"></td>` : ''}
                                     <td>
                                         <div class="flex items-center gap-1">
                                             <div class="model-badges">
                                                 ${item.date >= "2025-10-15" ? '<span>🆕</span>' : ''}
                                                 ${item.oss ? '<span>🤠</span>' : ''}
-                                                ${item.checked ? '<span title="The agent run was performed by or directly verified by the SWE-bench team">✅</span>' : ''}
+                                                ${!isBashOnly && item.checked ? '<span title="The agent run was performed by or directly verified by the SWE-bench team">✅</span>' : ''}
                                             </div>
                                             <span class="model-name font-mono fw-medium">${item.name}</span>
                                         </div>
                                     </td>
                                     <td><span class="number fw-medium text-primary">${parseFloat(item.resolved).toFixed(2)}</span></td>
-                                    ${isBashOnly ? `<td class="text-right"><span class="number fw-medium text-primary">$${item.instance_cost !== null && item.instance_cost !== undefined ? parseFloat(item.instance_cost).toFixed(2) : ''}</span></td>` : ''}
+                                    ${isBashOnly ? `<td class="text-right"><span class="number fw-medium text-primary">${item.instance_cost !== null && item.instance_cost !== undefined && item.instance_cost !== 0 && !isNaN(item.instance_cost) ? '$' + parseFloat(item.instance_cost).toFixed(2) : ''}</span></td>` : ''}
+                                    ${isBashOnly ? `<td class="centered-text text-center">
+                                        ${item.trajs_docent && item.trajs_docent !== false ? `<a href="${item.trajs_docent}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
+                                    </td>` : ''}
                                     <td>
                                         ${item.logo && item.logo.length > 0 ? `
                                             <div style="display: flex; align-items: center;">
@@ -142,7 +151,7 @@ function renderLeaderboardTable(leaderboard) {
                                 </tr>
                             `).join('')}
                         <tr class="no-results" style="display: none;">
-                            <td colspan="${isBashOnly ? '9' : '7'}" class="text-center">
+                            <td colspan="${isBashOnly ? '8' : '7'}" class="text-center">
                                 No entries match the selected filters. Try adjusting your filters.
                             </td>
                         </tr>
@@ -157,6 +166,29 @@ function renderLeaderboardTable(leaderboard) {
 
     updateSortIndicators();
     attachSortHandlers(leaderboard.name);
+    
+    if (isBashOnly) {
+        attachSelectAllHandler(leaderboard.name);
+        updateSelectAllCheckbox();
+    }
+    
+    // Handle new badges - only show animation once per page load
+    const isBashOnlyTab = leaderboard.name.toLowerCase() === 'bash-only';
+    const badges = container.querySelectorAll('.new-badge');
+    badges.forEach(badge => {
+        const badgeKey = 'trajs-badge-' + leaderboard.name;
+        const hasBeenShown = badgesShown.has(badgeKey);
+        
+        if (!isBashOnlyTab || hasBeenShown) {
+            badge.style.display = 'none';
+        } else {
+            badge.style.display = '';
+            // Mark as shown after animation completes
+            badge.addEventListener('animationend', () => {
+                badgesShown.add(badgeKey);
+            }, { once: true });
+        }
+    });
 }
 
 function attachSortHandlers(leaderboardName) {
@@ -202,6 +234,82 @@ function updateSortIndicators() {
         th.classList.add(isActive ? 'sort-active' : 'sort-inactive');
     });
 }
+
+function attachSelectAllHandler(leaderboardName) {
+    const selectAllCheckbox = document.getElementById('select-all-checkbox');
+    if (!selectAllCheckbox) return;
+    
+    selectAllCheckbox.addEventListener('change', (e) => {
+        const container = document.getElementById('leaderboard-container');
+        const active = container ? container.querySelector('.tabcontent.active') : null;
+        if (!active) return;
+        
+        const visibleCheckboxes = Array.from(active.querySelectorAll('tbody tr:not(.no-results)'))
+            .filter(row => row.style.display !== 'none')
+            .map(row => row.querySelector('input.row-select'))
+            .filter(cb => cb !== null);
+        
+        const isChecked = e.target.checked;
+        visibleCheckboxes.forEach(cb => {
+            cb.checked = isChecked;
+        });
+        
+        // Trigger chart update if modal is open
+        if (document.getElementById('compare-modal')?.classList.contains('show')) {
+            // Dispatch change event to trigger chart update
+            const changeEvent = new Event('change', { bubbles: true });
+            if (visibleCheckboxes.length > 0) {
+                visibleCheckboxes[0].dispatchEvent(changeEvent);
+            }
+        }
+    });
+    
+    // Listen for changes to individual checkboxes to update select-all state
+    const container = document.getElementById('leaderboard-container');
+    if (container) {
+        container.addEventListener('change', (e) => {
+            if (e.target && e.target.classList.contains('row-select')) {
+                updateSelectAllCheckbox();
+            }
+        });
+    }
+}
+
+function updateSelectAllCheckbox() {
+    const selectAllCheckbox = document.getElementById('select-all-checkbox');
+    if (!selectAllCheckbox) return;
+    
+    const container = document.getElementById('leaderboard-container');
+    const active = container ? container.querySelector('.tabcontent.active') : null;
+    if (!active) return;
+    
+    const visibleCheckboxes = Array.from(active.querySelectorAll('tbody tr:not(.no-results)'))
+        .filter(row => row.style.display !== 'none')
+        .map(row => row.querySelector('input.row-select'))
+        .filter(cb => cb !== null);
+    
+    if (visibleCheckboxes.length === 0) {
+        selectAllCheckbox.checked = false;
+        selectAllCheckbox.indeterminate = false;
+        return;
+    }
+    
+    const checkedCount = visibleCheckboxes.filter(cb => cb.checked).length;
+    
+    if (checkedCount === 0) {
+        selectAllCheckbox.checked = false;
+        selectAllCheckbox.indeterminate = false;
+    } else if (checkedCount === visibleCheckboxes.length) {
+        selectAllCheckbox.checked = true;
+        selectAllCheckbox.indeterminate = false;
+    } else {
+        selectAllCheckbox.checked = false;
+        selectAllCheckbox.indeterminate = true;
+    }
+}
+
+// Make the function globally accessible for filter updates
+window.updateSelectAllCheckbox = updateSelectAllCheckbox;
 
 function updateLogViewer(inst_id, split, model) {
     if (inst_id == 'No Instance Selected') {
@@ -362,6 +470,29 @@ function openLeaderboard(leaderboardName) {
     if (typeof updateTable === 'function') {
         setTimeout(updateTable, 0);
     }
+    
+    // Show/hide compare button and badge based on leaderboard type
+    const compareBtn = document.getElementById('compare-btn');
+    const compareButtonBadge = document.querySelector('.new-badge-button');
+    const isBashOnlyTab = leaderboardName.toLowerCase() === 'bash-only';
+    
+    if (compareBtn) {
+        if (isBashOnlyTab) {
+            compareBtn.style.display = '';
+        } else {
+            compareBtn.style.display = 'none';
+        }
+    }
+    
+    // Hide/show compare button badge based on tab and if already shown
+    if (compareButtonBadge) {
+        const hasBeenShown = badgesShown.has('compare-button-badge');
+        if (!isBashOnlyTab || hasBeenShown) {
+            compareButtonBadge.style.display = 'none';
+        } else {
+            compareButtonBadge.style.display = '';
+        }
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -394,6 +525,19 @@ document.addEventListener('DOMContentLoaded', function() {
             openLeaderboard(leaderboardType);
         });
     });
+    
+    // Handle compare button badge - only show once per page load, only on bash-only
+    const compareButtonBadge = document.querySelector('.new-badge-button');
+    if (compareButtonBadge) {
+        const hasBeenShown = badgesShown.has('compare-button-badge');
+        if (hasBeenShown) {
+            compareButtonBadge.style.display = 'none';
+        } else {
+            compareButtonBadge.addEventListener('animationend', () => {
+                badgesShown.add('compare-button-badge');
+            }, { once: true });
+        }
+    }
     
     // Load initial tab based on hash or default to Verified (mini-SWE-agent)
     const hash = window.location.hash.slice(1).toLowerCase();
