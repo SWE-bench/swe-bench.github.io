@@ -124,7 +124,7 @@ function renderLeaderboardTable(leaderboard) {
                                     <td>
                                         <div class="flex items-center gap-1">
                                             <div class="model-badges">
-                                                ${!isBashOnly && item.date >= "2025-06-25" ? '<span>🆕</span>' : ''}
+                                                ${item.date >= "2025-10-15" ? '<span>🆕</span>' : ''}
                                                 ${item.oss ? '<span>🤠</span>' : ''}
                                                 ${!isBashOnly && item.checked ? '<span title="The agent run was performed by or directly verified by the SWE-bench team">✅</span>' : ''}
                                             </div>
