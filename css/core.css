@@ -254,16 +254,6 @@ pre {
   margin: 0 0 var(--size-md) 0;
 }
 
-/* Basic container */
-.container {
-  width: 100%;
-  padding-right: var(--size-md);
-  padding-left: var(--size-md);
-  margin-right: auto;
-  margin-left: auto;
-  max-width: var(--container-width);
-}
-
 /* Media queries for responsive base */
 @media (max-width: 576px) {
   :root {

@@ -19,6 +19,16 @@
 
       gtag("config", "G-H9XFCMDPNS");
     </script>
+    <script>
+      // Initialize theme immediately to prevent flash
+      (function() {
+        const storedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+          document.documentElement.classList.add('dark-mode');
+        }
+      })();
+    </script>
     
     <link rel="icon" href="favicon.ico" type="image/x-icon">
 
@@ -44,11 +54,11 @@
             <li><a href="index.html" class="nav-link" data-page="index">Leaderboards</a></li>
             <li class="nav-section-title">Benchmarks</li>
             <li><a href="original.html" class="nav-link" data-page="original">SWE-bench</a></li>
-            <li><a href="lite.html" class="nav-link" data-page="lite">SWE-bench Lite</a></li>
+            <li><a href="https://openai.com/index/introducing-swe-bench-verified/" class="nav-link" data-page="verified">SWE-bench Verified <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="bash-only.html" class="nav-link" data-page="bash-only">SWE-bench Bash Only</a></li>
             <li><a href="multilingual.html" class="nav-link" data-page="docs">SWE-bench Multilingual</a></li>
             <li><a href="multimodal.html" class="nav-link" data-page="multimodal">SWE-bench Multimodal</a></li>
-            <li><a href="bash-only.html" class="nav-link" data-page="bash-only">SWE-bench Bash Only</a></li>
-            <li><a href="https://openai.com/index/introducing-swe-bench-verified/" class="nav-link" data-page="verified">SWE-bench Verified <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="lite.html" class="nav-link" data-page="lite">SWE-bench Lite</a></li>
             <li class="nav-section-title">About</li>
             <li><a href="https://openreview.net/pdf?id=VTF8yNQM66" class="nav-link" data-page="paper">Paper <i class="fas fa-external-link-alt"></i></a></li>
             <li><a href="https://www.swebench.com/SWE-bench/blog/" class="nav-link" data-page="blog">Blog <i class="fas fa-external-link-alt"></i></a></li>
@@ -61,6 +71,7 @@
             <li><a href="https://swe-agent.com/latest/" class="nav-link" data-page="swe-agent"><img src="img/swe-agent-icon.svg" alt="SWE-agent icon" class="sidebar-family-icon">SWE-agent <i class="fas fa-external-link-alt"></i></a></li>
             <li><a href="https://mini-swe-agent.com/" class="nav-link" data-page="mini-swe-agent"><img src="img/mini-icon.svg" alt="mini-SWE-agent icon" class="sidebar-family-icon">mini-SWE-agent <i class="fas fa-external-link-alt"></i></a></li>
             <li><a href="https://swesmith.com/" class="nav-link" data-page="swe-smith"><img src="img/swe-smith-icon.svg" alt="SWE-smith icon" class="sidebar-family-icon">SWE-smith <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://codeclash.ai/" class="nav-link" data-page="codeclash"><img src="img/codeclash.svg" alt="CodeClash icon" class="sidebar-family-icon">CodeClash <i class="fas fa-external-link-alt"></i></a></li>
             <li><a href="https://swe-rex.com/latest/" class="nav-link" data-page="swe-rex"><img src="img/swe-rex-icon.svg" alt="SWE-ReX icon" class="sidebar-family-icon">SWE-ReX <i class="fas fa-external-link-alt"></i></a></li>
             <li><a href="https://swebench.com/sb-cli/" class="nav-link" data-page="sb-cli"><img src="img/sb-cli-icon.svg" alt="SWE-bench CLI icon" class="sidebar-family-icon">SWE-bench CLI <i class="fas fa-external-link-alt"></i></a></li>
         </ul>
@@ -109,7 +120,7 @@
     </header>
 
     <div class="container">
-        <section class="content-box">
+        <section>
             <h2>Overview</h2>
             <p>SWE-bench Lite provides a smaller, carefully selected subset of 300 tasks from the full benchmark, designed to:</p>
             <ul>
@@ -123,9 +134,10 @@
             
             <p>We recommend future systems evaluating on SWE-bench to report numbers on SWE-bench Lite in lieu of the full SWE-bench set when compute efficiency is a concern.</p>
         </section>
+        <hr />
         
         <!-- Selection Criteria Section -->
-        <section class="content-box" id="selection-criteria">
+        <section id="selection-criteria">
             <h2>Selection Criteria</h2>
             <p>SWE-bench Lite instances were selected using the following criteria:</p>
             <ul>
@@ -139,24 +151,30 @@
             </ul>
             <p>The source code for how SWE-bench Lite was created is available in <a href="https://github.com/SWE-bench/SWE-bench/tree/main/swebench/collect/make_lite" target="_blank">SWE-bench/swebench/collect/make_lite</a>.</p>
         </section>
+        <hr />
 
         <!-- Distribution Section -->
-        <section class="content-box" id="distribution">
+        <section id="distribution">
             <h2>Repository Distribution</h2>
             <p>SWE-bench Lite distribution across repositories. Compare to the full SWE-bench in Figure 3 of the SWE-bench paper.</p>
             <div class="distribution-image">
                 <img src="img/swebench-lite-pie.png" alt="SWE-bench Lite repository distribution" class="img-fluid">
             </div>
-            <br>
-            <h3>Baseline Performance</h3>
+        </section>
+        <hr />
+
+        <!-- Performance Section -->
+        <section id="performance">
+            <h2>Baseline Performance</h2>
             <p>SWE-bench Lite performance for our baselines. Compare to the full SWE-bench baseline performance in Table 5 of the SWE-bench paper.</p>
             <div class="performance-image">
                 <img src="img/swe-bench_lite_results.png" alt="SWE-bench Lite baseline performance comparison" class="img-fluid">
             </div>
         </section>
+        <hr />
 
         <!-- Resources Section -->
-        <section class="content-box" id="lite-resources">
+        <section id="lite-resources">
             <h2>Resources</h2>
             <p>SWE-bench Lite datasets:</p>
             <div class="resource-links">
@@ -166,9 +184,10 @@
                 <a href="https://huggingface.co/datasets/princeton-nlp/SWE-bench_Lite_bm25_27K">🤗 BM25 Retrieval 27K Lite</a>
             </div>
         </section>
+        <hr />
 
         <!-- Citation Section -->
-        <section id="citation" class="content-box">
+        <section id="citation">
             <h2>Citation</h2>
             <p>If you use SWE-bench in your research, please cite our paper:</p>
             
@@ -192,10 +211,7 @@
             
             <div class="citation-container display-none" id="lite-citation-apa">
                 <button class="copy-btn" aria-label="Copy citation">Copy</button>
-                <pre>
-                    Jimenez, C. E., Wettig, A., Yao, S., Yang, J., Pei, K., Jain, S., Press, O., & Narasimhan, K. (2024).
-                    SWE-bench: Can Language Models Resolve Real-world Github Issues? arXiv preprint arXiv:2310.06770.
-                </pre>
+                <pre>Jimenez, C. E., Wettig, A., Yao, S., Yang, J., Pei, K., Jain, S., Press, O., & Narasimhan, K. (2024). SWE-bench: Can Language Models Resolve Real-world Github Issues? arXiv preprint arXiv:2310.06770.</pre>
             </div>
             
             <div class="citation-container display-none" id="lite-citation-mla">
@@ -234,10 +250,11 @@
         function initTheme() {
             const themeToggle = document.getElementById('theme-toggle');
             const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-            const storedTheme = localStorage.getItem('theme');
             
-            if (storedTheme === 'dark' || (!storedTheme && prefersDarkScheme.matches)) {
+            // Move dark-mode class from documentElement to body if present
+            if (document.documentElement.classList.contains('dark-mode')) {
                 document.body.classList.add('dark-mode');
+                document.documentElement.classList.remove('dark-mode');
             }
             
             if (themeToggle) {
