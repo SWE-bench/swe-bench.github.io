@@ -46,17 +46,6 @@ h1 {
      ========================================================================== */
 
 /**
-   * 1. Add the correct box sizing in Firefox.
-   * 2. Show the overflow in Edge and IE.
-   */
-
-hr {
-  box-sizing: content-box; /* 1 */
-  height: 0; /* 1 */
-  overflow: visible; /* 2 */
-}
-
-/**
    * 1. Correct the inheritance and scaling of font size in all browsers.
    * 2. Correct the odd `em` font sizing in all browsers.
    */
@@ -329,6 +318,8 @@ details {
 
 summary {
   display: list-item;
+  border: 2px solid var(--color-border);
+  padding: 0.5em 1em;
 }
 
 /* Misc

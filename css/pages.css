@@ -17,7 +17,6 @@
 .header-logo-small {
   width: 75px;
   height: 75px;
-  margin-right: 0.5rem;
   vertical-align: middle;
   display: inline-block;
 }
@@ -601,7 +600,8 @@ code {
 
 /* Citation page styles */
 .citation-section {
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
 }
 
 .citation-description {
