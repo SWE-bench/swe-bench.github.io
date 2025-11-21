@@ -19,6 +19,16 @@
 
       gtag("config", "G-H9XFCMDPNS");
     </script>
+    <script>
+      // Initialize theme immediately to prevent flash
+      (function() {
+        const storedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+          document.documentElement.classList.add('dark-mode');
+        }
+      })();
+    </script>
     {% block head_extra %}{% endblock %}
 </head>
 <body>
@@ -57,10 +67,11 @@
         function initTheme() {
             const themeToggle = document.getElementById('theme-toggle');
             const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-            const storedTheme = localStorage.getItem('theme');
             
-            if (storedTheme === 'dark' || (!storedTheme && prefersDarkScheme.matches)) {
+            // Move dark-mode class from documentElement to body if present
+            if (document.documentElement.classList.contains('dark-mode')) {
                 document.body.classList.add('dark-mode');
+                document.documentElement.classList.remove('dark-mode');
             }
             
             if (themeToggle) {

@@ -29,10 +29,10 @@
     </header>
 
     <div class="container">
-        <section class="content-box">
+        <section>
             <h2>Overview</h2>
             <div style="display: flex; align-items: center; flex-direction: column; margin-bottom: 1em;">
-                <img src="img/teaser.png" alt="SWE-bench Teaser Image" class="img-fluid" style="width: 70%;"/>
+                <img src="img/teaser.png" alt="SWE-bench Teaser Image" class="img-fluid" />
             </div>
             <p>SWE-bench tests AI systems' ability to solve GitHub issues.</p>
             <p>
@@ -59,9 +59,10 @@
                 You can train your own agentic software engineering models using our <a href="https://swesmith.com/">SWE-smith</a> dataset.
             </p>
         </section>
+        <hr />
 
         <!-- Resources Section -->
-        <section class="content-box">
+        <section>
             <h2>Resources</h2>
             <p>
                 In the original SWE-bench work, we fine-tuned CodeLlama (<a href="https://arxiv.org/abs/2308.12950">Rozière et al. 2023</a>)
@@ -85,6 +86,7 @@
                 <a href="https://huggingface.co/princeton-nlp/SWE-Llama-7b-peft">SWE-Llama 7b (PEFT)</a>
             </div>
         </section>
+        <hr />
 
         <!-- Affiliation Section -->
         <!-- <div class="institution-logos">
@@ -105,17 +107,17 @@
         </div> -->
 
         <!-- Citation Section -->
-        <section id="citation" class="content-box">
+        <section id="citation">
             <h2>Citation</h2>
             <p>If you use SWE-bench in your research, please cite our paper:</p>
             
             <div class="citation-type">
-                <button class="citation-format-btn active" data-format="bibtex" data-target="citation">BibTeX</button>
-                <button class="citation-format-btn" data-format="apa" data-target="lite-citation">APA</button>
-                <button class="citation-format-btn" data-format="mla" data-target="lite-citation">MLA</button>
+                <button class="citation-format-btn active" data-format="bibtex" data-target="original-citation">BibTeX</button>
+                <button class="citation-format-btn" data-format="apa" data-target="original-citation">APA</button>
+                <button class="citation-format-btn" data-format="mla" data-target="original-citation">MLA</button>
             </div>
             
-            <div class="citation-container" id="lite-citation-bibtex">
+            <div class="citation-container" id="original-citation-bibtex">
                 <button class="copy-btn" aria-label="Copy citation">Copy</button>
                 <pre>@inproceedings{
     jimenez2024swebench,
@@ -125,6 +127,16 @@
     year={2024},
     url={https://openreview.net/forum?id=VTF8yNQM66}
 }</pre>
+            </div>
+            
+            <div class="citation-container display-none" id="original-citation-apa">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>Jimenez, C. E., Yang, J., Wettig, A., Yao, S., Pei, K., Press, O., & Narasimhan, K. R. (2024). SWE-bench: Can Language Models Resolve Real-world Github Issues? In The Twelfth International Conference on Learning Representations. https://openreview.net/forum?id=VTF8yNQM66</pre>
+            </div>
+            
+            <div class="citation-container display-none" id="original-citation-mla">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>Jimenez, Carlos E., et al. "SWE-bench: Can Language Models Resolve Real-world Github Issues?" The Twelfth International Conference on Learning Representations, 2024.</pre>
             </div>
         </section>
     </div>

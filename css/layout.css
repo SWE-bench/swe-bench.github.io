@@ -1,9 +1,9 @@
 /* Container */
 .container {
-  width: 100%;
-  max-width: var(--container-width);
   margin: 0 auto;
+  max-width: var(--container-width);
   padding: 0 var(--size-md);
+  width: 80%;
 }
 
 /* Grid system */
@@ -110,12 +110,11 @@
   width: 100%;
   position: relative;
   color: #FFF7EC;
-  margin-bottom: 0.4rem;
+  margin-bottom: 1rem;
 }
 
 .page-header .container {
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding: 1rem 2rem;
 }
 
 .page-header h1 {
@@ -391,12 +390,6 @@
   padding: 0.3rem;
   background-color: var(--color-background);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
-  border: 2px solid var(--color-border);
-}
-
-.dark-mode .content-section {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .content-section-title {
@@ -451,6 +444,12 @@
 }
 
 /* Responsive breakpoints */
+@media (max-width: 1400px) {
+  .container {
+    width: 100%;
+  }
+}
+
 @media (max-width: 992px) {
   .main-content {
     margin-left: 0;
@@ -467,7 +466,11 @@
   .sidebar {
     transform: translateX(-100%);
     box-shadow: var(--shadow-lg);
-    width: 80%;
+    /* Constrain width on small screens so the sidebar doesn't jut out.
+       Use a reasonable maximum and ensure it never exceeds the viewport. */
+    width: min(80%, 420px);
+    max-width: 90vw;
+    box-sizing: border-box;
   }
   
   .sidebar.open {
