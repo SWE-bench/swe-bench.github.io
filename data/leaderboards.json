@@ -43141,6 +43141,32 @@
       "name": "Test",
       "results": [
         {
+          "name": "Salesforce AI Research SAGE (bash-only)",
+          "logo": [
+            "https://avatars.githubusercontent.com/u/137096229"
+          ],
+          "site": "https://www.salesforce.com/blog/sage-swe/",
+          "folder": "20251027_salesforce_SAGE",
+          "resolved": 44.25,
+          "date": "2025-10-27",
+          "logs": "s3://swe-bench-experiments/test/20251027_salesforce_SAGE/logs",
+          "trajs": "s3://swe-bench-experiments/test/20251027_salesforce_SAGE/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": false,
+          "os_system": false,
+          "checked": false,
+          "tags": [
+            "Model: claude-sonnet-4.5",
+            "Model: gpt-5",
+            "Org: Salesforce AI Research",
+            "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
           "name": "Atlassian Rovo Dev (2025-06-05)",
           "logo": [
             "https://pf-emoji-service--cdn.us-east-1.prod.public.atl-paas.net/atlassian/productivityEmojis/logo-rovo-64px.png"
@@ -43683,7 +43709,8 @@
             "https://se-research.bytedance.com/logos/bytedance.jpg"
           ],
           "site": [
-            "https://github.com/bytedance/trae-agent"
+            "https://github.com/bytedance/trae-agent",
+            "https://seed.bytedance.com/"
           ],
           "folder": "20250928_trae_doubao_seed_code",
           "resolved": 78.8,
@@ -43702,6 +43729,31 @@
             "Model: Doubao-Seed-1.6",
             "Org: ByteDance",
             "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
+          "name": "live-SWE-agent + Gemini 3 Pro Preview (2025-11-18)",
+          "logo": [
+            "https://brand.illinois.edu/wp-content/uploads/2024/02/Color-Variation-Orange-Block-I-White-Background.png"
+          ],
+          "site": "https://github.com/OpenAutoCoder/live-swe-agent",
+          "folder": "20251120_livesweagent_gemini-3-pro-preview",
+          "resolved": 77.4,
+          "date": "2025-11-20",
+          "logs": "s3://swe-bench-experiments/verified/20251120_livesweagent_gemini-3-pro-preview/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20251120_livesweagent_gemini-3-pro-preview/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": false,
+          "os_system": true,
+          "checked": "false (See README.md for info on how to get your results verified)",
+          "tags": [
+            "Model: gemini-3-pro-preview",
+            "Org: UIUC",
+            "System: Attempts - 1"
           ],
           "warning": null
         },
@@ -43859,6 +43911,31 @@
           "tags": [
             "Model: claude-sonnet-4-20250514",
             "Org: Harness",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Sonar Foundation Agent + Claude 4.5 Sonnet",
+          "logo": [
+            "https://assets-eu-01.kc-usercontent.com/55017e37-262d-017b-afd6-daa9468cbc30/8e59bcad-6e39-41dc-abd9-a0e251e8d63f/Sonar%20%282%29.svg?w=128&h=32&dpr=2&fit=crop&q=80"
+          ],
+          "site": "https://www.sonarsource.com",
+          "folder": "20251103_sonar-foundation-agent_claude-sonnet-4-5",
+          "resolved": 74.8,
+          "date": "2025-11-03",
+          "logs": "s3://swe-bench-experiments/verified/20251103_sonar-foundation-agent_claude-sonnet-4-5/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20251103_sonar-foundation-agent_claude-sonnet-4-5/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": false,
+          "os_system": false,
+          "checked": false,
+          "tags": [
+            "Model: claude-sonnet-4-5",
+            "Org: Sonar",
             "System: Attempts - 1"
           ],
           "warning": null
@@ -46497,6 +46574,32 @@
           }
         },
         {
+          "name": "Salesforce AI Research SAGE (OpenHands)",
+          "logo": [
+            "https://avatars.githubusercontent.com/u/137096229"
+          ],
+          "site": "https://www.salesforce.com/blog/sage-swe/",
+          "folder": "20251103_SalesforceAIResearch_SAGE_OpenHands",
+          "resolved": 73.8,
+          "date": "2025-11-03",
+          "logs": "s3://swe-bench-experiments/verified/20251103_SalesforceAIResearch_SAGE_OpenHands/logs",
+          "trajs": "s3://swe-bench-experiments/verified/20251103_SalesforceAIResearch_SAGE_OpenHands/trajs",
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": false,
+          "os_system": false,
+          "checked": false,
+          "tags": [
+            "Model: claude-sonnet-4.5",
+            "Model: gpt-5",
+            "Org: Salesforce AI Research",
+            "System: Attempts - 2+"
+          ],
+          "warning": null
+        },
+        {
           "name": "Tools + Claude 4 Opus (2025-05-22)",
           "logo": [
             "https://pbs.twimg.com/profile_images/1798110641414443008/XP8gyBaY_400x400.jpg"
@@ -46585,7 +46688,7 @@
           "cost": null,
           "instance_cost": null,
           "instance_calls": null,
-          "os_model": true,
+          "os_model": false,
           "os_system": true,
           "checked": true,
           "tags": [
@@ -91960,6 +92063,31 @@
           "tags": [
             "Model: o3-2025-04-16",
             "Org: GUIRepair",
+            "System: Attempts - 1"
+          ],
+          "warning": null
+        },
+        {
+          "name": "Codefuse_Pycfuse_SVR",
+          "logo": [
+            "https://github.com/codefuse-ai/codefuse-svr/blob/main/assets/codefuse_logo.png"
+          ],
+          "site": "https://github.com/codefuse-ai/codefuse-svr?tab=readme-ov-file",
+          "folder": "20251117_codefuse_pycfuse_svr",
+          "resolved": 35.98,
+          "date": "2025-11-17",
+          "logs": null,
+          "trajs": null,
+          "trajs_docent": false,
+          "cost": null,
+          "instance_cost": null,
+          "instance_calls": null,
+          "os_model": false,
+          "os_system": false,
+          "checked": true,
+          "tags": [
+            "Model: o3-2025-04-16",
+            "Org: Codefuse",
             "System: Attempts - 1"
           ],
           "warning": null
