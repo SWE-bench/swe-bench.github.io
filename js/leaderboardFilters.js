@@ -273,8 +273,10 @@ function updateFilterVisibility(leaderboardName) {
     const mainFiltersContainer = document.getElementById('main-filters');
     const tagFiltersContainer = document.getElementById('tag-filters');
     
-    // Show all filters for all leaderboards - consistent interface
-    if (mainFiltersContainer) mainFiltersContainer.style.display = '';
+    const isBashOnly = leaderboardName.toLowerCase() === 'bash-only';
+
+    // Hide main filters (open scaffold/weight/checked) for bash-only, but keep tag filters visible
+    if (mainFiltersContainer) mainFiltersContainer.style.display = isBashOnly ? 'none' : '';
     if (tagFiltersContainer) tagFiltersContainer.style.display = '';
 }
 
