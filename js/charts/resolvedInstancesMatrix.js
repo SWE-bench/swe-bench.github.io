@@ -88,7 +88,7 @@ function renderResolvedInstancesMatrix(ctx, selected, colors, backgroundPlugin, 
         ctx.fillStyle = colors.textColor;
         ctx.textAlign = 'left';
         ctx.font = 'bold 12px sans-serif';
-        ctx.fillText(`Resolved Instances Matrix (hover for details, drag to zoom, double-click to reset) - ${percentageResolvedByAtLeastOne}% of instances resolved by at least one model`, 10, 15);
+        ctx.fillText(`Resolved Instances Matrix (hover for details, drag to zoom) - ${percentageResolvedByAtLeastOne}% of instances resolved by at least one model`, 10, 15);
 
         // Draw model names (y-axis labels) with line breaks
         ctx.fillStyle = colors.textColor;
@@ -187,6 +187,52 @@ function renderResolvedInstancesMatrix(ctx, selected, colors, backgroundPlugin, 
         tooltip.style.whiteSpace = 'nowrap';
         document.body.appendChild(tooltip);
     }
+
+    // Create zoom out button if it doesn't exist
+    let zoomOutBtn = document.getElementById('matrix-zoom-out-btn');
+    if (!zoomOutBtn) {
+        zoomOutBtn = document.createElement('button');
+        zoomOutBtn.id = 'matrix-zoom-out-btn';
+        zoomOutBtn.textContent = 'Zoom Out';
+        zoomOutBtn.style.position = 'absolute';
+        zoomOutBtn.style.backgroundColor = 'rgba(59, 130, 246, 0.9)';
+        zoomOutBtn.style.color = 'white';
+        zoomOutBtn.style.border = 'none';
+        zoomOutBtn.style.padding = '6px 12px';
+        zoomOutBtn.style.borderRadius = '4px';
+        zoomOutBtn.style.fontSize = '12px';
+        zoomOutBtn.style.fontFamily = 'sans-serif';
+        zoomOutBtn.style.cursor = 'pointer';
+        zoomOutBtn.style.zIndex = '10001';
+        zoomOutBtn.style.display = 'none';
+        zoomOutBtn.style.boxShadow = '0 2px 4px rgba(0,0,0,0.2)';
+        document.body.appendChild(zoomOutBtn);
+        
+        // Hover effect
+        zoomOutBtn.addEventListener('mouseenter', () => {
+            zoomOutBtn.style.backgroundColor = 'rgba(59, 130, 246, 1)';
+        });
+        zoomOutBtn.addEventListener('mouseleave', () => {
+            zoomOutBtn.style.backgroundColor = 'rgba(59, 130, 246, 0.9)';
+        });
+    }
+    
+    // Function to update zoom button position and visibility
+    function updateZoomButton() {
+        const rect = canvas.getBoundingClientRect();
+        const isZoomed = currentSize !== null && (currentStart !== 0 || currentSize !== allSortedInstanceIds.length);
+        
+        if (isZoomed) {
+            zoomOutBtn.style.display = 'block';
+            zoomOutBtn.style.left = (rect.right - 100) + 'px';
+            zoomOutBtn.style.top = (rect.top + 5) + 'px';
+        } else {
+            zoomOutBtn.style.display = 'none';
+        }
+    }
+    
+    // Initial button state
+    updateZoomButton();
 
     // State for drag-to-zoom
     let isDragging = false;
@@ -296,6 +342,9 @@ function renderResolvedInstancesMatrix(ctx, selected, colors, backgroundPlugin, 
                     // Update the metadata
                     chartInstance._matrixMetadata.chunkStart = currentStart;
                     chartInstance._matrixMetadata.chunkSize = currentSize;
+                    
+                    // Update zoom button visibility
+                    updateZoomButton();
                 }
             }
             
@@ -317,7 +366,7 @@ function renderResolvedInstancesMatrix(ctx, selected, colors, backgroundPlugin, 
         }
     };
     
-    const doubleClickHandler = (e) => {
+    const zoomOutHandler = (e) => {
         // Reset to show all instances
         currentStart = 0;
         currentSize = null;
@@ -326,6 +375,9 @@ function renderResolvedInstancesMatrix(ctx, selected, colors, backgroundPlugin, 
         // Update the metadata
         chartInstance._matrixMetadata.chunkStart = currentStart;
         chartInstance._matrixMetadata.chunkSize = allSortedInstanceIds.length;
+        
+        // Update zoom button visibility
+        updateZoomButton();
     };
     
     // Add event listeners
@@ -333,7 +385,7 @@ function renderResolvedInstancesMatrix(ctx, selected, colors, backgroundPlugin, 
     canvas.addEventListener('mousedown', mouseDownHandler);
     canvas.addEventListener('mouseup', mouseUpHandler);
     canvas.addEventListener('mouseleave', mouseLeaveHandler);
-    canvas.addEventListener('dblclick', doubleClickHandler);
+    zoomOutBtn.addEventListener('click', zoomOutHandler);
 
     // Return a Chart-like object for compatibility
     const chartInstance = {
@@ -343,16 +395,23 @@ function renderResolvedInstancesMatrix(ctx, selected, colors, backgroundPlugin, 
             canvas.removeEventListener('mousedown', mouseDownHandler);
             canvas.removeEventListener('mouseup', mouseUpHandler);
             canvas.removeEventListener('mouseleave', mouseLeaveHandler);
-            canvas.removeEventListener('dblclick', doubleClickHandler);
+            zoomOutBtn.removeEventListener('click', zoomOutHandler);
             
             // Hide tooltip when chart is destroyed
             const tooltip = document.getElementById('matrix-tooltip');
             if (tooltip) {
                 tooltip.style.display = 'none';
             }
+            
+            // Hide zoom button when chart is destroyed
+            const zoomBtn = document.getElementById('matrix-zoom-out-btn');
+            if (zoomBtn) {
+                zoomBtn.style.display = 'none';
+            }
         },
         resize: () => {
             dims = drawMatrix(currentStart, currentSize);
+            updateZoomButton();
         },
         update: () => {},
         data: { datasets: [] },
