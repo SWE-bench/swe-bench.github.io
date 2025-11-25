@@ -293,9 +293,8 @@
                 }
             }
         } else if (chartType === 'resolved-instances-matrix') {
-            const chunkSelector = document.getElementById('matrix-chunk-selector');
-            const chunkStart = chunkSelector ? parseInt(chunkSelector.value) : 0;
-            compareChart = renderResolvedInstancesMatrix(ctx, selected, colors, backgroundPlugin, chunkStart, 100);
+            // Show all instances by default (null chunkSize), drag to zoom, double-click to reset
+            compareChart = renderResolvedInstancesMatrix(ctx, selected, colors, backgroundPlugin, 0, null);
             if (!compareChart) {
                 if (empty) {
                     empty.textContent = 'No per-instance data available for selected models.';
@@ -456,21 +455,23 @@
         
         if (chartType) {
             chartType.addEventListener('change', () => {
-                // Show/hide chunk selector for matrix chart
+                // Keep chunk selector hidden - drag-to-zoom is now built into the chart
                 if (chunkSelector) {
-                    chunkSelector.style.display = chartType.value === 'resolved-instances-matrix' ? '' : 'none';
+                    chunkSelector.style.display = 'none';
                 }
                 renderChart();
             });
         }
         
-        if (chunkSelector) {
-            chunkSelector.addEventListener('change', () => {
-                if (chartType && chartType.value === 'resolved-instances-matrix') {
-                    renderChart();
-                }
-            });
-        }
+        // Chunk selector is no longer used - drag-to-zoom functionality is built into the chart
+        // Keeping this code commented for reference
+        // if (chunkSelector) {
+        //     chunkSelector.addEventListener('change', () => {
+        //         if (chartType && chartType.value === 'resolved-instances-matrix') {
+        //             renderChart();
+        //         }
+        //     });
+        // }
 
         const themeToggle = document.getElementById('chart-theme-toggle');
         if (themeToggle) {
