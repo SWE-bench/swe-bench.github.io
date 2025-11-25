@@ -60,7 +60,7 @@ function renderResolvedInstancesMatrix(ctx, selected, colors, backgroundPlugin, 
         const height = rect.height;
 
         // Calculate margins and dimensions
-        const leftMargin = 120; // Space for model names
+        const leftMargin = 200; // Space for model names (increased for longer names)
         const topMargin = 30; // Minimal top margin
         const rightMargin = 10;
         const bottomMargin = 30; // Space for hover text
@@ -75,11 +75,20 @@ function renderResolvedInstancesMatrix(ctx, selected, colors, backgroundPlugin, 
         ctx.fillStyle = colors.background;
         ctx.fillRect(0, 0, width, height);
 
+        // Calculate percentage of instances resolved by at least one model
+        let instancesResolvedByAtLeastOne = 0;
+        Array.from(allInstanceIds).forEach(instanceId => {
+            if (instanceSolveCount[instanceId] > 0) {
+                instancesResolvedByAtLeastOne++;
+            }
+        });
+        const percentageResolvedByAtLeastOne = ((instancesResolvedByAtLeastOne / allInstanceIds.size) * 100).toFixed(2);
+
         // Draw title
         ctx.fillStyle = colors.textColor;
         ctx.textAlign = 'left';
         ctx.font = 'bold 12px sans-serif';
-        ctx.fillText('Resolved Instances Matrix (hover for ID, drag to zoom, double-click to reset)', 10, 15);
+        ctx.fillText(`Resolved Instances Matrix (hover for details, drag to zoom, double-click to reset) - ${percentageResolvedByAtLeastOne}% of instances resolved by at least one model`, 10, 15);
 
         // Draw model names (y-axis labels) with line breaks
         ctx.fillStyle = colors.textColor;
@@ -90,11 +99,22 @@ function renderResolvedInstancesMatrix(ctx, selected, colors, backgroundPlugin, 
         modelsWithDetails.forEach((model, rowIdx) => {
             const y = topMargin + rowIdx * cellHeight + cellHeight / 2;
             
-            // Insert line breaks every 12 characters
-            const displayName = model.name;
+            // Calculate percentage resolved for this model
+            let totalInstances = 0;
+            let resolvedInstances = 0;
+            Object.values(model.per_instance_details).forEach(instanceData => {
+                totalInstances++;
+                if (instanceData.resolved) {
+                    resolvedInstances++;
+                }
+            });
+            const resolvePercentage = ((resolvedInstances / totalInstances) * 100).toFixed(2);
+            
+            // Create display name with percentage
+            const displayName = `${model.name} (${resolvePercentage}%)`;
             const lines = [];
-            for (let i = 0; i < displayName.length; i += 12) {
-                lines.push(displayName.substring(i, i + 12));
+            for (let i = 0; i < displayName.length; i += 25) {
+                lines.push(displayName.substring(i, i + 25));
             }
             
             // Draw each line
@@ -209,8 +229,13 @@ function renderResolvedInstancesMatrix(ctx, selected, colors, backgroundPlugin, 
             if (colIdx >= 0 && colIdx < dims.sortedInstanceIds.length) {
                 const instanceId = dims.sortedInstanceIds[colIdx];
                 
-                // Show tooltip
-                tooltip.textContent = instanceId;
+                // Calculate resolve rate for this instance
+                const solvedCount = instanceSolveCount[instanceId];
+                const totalModels = modelsWithDetails.length;
+                const resolveRate = ((solvedCount / totalModels) * 100).toFixed(2);
+                
+                // Show tooltip with instance ID and resolve rate
+                tooltip.textContent = `${instanceId} (${resolveRate}% resolved)`;
                 tooltip.style.display = 'block';
                 tooltip.style.left = (e.pageX + 10) + 'px';
                 tooltip.style.top = (e.pageY - 30) + 'px';
