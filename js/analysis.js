@@ -409,6 +409,110 @@
         });
     }
 
+    function copyShareableLink() {
+        const selected = getSelectedModels();
+        if (selected.length === 0) {
+            alert('Please select at least one model to share.');
+            return;
+        }
+
+        const chartType = document.getElementById('compare-chart-type');
+        const chartTypeValue = chartType ? chartType.value : 'bar';
+        
+        // Get current leaderboard
+        const container = document.getElementById('leaderboard-container');
+        const active = container ? container.querySelector('.tabcontent.active') : null;
+        const leaderboardId = active ? active.id.replace('leaderboard-', '') : 'verified';
+        
+        // Build URL parameters
+        const params = new URLSearchParams();
+        params.set('leaderboard', leaderboardId);
+        params.set('chart', chartTypeValue);
+        params.set('models', selected.map(m => m.name).join(','));
+        
+        // Create full URL
+        const baseUrl = window.location.origin + window.location.pathname;
+        const shareUrl = `${baseUrl}?${params.toString()}`;
+        
+        // Copy to clipboard
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                // Visual feedback
+                const btn = document.getElementById('copy-link-btn');
+                if (btn) {
+                    const originalHTML = btn.innerHTML;
+                    btn.innerHTML = '<i class="fa fa-check"></i>&nbsp;Copied!';
+                    btn.classList.add('btn-success');
+                    btn.classList.remove('btn-outline-secondary');
+                    setTimeout(() => {
+                        btn.innerHTML = originalHTML;
+                        btn.classList.remove('btn-success');
+                        btn.classList.add('btn-outline-secondary');
+                    }, 2000);
+                }
+            }).catch(err => {
+                console.error('Failed to copy link:', err);
+                alert('Failed to copy link to clipboard. Please copy manually:\n' + shareUrl);
+            });
+        } else {
+            // Fallback for older browsers
+            alert('Copy this link:\n' + shareUrl);
+        }
+    }
+
+    function restoreStateFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        
+        if (!params.has('models')) {
+            return; // No state to restore
+        }
+        
+        const leaderboardName = params.get('leaderboard') || 'verified';
+        const chartType = params.get('chart') || 'bar';
+        const modelNames = params.get('models').split(',').filter(m => m.trim());
+        
+        if (modelNames.length === 0) {
+            return;
+        }
+        
+        // Switch to the correct leaderboard tab
+        const leaderboardTab = document.querySelector(`[data-leaderboard="${leaderboardName}"]`);
+        if (leaderboardTab) {
+            leaderboardTab.click();
+        }
+        
+        // Wait a bit for the tab to load, then select models
+        setTimeout(() => {
+            const container = document.getElementById('leaderboard-container');
+            const active = container ? container.querySelector('.tabcontent.active') : null;
+            if (!active) return;
+            
+            // Deselect all first
+            const allCheckboxes = active.querySelectorAll('input.row-select');
+            allCheckboxes.forEach(cb => cb.checked = false);
+            
+            // Select the models from URL
+            modelNames.forEach(modelName => {
+                const checkbox = active.querySelector(`input.row-select[data-model="${modelName}"]`);
+                if (checkbox) {
+                    checkbox.checked = true;
+                }
+            });
+            
+            // Open the compare modal
+            openModal();
+            
+            // Set the chart type
+            const chartTypeSelect = document.getElementById('compare-chart-type');
+            if (chartTypeSelect) {
+                chartTypeSelect.value = chartType;
+            }
+            
+            // Render the chart
+            renderChart();
+        }, 300);
+    }
+
     function initEvents() {
         // Listen for global theme changes (e.g., from sidebar toggle)
         const observer = new MutationObserver((mutations) => {
@@ -509,6 +613,15 @@
             });
         }
 
+        // Copy link button handler
+        const copyLinkBtn = document.getElementById('copy-link-btn');
+        if (copyLinkBtn) {
+            copyLinkBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                copyShareableLink();
+            });
+        }
+
         // No selection modal close handlers
         const noSelectionModal = document.getElementById('no-selection-modal');
         if (noSelectionModal) {
@@ -549,6 +662,9 @@
                 }
             }
         });
+        
+        // Restore state from URL if present
+        restoreStateFromURL();
     }
 
     if (document.readyState === 'loading') {
