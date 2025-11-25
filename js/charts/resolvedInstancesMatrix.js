@@ -12,7 +12,33 @@ function renderResolvedInstancesMatrix(ctx, selected, colors, backgroundPlugin, 
     modelsWithDetails.forEach(model => {
         Object.keys(model.per_instance_details).forEach(id => allInstanceIds.add(id));
     });
-    const allSortedInstanceIds = Array.from(allInstanceIds).sort();
+    
+    // Calculate solve rate for each instance (how many models solved it)
+    const instanceSolveCount = {};
+    Array.from(allInstanceIds).forEach(instanceId => {
+        let solvedCount = 0;
+        modelsWithDetails.forEach(model => {
+            const instanceData = model.per_instance_details[instanceId];
+            if (instanceData && instanceData.resolved) {
+                solvedCount++;
+            }
+        });
+        instanceSolveCount[instanceId] = solvedCount;
+    });
+    
+    // Sort by solve rate (descending), then alphabetically by instance ID
+    const allSortedInstanceIds = Array.from(allInstanceIds).sort((a, b) => {
+        const solveRateA = instanceSolveCount[a];
+        const solveRateB = instanceSolveCount[b];
+        
+        // First, sort by solve rate (higher solve rate first)
+        if (solveRateB !== solveRateA) {
+            return solveRateB - solveRateA;
+        }
+        
+        // Then, sort alphabetically by instance ID
+        return a.localeCompare(b);
+    });
     
     const canvas = ctx.canvas;
     
