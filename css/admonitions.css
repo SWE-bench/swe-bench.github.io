@@ -1,0 +1,304 @@
+/* Admonition styles for blog posts (MkDocs-style) */
+
+.admonition {
+    margin: 1.5em 0;
+    padding: 0;
+    overflow: hidden;
+    page-break-inside: avoid;
+    border-left: 0.2rem solid;
+    border-radius: 0.2rem;
+    box-shadow: 0 0.2rem 0.5rem rgba(0,0,0,0.05);
+}
+
+.admonition > :last-child {
+    margin-bottom: 0.8rem;
+}
+
+.admonition-title {
+    margin: 0;
+    margin-bottom: 0.5em;
+    padding: 0.8rem 1.2rem;
+    font-weight: 700;
+    background-color: rgba(68,138,255,0.1);
+    border-left: 0.2rem solid;
+}
+
+.admonition-title::before {
+    margin-right: 0.5rem;
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+}
+
+.admonition > p,
+.admonition > ul,
+.admonition > ol,
+.admonition > pre,
+.admonition > .highlight {
+    margin-left: 1.2rem;
+    margin-right: 1.2rem;
+}
+
+.admonition > p:first-of-type {
+    margin-top: 0.8rem;
+}
+
+/* Note/Info admonition */
+.admonition.note,
+.admonition.info {
+    border: 1px solid #448aff;
+}
+
+.admonition.note > .admonition-title,
+.admonition.info > .admonition-title {
+    background-color: rgba(68,138,255,0.1);
+    border: 1px solid #448aff;
+}
+
+.admonition.note > .admonition-title::before,
+.admonition.info > .admonition-title::before {
+    content: "\f05a";
+    color: #448aff;
+}
+
+/* Tip/Hint admonition */
+.admonition.tip,
+.admonition.hint {
+    border: 1px solid #00bfa5;
+}
+
+.admonition.tip > .admonition-title,
+.admonition.hint > .admonition-title {
+    background-color: rgba(0,191,165,0.1);
+    border: 1px solid #00bfa5;
+}
+
+.admonition.tip > .admonition-title::before,
+.admonition.hint > .admonition-title::before {
+    content: "\f0eb";
+    color: #00bfa5;
+}
+
+/* Warning admonition */
+.admonition.warning,
+.admonition.caution {
+    border: 1px solid #ff9100;
+}
+
+.admonition.warning > .admonition-title,
+.admonition.caution > .admonition-title {
+    background-color: rgba(255,145,0,0.1);
+    border: 1px solid #ff9100;
+}
+
+.admonition.warning > .admonition-title::before,
+.admonition.caution > .admonition-title::before {
+    content: "\f071";
+    color: #ff9100;
+}
+
+/* Danger/Error admonition */
+.admonition.danger,
+.admonition.error {
+    border: 1px solid #ff5252;
+}
+
+.admonition.danger > .admonition-title,
+.admonition.error > .admonition-title {
+    background-color: rgba(255,82,82,0.1);
+    border: 1px solid #ff5252;
+}
+
+.admonition.danger > .admonition-title::before,
+.admonition.error > .admonition-title::before {
+    content: "\f06a";
+    color: #ff5252;
+}
+
+/* Abstract/Summary admonition */
+.admonition.abstract,
+.admonition.summary {
+    border: 1px solid #00b0ff;
+}
+
+.admonition.abstract > .admonition-title,
+.admonition.summary > .admonition-title {
+    background-color: rgba(0,176,255,0.1);
+    border: 1px solid #00b0ff;
+}
+
+.admonition.abstract > .admonition-title::before,
+.admonition.summary > .admonition-title::before {
+    content: "\f0c5";
+    color: #00b0ff;
+}
+
+/* Collapsible admonitions (details) */
+.blog-content code {
+    border: none;
+}
+
+.blog-content details.note,
+.blog-content details.tip,
+.blog-content details.warning,
+.blog-content details.danger,
+.blog-content details.abstract {
+    margin-bottom: 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: 0.3rem;
+}
+
+.blog-content details.note > summary,
+.blog-content details.tip > summary,
+.blog-content details.warning > summary,
+.blog-content details.danger > summary,
+.blog-content details.abstract > summary {
+    display: block;
+    cursor: pointer;
+    padding: 0.8rem 1.2rem;
+    font-weight: 700;
+    background-color: rgba(68,138,255,0.1);
+    border-left: 0.2rem solid #448aff;
+}
+
+.blog-content details.note > summary::before,
+.blog-content details.tip > summary::before,
+.blog-content details.warning > summary::before,
+.blog-content details.danger > summary::before,
+.blog-content details.abstract > summary::before {
+    margin-right: 0.4rem;
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    content: "\f05a";
+    color: #448aff;
+}
+
+.blog-content details[open] > summary::after {
+    content: "\f078";
+    float: right;
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    transform: rotate(180deg);
+}
+
+.blog-content details:not([open]) > summary::after {
+    content: "\f078";
+    float: right;
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+}
+
+/* Content inside collapsible admonitions */
+.blog-content details > *:not(summary) {
+    margin-left: 1.2rem;
+    margin-right: 1.2rem;
+}
+
+.blog-content details > p:first-of-type {
+    margin-top: 1rem;
+}
+
+.blog-content details > *:last-child {
+    margin-bottom: 1rem;
+}
+
+/* Dark mode support */
+.dark-mode .admonition {
+    box-shadow: 0 0.2rem 0.5rem rgba(0,0,0,0.3);
+}
+
+.dark-mode .admonition.note > .admonition-title,
+.dark-mode .admonition.info > .admonition-title {
+    background-color: rgba(68,138,255,0.2);
+}
+
+.dark-mode .admonition.tip > .admonition-title,
+.dark-mode .admonition.hint > .admonition-title {
+    background-color: rgba(0,191,165,0.2);
+}
+
+.dark-mode .admonition.warning > .admonition-title,
+.dark-mode .admonition.caution > .admonition-title {
+    background-color: rgba(255,145,0,0.2);
+}
+
+.dark-mode .admonition.danger > .admonition-title,
+.dark-mode .admonition.error > .admonition-title {
+    background-color: rgba(255,82,82,0.2);
+}
+
+.dark-mode .admonition.abstract > .admonition-title,
+.dark-mode .admonition.summary > .admonition-title {
+    background-color: rgba(0,176,255,0.2);
+}
+
+/* Table styles for blog posts ONLY */
+.blog-content table {
+    width: 100%;
+    margin: 1.5em 0;
+    border-collapse: collapse;
+    border-spacing: 0;
+    overflow: hidden;
+    border-radius: 0.3rem;
+    box-shadow: 0 0.1rem 0.3rem rgba(0,0,0,0.1);
+    table-layout: fixed;
+}
+
+.blog-content table thead {
+    background-color: var(--gray-100);
+}
+
+.dark-mode .blog-content table thead {
+    background-color: var(--gray-800);
+}
+
+.blog-content table th,
+.blog-content table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border: 1px solid var(--color-border);
+}
+
+.blog-content table th {
+    font-weight: 600;
+    border-bottom: 2px solid var(--color-border);
+}
+
+.blog-content table tbody tr:hover {
+    background-color: var(--gray-50);
+}
+
+.dark-mode .blog-content table tbody tr:hover {
+    background-color: var(--gray-800);
+}
+
+.blog-content table tbody tr:nth-child(even) {
+    background-color: rgba(0,0,0,0.02);
+}
+
+.dark-mode .blog-content table tbody tr:nth-child(even) {
+    background-color: rgba(255,255,255,0.02);
+}
+
+/* Figure/Image styles for blog posts */
+.blog-content figure {
+    margin: 2em auto;
+    text-align: center;
+}
+
+.blog-content figure img {
+    max-width: 100%;
+    height: auto;
+    display: inline-block;
+    border-radius: 1em;
+}
+
+.blog-content figcaption {
+    margin-top: 0.5em;
+    font-size: 0.9em;
+    color: var(--gray-600);
+    font-style: italic;
+}
+
+.dark-mode .blog-content figcaption {
+    color: var(--gray-400);
+}

@@ -10,6 +10,9 @@
 /* Page-specific styles */
 @import 'pages.css';
 
+/* Blog admonitions */
+@import 'admonitions.css';
+
 /* Utilities */
 @import 'utilities.css';
 

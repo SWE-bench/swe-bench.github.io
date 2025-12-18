@@ -6,4 +6,6 @@ license = { file = "LICENSE" }
 requires-python = ">=3.8"
 dependencies = [
     "jinja2>=3.0.0",
+    "flask-flatpages>=0.8.0",
+    "pymdown-extensions>=10.0.0",
 ]
