@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SWE-bench Blog</title>
+    <title>[SWE-bench Verified] Detecting cheating in submissions - SWE-bench Blog</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <script
@@ -102,50 +102,115 @@
         
     <header class="page-header">
         <div class="container">
-            <h1>Blog</h1>
-            <p>Latest updates, insights, and announcements from the SWE-bench team.</p>
+            <h1>[SWE-bench Verified] Detecting cheating in submissions</h1>
+            <p style="color: var(--gray);">
+                2025-11-19
+                 &bull; by John Yang
+                
+            </p>
         </div>
     </header>
 
-    <section class="container" style="margin-top: 0.75em;">
+
+    <div class="container" style="margin-top: 2em;">
+        <div class="blog-content">
+            <p>I spent yesterday writing a script for determining how similar model solutions are to the ground truth for the SWE-bench benchmark.
+I wanted to know:</p>
+<ol>
+<li>Generally, how similar are models' submissions to the ground truth? Are models just regurgitating PRs? Or are their solutions novel?</li>
+<li>Are there any suspicious submissions in SWE-bench?</li>
+</ol>
+<p>Generally, I thought about "suspicious" as a SWE-bench submission where a high percentage of the predictions exactly match the reference solution / gold patch.</p>
+<p>By "exactly match", I'm referring to a scenario where the gold patch is found <em>verbatim</em> in the gold patch.
+Of course, simply doing <code>gold patch == prediction patch</code> of the patch strings doesn't work because of patch metadata, so I do the following minor transformations:</p>
+<ol>
+<li>I remove all comments from the gold + prediction patches, so we're focused just on code.</li>
+<li>I ignore all files in the prediction patch <em>not</em> edited by the gold patch.</li>
+<li>I cast the gold/prediction patch strings into a <code>unidiff.PatchSet</code> object, then check if each "hunk" from the gold patch is found verbatim in the prediction patch.</li>
+</ol>
+<details class="note">
+<summary>Click here to see the relevant code (from the <a href="https://github.com/SWE-bench/experiments/blob/main/analysis/detect_similarity.py"><code>detect_similarity.py</code></a> file).</summary>
+<pre class="highlight"><code class="language-python">def normalize_hunk(hunk):
+    # Remove all comments from a hunk
+    lines = []
+    for line in hunk:
+        if line.line_type == '+' and line.value.strip().startswith('#'):
+            continue
+        if line.line_type in ('+', '-', ' '):
+            lines.append((line.line_type, line.value))
+    return lines
+
+def normalize_file(patched_file):
+    return [normalize_hunk(hunk) for hunk in patched_file]
+
+def patch_contained_in(orig, pred):
+    """Returns True if `orig` found exactly in `pred`"""
+    # Remove all comments from patches first
+    try:
+        orig_files = {f.target_file: normalize_file(f) for f in unidiff.PatchSet(orig)}
+    except:
+        # SHOULD NEVER HAPPEN
+        raise OrigParseError("Failed to parse original patch")
+    try:
+        pred_files = {f.target_file: normalize_file(f) for f in unidiff.PatchSet(pred)}
+    except:
+        raise PredParseError("Failed to parse predicted patch")
+
+    # If prediction patch doesn't edit all the files the gold patch edits, assume False
+    if not set(orig_files.keys()).issubset(set(pred_files.keys())):
+        return False
+
+    for filename, orig_hunks in orig_files.items():
+        for orig_hunk in orig_hunks:
+            if orig_hunk not in pred_files[filename]:
+                # If hunk not found exactly in corresponding prediction file, return False
+                return False
+    return True</code></pre>
+</details>
+<p>I then ran our detection script on all SWE-bench Lite and SWE-bench Verified submissions (<a href="http://swebench.com/">Leaderboard</a>, <a href="https://github.com/swe-bench/experiments">Submission Repository</a>).</p>
+<p>Findings:</p>
+<ol>
+<li>The average exact match rate for SWE-bench Verified submissions (excluding one outlier) is 6.7% (~34 out of 500), with a min/max of 0/13%.</li>
+<li>For SWE-bench Lite, it's 4% (12/300) with a min/max of 0/11.2%</li>
+<li>For SWE-bench, it's 2.45% (~56/2294) with a min/max of 0/4.05%</li>
+<li>One submission (<code>20240820_honeycomb</code>) was suspicious, with exact match rates of 78.7/87.2% on Verified/Lite.</li>
+</ol>
+<p>Below, I graph the % resolved rate and % exact match rate for the submissions in SWE-bench Verified (top), Lite (middle), and Test (bottom) with the highest % exact match rates.</p>
+<figure>
+    <img alt="Detect Verified" src="img/blog/20251119-cheating/detect_verified.png" width="80%" />
+    <figcaption>[SWE-bench Verified] Percentage of predictions matching ground truth exactly</figcaption>
+</figure>
+<figure>
+    <img alt="Detect Lite" src="img/blog/20251119-cheating/detect_lite.png" width="80%" />
+    <figcaption>[SWE-bench Lite] Percentage of predictions matching ground truth exactly</figcaption>
+</figure>
+<figure>
+    <img alt="Detect Test" src="img/blog/20251119-cheating/detect_test.png" width="80%" />
+    <figcaption>[SWE-bench] Percentage of predictions matching ground truth exactly</figcaption>
+</figure>
+<p>Going forwards, we plan to run this script for all submissions and ask for clarification on submissions with abnormal (&gt;20%) exact match rates.</p>
+<h2>Investigating Honeycomb</h2>
+<p>The Honeycomb submission stood out because its exact match rate was very high, and more strangely, far higher than its resolution rate, which prompted a closer look.</p>
+<p>I found that <code>evaluation/verified/20240820_honeycomb/all_preds.jsonl</code> contained 2236 predictions, far more than the 500 instances in SWE-bench Verified.
+This is probably human error: a file intended for the full split was mistakenly uploaded as a Verified submission.</p>
+<p>When I re-ran the analysis on only the 500 Verified instances, the exact match rate dropped to a normal level: 16 / 500 (~3.2%).</p>
+<p>In short:</p>
+<ol>
+<li>Honeycomb uploaded predictions covering the full test set (2236 instances).</li>
+<li>Our pipeline correctly evaluated only the relevant 500 Verified instances.</li>
+<li>Within those 500, there was no suspicious behavior.</li>
+</ol>
+<p>What is strange is that the remaining 1,736 instances had an extremely high exact match rate. The most plausible explanation is that these were not true model predictions, but accidentally included gold solutions (or near-identical copies). Since the properly-evaluated subset looks normal, this points to a formatting mistake rather than intentional cheating.</p>
+<p>I also checked the Honeycomb test split submission separately; its exact match rate was 1.7%, which is completely normal.</p>
+<p>Overall, this appears to be a submission error — though it served as a useful stress test for the detection mechanism.</p>
+<p>(Note: the submission was removed a while ago for an unrelated reason. We reached out for a technical report but received no response.)</p>
+        </div>
         
-            <div class="content-section" style="margin-bottom: 0.75em;">
-                <b><a href="post-20251119-cheating.html">[SWE-bench Verified] Detecting cheating in submissions</a></b>
-                <p style="color: var(--gray);margin: 0">
-                    2025-11-19
-                     &bull; by John Yang
-                    
-                </p>
-                
-                    <p style="margin: 0">How similar are agent solutions to the ground truth?</p>
-                
-            </div>
-        
-            <div class="content-section" style="margin-bottom: 0.75em;">
-                <b><a href="post-250820-mini-roulette.html">[mini-SWE-agent] Roulette mode!</a></b>
-                <p style="color: var(--gray);margin: 0">
-                    2025-08-19
-                     &bull; by Kilian Lieret
-                    
-                </p>
-                
-                    <p style="margin: 0">Randomly switching between models at every step can boost performance</p>
-                
-            </div>
-        
-            <div class="content-section" style="margin-bottom: 0.75em;">
-                <b><a href="post-250808-gpt5.html">[mini-SWE-agent] GPT-5</a></b>
-                <p style="color: var(--gray);margin: 0">
-                    2025-08-08
-                     &bull; by Kilian Lieret
-                    
-                </p>
-                
-                    <p style="margin: 0">Cost &amp; performance deep-dive</p>
-                
-            </div>
-        
-    </section>
+        <hr style="margin-top: 3em;" />
+        <p style="text-align: center;">
+            <a href="blog.html">&larr; Back to Blog</a>
+        </p>
+    </div>
 
         
         <footer class="footer">
