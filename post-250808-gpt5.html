@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[mini-SWE-agent] GPT-5 - SWE-bench Blog</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-H9XFCMDPNS"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-H9XFCMDPNS");
+    </script>
+    <script>
+      // Initialize theme immediately to prevent flash
+      (function() {
+        const storedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+          document.documentElement.classList.add('dark-mode');
+        }
+      })();
+    </script>
+    
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+</head>
+<body>
+    <div class="sidebar-overlay"></div>
+<header class="mobile-header">
+    <a href="/" class="mobile-logo"><img src="img/swe-llama.svg" alt="SWE-bench logo" class="sidebar-logo-icon">SWE-bench</a>
+    <button class="sidebar-opener" aria-label="Open menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</header>
+
+<aside class="sidebar">
+    <div class="sidebar-header">
+         <a href="/" class="sidebar-logo"><img src="img/swe-llama.svg" alt="SWE-bench logo" class="sidebar-logo-icon">SWE-bench</a>
+         <button class="mobile-nav-toggle" aria-label="Close menu">
+             <i class="fas fa-times"></i>
+         </button>
+    </div>
+    <nav class="sidebar-nav">
+        <ul>
+            <li><a href="index.html" class="nav-link" data-page="index">Leaderboards</a></li>
+            <li class="nav-section-title">Benchmarks</li>
+            <li><a href="original.html" class="nav-link" data-page="original">SWE-bench</a></li>
+            <li><a href="https://openai.com/index/introducing-swe-bench-verified/" class="nav-link" data-page="verified">SWE-bench Verified <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="bash-only.html" class="nav-link" data-page="bash-only">SWE-bench Bash Only</a></li>
+            <li><a href="multilingual.html" class="nav-link" data-page="docs">SWE-bench Multilingual</a></li>
+            <li><a href="multimodal.html" class="nav-link" data-page="multimodal">SWE-bench Multimodal</a></li>
+            <li><a href="lite.html" class="nav-link" data-page="lite">SWE-bench Lite</a></li>
+            <li class="nav-section-title">About</li>
+            <li><a href="https://openreview.net/pdf?id=VTF8yNQM66" class="nav-link" data-page="paper">Paper <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://swebench.com/SWE-bench/" class="nav-link" data-page="docs">Docs <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="blog.html" class="nav-link" data-page="blog">Blog</a></li>
+            <li><a href="contact.html" class="nav-link" data-page="contact">Contact</a></li>
+            <li><a href="citations.html" class="nav-link" data-page="citations">Citations</a></li>
+            <li><a href="press.html" class="nav-link" data-page="press">Press</a></li>
+            <li><a href="submit.html" class="nav-link" data-page="submit">Submit</a></li>            
+            <li class="nav-section-title">SWE-bench Family</li>
+            <li><a href="https://swe-agent.com/latest/" class="nav-link" data-page="swe-agent"><img src="img/swe-agent-icon.svg" alt="SWE-agent icon" class="sidebar-family-icon">SWE-agent <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://mini-swe-agent.com/" class="nav-link" data-page="mini-swe-agent"><img src="img/mini-icon.svg" alt="mini-SWE-agent icon" class="sidebar-family-icon">mini-SWE-agent <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://swesmith.com/" class="nav-link" data-page="swe-smith"><img src="img/swe-smith-icon.svg" alt="SWE-smith icon" class="sidebar-family-icon">SWE-smith <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://codeclash.ai/" class="nav-link" data-page="codeclash"><img src="img/codeclash.svg" alt="CodeClash icon" class="sidebar-family-icon">CodeClash <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://swe-rex.com/latest/" class="nav-link" data-page="swe-rex"><img src="img/swe-rex-icon.svg" alt="SWE-ReX icon" class="sidebar-family-icon">SWE-ReX <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://swebench.com/sb-cli/" class="nav-link" data-page="sb-cli"><img src="img/sb-cli-icon.svg" alt="SWE-bench CLI icon" class="sidebar-family-icon">SWE-bench CLI <i class="fas fa-external-link-alt"></i></a></li>
+        </ul>
+    </nav>
+    <div class="sidebar-footer">
+        <a href="https://github.com/swe-bench/SWE-bench" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github"></i>
+        </a>
+        &nbsp;
+        <a href="https://www.youtube.com/@SWE-bench" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-youtube"></i>
+        </a>
+        &nbsp;
+        <a href="https://twitter.com/SWEbench" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-twitter"></i>
+        </a>
+        &nbsp;
+        <a href="https://join.slack.com/t/swe-bench/shared_invite/zt-36pj9bu5s-o3_yXPZbaH2wVnxnss1EkQ" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-slack"></i>
+        </a>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+</aside>
+    
+    <div class="main-content">
+        
+    <header class="page-header">
+        <div class="container">
+            <h1>[mini-SWE-agent] GPT-5</h1>
+            <p style="color: var(--gray);">
+                2025-08-08
+                 &bull; by Kilian Lieret
+                
+            </p>
+        </div>
+    </header>
+
+
+    <div class="container" style="margin-top: 2em;">
+        <div class="blog-content">
+            <p>This blog post covers the results of running <a href="https://mini-swe-agent.com">mini-SWE-agent</a> with GPT-5, GPT-5-mini, and GPT-5-nano.
+Results will be added to the <a href="https://swebench.com"><em>SWE-bench (bash-only)</em> leaderboard</a> shortly.</p>
+<div class="admonition abstract">
+<p class="admonition-title">GPT-5 is as good as Sonnet 4, but quite a bit cheaper</p>
+<ul>
+<li>For sacrificing only a little bit of performance (5% points), GPT-5-mini is <em>incredibly</em> cheap</li>
+<li><code>GPT-5-nano</code> is even cheaper, I would say you pay half for half the performance</li>
+<li>You can reproduce our numbers for just $18 (with GPT-5-mini) using the command at the bottom!</li>
+</ul>
+</div>
+<!-- more -->
+
+<h2>SWE-bench scores</h2>
+<p>First of all, the mandatory bar chart:</p>
+<figure>
+  <img alt="GPT-5, GPT-5-mini, and GPT-5-nano" src="img/blog/250808-gpt5/gpt5_bar.svg" width="50%" />
+</figure>
+<p>Immediately we can see that Anthropic's Claude Opus 4 is still unbeaten, and GPT-5 is on par with Claude Sonnet 4.
+However, we're still very excited about GPT-5, and that's because of the cost!
+Note that we run all <code>GPT-5-*</code> models with the default setting (verbosity and reasoning effort set to medium).
+Sonnet 4 is run at zero temperature (there's no temperature for the <code>GPT-5-*</code> models).</p>
+<p>Also note that this is a different evaluation than the one in the GPT-5 blog post, as they evaluate using
+Agentless. As the name implies, this is less of an agent, but rather a RAG-based system that proposes a lot of different
+"one-shot" edits out of which the best one is chosen.
+This is a fantastic system, but it is also relatively complex (and all the RAG needs to be specifically engineered for each language that you're tackling).</p>
+<p>In contrast, our <code>mini</code> agent is really just this class:</p>
+<details class="note">
+<summary>Agent class</summary>
+<ul>
+<li><a href="https://github.com/swe-agent/mini-swe-agent/blob/main/src/minisweagent/agents/interactive.py">Read on GitHub</a></li>
+<li><a href="https://mini-swe-agent.com/latest/reference/agents/interactive/">API reference</a></li>
+</ul>
+<pre class="highlight"><code class="language-python">"""Basic agent class. See https://mini-swe-agent.com/latest/advanced/control_flow/ for visual explanation."""
+
+import re
+import subprocess
+from collections.abc import Callable
+from dataclasses import asdict, dataclass
+
+from jinja2 import Template
+
+from minisweagent import Environment, Model
+
+
+@dataclass
+class AgentConfig:
+    # The default settings are the bare minimum to run the agent. Take a look at the config files for improved settings.
+    system_template: str = "You are a helpful assistant that can do anything."
+    instance_template: str = (
+        "Your task: {{task}}. Please reply with a single shell command in triple backticks. "
+        "To finish, the first line of the output of the shell command must be 'COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT'."
+    )
+    timeout_template: str = (
+        "The last command &lt;command&gt;{{action['action']}}&lt;/command&gt; timed out and has been killed.\n"
+        "The output of the command was:\n &lt;output&gt;\n{{output}}\n&lt;/output&gt;\n"
+        "Please try another command and make sure to avoid those requiring interactive input."
+    )
+    format_error_template: str = "Please always provide EXACTLY ONE action in triple backticks."
+    action_observation_template: str = "Observation: {{output}}"
+    step_limit: int = 0
+    cost_limit: float = 3.0
+
+
+class NonTerminatingException(Exception):
+    """Raised for conditions that can be handled by the agent."""
+
+
+class FormatError(NonTerminatingException):
+    """Raised when the LM's output is not in the expected format."""
+
+
+class ExecutionTimeoutError(NonTerminatingException):
+    """Raised when the action execution timed out."""
+
+
+class TerminatingException(Exception):
+    """Raised for conditions that terminate the agent."""
+
+
+class Submitted(TerminatingException):
+    """Raised when the LM declares that the agent has finished its task."""
+
+
+class LimitsExceeded(TerminatingException):
+    """Raised when the agent has reached its cost or step limit."""
+
+
+class DefaultAgent:
+    def __init__(self, model: Model, env: Environment, *, config_class: Callable = AgentConfig, **kwargs):
+        self.config = config_class(**kwargs)
+        self.messages: list[dict] = []
+        self.model = model
+        self.env = env
+        self.extra_template_vars = {}
+
+    def render_template(self, template: str, **kwargs) -&gt; str:
+        template_vars = asdict(self.config) | self.env.get_template_vars() | self.model.get_template_vars()
+        return Template(template).render(**kwargs, **template_vars, **self.extra_template_vars)
+
+    def add_message(self, role: str, content: str, **kwargs):
+        self.messages.append({"role": role, "content": content, **kwargs})
+
+    def run(self, task: str, **kwargs) -&gt; tuple[str, str]:
+        """Run step() until agent is finished. Return exit status &amp; message"""
+        self.extra_template_vars |= {"task": task, **kwargs}
+        self.messages = []
+        self.add_message("system", self.render_template(self.config.system_template))
+        self.add_message("user", self.render_template(self.config.instance_template))
+        while True:
+            try:
+                self.step()
+            except NonTerminatingException as e:
+                self.add_message("user", str(e))
+            except TerminatingException as e:
+                self.add_message("user", str(e))
+                return type(e).__name__, str(e)
+
+    def step(self) -&gt; dict:
+        """Query the LM, execute the action, return the observation."""
+        return self.get_observation(self.query())
+
+    def query(self) -&gt; dict:
+        """Query the model and return the response."""
+        if 0 &lt; self.config.step_limit &lt;= self.model.n_calls or 0 &lt; self.config.cost_limit &lt;= self.model.cost:
+            raise LimitsExceeded()
+        response = self.model.query(self.messages)
+        self.add_message("assistant", **response)
+        return response
+
+    def get_observation(self, response: dict) -&gt; dict:
+        """Execute the action and return the observation."""
+        output = self.execute_action(self.parse_action(response))
+        observation = self.render_template(self.config.action_observation_template, output=output)
+        self.add_message("user", observation)
+        return output
+
+    def parse_action(self, response: dict) -&gt; dict:
+        """Parse the action from the message. Returns the action."""
+        actions = re.findall(r"```bash\n(.*?)\n```", response["content"], re.DOTALL)
+        if len(actions) == 1:
+            return {"action": actions[0].strip(), **response}
+        raise FormatError(self.render_template(self.config.format_error_template, actions=actions))
+
+    def execute_action(self, action: dict) -&gt; dict:
+        try:
+            output = self.env.execute(action["action"])
+        except subprocess.TimeoutExpired as e:
+            output = e.output.decode("utf-8", errors="replace") if e.output else ""
+            raise ExecutionTimeoutError(
+                self.render_template(self.config.timeout_template, action=action, output=output)
+            )
+        except TimeoutError:
+            raise ExecutionTimeoutError(self.render_template(self.config.timeout_template, action=action, output=""))
+        self.has_finished(output)
+        return output
+
+    def has_finished(self, output: dict[str, str]):
+        """Raises Submitted exception with final output if the agent has finished its task."""
+        lines = output.get("output", "").lstrip().splitlines(keepends=True)
+        if lines and lines[0].strip() in ["MINI_SWE_AGENT_FINAL_OUTPUT", "COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT"]:
+            raise Submitted("".join(lines[1:]))
+</code></pre>
+</details>
+<details class="note">
+<summary>Agent control flow</summary>
+<p>Check out the <a href="https://mini-swe-agent.com/latest/advanced/control_flow/">control flow guide</a> for a visual explanation of the agent's control flow following this picture:</p>
+<p><figure markdown="span">
+  <img alt="Agent control flow" src="img/blog/250808-gpt5/mini_control_flow.svg" width="600px" />
+  <figcaption>The control flow of the <code>mini</code> agent</figcaption>
+</figure></p>
+</details>
+<details class="note">
+<summary>SWE-bench config</summary>
+<ul>
+<li><a href="https://github.com/swe-agent/mini-swe-agent/blob/main/src/minisweagent/config/extra/swebench.yaml">Read on GitHub</a></li>
+</ul>
+<pre class="highlight"><code class="language-yaml">agent:
+  system_template: |
+    You are a helpful assistant that can interact multiple times with a computer shell to solve programming tasks.
+    Your response must contain exactly ONE bash code block with ONE command (or commands connected with &amp;&amp; or ||).
+
+    Include a THOUGHT section before your command where you explain your reasoning process.
+    Format your response as shown in &lt;format_example&gt;.
+
+    &lt;format_example&gt;
+    THOUGHT: Your reasoning and analysis here
+
+    ```bash
+    your_command_here
+    ```
+    &lt;/format_example&gt;
+
+    Failure to follow these rules will cause your response to be rejected.
+  instance_template: |
+    &lt;pr_description&gt;
+    Consider the following PR description:
+    {{task}}
+    &lt;/pr_description&gt;
+
+    &lt;instructions&gt;
+    # Task Instructions
+
+    ## Overview
+    You're a software engineer interacting continuously with a computer by submitting commands.
+    You'll be helping implement necessary changes to meet requirements in the PR description.
+    Your task is specifically to make changes to non-test files in the current directory in order to fix the issue described in the PR description in a way that is general and consistent with the codebase.
+
+    IMPORTANT: This is an interactive process where you will think and issue ONE command, see its result, then think and issue your next command.
+
+    For each response:
+    1. Include a THOUGHT section explaining your reasoning and what you're trying to accomplish
+    2. Provide exactly ONE bash command to execute
+
+    ## Important Boundaries
+    - MODIFY: Regular source code files in {{working_dir}}
+    - DO NOT MODIFY: Tests, configuration files (pyproject.toml, setup.cfg, etc.)
+
+    ## Recommended Workflow
+    1. Analyze the codebase by finding and reading relevant files
+    2. Create a script to reproduce the issue
+    3. Edit the source code to resolve the issue
+    4. Verify your fix works by running your script again
+    5. Test edge cases to ensure your fix is robust
+
+    ## Command Execution Rules
+    You are operating in an environment where
+    1. You write a single command
+    2. The system executes that command in a subshell
+    3. You see the result
+    4. You write your next command
+
+    Each response should include:
+    1. A **THOUGHT** section where you explain your reasoning and plan
+    2. A single bash code block with your command
+
+    Format your responses like this:
+
+    &lt;format_example&gt;
+    THOUGHT: Here I explain my reasoning process, analysis of the current situation,
+    and what I'm trying to accomplish with the command below.
+
+    ```bash
+    your_command_here
+    ```
+    &lt;/format_example&gt;
+
+    Commands must be specified in a single bash code block:
+
+    ```bash
+    your_command_here
+    ```
+
+    **CRITICAL REQUIREMENTS:**
+    - Your response SHOULD include a THOUGHT section explaining your reasoning
+    - Your response MUST include EXACTLY ONE bash code block
+    - This bash block MUST contain EXACTLY ONE command (or a set of commands connected with &amp;&amp; or ||)
+    - If you include zero or multiple bash blocks, or no command at all, YOUR RESPONSE WILL FAIL
+    - Do NOT try to run multiple independent commands in separate blocks in one response
+    - Directory or environment variable changes are not persistent. Every action is executed in a new subshell.
+    - However, you can prefix any action with `MY_ENV_VAR=MY_VALUE cd /path/to/working/dir &amp;&amp; ...` or write/load environment variables from files
+
+    Example of a CORRECT response:
+    &lt;example_response&gt;
+    THOUGHT: I need to understand the structure of the repository first. Let me check what files are in the current directory to get a better understanding of the codebase.
+
+    ```bash
+    ls -la
+    ```
+    &lt;/example_response&gt;
+
+    Example of an INCORRECT response:
+    &lt;example_response&gt;
+    THOUGHT: I need to examine the codebase and then look at a specific file. I'll run multiple commands to do this.
+
+    ```bash
+    ls -la
+    ```
+
+    Now I'll read the file:
+
+    ```bash
+    cat file.txt
+    ```
+    &lt;/example_response&gt;
+
+    If you need to run multiple commands, either:
+    1. Combine them in one block using &amp;&amp; or ||
+    ```bash
+    command1 &amp;&amp; command2 || echo "Error occurred"
+    ```
+
+    2. Wait for the first command to complete, see its output, then issue the next command in your following response.
+
+    ## Environment Details
+    - You have a full Linux shell environment
+    - Always use non-interactive flags (-y, -f) for commands
+    - Avoid interactive tools like vi, nano, or any that require user input
+    - If a command isn't available, you can install it
+
+    ## Useful Command Examples
+
+    ### Create a new file:
+    ```bash
+    cat &lt;&lt;'EOF' &gt; newfile.py
+    import numpy as np
+    hello = "world"
+    print(hello)
+    EOF
+    ```
+
+    ### Edit files with sed:
+    ```bash
+    # Replace all occurrences
+    sed -i 's/old_string/new_string/g' filename.py
+
+    # Replace only first occurrence
+    sed -i 's/old_string/new_string/' filename.py
+
+    # Replace first occurrence on line 1
+    sed -i '1s/old_string/new_string/' filename.py
+
+    # Replace all occurrences in lines 1-10
+    sed -i '1,10s/old_string/new_string/g' filename.py
+    ```
+
+    ### View file content:
+    ```bash
+    # View specific lines with numbers
+    nl -ba filename.py | sed -n '10,20p'
+    ```
+
+    ### Any other command you want to run
+    ```bash
+    anything
+    ```
+
+    ## Submission
+    When you've completed your work (reading, editing, testing), and cannot make further progress
+    issue exactly the following command:
+
+    ```bash
+    echo COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT &amp;&amp; git add -A &amp;&amp; git diff --cached
+    ```
+
+    This command will submit your work.
+    You cannot continue working (reading, editing, testing) in any way on this task after submitting.
+    &lt;/instructions&gt;
+  action_observation_template: |
+    &lt;returncode&gt;{{output.returncode}}&lt;/returncode&gt;
+    {% if output.output | length &lt; 10000 -%}
+    &lt;output&gt;
+    {{ output.output -}}
+    &lt;/output&gt;
+    {%- else -%}
+    &lt;warning&gt;
+    The output of your last command was too long.
+    Please try a different command that produces less output.
+    If you're looking at a file you can try use head, tail or sed to view a smaller number of lines selectively.
+    If you're using grep or find and it produced too much output, you can use a more selective search pattern.
+    If you really need to see something from the full command's output, you can redirect output to a file and then search in that file.
+    &lt;/warning&gt;
+    {%- set elided_chars = output.output | length - 10000 -%}
+    &lt;output_head&gt;
+    {{ output.output[:5000] }}
+    &lt;/output_head&gt;
+    &lt;elided_chars&gt;
+    {{ elided_chars }} characters elided
+    &lt;/elided_chars&gt;
+    &lt;output_tail&gt;
+    {{ output.output[-5000:] }}
+    &lt;/output_tail&gt;
+    {%- endif -%}
+  format_error_template: |
+    Please always provide EXACTLY ONE action in triple backticks, found {{actions|length}} actions.
+
+    Please format your action in triple backticks as shown in &lt;response_example&gt;.
+
+    &lt;response_example&gt;
+    Here are some thoughts about why you want to perform the action.
+
+    ```bash
+    &lt;action&gt;
+    ```
+    &lt;/response_example&gt;
+
+    If you have completed your assignment, please consult the first message about how to
+    submit your solution (you will not be able to continue working on this task after that).
+  step_limit: 250
+  cost_limit: 3.
+
+environment:
+  cwd: "/testbed"
+  timeout: 60
+  env:
+    PAGER: cat
+    MANPAGER: cat
+    LESS: -R
+    PIP_PROGRESS_BAR: 'off'
+    TQDM_DISABLE: '1'
+  environment_class: docker
+
+model:
+  model_name: "claude-sonnet-4-20250514"
+  model_kwargs:
+    drop_params: true
+    temperature: 0.0
+</code></pre>
+</details>
+<h2>Cost analysis</h2>
+<p>Cost is tricky to compare with agents, because <em>agents succeed fast, but fail slowly</em>.
+If an agent doesn't succeed, it <em>should</em> just continue trying until it succeeds, or hits a run time limit.
+And that's (almost) what happens.</p>
+<p>For a fair comparison, all LMs benchmarked with <code>mini</code> on our <a href="https://swebench.com"><em>SWE-bench (bash-only)</em> leaderboard</a> are run with a $3 budget up to 250 steps.
+However, most LMs succeed much much earlier (usually definitely before 50 steps).</p>
+<p>Here's how this looks like:</p>
+<figure>
+  <img alt="GPT-5, GPT-5-mini, and GPT-5-nano" src="img/blog/250808-gpt5/gpt5_steps.svg" width="50%" />
+<br />
+<figcaption>Agents succeed fast, but fail slowly</figcaption>
+</figure>
+<figure>
+  <img alt="GPT-5, GPT-5-mini, and GPT-5-nano" src="img/blog/250808-gpt5/gpt5_steps_cut.svg" width="50%" />
+<br />
+<figcaption>The same figure but zooming in on the left</figcaption>
+</figure>
+<p>Right away we notice a few things:</p>
+<ul>
+<li><code>GPT-5-*</code> shows strongly diminishing returns already after 30 steps</li>
+<li>Definitely don't run it for than 50 steps</li>
+<li><code>Sonnet 4</code> takes more steps and only maxes out at around 100 steps</li>
+</ul>
+<p>Note that for this plot, we assume that if the agent doesn't <code>submit</code> its solution by step <code>i</code>, it hasn't solved the problem yet
+(this is a slight simplification, because the agent might still do extended testing after all the edits).</p>
+<p>What does this mean for the cost?
+If we look at agent performance &amp; cost for different step limits, we get the following plot (here every point is the performance/cost at one specific step limit):</p>
+<figure>
+  <img alt="GPT-5, GPT-5-mini, and GPT-5-nano" src="img/blog/250808-gpt5/gpt5_cost.svg" width="50%" />
+<br />
+<figcaption>Wow, gpt-5-mini is incredibly cheap!</figcaption>
+</figure>
+<figure>
+  <img alt="GPT-5, GPT-5-mini, and GPT-5-nano" src="img/blog/250808-gpt5/gpt5_cost_cut.svg" width="50%" />
+<br />
+<figcaption>Zooming in on the left</figcaption>
+</figure>
+<p>Conclusions:</p>
+<ul>
+<li><code>GPT-5</code> is cheaper than <code>Sonnet 4</code> (how much depends on how much you care about every little bit of performance)</li>
+<li>But <code>GPT-5-mini</code> is the real winner here! It definitely maxes out at less than 1/5th of the cost of <code>GPT-5</code> and you only sacrifice some 5% points of performance!</li>
+<li><code>GPT-5-nano</code> is even cheaper, maxing out somewhere at 1.5 ¢/instance!</li>
+</ul>
+<p>So what's the overall takeaway?</p>
+<ul>
+<li>GPT-5 is as good as Sonnet 4, but somewhat cheaper</li>
+<li>For sacrificing only a little bit of performance (5% points), GPT-5-mini is <em>incredibly</em> cheap</li>
+<li><code>GPT-5-nano</code> is even cheaper, but probably not worth it for most SWE use cases</li>
+</ul>
+<p>So the real winner in my opinion is <code>GPT-5-mini</code>!</p>
+<div class="admonition tip">
+<p class="admonition-title">Want to run <code>mini</code> with GPT-5?</p>
+<p>You can reproduce our numbers in this blog by following the <a href="https://mini-swe-agent.com/latest/usage/swebench/">swebench</a> tutorial, but the tl;dr is to run (remove the temperature setting from the <code>swebench.yaml</code> file first,
+because it's not supported by the <code>GPT-5-*</code> models):</p>
+<pre class="highlight"><code class="language-bash">mini-extra swebench --subset verified --split test --shuffle \
+  --model openai/gpt-5-mini -o gpt-5-mini --workers 10</code></pre>
+<p>and to evaluate</p>
+<pre class="highlight"><code class="language-bash">cd gpt-5-mini
+sb-cli submit swe-bench_verified test --predictions_path preds.json --run_id gpt-5-mini</code></pre>
+<p>GPT-5-mini ran in around 1.5h for $18.</p>
+</div>
+        </div>
+        
+        <hr style="margin-top: 3em;" />
+        <p style="text-align: center;">
+            <a href="blog.html">&larr; Back to Blog</a>
+        </p>
+    </div>
+
+        
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-copyright">
+                        &copy; 2025 SWE-bench Team. All rights reserved.
+                    </div>
+                    <div class="footer-links">
+                        <a href="https://github.com/swe-bench/SWE-bench" target="_blank">GitHub</a>
+                        <a href="https://huggingface.co/collections/SWE-bench/benchmarks-68113bc99eb3a64a91ea33c9" target="_blank">HuggingFace</a>
+                        <a href="https://arxiv.org/abs/2310.06770" target="_blank">Paper</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Common JS files -->
+    <script src="js/mainResults.js"></script>
+    <script src="js/citation.js"></script>
+    <script src="js/citationFormat.js"></script>
+    
+    <!-- Page-specific JS files will be injected here -->
+    
+
+    <script>
+        function initTheme() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            // Move dark-mode class from documentElement to body if present
+            if (document.documentElement.classList.contains('dark-mode')) {
+                document.body.classList.add('dark-mode');
+                document.documentElement.classList.remove('dark-mode');
+            }
+            
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    document.body.classList.toggle('dark-mode');
+                    
+                    const isDarkMode = document.body.classList.contains('dark-mode');
+                    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+                });
+            }
+            
+            prefersDarkScheme.addEventListener('change', (e) => {
+                if (!localStorage.getItem('theme')) {
+                    if (e.matches) {
+                        document.body.classList.add('dark-mode');
+                    } else {
+                        document.body.classList.remove('dark-mode');
+                    }
+                }
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            
+            const currentPath = window.location.pathname;
+            const currentPage = currentPath.split('/').pop().split('.')[0] || 'index';
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                const linkPage = link.getAttribute('data-page');
+                if (linkPage === currentPage) {
+                    link.classList.add('active');
+                }
+                
+                if (currentPage === 'index' && window.location.hash) {
+                    const currentHash = window.location.hash.substring(1);
+                    if (linkPage === currentHash) {
+                        link.classList.add('active');
+                    }
+                }
+            });
+            
+            const sidebarOpener = document.querySelector('.sidebar-opener');
+            const sidebarCloser = document.querySelector('.sidebar .mobile-nav-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            
+            if ((sidebarOpener || sidebarCloser) && sidebar && overlay) {
+                function toggleMenu() {
+                    sidebar.classList.toggle('open');
+                    overlay.classList.toggle('active');
+                }
+                
+                function openMenu() {
+                    sidebar.classList.add('open');
+                    overlay.classList.add('active');
+                }
+                
+                function closeMenu() {
+                    sidebar.classList.remove('open');
+                    overlay.classList.remove('active');
+                }
+                
+                if (sidebarOpener) {
+                    sidebarOpener.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        openMenu();
+                    });
+                }
+                
+                if (sidebarCloser) {
+                    sidebarCloser.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        closeMenu();
+                    });
+                }
+                
+                overlay.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    closeMenu();
+                });
+                
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (sidebar.classList.contains('open')) {
+                            closeMenu();
+                        }
+                    });
+                });
+                
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+                        closeMenu();
+                    }
+                });
+            }
+        });
+    </script>
+
+    
+    <!-- Optional page-specific scripts -->
+    
+</body>
+</html> 

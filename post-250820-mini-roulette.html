@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit to SWE-bench</title>
+    <title>[mini-SWE-agent] Roulette mode! - SWE-bench Blog</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <script
@@ -102,40 +102,153 @@
         
     <header class="page-header">
         <div class="container">
-            <h1>Submit to SWE-bench</h1>
-            <p>Guidelines for contributing your model's results to the SWE-bench leaderboard.</p>
+            <h1>[mini-SWE-agent] Roulette mode!</h1>
+            <p style="color: var(--gray);">
+                2025-08-19
+                 &bull; by Kilian Lieret
+                
+            </p>
         </div>
     </header>
 
-    <div class="container">
-        <div class="announcement-container">
-            All official submissions to the SWE-bench leaderboard are maintained at&nbsp;
-            <a href="https://github.com/swe-bench/experiments/" class="light-blue-link" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-github"></i> SWE-bench/experiments
-            </a>
+
+    <div class="container" style="margin-top: 2em;">
+        <div class="blog-content">
+            <p>What if your agent uses a different LM at every turn? We let mini-SWE-agent randomly switch between GPT-5 and Sonnet 4 and it scored higher on SWE-bench than with either model separately.</p>
+<!-- more -->
+
+<p>We use the same setup as in our <a href="post-250808-gpt5.html">previous blog post</a>, i.e., running with <a href="https://mini-swe-agent.com"><code>mini-swe-agent</code></a>, a minimalistic agent that doesn't have any tools other than bash (this is the basis of our new <a href="https://swebench.com">SWE-bench bash-only leaderboard</a>).</p>
+<details class="note">
+<summary>What is the <code>mini</code> agent?</summary>
+<p><a href="https://mini-swe-agent.com"><code>mini</code></a> was designed to be the most minimalistic software engineering agent possible.
+In fact, its <a href="https://github.com/SWE-agent/mini-swe-agent/blob/main/src/minisweagent/agents/default.py">main agent class</a>
+has less than 100 lines of code (and that's literally the agent we use for our SWE-bench leaderboard!).</p>
+<p>Compared to <a href="https://swe-agent.com">swe-agent</a>, <code>mini</code></p>
+<ul>
+<li><strong>Does not have any tools other than bash</strong> — it doesn't even use the tool-calling interface of the LMs. This means that you can run it with literally any model. When running in sandboxed environments you also don't need to take care of installing a single package — all it needs is bash.</li>
+<li><strong>Has a completely linear history</strong> — every step of the agent just appends to the messages and that's it. So there's no difference between the trajectory and the messages that you pass on to the LM. Great for debugging &amp; fine-tuning.</li>
+<li><strong>Executes actions with <code>subprocess.run</code></strong> — every action is completely independent (as opposed to keeping a stateful shell session running). This makes it trivial to execute the actions in sandboxes (literally just switch out <code>subprocess.run</code> with <code>docker exec</code>) and to scale up effortlessly.</li>
+</ul>
+</details>
+<p>Now all we change is that instead of <code>model.query(history)</code>, we do <code>random.choice([model1, model2]).query(history)</code>,
+that's it! </p>
+<p>Other than configuring the models, the <a href="https://github.com/SWE-agent/mini-swe-agent/blob/main/src/minisweagent/config/extra/swebench_roulette.yaml">prompts also stay the same</a>.</p>
+<figure>
+  <img alt="We actually get higher SWE-bench scores than each of the models by themselves" src="img/blog/250820-mini-roulette/roulette_bar_v4.svg" width="50%" />
+<br />
+<figcaption>We actually get higher SWE-bench scores than each of the models by themselves</figcaption>
+</figure>
+<h2>Cost analysis</h2>
+<div class="admonition note">
+<p class="admonition-title">TL;DR</p>
+<p>The cost ends up in the middle of the two models with around 30ct per instance at maximum performance.</p>
+</div>
+<p>Comparing costs with agents is always a bit tricky, because the agents spend most of their money on instances they cannot solve, and hence the average cost heavily depends on the runtime limits (e.g., the step limit).</p>
+<p>Similar to our <a href="post-250808-gpt5.html">previous blog post</a>, we can chart the performance vs the step limit:</p>
+<figure>
+  <img alt="Performance vs step limit" src="img/blog/250820-mini-roulette/roulette_steps.svg" width="50%" />
+<br />
+<figcaption>Performance vs step limit</figcaption>
+</figure>
+<p>Showing that the performance gains become marginal at around a 50 step limit (despite the Sonnet 4 model invididually showing a very slow climb up to its maximum).
+This curve is a lot more similar to the GPT-5 curve, which might be explained by the fact that either of the models can decide to end the run by submitting, so that we end up being closer to the earlier-submitting model.</p>
+<p>Comparing the average cost with different step limits, we get a sigmoid-like curve, reaching around 30ct per instance at maximum performance, pretty much in the middle of the two models.</p>
+<figure>
+  <img alt="Performance vs average cost" src="img/blog/250820-mini-roulette/roulette_cost.svg" width="50%" />
+<br />
+<figcaption>Performance vs average cost</figcaption>
+</figure>
+<h2>More models and experiments</h2>
+<p>We ran more experiments with more models at a smaller scale of just 50 instances (randomly picked from SWE-bench verified).
+The GPT-5 and Sonnet 4 results were the most striking ones, and the only case where we got a higher score than with either model separately.
+However, this was somewhat to be expected, as these are the only two models that are in a head-to-head race.</p>
+<p>Whenever we combined models that were further apart in performance, the combined score (and cost) was somewhere in the middle between the two models (e.g., GPT-5 with Gemini 2.5 Pro, or GPT-5 mini with GPT-5 nano).
+However, none of these combinations seemed to be particularly practically relevant.</p>
+<p>Here's the numbers:</p>
+<table>
+<thead>
+<tr>
+<th>Models</th>
+<th>Score (50 instances)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPT-5 + Sonnet 4</td>
+<td>39</td>
+</tr>
+<tr>
+<td>GPT-5 + Sonnet 4 + Gemini 2.5 Pro</td>
+<td>33</td>
+</tr>
+<tr>
+<td>GPT-5 + Gemini 2.5 Pro</td>
+<td>31</td>
+</tr>
+<tr>
+<td>GPT-5 + GPT-5-mini</td>
+<td>31</td>
+</tr>
+<tr>
+<td>GPT-5 mini + GPT-5 nano</td>
+<td>20</td>
+</tr>
+</tbody>
+</table>
+<p>compared to the baselines of</p>
+<table>
+<thead>
+<tr>
+<th>Models</th>
+<th>Score (50 instances)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sonnet 4</td>
+<td>33</td>
+</tr>
+<tr>
+<td>GPT-5</td>
+<td>32</td>
+</tr>
+<tr>
+<td>GPT-5-mini</td>
+<td>32</td>
+</tr>
+<tr>
+<td>Gemini 2.5 Pro</td>
+<td>29</td>
+</tr>
+<tr>
+<td>GPT-5-nano</td>
+<td>16</td>
+</tr>
+</tbody>
+</table>
+<p>A word about statistical power: </p>
+<ul>
+<li>At just 50 instances, this small subsample is definitely not fully representative of the full 500.
+  The instances we randomly drew seem to be a slightly easier subset of the data (just by chance),
+  so all of the scores are slightly higher than the score on the full 500.</li>
+<li>For the GPT-5 + Sonnet 4 combination, we repeated a similar experiment by alternating between the two models (rather than randomly switching) and solved 333 instances (66.6%, again outperforming both models separately).</li>
+<li>For combinations with Gemini 2.5 Pro, we repeated them with slightly more instances, but did not see particular improvements.</li>
+</ul>
+<h2>Running it yourself</h2>
+<p>To make this a bit nicer to use, we made a small wrapper model class <a href="https://github.com/SWE-agent/mini-swe-agent/blob/main/src/minisweagent/models/extra/roulette.py">here</a>).</p>
+<p>Currently, you can use it with SWE-bench evaluation simply by switching to the <a href="https://github.com/SWE-agent/mini-swe-agent/blob/main/src/minisweagent/config/extra/swebench_roulette.yaml"><code>swebench_roulette</code> config</a>:</p>
+<pre class="highlight"><code class="language-bash">mini-extra swebench \
+  --subset verified \
+  --split test \
+  --shuffle \
+  -o roulette-sonnet4-gpt5 \
+  --workers 20 \
+  -c swebench_roulette</code></pre>
         </div>
-        <h3 style="margin-top:1rem;">
-            Evaluating on SWE-bench
-        </h3>
-        <p>
-            Check out the main <a href="https://swebench.com/SWE-bench/">SWE-bench</a> repository docs for instructions on how to generate and evaluate predictions on SWE-bench [Lite, Verified, Multimodal].
-        </p>
-        <p>
-            SWE-bench evaluation can be carried out either locally or via cloud compute platforms with our
-            <a href="https://github.com/swe-bench/sb-cli/">sb-cli</a> tool (Recommended) or
-            <a href="https://www.swebench.com/SWE-bench/guides/evaluation/#cloud-based-evaluation">Modal</a>.
-        </p>
-        <p>
-            For SWE-bench Multimodal, SWE-bench evaluation can only be carried out via
-            <a href="https://github.com/swe-bench/sb-cli/">sb-cli</a>.
-        </p>
-        <hr />
-        <h3>Submit to Leaderboard</h3>
-        <p>
-            If you are interested in submitting your system or model to any of our leaderboards,
-            please follow the instructions posted at
-            <a href="https://github.com/swe-bench/experiments/" class="light-blue-link" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-github"></i> SWE-bench/experiments</a>.
+        
+        <hr style="margin-top: 3em;" />
+        <p style="text-align: center;">
+            <a href="blog.html">&larr; Back to Blog</a>
         </p>
     </div>
 
