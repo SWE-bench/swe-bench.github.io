@@ -7,7 +7,7 @@ authors:
   - Arpandeep Khatua
 ---
 
-We've expanded [SWE-Smith](https://github.com/SWE-bench/SWE-smith) to support JavaScript, generating and validating 6,099 synthetic bug patches across 74 popular JS repositories. This work builds on [@akhatua2's initial PR](https://github.com/SWE-bench/SWE-smith/pull/166) and introduces 4 new procedural modifiers that boost validation rates by 20%.
+We've expanded [SWE-Smith](https://github.com/SWE-bench/SWE-smith) to support JavaScript, generating and validating 6,099 synthetic bug patches across 74 popular JS repositories.
 
 <!-- more -->
 
