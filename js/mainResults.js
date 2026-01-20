@@ -87,7 +87,10 @@ function getDefaultSortDirection(field) {
 
 function renderLeaderboardTable(leaderboard) {
     const container = document.getElementById('leaderboard-container');
-    const isBashOnly = leaderboard.name.toLowerCase() === 'bash-only';
+    const leaderboardNameLower = leaderboard.name.toLowerCase();
+    const isBashOnly = leaderboardNameLower === 'bash-only';
+    const isMultilingual = leaderboardNameLower === 'multilingual';
+    const hasDetailedFeatures = isBashOnly || isMultilingual;
     
     const results = leaderboard.results
         .filter(item => !item.warning)
@@ -98,17 +101,17 @@ function renderLeaderboardTable(leaderboard) {
     const tableHtml = `
         <div class="tabcontent active" id="leaderboard-${leaderboard.name}">
             <div class="table-responsive">
-                <table class="table scrollable data-table ${isBashOnly ? 'has-select-col' : ''}">
+                <table class="table scrollable data-table ${hasDetailedFeatures ? 'has-select-col' : ''}">
                     <thead>
                         <tr>
-                            ${isBashOnly ? '<th class="select-col"><input type="checkbox" id="select-all-checkbox" aria-label="Select all models" title="Select all visible models"></th>' : ''}
+                            ${hasDetailedFeatures ? '<th class="select-col"><input type="checkbox" id="select-all-checkbox" aria-label="Select all models" title="Select all visible models"></th>' : ''}
                             <th class="sortable" data-sort="name">Model</th>
                             <th class="sortable" data-sort="resolved">% Resolved</th>
-                            ${isBashOnly ? '<th class="sortable" data-sort="instance_cost" title="Average cost per task instance in the benchmark">Avg. $</th>' : ''}
-                            ${isBashOnly ? '<th class="sortable" data-sort="trajs_docent"><span style="position: relative; display: inline-block;">Trajs<span class="new-badge" data-badge-shown="false">New!</span></span></th>' : ''}
+                            ${hasDetailedFeatures ? '<th class="sortable" data-sort="instance_cost" title="Average cost per task instance in the benchmark">Avg. $</th>' : ''}
+                            ${hasDetailedFeatures ? '<th class="sortable" data-sort="trajs_docent"><span style="position: relative; display: inline-block;">Trajs<span class="new-badge" data-badge-shown="false">New!</span></span></th>' : ''}
                             <th class="sortable" data-sort="org">Org</th>
                             <th class="sortable" data-sort="date">Date</th>
-                            ${!isBashOnly ? '<th class="sortable" data-sort="site">Site</th>' : ''}
+                            ${!hasDetailedFeatures ? '<th class="sortable" data-sort="site">Site</th>' : ''}
                             ${isBashOnly ? '<th class="sortable" data-sort="release" title="mini-swe-agent release with which the benchmark was run. Click the release to see the release note. Generally, results should be very comparable across releases.">Release</th>' : ''}
                         </tr>
                     </thead>
@@ -120,20 +123,20 @@ function renderLeaderboardTable(leaderboard) {
                                     data-checked="${item.checked ? 'true' : 'false'}"
                                     data-tags="${item.tags ? item.tags.join(',') : ''}"
                                 >
-                                    ${isBashOnly ? `<td class="select-col centered-text"><input type="checkbox" class="row-select" aria-label="Select ${item.name}" data-model="${item.name}" data-resolved="${parseFloat(item.resolved).toFixed(2)}"></td>` : ''}
+                                    ${hasDetailedFeatures ? `<td class="select-col centered-text"><input type="checkbox" class="row-select" aria-label="Select ${item.name}" data-model="${item.name}" data-resolved="${parseFloat(item.resolved).toFixed(2)}"></td>` : ''}
                                     <td>
                                         <div class="flex items-center gap-1">
                                             <div class="model-badges">
                                                 ${item.date >= "2025-10-15" ? '<span>🆕</span>' : ''}
                                                 ${item.oss ? '<span>🤠</span>' : ''}
-                                                ${!isBashOnly && item.checked ? '<span title="The agent run was performed by or directly verified by the SWE-bench team">✅</span>' : ''}
+                                                ${!hasDetailedFeatures && item.checked ? '<span title="The agent run was performed by or directly verified by the SWE-bench team">✅</span>' : ''}
                                             </div>
                                             <span class="model-name font-mono fw-medium">${item.name}</span>
                                         </div>
                                     </td>
                                     <td><span class="number fw-medium text-primary">${parseFloat(item.resolved).toFixed(2)}</span></td>
-                                    ${isBashOnly ? `<td class="text-right"><span class="number fw-medium text-primary">${item.instance_cost !== null && item.instance_cost !== undefined && item.instance_cost !== 0 && !isNaN(item.instance_cost) ? '$' + parseFloat(item.instance_cost).toFixed(2) : ''}</span></td>` : ''}
-                                    ${isBashOnly ? `<td class="centered-text text-center">
+                                    ${hasDetailedFeatures ? `<td class="text-right"><span class="number fw-medium text-primary">${item.instance_cost !== null && item.instance_cost !== undefined && item.instance_cost !== 0 && !isNaN(item.instance_cost) ? '$' + parseFloat(item.instance_cost).toFixed(2) : ''}</span></td>` : ''}
+                                    ${hasDetailedFeatures ? `<td class="centered-text text-center">
                                         ${item.trajs_docent && item.trajs_docent !== false ? `<a href="${item.trajs_docent}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
                                     </td>` : ''}
                                     <td>
@@ -144,14 +147,14 @@ function renderLeaderboardTable(leaderboard) {
                                         ` : '-'}
                                     </td>
                                     <td><span class="label-date text-muted">${item.date}</span></td>
-                                    ${!isBashOnly ? `<td class="centered-text text-center">
+                                    ${!hasDetailedFeatures ? `<td class="centered-text text-center">
                                         ${item.site ? `<a href="${item.site}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
                                     </td>` : ''}
                                     ${isBashOnly ? `<td><span class="text-muted font-mono">${item['mini-swe-agent_version'] && item['mini-swe-agent_version'] !== '0.0.0' ? `<a href="https://github.com/SWE-agent/mini-swe-agent/tree/v${item['mini-swe-agent_version']}" target="_blank" rel="noopener noreferrer">${item['mini-swe-agent_version']}</a>` : (item['mini-swe-agent_version'] || '-')}</span></td>` : ''}
                                 </tr>
                             `).join('')}
                         <tr class="no-results" style="display: none;">
-                            <td colspan="${isBashOnly ? '8' : '7'}" class="text-center">
+                            <td colspan="${hasDetailedFeatures ? (isBashOnly ? '8' : '7') : '7'}" class="text-center">
                                 No entries match the selected filters. Try adjusting your filters.
                             </td>
                         </tr>
@@ -167,19 +170,21 @@ function renderLeaderboardTable(leaderboard) {
     updateSortIndicators();
     attachSortHandlers(leaderboard.name);
     
-    if (isBashOnly) {
+    if (hasDetailedFeatures) {
         attachSelectAllHandler(leaderboard.name);
         updateSelectAllCheckbox();
     }
-    
+
     // Handle new badges - only show animation once per page load
-    const isBashOnlyTab = leaderboard.name.toLowerCase() === 'bash-only';
+    const isBashOnlyTab = leaderboardNameLower === 'bash-only';
+    const isMultilingualTab = leaderboardNameLower === 'multilingual';
+    const showBadges = isBashOnlyTab || isMultilingualTab;
     const badges = container.querySelectorAll('.new-badge');
     badges.forEach(badge => {
         const badgeKey = 'trajs-badge-' + leaderboard.name;
         const hasBeenShown = badgesShown.has(badgeKey);
-        
-        if (!isBashOnlyTab || hasBeenShown) {
+
+        if (!showBadges || hasBeenShown) {
             badge.style.display = 'none';
         } else {
             badge.style.display = '';
@@ -396,11 +401,12 @@ function updateMainResults(split, model) {
         .then(data => {
             if (data && data.resolved) {
                 const resolved = data.resolved.length;
-                                const total = 
-                    split === 'lite' ? 300 : 
-                    split === 'verified' ? 500 : 
-                    split === 'multimodal' ? 517 : 
-                    split === 'bash-only' ? 500 : 2294;
+                                const total =
+                    split === 'lite' ? 300 :
+                    split === 'verified' ? 500 :
+                    split === 'multimodal' ? 517 :
+                    split === 'bash-only' ? 500 :
+                    split === 'multilingual' ? 300 : 2294;
                 const percentResolved = (resolved / total * 100).toFixed(2);
                 const resolvedElement = document.getElementById('selectedResolved');
                 resolvedElement.textContent = percentResolved;
@@ -474,20 +480,23 @@ function openLeaderboard(leaderboardName) {
     // Show/hide compare button and badge based on leaderboard type
     const compareBtn = document.getElementById('compare-btn');
     const compareButtonBadge = document.querySelector('.new-badge-button');
-    const isBashOnlyTab = leaderboardName.toLowerCase() === 'bash-only';
-    
+    const leaderboardNameLower = leaderboardName.toLowerCase();
+    const isBashOnlyTab = leaderboardNameLower === 'bash-only';
+    const isMultilingualTab = leaderboardNameLower === 'multilingual';
+    const showDetailedFeatures = isBashOnlyTab || isMultilingualTab;
+
     if (compareBtn) {
-        if (isBashOnlyTab) {
+        if (showDetailedFeatures) {
             compareBtn.style.display = '';
         } else {
             compareBtn.style.display = 'none';
         }
     }
-    
+
     // Hide/show compare button badge based on tab and if already shown
     if (compareButtonBadge) {
         const hasBeenShown = badgesShown.has('compare-button-badge');
-        if (!isBashOnlyTab || hasBeenShown) {
+        if (!showDetailedFeatures || hasBeenShown) {
             compareButtonBadge.style.display = 'none';
         } else {
             compareButtonBadge.style.display = '';
@@ -541,7 +550,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Load initial tab based on hash or default to Verified (mini-SWE-agent)
     const hash = window.location.hash.slice(1).toLowerCase();
-    const validTabs = ['bash-only', 'verified', 'lite', 'test', 'multimodal'];
+    const validTabs = ['bash-only', 'multilingual', 'verified', 'lite', 'test', 'multimodal'];
     
     if (hash && validTabs.includes(hash)) {
         const tabName = hash.charAt(0).toUpperCase() + hash.slice(1);

@@ -272,11 +272,14 @@ window.updateTagsForLeaderboard = updateTagsForLeaderboard;
 function updateFilterVisibility(leaderboardName) {
     const mainFiltersContainer = document.getElementById('main-filters');
     const tagFiltersContainer = document.getElementById('tag-filters');
-    
-    const isBashOnly = leaderboardName.toLowerCase() === 'bash-only';
 
-    // Hide main filters (open scaffold/weight/checked) for bash-only, but keep tag filters visible
-    if (mainFiltersContainer) mainFiltersContainer.style.display = isBashOnly ? 'none' : '';
+    const leaderboardNameLower = leaderboardName.toLowerCase();
+    const isBashOnly = leaderboardNameLower === 'bash-only';
+    const isMultilingual = leaderboardNameLower === 'multilingual';
+    const hideMainFilters = isBashOnly || isMultilingual;
+
+    // Hide main filters (open scaffold/weight/checked) for bash-only and multilingual, but keep tag filters visible
+    if (mainFiltersContainer) mainFiltersContainer.style.display = hideMainFilters ? 'none' : '';
     if (tagFiltersContainer) tagFiltersContainer.style.display = '';
 }
 
@@ -407,6 +410,7 @@ function updateLeaderboardDescription(leaderboardName) {
     
     const descriptions = {
         'bash-only': '<em>Bash Only</em> evaluates all LMs with a <a href="https://github.com/SWE-agent/mini-swe-agent">minimal agent</a> on SWE-bench Verified (<a href="bash-only.html">details</a>)',
+        'multilingual': '<em>Multilingual</em> features 300 tasks across 9 programming languages (<a href="multilingual-leaderboard.html">details</a>)',
         'lite': '<em>Lite</em> is a subset of 300 instances for less costly evaluation (<a href="lite.html">details</a>)',
         'verified': '<em>Verified</em> is a human-filtered subset of 500 instances (<a href="https://openai.com/index/introducing-swe-bench-verified/">details</a>)',
         'test': '<em>Full</em> is a large benchmark made of 2000 instances (<a href="original.html">details</a>)',

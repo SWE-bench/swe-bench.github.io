@@ -292,6 +292,14 @@
                     empty.style.display = '';
                 }
             }
+        } else if (chartType === 'grouped-bar-language') {
+            compareChart = renderGroupedBarChartByLanguage(ctx, selected, colors, backgroundPlugin);
+            if (!compareChart) {
+                if (empty) {
+                    empty.textContent = 'No per-instance data available for selected models, or language mapping not loaded.';
+                    empty.style.display = '';
+                }
+            }
         } else if (chartType === 'resolved-instances-matrix') {
             // Show all instances by default (null chunkSize), drag to zoom, double-click to reset
             compareChart = renderResolvedInstancesMatrix(ctx, selected, colors, backgroundPlugin, 0, null);
