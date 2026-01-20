@@ -16,7 +16,7 @@ We've expanded [SWE-Smith](https://github.com/SWE-bench/SWE-smith) to support Ja
     * **6,099 validated patches** out of 35,697 generated (17% validation rate)
     * **14 procedural modifiers** for JavaScript bug generation
     * **End-to-end Modal pipeline** that reduces bug generation from days to hours
-    * **[TODO: HuggingFace Dataset]**
+    * **[HuggingFace Dataset](https://huggingface.co/datasets/SWE-bench/SWE-smith-js)**
 
 ## What is SWE-Smith?
 
@@ -163,7 +163,7 @@ The pipeline:
 
 1. **Generate patches** by applying procedural modifiers to repository code
 2. **Validate patches** by running each repository's test suite in isolated containers
-3. **Store results** [TODO: HuggingFace Dataset]
+3. **Store results** in the [HuggingFace Dataset](https://huggingface.co/datasets/SWE-bench/SWE-smith-js)
 
 The [updated documentation](https://github.com/SWE-bench/SWE-smith/blob/d9f1db9bfb5e90f7ed8eaa199e78be5692ad1286/docs/guides/create_instances.md#running-at-scale-on-modal) walks through this pipeline step by step.
 
