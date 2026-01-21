@@ -88,7 +88,7 @@ function getDefaultSortDirection(field) {
 function renderLeaderboardTable(leaderboard) {
     const container = document.getElementById('leaderboard-container');
     const leaderboardNameLower = leaderboard.name.toLowerCase();
-    const isBashOnly = leaderboardNameLower === 'bash-only';
+    const isBashOnly = leaderboardNameLower === 'bash-only' || leaderboardNameLower === 'multilingual';
     const isMultilingual = leaderboardNameLower === 'multilingual';
     const hasDetailedFeatures = isBashOnly || isMultilingual;
     
