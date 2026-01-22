@@ -49,7 +49,8 @@
                 name: modelName,
                 resolved: parseFloat(cb.getAttribute('data-resolved')) || 0,
                 cost: cost,
-                per_instance_details: fullModelData?.per_instance_details || null
+                per_instance_details: fullModelData?.per_instance_details || null,
+                tags: fullModelData?.tags || null
             };
         });
     }
@@ -322,6 +323,14 @@
             if (!compareChart) {
                 if (empty) {
                     empty.textContent = 'No per-instance API call data available for selected models.';
+                    empty.style.display = '';
+                }
+            }
+        } else if (chartType === 'resolved-vs-release-date') {
+            compareChart = renderResolvedVsReleaseDateChart(ctx, selected, colors, backgroundPlugin);
+            if (!compareChart) {
+                if (empty) {
+                    empty.textContent = 'No release date data available for selected models.';
                     empty.style.display = '';
                 }
             }
