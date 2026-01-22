@@ -64,6 +64,8 @@
 
 <!-- Chart.js and analysis for comparison -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
+<script src="js/modelReleaseDates.js"></script>
 <script src="js/charts/barChart.js"></script>
 <script src="js/charts/scatterChart.js"></script>
 <script src="js/charts/cumulativeCostChart.js"></script>
@@ -71,6 +73,7 @@
 <script src="js/charts/resolvedVsLimitChart.js"></script>
 <script src="js/charts/resolvedVsAvgCostChart.js"></script>
 <script src="js/charts/resolvedInstancesMatrix.js"></script>
+<script src="js/charts/resolvedVsReleaseDateChart.js"></script>
 <script src="js/analysis.js"></script>
 
 <!-- Compare Results Modal -->
@@ -88,6 +91,7 @@
                     <option value="grouped-bar">Resolved by repository</option>
                     <option value="resolved-instances-matrix">Resolved instances matrix</option>
                     <option value="scatter">Resolved vs cost (scatter plot)</option>
+                    <option value="resolved-vs-release-date">Resolved vs model release date</option>
                     <option value="resolved-vs-avg-cost">Resolved vs average cost</option>
                     <option value="resolved-vs-cost-limit">Resolved vs cost limit</option>
                     <option value="resolved-vs-step-limit">Resolved vs step limit</option>
