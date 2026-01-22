@@ -23,8 +23,8 @@ build:
 
 serve:
 	make build
-	@echo "Starting local server at http://localhost:8000 ... Press Ctrl+C to stop."
-	cd dist && uv run python -m http.server 8000
+	@echo "Starting local server at http://localhost:9000 ... Press Ctrl+C to stop."
+	cd dist && uv run python -m http.server 9000
 
 clean:
 	@echo "Cleaning generated files..."
