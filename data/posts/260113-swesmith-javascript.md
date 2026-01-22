@@ -167,6 +167,13 @@ The pipeline:
 
 The [updated documentation](https://github.com/SWE-bench/SWE-smith/blob/d9f1db9bfb5e90f7ed8eaa199e78be5692ad1286/docs/guides/create_instances.md#running-at-scale-on-modal) walks through this pipeline step by step.
 
+
+## Generating tasks from PRs via SWE-gen
+Alongside synthetic patches, we're expanding task creation using [SWE-gen](https://github.com/abundant-ai/SWE-gen), which turns merged GitHub PRs into verifiable tasks automatically. SWE-gen works across languages by detecting the language, build system, and test framework. It reverses the PR to reconstruct the buggy state, and verifies agent bahavior via fail-to-pass tests.
+
+[SWE-gen-JS](https://github.com/abundant-ai/SWE-gen-JS) consists of 1,000 tasks generated from 30 popular open-source JS/TS repos. Tasks derived from real bug-fixes complement synthetic ones by capturing multi-file changes and test setups that procedural modifiers can't always emulate.
+
+
 ## What's Next?
 
 To increase the number of productive repositories, we're improving the repository construction agent:
