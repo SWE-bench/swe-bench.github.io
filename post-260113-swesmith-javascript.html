@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[SWE-Smith Multilingual] Expanding to JavaScript - SWE-bench Blog</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-H9XFCMDPNS"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-H9XFCMDPNS");
+    </script>
+    <script>
+      // Initialize theme immediately to prevent flash
+      (function() {
+        const storedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+          document.documentElement.classList.add('dark-mode');
+        }
+      })();
+    </script>
+    
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+</head>
+<body>
+    <div class="sidebar-overlay"></div>
+<header class="mobile-header">
+    <a href="/" class="mobile-logo"><img src="img/swe-llama.svg" alt="SWE-bench logo" class="sidebar-logo-icon">SWE-bench</a>
+    <button class="sidebar-opener" aria-label="Open menu">
+        <i class="fas fa-bars"></i>
+    </button>
+</header>
+
+<aside class="sidebar">
+    <div class="sidebar-header">
+         <a href="/" class="sidebar-logo"><img src="img/swe-llama.svg" alt="SWE-bench logo" class="sidebar-logo-icon">SWE-bench</a>
+         <button class="mobile-nav-toggle" aria-label="Close menu">
+             <i class="fas fa-times"></i>
+         </button>
+    </div>
+    <nav class="sidebar-nav">
+        <ul>
+            <li><a href="index.html" class="nav-link" data-page="index">Leaderboards</a></li>
+            <li class="nav-section-title">Benchmarks</li>
+            <li><a href="original.html" class="nav-link" data-page="original">SWE-bench</a></li>
+            <li><a href="https://openai.com/index/introducing-swe-bench-verified/" class="nav-link" data-page="verified">SWE-bench Verified <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="bash-only.html" class="nav-link" data-page="bash-only">SWE-bench Bash Only</a></li>
+            <li><a href="multilingual.html" class="nav-link" data-page="docs">SWE-bench Multilingual</a></li>
+            <li><a href="multimodal.html" class="nav-link" data-page="multimodal">SWE-bench Multimodal</a></li>
+            <li><a href="lite.html" class="nav-link" data-page="lite">SWE-bench Lite</a></li>
+            <li class="nav-section-title">About</li>
+            <li><a href="https://openreview.net/pdf?id=VTF8yNQM66" class="nav-link" data-page="paper">Paper <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://swebench.com/SWE-bench/" class="nav-link" data-page="docs">Docs <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="blog.html" class="nav-link" data-page="blog">Blog</a></li>
+            <li><a href="contact.html" class="nav-link" data-page="contact">Contact</a></li>
+            <li><a href="citations.html" class="nav-link" data-page="citations">Citations</a></li>
+            <li><a href="press.html" class="nav-link" data-page="press">Press</a></li>
+            <li><a href="submit.html" class="nav-link" data-page="submit">Submit</a></li>            
+            <li class="nav-section-title">SWE-bench Family</li>
+            <li><a href="https://swe-agent.com/latest/" class="nav-link" data-page="swe-agent"><img src="img/swe-agent-icon.svg" alt="SWE-agent icon" class="sidebar-family-icon">SWE-agent <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://mini-swe-agent.com/" class="nav-link" data-page="mini-swe-agent"><img src="img/mini-icon.svg" alt="mini-SWE-agent icon" class="sidebar-family-icon">mini-SWE-agent <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://swesmith.com/" class="nav-link" data-page="swe-smith"><img src="img/swe-smith-icon.svg" alt="SWE-smith icon" class="sidebar-family-icon">SWE-smith <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://codeclash.ai/" class="nav-link" data-page="codeclash"><img src="img/codeclash.svg" alt="CodeClash icon" class="sidebar-family-icon">CodeClash <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://swe-rex.com/latest/" class="nav-link" data-page="swe-rex"><img src="img/swe-rex-icon.svg" alt="SWE-ReX icon" class="sidebar-family-icon">SWE-ReX <i class="fas fa-external-link-alt"></i></a></li>
+            <li><a href="https://swebench.com/sb-cli/" class="nav-link" data-page="sb-cli"><img src="img/sb-cli-icon.svg" alt="SWE-bench CLI icon" class="sidebar-family-icon">SWE-bench CLI <i class="fas fa-external-link-alt"></i></a></li>
+        </ul>
+    </nav>
+    <div class="sidebar-footer">
+        <a href="https://github.com/swe-bench/SWE-bench" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-github"></i>
+        </a>
+        &nbsp;
+        <a href="https://www.youtube.com/@SWE-bench" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-youtube"></i>
+        </a>
+        &nbsp;
+        <a href="https://twitter.com/SWEbench" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-twitter"></i>
+        </a>
+        &nbsp;
+        <a href="https://join.slack.com/t/swe-bench/shared_invite/zt-36pj9bu5s-o3_yXPZbaH2wVnxnss1EkQ" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-slack"></i>
+        </a>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+</aside>
+    
+    <div class="main-content">
+        
+    <header class="page-header">
+        <div class="container">
+            <h1>[SWE-Smith Multilingual] Expanding to JavaScript</h1>
+            <p style="color: var(--gray);">
+                2026-01-13
+                 &bull; by Kevin Li, Arpandeep Khatua
+                
+            </p>
+        </div>
+    </header>
+
+
+    <div class="container" style="margin-top: 2em;">
+        <div class="blog-content">
+            <p>This is the very first step of the <em>SWE-smith Multilingual</em> effort  - we're a team working in the open with the aim of expanding SWE-bench style task collection to non-Python programming languages.</p>
+<p>We've expanded <a href="https://github.com/SWE-bench/SWE-smith">SWE-Smith</a> to support JavaScript, generating and validating 6,099 synthetic bug patches across 74 popular JS repositories.</p>
+<p>Here's what to expect in the coming months:
+1. Get automatic repository installation + procedural modifications working for new languages. On our roadmap: JavaScript, TypeScript, Java, Rust, Golang, C++
+2. Run LM based bug generation methods for all added repositories.
+3. Run experiments to better understand the impact of programming languages and repositories on model training dynamics and downstream performance on coding tasks.</p>
+<p>If you'd like to get involved, join our Slack (link on the bottom left!)
+It's (currently) not explicitly on our roadmap, but another direction we'd love help with is incorporating new bug generation strategies into SWE-smith.</p>
+<p>In this blog post, we specifically report on expanding SWE-smith to JavaScript repositories.</p>
+<!-- more -->
+
+<div class="admonition abstract">
+<p class="admonition-title">Key Results</p>
+<ul>
+<li><strong>6,099 validated patches</strong> out of 35,697 generated (17% validation rate)</li>
+<li><strong>14 procedural modifiers</strong> for JavaScript bug generation</li>
+<li><strong>End-to-end Modal pipeline</strong> that reduces bug generation from days to hours</li>
+<li><strong><a href="https://huggingface.co/datasets/SWE-bench/SWE-smith-js">HuggingFace Dataset</a></strong></li>
+</ul>
+</div>
+<h2>What is SWE-Smith?</h2>
+<p>SWE-Smith is a tool for synthesizing realistic bugs in software repositories. By applying procedural modifications to working code (like flipping operators or swapping function arguments), it creates bugs that break tests—providing training data for code repair models and evaluation benchmarks.</p>
+<p>Until now, SWE-Smith only supported Python. This expansion brings the same capabilities to JavaScript.</p>
+<h2>Results by Repository</h2>
+<p>The most productive repository was <a href="https://github.com/josdejong/mathjs">josdejong/mathjs</a>, which features lots of arithmetic operations and comprehensive unit tests—an ideal combination for procedural bug generation. It produced 845 validated patches with a 62.8% pass rate.</p>
+<p>Here are the top performers:</p>
+<table>
+<thead>
+<tr>
+<th>Repository</th>
+<th>Generated</th>
+<th>Validated</th>
+<th>Pass Rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>josdejong/mathjs</td>
+<td>1,346</td>
+<td>845</td>
+<td>62.8%</td>
+</tr>
+<tr>
+<td>novnc/noVNC</td>
+<td>1,384</td>
+<td>715</td>
+<td>51.7%</td>
+</tr>
+<tr>
+<td>Automattic/mongoose</td>
+<td>1,440</td>
+<td>653</td>
+<td>45.3%</td>
+</tr>
+<tr>
+<td>bootstrap-vue/bootstrap-vue</td>
+<td>1,079</td>
+<td>492</td>
+<td>45.7%</td>
+</tr>
+<tr>
+<td>foliojs/pdfkit</td>
+<td>797</td>
+<td>408</td>
+<td>51.2%</td>
+</tr>
+</tbody>
+</table>
+<details class="note">
+<summary>All 74 repositories</summary>
+<table>
+<thead>
+<tr>
+<th>Repository</th>
+<th>Generated</th>
+<th>Validated</th>
+<th>Pass Rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>josdejong/mathjs</td>
+<td>1,346</td>
+<td>845</td>
+<td>62.8%</td>
+</tr>
+<tr>
+<td>novnc/noVNC</td>
+<td>1,384</td>
+<td>715</td>
+<td>51.7%</td>
+</tr>
+<tr>
+<td>Automattic/mongoose</td>
+<td>1,440</td>
+<td>653</td>
+<td>45.3%</td>
+</tr>
+<tr>
+<td>bootstrap-vue/bootstrap-vue</td>
+<td>1,079</td>
+<td>492</td>
+<td>45.7%</td>
+</tr>
+<tr>
+<td>foliojs/pdfkit</td>
+<td>797</td>
+<td>408</td>
+<td>51.2%</td>
+</tr>
+<tr>
+<td>bpampuch/pdfmake</td>
+<td>1,961</td>
+<td>264</td>
+<td>13.5%</td>
+</tr>
+<tr>
+<td>caolan/async</td>
+<td>645</td>
+<td>233</td>
+<td>36.3%</td>
+</tr>
+<tr>
+<td>enzymejs/enzyme</td>
+<td>819</td>
+<td>228</td>
+<td>30.6%</td>
+</tr>
+<tr>
+<td>Netflix/falcor</td>
+<td>1,046</td>
+<td>166</td>
+<td>15.9%</td>
+</tr>
+<tr>
+<td>nock/nock</td>
+<td>337</td>
+<td>161</td>
+<td>47.8%</td>
+</tr>
+<tr>
+<td>redux-saga/redux-saga</td>
+<td>277</td>
+<td>153</td>
+<td>55.4%</td>
+</tr>
+<tr>
+<td>sveltejs/svelte</td>
+<td>274</td>
+<td>151</td>
+<td>55.1%</td>
+</tr>
+<tr>
+<td>necolas/react-native-web</td>
+<td>506</td>
+<td>134</td>
+<td>26.5%</td>
+</tr>
+<tr>
+<td>axios/axios</td>
+<td>304</td>
+<td>133</td>
+<td>43.8%</td>
+</tr>
+<tr>
+<td>websockets/ws</td>
+<td>384</td>
+<td>131</td>
+<td>35.2%</td>
+</tr>
+<tr>
+<td>svg/svgo</td>
+<td>171</td>
+<td>126</td>
+<td>73.7%</td>
+</tr>
+<tr>
+<td>nightwatchjs/nightwatch</td>
+<td>963</td>
+<td>121</td>
+<td>12.6%</td>
+</tr>
+<tr>
+<td>emotion-js/emotion</td>
+<td>210</td>
+<td>113</td>
+<td>53.8%</td>
+</tr>
+<tr>
+<td>josdejong/jsoneditor</td>
+<td>920</td>
+<td>111</td>
+<td>12.1%</td>
+</tr>
+<tr>
+<td>mochajs/mocha</td>
+<td>402</td>
+<td>108</td>
+<td>26.9%</td>
+</tr>
+<tr>
+<td>iamkun/dayjs</td>
+<td>173</td>
+<td>99</td>
+<td>57.6%</td>
+</tr>
+<tr>
+<td>brianc/node-postgres</td>
+<td>319</td>
+<td>97</td>
+<td>30.4%</td>
+</tr>
+<tr>
+<td>Shopify/draggable</td>
+<td>222</td>
+<td>90</td>
+<td>40.5%</td>
+</tr>
+<tr>
+<td>welldone-software/why-did-you-render</td>
+<td>162</td>
+<td>66</td>
+<td>40.7%</td>
+</tr>
+<tr>
+<td>balderdashy/sails</td>
+<td>157</td>
+<td>61</td>
+<td>38.9%</td>
+</tr>
+<tr>
+<td>reactjs/react-transition-group</td>
+<td>95</td>
+<td>49</td>
+<td>51.6%</td>
+</tr>
+<tr>
+<td>remy/nodemon</td>
+<td>212</td>
+<td>47</td>
+<td>22.2%</td>
+</tr>
+<tr>
+<td>advplyr/audiobookshelf</td>
+<td>1,590</td>
+<td>45</td>
+<td>2.8%</td>
+</tr>
+<tr>
+<td>segmentio/evergreen</td>
+<td>114</td>
+<td>41</td>
+<td>36.0%</td>
+</tr>
+<tr>
+<td>webpack/webpack</td>
+<td>303</td>
+<td>31</td>
+<td>10.2%</td>
+</tr>
+<tr>
+<td>jantimon/html-webpack-plugin</td>
+<td>143</td>
+<td>13</td>
+<td>9.1%</td>
+</tr>
+<tr>
+<td>babel/babel</td>
+<td>78</td>
+<td>9</td>
+<td>11.7%</td>
+</tr>
+<tr>
+<td>mholt/PapaParse</td>
+<td>422</td>
+<td>3</td>
+<td>0.7%</td>
+</tr>
+<tr>
+<td>marko-js/marko</td>
+<td>255</td>
+<td>2</td>
+<td>0.8%</td>
+</tr>
+<tr>
+<td>11ty/eleventy</td>
+<td>1,032</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>GoogleChrome/workbox</td>
+<td>88</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>HabitRPG/habitica</td>
+<td>284</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>Modernizr/Modernizr</td>
+<td>225</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>Qix-/color</td>
+<td>35</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>Unitech/pm2</td>
+<td>898</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>akiran/react-slick</td>
+<td>40</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>davila7/claude-code-templates</td>
+<td>1,357</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>diegomura/react-pdf</td>
+<td>631</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>elbywan/wretch</td>
+<td>7</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>expressjs/express</td>
+<td>31</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>expressjs/multer</td>
+<td>44</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>facebookexperimental/Recoil</td>
+<td>178</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>forwardemail/superagent</td>
+<td>68</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>forwardemail/supertest</td>
+<td>3</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>gka/chroma.js</td>
+<td>33</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>hakimel/reveal.js</td>
+<td>1,965</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>handsontable/handsontable</td>
+<td>502</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>hapijs/joi</td>
+<td>650</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>highlightjs/highlight.js</td>
+<td>759</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>immutable-js/immutable-js</td>
+<td>636</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>impress/impress.js</td>
+<td>114</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>jashkenas/backbone</td>
+<td>7</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>jquery/jquery</td>
+<td>454</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>koajs/koa</td>
+<td>97</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>kriskowal/q</td>
+<td>128</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>layui/layui</td>
+<td>105</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>louislam/uptime-kuma</td>
+<td>1,227</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>mdx-js/mdx</td>
+<td>242</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>mrdoob/three.js</td>
+<td>0</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>mui/material-ui</td>
+<td>113</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>parallax/jsPDF</td>
+<td>85</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>piskelapp/piskel</td>
+<td>1,131</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>pqina/filepond</td>
+<td>6</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>remarkjs/react-markdown</td>
+<td>43</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>serverless/serverless</td>
+<td>1,144</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>sql-js/sql.js</td>
+<td>8</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>tj/commander.js</td>
+<td>321</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>usebruno/bruno</td>
+<td>962</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+<tr>
+<td>webtorrent/webtorrent</td>
+<td>534</td>
+<td>0</td>
+<td>0.0%</td>
+</tr>
+</tbody>
+</table>
+</details>
+<p>However, half of the 74 repositories contributed zero validated patches:</p>
+<ul>
+<li><strong>20 repos</strong> failed during pre-gold validation (test results not parsed correctly)</li>
+<li><strong>20 repos</strong> had too few patches (&lt;50 patches, making validation cost outweigh contribution)</li>
+</ul>
+<h2>Modifier Effectiveness</h2>
+<p>We implemented 14 procedural modifiers for JavaScript. Their effectiveness varies significantly:</p>
+<table>
+<thead>
+<tr>
+<th>Modifier</th>
+<th>Generated</th>
+<th>Validated</th>
+<th>Pass Rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>func_pm_op_flip</code></td>
+<td>5,380</td>
+<td>1,117</td>
+<td>30.8%</td>
+</tr>
+<tr>
+<td><code>func_pm_arg_swap</code></td>
+<td>3,228</td>
+<td>722</td>
+<td>32.7%</td>
+</tr>
+<tr>
+<td><code>func_pm_remove_assign</code></td>
+<td>3,602</td>
+<td>632</td>
+<td>25.4%</td>
+</tr>
+<tr>
+<td><code>func_pm_remove_cond</code></td>
+<td>4,009</td>
+<td>604</td>
+<td>21.9%</td>
+</tr>
+<tr>
+<td><code>func_pm_ctrl_invert_if</code></td>
+<td>1,890</td>
+<td>490</td>
+<td>35.7%</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>func_pm_op_flip</code> modifier emerged as the most productive, generating 1,117 validated patches—nearly double the next best modifier. This makes sense: flipping binary operators (e.g., <code>===</code> to <code>!==</code>, <code>&lt;</code> to <code>&gt;=</code>, <code>&amp;&amp;</code> to <code>||</code>) applies to a wide range of expressions found across all repositories.</p>
+<details class="note">
+<summary>All 14 modifiers</summary>
+<table>
+<thead>
+<tr>
+<th>Modifier</th>
+<th>Description</th>
+<th>Generated</th>
+<th>Validated</th>
+<th>Pass Rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>func_pm_op_flip</code></td>
+<td>Flip binary operators</td>
+<td>5,380</td>
+<td>1,117</td>
+<td>30.8%</td>
+</tr>
+<tr>
+<td><code>func_pm_arg_swap</code></td>
+<td>Swap function arguments</td>
+<td>3,228</td>
+<td>722</td>
+<td>32.7%</td>
+</tr>
+<tr>
+<td><code>func_pm_remove_assign</code></td>
+<td>Remove assignments</td>
+<td>3,602</td>
+<td>632</td>
+<td>25.4%</td>
+</tr>
+<tr>
+<td><code>func_pm_remove_cond</code></td>
+<td>Remove conditionals</td>
+<td>4,009</td>
+<td>604</td>
+<td>21.9%</td>
+</tr>
+<tr>
+<td><code>func_pm_ctrl_invert_if</code></td>
+<td>Swap if/else branches</td>
+<td>1,890</td>
+<td>490</td>
+<td>35.7%</td>
+</tr>
+<tr>
+<td><code>func_pm_op_change_const</code></td>
+<td>Modify numeric constants</td>
+<td>2,559</td>
+<td>487</td>
+<td>28.6%</td>
+</tr>
+<tr>
+<td><code>func_pm_op_swap</code></td>
+<td>Swap operands</td>
+<td>4,945</td>
+<td>443</td>
+<td>13.2%</td>
+</tr>
+<tr>
+<td><code>func_pm_op_change</code></td>
+<td>Change operators (+, -, *, /)</td>
+<td>2,157</td>
+<td>336</td>
+<td>25.4%</td>
+</tr>
+<tr>
+<td><code>func_pm_op_break_chains</code></td>
+<td>Break chained operations</td>
+<td>2,343</td>
+<td>304</td>
+<td>18.9%</td>
+</tr>
+<tr>
+<td><code>func_pm_ternary_swap</code></td>
+<td>Swap ternary branches</td>
+<td>1,442</td>
+<td>277</td>
+<td>27.6%</td>
+</tr>
+<tr>
+<td><code>func_pm_remove_loop</code></td>
+<td>Remove loop constructs</td>
+<td>1,356</td>
+<td>253</td>
+<td>24.6%</td>
+</tr>
+<tr>
+<td><code>func_pm_remove_ternary</code></td>
+<td>Remove ternary expressions</td>
+<td>1,335</td>
+<td>185</td>
+<td>20.4%</td>
+</tr>
+<tr>
+<td><code>func_pm_aug_assign_swap</code></td>
+<td>Swap augmented assignments</td>
+<td>1,063</td>
+<td>143</td>
+<td>18.6%</td>
+</tr>
+<tr>
+<td><code>func_pm_ctrl_shuffle</code></td>
+<td>Shuffle statements in loops</td>
+<td>388</td>
+<td>106</td>
+<td>36.7%</td>
+</tr>
+</tbody>
+</table>
+</details>
+<h2>Scaling with Modal</h2>
+<p>Previously, running bug generation at scale meant days of local compute. We now run the entire pipeline on <a href="https://modal.com">Modal</a>, reducing this to hours.</p>
+<p>The pipeline:</p>
+<ol>
+<li><strong>Generate patches</strong> by applying procedural modifiers to repository code</li>
+<li><strong>Validate patches</strong> by running each repository's test suite in isolated containers</li>
+<li><strong>Store results</strong> in the <a href="https://huggingface.co/datasets/SWE-bench/SWE-smith-js">HuggingFace Dataset</a></li>
+</ol>
+<p>The <a href="https://github.com/SWE-bench/SWE-smith/blob/d9f1db9bfb5e90f7ed8eaa199e78be5692ad1286/docs/guides/create_instances.md#running-at-scale-on-modal">updated documentation</a> walks through this pipeline step by step.</p>
+<h2>Generating tasks from PRs via SWE-gen</h2>
+<p>Alongside synthetic patches, we're expanding task creation using <a href="https://github.com/abundant-ai/SWE-gen">SWE-gen</a>, which turns merged GitHub PRs into verifiable tasks automatically. SWE-gen works across languages by detecting the language, build system, and test framework. It reverses the PR to reconstruct the buggy state, and verifies agent bahavior via fail-to-pass tests.</p>
+<p><a href="https://github.com/abundant-ai/SWE-gen-JS">SWE-gen-JS</a> consists of 1,000 tasks generated from 30 popular open-source JS/TS repos. Tasks derived from real bug-fixes complement synthetic ones by capturing multi-file changes and test setups that procedural modifiers can't always emulate.</p>
+<h2>What's Next?</h2>
+<p>To increase the number of productive repositories, we're improving the repository construction agent:</p>
+<ol>
+<li><strong>Pre-validation checks</strong>: Ensure &gt;0 pre-gold tests pass before adding a profile</li>
+<li><strong>Smarter repo selection</strong>: Learn from the 20 unproductive samples to sharpen selection heuristics</li>
+</ol>
+<p>The <code>func_pm_ctrl_shuffle</code> modifier also has room for improvement—its <code>HAS_LOOP</code> filter may be unnecessarily strict, limiting its applicability.</p>
+<hr />
+<p><em>Check out the <a href="https://github.com/SWE-bench/SWE-smith/pull/192">full PR</a> for implementation details.</em></p>
+        </div>
+        
+        <hr style="margin-top: 3em;" />
+        <p style="text-align: center;">
+            <a href="blog.html">&larr; Back to Blog</a>
+        </p>
+    </div>
+
+        
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-copyright">
+                        &copy; 2025 SWE-bench Team. All rights reserved.
+                    </div>
+                    <div class="footer-links">
+                        <a href="https://github.com/swe-bench/SWE-bench" target="_blank">GitHub</a>
+                        <a href="https://huggingface.co/collections/SWE-bench/benchmarks-68113bc99eb3a64a91ea33c9" target="_blank">HuggingFace</a>
+                        <a href="https://arxiv.org/abs/2310.06770" target="_blank">Paper</a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Common JS files -->
+    <script src="js/mainResults.js"></script>
+    <script src="js/citation.js"></script>
+    <script src="js/citationFormat.js"></script>
+    
+    <!-- Page-specific JS files will be injected here -->
+    
+
+    <script>
+        function initTheme() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            // Move dark-mode class from documentElement to body if present
+            if (document.documentElement.classList.contains('dark-mode')) {
+                document.body.classList.add('dark-mode');
+                document.documentElement.classList.remove('dark-mode');
+            }
+            
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    document.body.classList.toggle('dark-mode');
+                    
+                    const isDarkMode = document.body.classList.contains('dark-mode');
+                    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+                });
+            }
+            
+            prefersDarkScheme.addEventListener('change', (e) => {
+                if (!localStorage.getItem('theme')) {
+                    if (e.matches) {
+                        document.body.classList.add('dark-mode');
+                    } else {
+                        document.body.classList.remove('dark-mode');
+                    }
+                }
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            
+            const currentPath = window.location.pathname;
+            const currentPage = currentPath.split('/').pop().split('.')[0] || 'index';
+            
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                const linkPage = link.getAttribute('data-page');
+                if (linkPage === currentPage) {
+                    link.classList.add('active');
+                }
+                
+                if (currentPage === 'index' && window.location.hash) {
+                    const currentHash = window.location.hash.substring(1);
+                    if (linkPage === currentHash) {
+                        link.classList.add('active');
+                    }
+                }
+            });
+            
+            const sidebarOpener = document.querySelector('.sidebar-opener');
+            const sidebarCloser = document.querySelector('.sidebar .mobile-nav-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            
+            if ((sidebarOpener || sidebarCloser) && sidebar && overlay) {
+                function toggleMenu() {
+                    sidebar.classList.toggle('open');
+                    overlay.classList.toggle('active');
+                }
+                
+                function openMenu() {
+                    sidebar.classList.add('open');
+                    overlay.classList.add('active');
+                }
+                
+                function closeMenu() {
+                    sidebar.classList.remove('open');
+                    overlay.classList.remove('active');
+                }
+                
+                if (sidebarOpener) {
+                    sidebarOpener.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        openMenu();
+                    });
+                }
+                
+                if (sidebarCloser) {
+                    sidebarCloser.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        closeMenu();
+                    });
+                }
+                
+                overlay.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    closeMenu();
+                });
+                
+                navLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        if (sidebar.classList.contains('open')) {
+                            closeMenu();
+                        }
+                    });
+                });
+                
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+                        closeMenu();
+                    }
+                });
+            }
+        });
+    </script>
+
+    
+    <!-- Optional page-specific scripts -->
+    
+</body>
+</html> 
