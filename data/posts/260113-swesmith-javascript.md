@@ -1,5 +1,5 @@
 ---
-title: "[SWE-Smith] Expanding to JavaScript"
+title: "[SWE-Smith Multilingual] Expanding to JavaScript"
 date: 2026-01-13
 description: Scalable bug generation now supports JavaScript with 6,099 validated patches
 authors:
@@ -7,7 +7,20 @@ authors:
   - Arpandeep Khatua
 ---
 
+This is the very first step of the *SWE-smith Multilingual* effort  - we're a team working in the open with the aim of expanding SWE-bench style task collection to non-Python programming languages.
+
 We've expanded [SWE-Smith](https://github.com/SWE-bench/SWE-smith) to support JavaScript, generating and validating 6,099 synthetic bug patches across 74 popular JS repositories.
+
+Here's what to expect in the coming months:
+1. Get automatic repository installation + procedural modifications working for new languages. On our roadmap: JavaScript, TypeScript, Java, Rust, Golang, C++
+2. Run LM based bug generation methods for all added repositories.
+3. Run experiments to better understand the impact of programming languages and repositories on model training dynamics and downstream performance on coding tasks.
+
+
+If you'd like to get involved, join our Slack (link on the bottom left!)
+It's (currently) not explicitly on our roadmap, but another direction we'd love help with is incorporating new bug generation strategies into SWE-smith.
+
+In this blog post, we specifically report on expanding SWE-smith to JavaScript repositories.
 
 <!-- more -->
 
