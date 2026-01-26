@@ -76,11 +76,16 @@
     }
 
     function openModal() {
+        // Always show the selection modal first
+        openNoSelectionModal();
+    }
+
+    function openCompareModal() {
         const selected = getSelectedModels();
-        if (!selected.length) {
-            openNoSelectionModal();
-            return;
-        }
+        if (!selected.length) return;
+        
+        closeNoSelectionModal();
+        
         const modal = document.getElementById('compare-modal');
         if (!modal) return;
         
@@ -99,6 +104,31 @@
         if (!modal) return;
         modal.classList.add('show');
         modal.setAttribute('aria-hidden', 'false');
+        updateCompareSelectedButton();
+        
+        // Focus the compare button for Enter key support
+        const compareBtn = document.getElementById('compare-selected-btn');
+        if (compareBtn) {
+            setTimeout(() => compareBtn.focus(), 50);
+        }
+    }
+
+    function updateCompareSelectedButton() {
+        const selected = getSelectedModels();
+        const btn = document.getElementById('compare-selected-btn');
+        const msg = document.getElementById('no-selection-message');
+        
+        if (!btn) return;
+        
+        if (selected.length > 0) {
+            btn.disabled = false;
+            btn.classList.remove('button-disabled');
+            if (msg) msg.style.display = 'none';
+        } else {
+            btn.disabled = true;
+            btn.classList.add('button-disabled');
+            if (msg) msg.style.display = '';
+        }
     }
 
     function closeNoSelectionModal() {
@@ -130,7 +160,7 @@
         });
         
         closeNoSelectionModal();
-        openModal();
+        openCompareModal();
     }
 
     function selectTopN(n, openWeightsOnly = false) {
@@ -161,10 +191,10 @@
         });
         
         closeNoSelectionModal();
-        openModal();
+        openCompareModal();
     }
 
-    function closeModal() {
+    function closeCompareModal() {
         const modal = document.getElementById('compare-modal');
         if (!modal) return;
         modal.classList.remove('show');
@@ -508,17 +538,14 @@
                 }
             });
             
-            // Open the compare modal
-            openModal();
-            
-            // Set the chart type
+            // Set the chart type before opening modal
             const chartTypeSelect = document.getElementById('compare-chart-type');
             if (chartTypeSelect) {
                 chartTypeSelect.value = chartType;
             }
             
-            // Render the chart
-            renderChart();
+            // Open the compare modal directly (bypass selection modal since models are from URL)
+            openCompareModal();
         }, 300);
     }
 
@@ -558,7 +585,7 @@
                 const closeEl = e.target && typeof e.target.closest === 'function' ? e.target.closest('[data-close="true"]') : null;
                 if (closeEl) {
                     e.preventDefault();
-                    closeModal();
+                    closeCompareModal();
                 }
             });
         }
@@ -594,12 +621,12 @@
             });
         }
 
-        // Quickselect button handler
+        // Quickselect button handler (in compare modal, opens selection modal)
         const quickselectBtn = document.getElementById('quickselect-btn');
         if (quickselectBtn) {
             quickselectBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                closeModal();
+                closeCompareModal();
                 openNoSelectionModal();
             });
         }
@@ -641,6 +668,26 @@
                     closeNoSelectionModal();
                 }
             });
+            
+            // Handle Enter key to trigger compare button
+            noSelectionModal.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const btn = document.getElementById('compare-selected-btn');
+                    if (btn && !btn.disabled) {
+                        e.preventDefault();
+                        openCompareModal();
+                    }
+                }
+            });
+        }
+
+        // Compare selected models button
+        const compareSelectedBtn = document.getElementById('compare-selected-btn');
+        if (compareSelectedBtn) {
+            compareSelectedBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openCompareModal();
+            });
         }
 
         // Quick select buttons
@@ -666,8 +713,13 @@
 
         document.addEventListener('change', (e) => {
             if (e.target && e.target.classList.contains('row-select')) {
+                // Update chart if compare modal is open
                 if (document.getElementById('compare-modal')?.classList.contains('show')) {
                     renderChart();
+                }
+                // Update button state if selection modal is open
+                if (document.getElementById('no-selection-modal')?.classList.contains('show')) {
+                    updateCompareSelectedButton();
                 }
             }
         });

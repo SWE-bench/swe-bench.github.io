@@ -51,6 +51,27 @@ button:focus,
   border-color: var(--color-accent-dark);
 }
 
+/* Disabled button */
+.button-disabled,
+.button:disabled,
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.button-primary.button-disabled,
+.button-primary:disabled {
+  background-color: var(--gray-400);
+  border-color: var(--gray-400);
+}
+
+.dark-mode .button-primary.button-disabled,
+.dark-mode .button-primary:disabled {
+  background-color: var(--gray-600);
+  border-color: var(--gray-600);
+}
+
 /* Secondary button */
 .button-secondary {
   background-color: var(--gray-100);
