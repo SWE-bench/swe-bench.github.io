@@ -279,19 +279,22 @@
     
 </div>
 
-<!-- No Selection Modal -->
+<!-- Model Selection Modal -->
 <div id="no-selection-modal" class="modal" aria-hidden="true">
     <div class="modal-backdrop" data-close="true"></div>
     <div class="modal-dialog modal-dialog-small" role="dialog" aria-modal="true" aria-labelledby="no-selection-modal-title">
         <div class="modal-header">
-            <h3 id="no-selection-modal-title" class="m-0">No models selected</h3>
+            <h3 id="no-selection-modal-title" class="m-0">Compare models</h3>
             <button class="modal-close" aria-label="Close" data-close="true"><i class="fa fa-times"></i></button>
         </div>
         <div class="modal-body">
-            <p class="mb-3">Select at least one model using the checkboxes in the first columns, or click one of the following buttons for a pre-defined selection.</p>
-            <p class="mb-2 fw-medium">Quick select:</p>
+            <button id="compare-selected-btn" class="button button-primary w-100 mb-2" type="button">
+                <i class="fa-solid fa-chart-column"></i>&nbsp;Compare selected models
+            </button>
+            <p id="no-selection-message" class="text-muted mb-3" style="display: none;">No models selected. Use quick select or go back to select models in the first column.</p>
+            <p class="mb-2 fw-medium">Alternatively, use the quick select:</p>
             <div class="d-flex gap-2 flex-wrap">
-                <button id="select-top-10" class="button button-primary" type="button">Select top 10</button>
+                <button id="select-top-10" class="button button-secondary" type="button">Select top 10</button>
                 <button id="select-top-20" class="button button-secondary" type="button">Select top 20</button>
                 <button id="select-all" class="button button-secondary" type="button">Select all</button>
                 <button id="select-all-ow" class="button button-secondary" type="button">Select all (open weights)</button>
