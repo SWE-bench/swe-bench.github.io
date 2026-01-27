@@ -37,6 +37,9 @@ const MODEL_RELEASE_DATES = {
     'claude-sonnet-4-5': 20250929,
     'claude-sonnet-4.5': 20250929,
 
+    // Claude Haiku 4.5: October 15, 2025 - https://www.anthropic.com/news/claude-haiku-4-5
+    'claude-haiku-4-5-20251101': 20251015,
+
     // Claude Opus 4.5: November 24, 2025 - https://www.anthropic.com/news/claude-opus-4-5
     'claude-opus-4-5-20251101': 20251124,
 
