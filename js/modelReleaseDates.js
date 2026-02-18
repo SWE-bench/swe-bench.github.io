@@ -43,6 +43,7 @@ const MODEL_RELEASE_DATES = {
 
     // Claude Opus 4.5: November 24, 2025 - https://www.anthropic.com/news/claude-opus-4-5
     'claude-opus-4-5-20251101': 20251124,
+    'claude-4-5-opus': 20251124,
 
     // Claude Opus 4.6: February 5, 2026 - https://www.anthropic.com/news/claude-opus-4-6
     'claude-opus-4-6': 20260205,
@@ -108,6 +109,7 @@ const MODEL_RELEASE_DATES = {
 
     // GPT-5.2: December 11, 2025 - https://openai.com/index/introducing-gpt-5-2/
     'gpt-5.2-2025-12-11': 20251211,
+    'gpt-5-2': 20251211,
 
     // gpt-oss: August 5, 2025 - https://openai.com/index/introducing-gpt-oss/
     'gpt-oss-120b': 20250805,
@@ -144,6 +146,7 @@ const MODEL_RELEASE_DATES = {
 
     // Gemini 3 Flash: December 17, 2025 - https://blog.google/products/gemini/gemini-3-flash/
     'gemini-3-flash': 20251217,
+    'gemini-3-flash-preview': 20251217,
 
     // ==================== DeepSeek ====================
     // DeepSeek V3: December 26, 2024 - https://api-docs.deepseek.com/news/news1226
@@ -244,6 +247,10 @@ const MODEL_RELEASE_DATES = {
     // ==================== MiniMax ====================
     // MiniMax M2: October 27, 2025 - https://www.minimax.io/
     'minimax-m2': 20251027,
+
+    // MiniMax M2.5: February 12, 2026 - https://www.minimax.io/news/minimax-m25
+    'minimax-m2.5': 20260212,
+    'minimax-2.5': 20260212,
 
     // ==================== Amazon ====================
     // Amazon Nova Premier: April 30, 2025 - https://aws.amazon.com/blogs/aws/introducing-amazon-nova-frontier-intelligence-and-industry-leading-price-performance/
