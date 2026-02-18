@@ -281,6 +281,9 @@ function updateFilterVisibility(leaderboardName) {
     // Hide main filters (open scaffold/weight/checked) for bash-only and multilingual, but keep tag filters visible
     if (mainFiltersContainer) mainFiltersContainer.style.display = hideMainFilters ? 'none' : '';
     if (tagFiltersContainer) tagFiltersContainer.style.display = '';
+
+    const legacyVersionFilter = document.getElementById('legacy-version-filter');
+    if (legacyVersionFilter) legacyVersionFilter.style.display = isBashOnly ? '' : 'none';
 }
 
 // Table Update Logic - Optimized for lazy loading
@@ -307,6 +310,17 @@ function updateTable() {
             }
         }
         
+        // Check legacy version filter
+        if (showRow) {
+            const legacyFilterContainer = document.getElementById('legacy-version-filter');
+            const showLegacyCheckbox = document.getElementById('show-legacy-versions');
+            if (legacyFilterContainer && legacyFilterContainer.style.display !== 'none' &&
+                showLegacyCheckbox && !showLegacyCheckbox.checked &&
+                row.classList.contains('legacy-version-row')) {
+                showRow = false;
+            }
+        }
+
         // Check tag filter
         if (showRow && window.tagFiltersDropdown) {
             const selectedTags = window.tagFiltersDropdown.getSelectedValues();
@@ -391,6 +405,12 @@ document.addEventListener('DOMContentLoaded', function() {
     window.mainFiltersDropdown = mainFiltersDropdown;
     window.tagFiltersDropdown = tagFiltersDropdown;
     
+    // Wire up legacy version checkbox
+    const showLegacyCheckbox = document.getElementById('show-legacy-versions');
+    if (showLegacyCheckbox) {
+        showLegacyCheckbox.addEventListener('change', updateTable);
+    }
+
     // Check for initial leaderboard visibility (in case landing directly on bash-only)
     setTimeout(() => {
         const activeLeaderboard = document.querySelector('.tabcontent.active');
@@ -409,7 +429,7 @@ function updateLeaderboardDescription(leaderboardName) {
     if (!textContainer) return;
     
     const descriptions = {
-        'bash-only': '<em>Bash Only</em> evaluates all LMs with a <a href="https://github.com/SWE-agent/mini-swe-agent">minimal agent</a> on SWE-bench Verified.<br/>Grayed out results were obtained with a different agent version (<a href="bash-only.html">details</a>).',
+        'bash-only': '<em>Bash Only</em> evaluates all LMs with a <a href="https://github.com/SWE-agent/mini-swe-agent">minimal agent</a> on SWE-bench Verified (<a href="bash-only.html">details</a>).',
         'multilingual': '<em>Multilingual</em> features 300 tasks across 9 programming languages (<a href="multilingual-leaderboard.html">details</a>)',
         'lite': '<em>Lite</em> is a subset of 300 instances for less costly evaluation (<a href="lite.html">details</a>)',
         'verified': '<em>Verified</em> is a human-filtered subset of 500 instances (<a href="https://openai.com/index/introducing-swe-bench-verified/">details</a>)',
