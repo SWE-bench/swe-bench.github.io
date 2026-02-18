@@ -16,9 +16,6 @@ const statusToNaturalLanguage = {
 const loadedLeaderboards = new Set();
 let leaderboardData = null;
 
-// Track which badges have been shown to avoid re-animating
-const badgesShown = new Set();
-
 const sortState = { field: 'resolved', direction: 'desc' };
 
 function loadLeaderboardData() {
@@ -108,7 +105,7 @@ function renderLeaderboardTable(leaderboard) {
                             <th class="sortable" data-sort="name">Model</th>
                             <th class="sortable" data-sort="resolved">% Resolved</th>
                             ${hasDetailedFeatures ? '<th class="sortable" data-sort="instance_cost" title="Average cost per task instance in the benchmark">Avg. $</th>' : ''}
-                            ${hasDetailedFeatures ? '<th class="sortable" data-sort="trajs_docent"><span style="position: relative; display: inline-block;">Trajs<span class="new-badge" data-badge-shown="false">New!</span></span></th>' : ''}
+                            ${hasDetailedFeatures ? '<th class="sortable" data-sort="trajs_docent">Trajs</th>' : ''}
                             <th class="sortable" data-sort="org">Org</th>
                             <th class="sortable" data-sort="date">Date</th>
                             ${!hasDetailedFeatures ? '<th class="sortable" data-sort="site">Site</th>' : ''}
@@ -180,25 +177,6 @@ function renderLeaderboardTable(leaderboard) {
         updateSelectAllCheckbox();
     }
 
-    // Handle new badges - only show animation once per page load
-    const isBashOnlyTab = leaderboardNameLower === 'bash-only';
-    const isMultilingualTab = leaderboardNameLower === 'multilingual';
-    const showBadges = isBashOnlyTab || isMultilingualTab;
-    const badges = container.querySelectorAll('.new-badge');
-    badges.forEach(badge => {
-        const badgeKey = 'trajs-badge-' + leaderboard.name;
-        const hasBeenShown = badgesShown.has(badgeKey);
-
-        if (!showBadges || hasBeenShown) {
-            badge.style.display = 'none';
-        } else {
-            badge.style.display = '';
-            // Mark as shown after animation completes
-            badge.addEventListener('animationend', () => {
-                badgesShown.add(badgeKey);
-            }, { once: true });
-        }
-    });
 }
 
 function attachSortHandlers(leaderboardName) {
@@ -482,9 +460,8 @@ function openLeaderboard(leaderboardName) {
         setTimeout(updateTable, 0);
     }
     
-    // Show/hide compare button and badge based on leaderboard type
+    // Show/hide compare button based on leaderboard type
     const compareBtn = document.getElementById('compare-btn');
-    const compareButtonBadge = document.querySelector('.new-badge-button');
     const leaderboardNameLower = leaderboardName.toLowerCase();
     const isBashOnlyTab = leaderboardNameLower === 'bash-only';
     const isMultilingualTab = leaderboardNameLower === 'multilingual';
@@ -495,16 +472,6 @@ function openLeaderboard(leaderboardName) {
             compareBtn.style.display = '';
         } else {
             compareBtn.style.display = 'none';
-        }
-    }
-
-    // Hide/show compare button badge based on tab and if already shown
-    if (compareButtonBadge) {
-        const hasBeenShown = badgesShown.has('compare-button-badge');
-        if (!showDetailedFeatures || hasBeenShown) {
-            compareButtonBadge.style.display = 'none';
-        } else {
-            compareButtonBadge.style.display = '';
         }
     }
 }
@@ -539,19 +506,6 @@ document.addEventListener('DOMContentLoaded', function() {
             openLeaderboard(leaderboardType);
         });
     });
-    
-    // Handle compare button badge - only show once per page load, only on bash-only
-    const compareButtonBadge = document.querySelector('.new-badge-button');
-    if (compareButtonBadge) {
-        const hasBeenShown = badgesShown.has('compare-button-badge');
-        if (hasBeenShown) {
-            compareButtonBadge.style.display = 'none';
-        } else {
-            compareButtonBadge.addEventListener('animationend', () => {
-                badgesShown.add('compare-button-badge');
-            }, { once: true });
-        }
-    }
     
     // Load initial tab based on hash, page name, or default to bash-only
     const hash = window.location.hash.slice(1).toLowerCase();
