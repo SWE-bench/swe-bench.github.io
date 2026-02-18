@@ -42,6 +42,16 @@
   flex-shrink: 0;
 }
 
+.filter-checkbox label {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--size-xs);
+  white-space: nowrap;
+}
+
 /* =============================================================================
    FILTER CONTROLS
    ============================================================================= */

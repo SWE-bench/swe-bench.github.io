@@ -37,8 +37,16 @@ const MODEL_RELEASE_DATES = {
     'claude-sonnet-4-5': 20250929,
     'claude-sonnet-4.5': 20250929,
 
+    // Claude Haiku 4.5: October 15, 2025 - https://www.anthropic.com/news/claude-haiku-4-5
+    'claude-haiku-4-5-20251101': 20251015,
+    'claude-haiku-4-5-20251001': 20251015,
+
     // Claude Opus 4.5: November 24, 2025 - https://www.anthropic.com/news/claude-opus-4-5
     'claude-opus-4-5-20251101': 20251124,
+    'claude-4-5-opus': 20251124,
+
+    // Claude Opus 4.6: February 5, 2026 - https://www.anthropic.com/news/claude-opus-4-6
+    'claude-opus-4-6': 20260205,
 
     // ==================== OpenAI ====================
     // GPT-4: March 14, 2023 - https://openai.com/research/gpt-4
@@ -91,6 +99,7 @@ const MODEL_RELEASE_DATES = {
     'gpt-5': 20250807,
     'gpt-5-2025-08-07': 20250807,
     'gpt-5-mini-2025-08-07': 20250807,
+    'gpt-5-mini': 20250807,
     'gpt-5-nano-2025-08-07': 20250807,
     'openai/gpt-5-2025-08-07': 20250807,
 
@@ -100,6 +109,7 @@ const MODEL_RELEASE_DATES = {
 
     // GPT-5.2: December 11, 2025 - https://openai.com/index/introducing-gpt-5-2/
     'gpt-5.2-2025-12-11': 20251211,
+    'gpt-5-2': 20251211,
 
     // gpt-oss: August 5, 2025 - https://openai.com/index/introducing-gpt-oss/
     'gpt-oss-120b': 20250805,
@@ -132,6 +142,11 @@ const MODEL_RELEASE_DATES = {
 
     // Gemini 3 Pro: November 18, 2025 - https://blog.google/products/gemini/gemini-3/
     'gemini-3-pro-preview': 20251118,
+    'gemini-3-pro': 20251118,
+
+    // Gemini 3 Flash: December 17, 2025 - https://blog.google/products/gemini/gemini-3-flash/
+    'gemini-3-flash': 20251217,
+    'gemini-3-flash-preview': 20251217,
 
     // ==================== DeepSeek ====================
     // DeepSeek V3: December 26, 2024 - https://api-docs.deepseek.com/news/news1226
@@ -147,6 +162,7 @@ const MODEL_RELEASE_DATES = {
 
     // DeepSeek V3.2: December 1, 2025 - https://api-docs.deepseek.com/news/news251201
     'deepseek-v3.2-reasoner': 20251201,
+    'deepseek-v3.2': 20251201,
 
     // ==================== Qwen ====================
     // Qwen 2.5: September 19, 2024 - https://qwenlm.github.io/blog/qwen2.5/
@@ -213,6 +229,9 @@ const MODEL_RELEASE_DATES = {
     // Kimi K2 Thinking: November 6, 2025
     'Kimi-K2-Thinking': 20251106,
 
+    // Kimi K2.5: January 27, 2026 - https://moonshotai.github.io/Kimi-K2/
+    'kimi-k2.5': 20260127,
+
     // ==================== ZhipuAI / GLM ====================
     // GLM-4.5: July 28, 2025 - https://www.z.ai/
     'GLM-4.5': 20250728,
@@ -222,9 +241,16 @@ const MODEL_RELEASE_DATES = {
     'glm-4.6': 20250930,
     'https://huggingface.co/zai-org/GLM-4.6': 20250930,
 
+    // GLM-5: February 11, 2026 - https://z.ai/
+    'glm-5': 20260211,
+
     // ==================== MiniMax ====================
     // MiniMax M2: October 27, 2025 - https://www.minimax.io/
     'minimax-m2': 20251027,
+
+    // MiniMax M2.5: February 12, 2026 - https://www.minimax.io/news/minimax-m25
+    'minimax-m2.5': 20260212,
+    'minimax-2.5': 20260212,
 
     // ==================== Amazon ====================
     // Amazon Nova Premier: April 30, 2025 - https://aws.amazon.com/blogs/aws/introducing-amazon-nova-frontier-intelligence-and-industry-leading-price-performance/

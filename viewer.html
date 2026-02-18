@@ -58,7 +58,7 @@
             <li><a href="original.html" class="nav-link" data-page="original">SWE-bench</a></li>
             <li><a href="https://openai.com/index/introducing-swe-bench-verified/" class="nav-link" data-page="verified">SWE-bench Verified <i class="fas fa-external-link-alt"></i></a></li>
             <li><a href="bash-only.html" class="nav-link" data-page="bash-only">SWE-bench Bash Only</a></li>
-            <li><a href="multilingual.html" class="nav-link" data-page="docs">SWE-bench Multilingual</a></li>
+            <li><a href="multilingual-leaderboard.html" class="nav-link" data-page="multilingual-leaderboard">SWE-bench Multilingual</a></li>
             <li><a href="multimodal.html" class="nav-link" data-page="multimodal">SWE-bench Multimodal</a></li>
             <li><a href="lite.html" class="nav-link" data-page="lite">SWE-bench Lite</a></li>
             <li class="nav-section-title">About</li>
@@ -129,17 +129,37 @@
                 
                     <select id="model-select-bash-only" >
                         
+                            <option value="20260217_mini-v2.0.0_claude-4-5-opus-high">(2026-02-17) Claude 4.5 Opus (high reasoning)</option>
+                        
+                            <option value="20260217_mini-v2.0.0_gemini-3-flash-high">(2026-02-17) Gemini 3 Flash (high reasoning)</option>
+                        
+                            <option value="20260217_mini-v2.0.0_minimax-2-5-high">(2026-02-17) MiniMax M2.5 (high reasoning)</option>
+                        
+                            <option value="20260217_mini-v2.0.0_claude-4-6-opus">(2026-02-17) Claude Opus 4.6</option>
+                        
                             <option value="20251124_mini-v1.16.0_claude-opus-4-5-20251101">(2025-11-24) Claude 4.5 Opus medium (20251101)</option>
                         
                             <option value="20251118_mini-v1.15.0_gemini-3-pro-preview-20251118">(2025-11-18) Gemini 3 Pro Preview (2025-11-18)</option>
                         
+                            <option value="20260217_mini-v2.0.0_glm-5-high">(2026-02-17) GLM-5 (high reasoning)</option>
+                        
+                            <option value="20260217_mini-v2.0.0_gpt-5-2-high">(2026-02-17) GPT-5-2 (high reasoning)</option>
+                        
                             <option value="20251211_mini-v1.17.2_gpt-5.2-2025-12-11-high">(2025-12-11) GPT-5.2 (2025-12-11) (high reasoning)</option>
                         
+                            <option value="20260217_mini-v2.0.0_claude-4-5-sonnet-high">(2026-02-17) Claude 4.5 Sonnet (high reasoning)</option>
+                        
+                            <option value="20260217_mini-v2.0.0_kimi-k2-5-high">(2026-02-17) Kimi K2.5 (high reasoning)</option>
+                        
                             <option value="20250929_mini-v1.13.3_sonnet-4-5-20250929">(2025-09-29) Claude 4.5 Sonnet (20250929)</option>
+                        
+                            <option value="20260217_mini-v2.0.0_deepseek-3-2-high">(2026-02-17) DeepSeek V3.2 (high reasoning)</option>
                         
                             <option value="20251211_mini-v1.17.2_gpt-5.2-2025-12-11">(2025-12-11) GPT-5.2 (2025-12-11)</option>
                         
                             <option value="20250802_mini-v1.0.0_claude-4-opus-20250514">(2025-08-02) Claude 4 Opus (20250514)</option>
+                        
+                            <option value="20260217_mini-v2.0.0_claude-4-5-haiku-high">(2026-02-17) Claude 4.5 Haiku (high reasoning)</option>
                         
                             <option value="20251124_mini-v1.16.0_gpt-5.1-codex">(2025-11-24) GPT-5.1-codex (medium reasoning)</option>
                         
@@ -160,6 +180,8 @@
                             <option value="20250726_mini-v1.0.0_o3-2025-04-16">(2025-07-26) o3 (2025-04-16)</option>
                         
                             <option value="20251209_mini-v1.17.2_devstral-small-2512">(2025-12-09) Devstral small (2512)</option>
+                        
+                            <option value="20260217_mini-v2.0.0_gpt-5-mini">(2026-02-17) GPT-5 Mini</option>
                         
                             <option value="20250802_mini-v1.0.0_qwen3-coder-480b-a35b-instruct">(2025-08-02) Qwen3-Coder 480B/A35B Instruct</option>
                         
@@ -199,7 +221,37 @@
                         
                     </select>
                 
+                    <select id="model-select-multilingual" hidden>
+                        
+                            <option value="20260213_mini-v2.0.0a0_gemini-3-flash">(2026-02-13) Gemini 3 Flash</option>
+                        
+                            <option value="20260213_mini-v2.0.0a0_claude-4-6-opus">(2026-02-13) Claude 4.6 Opus</option>
+                        
+                            <option value="20260213_mini-v2.0.0a0_claude-4-5-opus">(2026-02-13) Claude 4.5 Opus</option>
+                        
+                            <option value="20260213_mini-v2.0.0a0_glm-5">(2026-02-13) GLM-5</option>
+                        
+                            <option value="20260213_mini-v2.0.0a0_gemini-3-pro">(2026-02-13) Gemini 3 Pro</option>
+                        
+                            <option value="20260216_mini-v2.0.0a0_minimax-2-5">(2026-02-16) Minimax 2.5</option>
+                        
+                            <option value="20260213_mini-v2.0.0a0_claude-4-5-sonnet">(2026-02-13) Claude 4.5 Sonnet</option>
+                        
+                            <option value="20260213_mini-v2.0.0a0_kimi-k2-5">(2026-02-13) Kimi K2.5</option>
+                        
+                            <option value="20260213_mini-v2.0.0a0_gpt-5-2-high">(2026-02-13) GPT-5.2 (high reasoning)</option>
+                        
+                            <option value="20260213_mini-v2.0.0a0_claude-4-5-haiku">(2026-02-13) Claude 4.5 Haiku</option>
+                        
+                            <option value="20260213_mini-v2.0.0a0_deepseek-3-2">(2026-02-13) DeepSeek V3.2</option>
+                        
+                            <option value="20260213_mini-v2.0.0a0_gpt-5-mini">(2026-02-13) GPT-5 mini</option>
+                        
+                    </select>
+                
                     <select id="model-select-test" hidden>
+                        
+                            <option value="20251219_sonar-foundation-agent_claude-opus-4-5">(2025-12-19) Sonar Foundation Agent + Claude 4.5 Opus</option>
                         
                             <option value="20251027_salesforce_SAGE">(2025-10-27) Salesforce AI Research SAGE (bash-only)</option>
                         
@@ -251,6 +303,10 @@
                 
                     <select id="model-select-verified" hidden>
                         
+                            <option value="20251215_livesweagent_claude-opus-4-5">(2025-12-15) live-SWE-agent + Claude 4.5 Opus medium (20251101)</option>
+                        
+                            <option value="20251205_sonar-foundation-agent_claude-opus-4-5">(2025-12-05) Sonar Foundation Agent + Claude 4.5 Opus</option>
+                        
                             <option value="20250928_trae_doubao_seed_code">(2025-09-28) TRAE + Doubao-Seed-Code</option>
                         
                             <option value="20251120_livesweagent_gemini-3-pro-preview">(2025-11-20) live-SWE-agent + Gemini 3 Pro Preview (2025-11-18)</option>
@@ -259,11 +315,19 @@
                         
                             <option value="20250804_epam-ai-run-claude-4-sonnet">(2025-08-04) EPAM AI/Run Developer Agent v20250719 + Claude 4 Sonnet</option>
                         
+                            <option value="20260217_mini-v2.0.0_claude-4-5-opus-high">(2026-02-17) mini-SWE-agent + Claude 4.5 Opus (high reasoning)</option>
+                        
                             <option value="20250819_ACoder">(2025-08-19) ACoder</option>
+                        
+                            <option value="20260217_mini-v2.0.0_gemini-3-flash-high">(2026-02-17) mini-SWE-agent + Gemini 3 Flash (high reasoning)</option>
+                        
+                            <option value="20260217_mini-v2.0.0_minimax-2-5-high">(2026-02-17) mini-SWE-agent + MiniMax M2.5 (high reasoning)</option>
                         
                             <option value="20250901_warp">(2025-09-01) Warp</option>
                         
-                            <option value="20250612_trae">(2025-06-12) TRAE</option>
+                            <option value="20260217_mini-v2.0.0_claude-4-6-opus">(2026-02-17) mini-SWE-agent + Claude Opus 4.6</option>
+                        
+                            <option value="20250612_trae">(2025-06-12) TRAE + Claude Sonnet 4 + Opus 4 + Sonnet 3.7 + Gemini 2.5 Pro</option>
                         
                             <option value="20250731_harness_ai">(2025-07-31) Harness AI</option>
                         
@@ -271,9 +335,9 @@
                         
                             <option value="20250720_Lingxi-v1.5_claude-4-sonnet-20250514">(2025-07-20) Lingxi-v1.5_claude-4-sonnet-20250514</option>
                         
-                            <option value="20250915_JoyCode">(2025-09-15) JoyCode</option>
+                            <option value="20250915_JoyCode">(2025-09-15) JoyCode + Claude 4 Sonnet + GPT-4.1</option>
                         
-                            <option value="20250603_Refact_Agent_claude-4-sonnet">(2025-06-03) Refact.ai Agent</option>
+                            <option value="20250603_Refact_Agent_claude-4-sonnet">(2025-06-03) Refact.ai Agent + Claude 4 Sonnet + o4-mini</option>
                         
                             <option value="20251015_Prometheus_v1.2.1_gpt5">(2025-10-15) Prometheus-v1.2.1 + GPT-5</option>
                         
@@ -287,11 +351,17 @@
                         
                             <option value="20251021_SalesforceAIResearch_SAGE_bash_only">(2025-10-21) Salesforce AI Research SAGE (bash-only)</option>
                         
+                            <option value="20260217_mini-v2.0.0_glm-5-high">(2026-02-17) mini-SWE-agent + GLM-5 (high reasoning)</option>
+                        
+                            <option value="20260217_mini-v2.0.0_gpt-5-2-high">(2026-02-17) mini-SWE-agent + GPT-5-2 (high reasoning)</option>
+                        
                             <option value="20250522_tools_claude-4-sonnet">(2025-05-22) Tools + Claude 4 Sonnet (2025-05-22)</option>
                         
                             <option value="20250807_openhands_gpt5">(2025-08-07) OpenHands + GPT-5</option>
                         
                             <option value="20251211_mini-v1.17.2_gpt-5.2-2025-12-11-high">(2025-12-11) mini-SWE-agent + GPT-5.2 (2025-12-11) (high reasoning)</option>
+                        
+                            <option value="20260217_mini-v2.0.0_claude-4-5-sonnet-high">(2026-02-17) mini-SWE-agent + Claude 4.5 Sonnet (high reasoning)</option>
                         
                             <option value="20250929_Prometheus_v1.2_gpt5">(2025-09-29) Prometheus-v1.2 + GPT-5</option>
                         
@@ -304,6 +374,8 @@
                             <option value="20250623_warp">(2025-06-23) Warp</option>
                         
                             <option value="20250611_moatless_claude-4-sonnet-20250514">(2025-06-11) Moatless Tools + Claude 4 Sonnet</option>
+                        
+                            <option value="20260217_mini-v2.0.0_kimi-k2-5-high">(2026-02-17) mini-SWE-agent + Kimi K2.5 (high reasoning)</option>
                         
                             <option value="20250519_trae">(2025-05-19) TRAE</option>
                         
@@ -319,6 +391,8 @@
                         
                             <option value="20250430_zencoder_ai">(2025-04-30) Zencoder (2025-04-30)</option>
                         
+                            <option value="20260217_mini-v2.0.0_deepseek-3-2-high">(2026-02-17) mini-SWE-agent + DeepSeek V3.2 (high reasoning)</option>
+                        
                             <option value="20250805_openhands-Qwen3-Coder-480B-A35B-Instruct">(2025-08-05) OpenHands + Qwen3-Coder-480B-A35B-Instruct</option>
                         
                             <option value="20251211_mini-v1.17.2_gpt-5.2-2025-12-11">(2025-12-11) mini-SWE-agent + GPT-5.2 (2025-12-11)</option>
@@ -330,6 +404,8 @@
                             <option value="20250802_mini-v1.0.0_claude-4-opus-20250514">(2025-08-02) mini-SWE-agent + Claude 4 Opus (20250514)</option>
                         
                             <option value="20250522_sweagent_claude-4-sonnet-20250514">(2025-05-22) SWE-agent + Claude 4 Sonnet</option>
+                        
+                            <option value="20260217_mini-v2.0.0_claude-4-5-haiku-high">(2026-02-17) mini-SWE-agent + Claude 4.5 Haiku (high reasoning)</option>
                         
                             <option value="20250514_aime_coder">(2025-05-14) Aime-coder v1 + Anthopic Claude 3.7 Sonnet</option>
                         
@@ -398,6 +474,8 @@
                             <option value="20250405_swe-rizzo_claude37">(2025-04-05) SWE-Rizzo</option>
                         
                             <option value="20251209_mini-v1.17.2_devstral-small-2512">(2025-12-09) mini-SWE-agent + Devstral small (2512)</option>
+                        
+                            <option value="20260217_mini-v2.0.0_gpt-5-mini">(2026-02-17) mini-SWE-agent + GPT-5 Mini</option>
                         
                             <option value="20241212_epam-ai-run-claude-3-5-sonnet">(2024-12-12) EPAM AI/Run Developer Agent v20241212 + Anthopic Claude 3.5 Sonnet</option>
                         
