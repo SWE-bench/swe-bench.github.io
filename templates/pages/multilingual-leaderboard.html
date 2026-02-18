@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}SWE-bench Multilingual{% endblock %}
+
+{% block head_extra %}
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+{% endblock %}
+
+{% block content %}
+    <header class="page-header">
+        <div class="container">
+            <div class="d-flex align-center mb-3">
+                <img src="img/swe-llama-ml.svg" alt="SWE-Llama Multilingual Logo" style="height: 5em; width: auto; margin-right: 1em;">
+                <h1 class="mb-0">SWE-bench Multilingual</h1>
+            </div>
+            <p>300 curated SWE-bench style tasks from 42 repositories representing 9 programming languages</p>
+            <br>
+            <div class="flex gap-2">
+                <a href="https://arxiv.org/abs/2310.06770" target="_blank" class="paper-link">Paper</a>
+                <a href="https://github.com/SWE-bench/SWE-bench" target="_blank" class="paper-link">GitHub</a>
+                <a href="https://huggingface.co/datasets/SWE-bench/SWE-bench_Multilingual" target="_blank" class="paper-link">Dataset</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>Overview</h2>
+        <p>SWE-bench Multilingual extends the SWE-bench benchmark to evaluate language models across 9 programming languages: C, C++, Go, Java, JavaScript/TypeScript, PHP, Ruby, and Rust. The dataset consists of 300 curated tasks derived from real-world GitHub pull requests across 42 repositories.</p>
+
+        <p>This leaderboard uses a standardized evaluation environment to enable fair comparison of different language models. For detailed information about the benchmark construction and evaluation methodology, see the <a href="multilingual.html">full documentation</a>.</p>
+
+        <details>
+            <summary>Click for more details</summary>
+
+            <ul>
+                <li>The benchmark includes tasks from popular repositories spanning web frameworks, data processing tools, core utilities, and common libraries.</li>
+                <li>Language distribution: C (30), C++ (12), Go (42), Java (43), JS/TS (43), PHP (43), Ruby (44), Rust (43).</li>
+                <li>Tasks are validated to ensure they have well-defined problems and unambiguous test criteria.</li>
+                <li>See the <a href="multilingual.html">detailed documentation page</a> for full methodology and statistics.</li>
+            </ul>
+        </details>
+
+        <hr />
+
+        <h2>Leaderboard</h2>
+        {% set page_context = "multilingual" %}
+        {% include "_leaderboard_table.html" %}
+
+        <hr />
+
+        <section id="citation">
+            <h2>Citation</h2>
+            <p>If you use SWE-bench Multilingual in your research, please cite our paper:</p>
+
+            <div class="citation-type">
+                <button class="citation-format-btn active" data-format="bibtex" data-target="multilingual-leaderboard-citation">BibTeX</button>
+                <button class="citation-format-btn" data-format="apa" data-target="multilingual-leaderboard-citation">APA</button>
+                <button class="citation-format-btn" data-format="mla" data-target="multilingual-leaderboard-citation">MLA</button>
+            </div>
+
+            <div class="citation-container" id="multilingual-leaderboard-citation-bibtex">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>@inproceedings{
+    jimenez2024swebench,
+    title={{"{"}}{{"{"}}SWE{{"}"}}-bench: Can Language Models Resolve Real-world Github Issues?},
+    author={Carlos E Jimenez and John Yang and Alexander Wettig and Shunyu Yao and Kexin Pei and Ofir Press and Karthik R Narasimhan},
+    booktitle={The Twelfth International Conference on Learning Representations},
+    year={2024},
+    url={https://openreview.net/forum?id=VTF8yNQM66}
+    }</pre>
+            </div>
+
+            <div class="citation-container display-none" id="multilingual-leaderboard-citation-apa">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>Jimenez, C. E., Yang, J., Wettig, A., Yao, S., Pei, K., Press, O., & Narasimhan, K. R. (2024). SWE-bench: Can Language Models Resolve Real-world Github Issues? arXiv preprint arXiv:2310.06770.</pre>
+            </div>
+
+            <div class="citation-container display-none" id="multilingual-leaderboard-citation-mla">
+                <button class="copy-btn" aria-label="Copy citation">Copy</button>
+                <pre>Jimenez, Carlos E., et al. "SWE-bench: Can Language Models Resolve Real-world Github Issues?" arXiv preprint arXiv:2310.06770 (2024).</pre>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block scripts_extra %}
+{% endblock %}

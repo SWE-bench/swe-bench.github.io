@@ -12,7 +12,6 @@
                 <i class="fa-solid fa-chart-column"></i>
                 <span>Compare results</span>
             </button>
-            <span class="new-badge new-badge-button">New!</span>
         </div>
         <div class="filter-title">Filters:</div>
         <div class="filter-buttons">
@@ -46,6 +45,11 @@
                 </form>
             </div>
         </div>
+        <div class="filter-checkbox" id="legacy-version-filter" style="display: none;">
+            <label>
+                <input type="checkbox" id="show-legacy-versions"> Show results from older agent versions
+            </label>
+        </div>
     </div>
 </div>
 
@@ -70,6 +74,8 @@
 <script src="js/charts/scatterChart.js"></script>
 <script src="js/charts/cumulativeCostChart.js"></script>
 <script src="js/charts/groupedBarChart.js"></script>
+<script src="js/multilingualLanguageMap.js"></script>
+<script src="js/charts/groupedBarChartByLanguage.js"></script>
 <script src="js/charts/resolvedVsLimitChart.js"></script>
 <script src="js/charts/resolvedVsAvgCostChart.js"></script>
 <script src="js/charts/resolvedInstancesMatrix.js"></script>
@@ -89,6 +95,7 @@
                 <select id="compare-chart-type" class="form-control form-select" style="flex: 1 1 200px;">
                     <option value="bar" selected>Resolved (bar chart)</option>
                     <option value="grouped-bar">Resolved by repository</option>
+                    <option value="grouped-bar-language">Resolved by language</option>
                     <option value="resolved-instances-matrix">Resolved instances matrix</option>
                     <option value="scatter">Resolved vs cost (scatter plot)</option>
                     <option value="resolved-vs-release-date">Resolved vs model release date</option>
@@ -162,9 +169,10 @@
 <div class="leaderboard-notes">
     <p>
         SWE-bench <b>Bash Only</b> uses the SWE-bench Verified dataset with the <a href="https://github.com/SWE-agent/mini-swe-agent">mini-SWE-agent</a> environment for all models [<a href="bash-only.html">Post</a>].<br>
+        SWE-bench <b>Multilingual</b> features 300 tasks across 9 programming languages [<a href="multilingual-leaderboard.html">Post</a>].<br>
         SWE-bench <b>Lite</b> is a subset curated for less costly evaluation [<a href="lite.html">Post</a>].<br>
         SWE-bench <b>Verified</b> is a human-filtered subset [<a href="https://openai.com/index/introducing-swe-bench-verified/">Post</a>].<br>
         SWE-bench <b>Multimodal</b> features issues with visual elements [<a href="multimodal.html">Post</a>].<br>
     </p>
-    <p>Each entry reports the <b>% Resolved</b> metric, the percentage of instances solved (out of 2294 Full, 500 Verified & Bash Only, 300 Lite, 517 Multimodal).</p>
+    <p>Each entry reports the <b>% Resolved</b> metric, the percentage of instances solved (out of 2294 Full, 500 Verified & Bash Only, 300 Lite & Multilingual, 517 Multimodal).</p>
 </div>
