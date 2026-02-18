@@ -963,6 +963,25 @@ hr {
   filter: brightness(1.2);
 }
 
+/* Legacy version rows (0.x and 1.x mini-swe-agent) */
+.table tbody tr.legacy-version-row {
+  opacity: 0.45;
+}
+
+.table tbody tr.legacy-version-row:hover {
+  opacity: 0.7;
+}
+
+.legacy-version a,
+.legacy-version {
+  color: #c0623a !important;
+}
+
+.dark-mode .legacy-version a,
+.dark-mode .legacy-version {
+  color: #d48a6a !important;
+}
+
 /* Sort indicator styles - using design system variables */
 .table thead th.sortable {
   cursor: pointer;

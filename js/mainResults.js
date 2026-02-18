@@ -116,12 +116,16 @@ function renderLeaderboardTable(leaderboard) {
                         </tr>
                     </thead>
                     <tbody>
-                        ${results.map(item => `
+                        ${results.map(item => {
+                            const version = item['mini-swe-agent_version'] || '';
+                            const isLegacyVersion = isBashOnly && /^[01]\./.test(version);
+                            return `
                                 <tr
                                     data-os_model="${item.os_model ? 'true' : 'false'}"
                                     data-os_system="${item.os_system ? 'true' : 'false'}"
                                     data-checked="${item.checked ? 'true' : 'false'}"
                                     data-tags="${item.tags ? item.tags.join(',') : ''}"
+                                    ${isLegacyVersion ? 'class="legacy-version-row"' : ''}
                                 >
                                     ${hasDetailedFeatures ? `<td class="select-col centered-text"><input type="checkbox" class="row-select" aria-label="Select ${item.name}" data-model="${item.name}" data-resolved="${parseFloat(item.resolved).toFixed(2)}"></td>` : ''}
                                     <td>
@@ -150,9 +154,10 @@ function renderLeaderboardTable(leaderboard) {
                                     ${!hasDetailedFeatures ? `<td class="centered-text text-center">
                                         ${item.site ? `<a href="${item.site}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
                                     </td>` : ''}
-                                    ${isBashOnly ? `<td><span class="text-muted font-mono">${item['mini-swe-agent_version'] && item['mini-swe-agent_version'] !== '0.0.0' ? `<a href="https://github.com/SWE-agent/mini-swe-agent/tree/v${item['mini-swe-agent_version']}" target="_blank" rel="noopener noreferrer">${item['mini-swe-agent_version']}</a>` : (item['mini-swe-agent_version'] || '-')}</span></td>` : ''}
+                                    ${isBashOnly ? `<td><span class="${isLegacyVersion ? 'legacy-version' : 'text-muted'} font-mono">${item['mini-swe-agent_version'] && item['mini-swe-agent_version'] !== '0.0.0' ? `<a href="https://github.com/SWE-agent/mini-swe-agent/tree/v${item['mini-swe-agent_version']}" target="_blank" rel="noopener noreferrer">${item['mini-swe-agent_version']}</a>` : (item['mini-swe-agent_version'] || '-')}</span></td>` : ''}
                                 </tr>
-                            `).join('')}
+                            `;
+                        }).join('')}
                         <tr class="no-results" style="display: none;">
                             <td colspan="${hasDetailedFeatures ? (isBashOnly ? '8' : '7') : '7'}" class="text-center">
                                 No entries match the selected filters. Try adjusting your filters.
@@ -548,13 +553,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Load initial tab based on hash or default to Verified (mini-SWE-agent)
+    // Load initial tab based on hash, page name, or default to bash-only
     const hash = window.location.hash.slice(1).toLowerCase();
     const validTabs = ['bash-only', 'multilingual', 'verified', 'lite', 'test', 'multimodal'];
+    const pageToTab = {
+        'multilingual-leaderboard': 'Multilingual',
+        'bash-only': 'bash-only',
+    };
     
     if (hash && validTabs.includes(hash)) {
         const tabName = hash.charAt(0).toUpperCase() + hash.slice(1);
         openLeaderboard(tabName);
+    } else if (pageToTab[currentPage]) {
+        openLeaderboard(pageToTab[currentPage]);
     } else {
         openLeaderboard('bash-only');
     }
