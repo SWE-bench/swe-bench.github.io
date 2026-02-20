@@ -429,7 +429,7 @@ function updateLeaderboardDescription(leaderboardName) {
     if (!textContainer) return;
     
     const descriptions = {
-        'bash-only': '<em>Bash Only</em> evaluates all LMs with a <a href="https://github.com/SWE-agent/mini-swe-agent">minimal agent</a> on SWE-bench Verified (<a href="bash-only.html">details</a>).',
+        'bash-only': '<em>Bash Only</em> evaluates all LMs with a <a href="https://github.com/SWE-agent/mini-swe-agent">mini-SWE-agent</a> on SWE-bench Verified (<a href="bash-only.html">details</a>).',
         'multilingual': '<em>Multilingual</em> features 300 tasks across 9 programming languages (<a href="multilingual-leaderboard.html">details</a>)',
         'lite': '<em>Lite</em> is a subset of 300 instances for less costly evaluation (<a href="lite.html">details</a>)',
         'verified': '<em>Verified</em> is a human-filtered subset of 500 instances (<a href="https://openai.com/index/introducing-swe-bench-verified/">details</a>)',
