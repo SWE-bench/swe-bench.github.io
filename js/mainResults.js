@@ -82,21 +82,41 @@ function getDefaultSortDirection(field) {
     return textFields.includes(field) ? 'asc' : 'desc';
 }
 
-function renderLeaderboardTable(leaderboard) {
+/**
+ * Render a leaderboard table.
+ * @param {Object} leaderboard - The leaderboard data object with name and results.
+ * @param {Object} [options] - Optional rendering overrides.
+ * @param {string} [options.displayId] - The tab ID to use for the wrapper div (defaults to leaderboard.name).
+ * @param {boolean} [options.hasDetailedFeatures] - Whether to show checkboxes, cost, trajs columns.
+ * @param {boolean} [options.showReleaseColumn] - Whether to show the Release column.
+ */
+function renderLeaderboardTable(leaderboard, options = {}) {
     const container = document.getElementById('leaderboard-container');
+    const displayId = options.displayId || leaderboard.name;
     const leaderboardNameLower = leaderboard.name.toLowerCase();
-    const isBashOnly = leaderboardNameLower === 'bash-only' || leaderboardNameLower === 'multilingual';
-    const isMultilingual = leaderboardNameLower === 'multilingual';
-    const hasDetailedFeatures = isBashOnly || isMultilingual;
+
+    // Determine display mode from options or infer from leaderboard name
+    const isBashOnlyData = leaderboardNameLower === 'bash-only' || leaderboardNameLower === 'multilingual';
+    const hasDetailedFeatures = options.hasDetailedFeatures !== undefined
+        ? options.hasDetailedFeatures
+        : isBashOnlyData;
+    const showReleaseColumn = options.showReleaseColumn !== undefined
+        ? options.showReleaseColumn
+        : isBashOnlyData;
     
     const results = leaderboard.results
         .filter(item => !item.warning)
         .slice()
         .sort((a, b) => sortItems(a, b, sortState.field, sortState.direction));
 
+    const colCount = 4
+        + (hasDetailedFeatures ? 2 : 0)
+        + (!hasDetailedFeatures ? 1 : 0)
+        + (showReleaseColumn ? 1 : 0);
+
     // Create table content
     const tableHtml = `
-        <div class="tabcontent active" id="leaderboard-${leaderboard.name}">
+        <div class="tabcontent active" id="leaderboard-${displayId}">
             <div class="table-responsive">
                 <table class="table scrollable data-table ${hasDetailedFeatures ? 'has-select-col' : ''}">
                     <thead>
@@ -109,13 +129,13 @@ function renderLeaderboardTable(leaderboard) {
                             <th class="sortable" data-sort="org">Org</th>
                             <th class="sortable" data-sort="date">Date</th>
                             ${!hasDetailedFeatures ? '<th class="sortable" data-sort="site">Site</th>' : ''}
-                            ${isBashOnly ? '<th class="sortable" data-sort="release" title="mini-swe-agent release with which the benchmark was run. Click the release to see the release note. Generally, results should be very comparable across releases.">Release</th>' : ''}
+                            ${showReleaseColumn ? '<th class="sortable" data-sort="release" title="mini-swe-agent release with which the benchmark was run. Click the release to see the release note. Generally, results should be very comparable across releases.">Release</th>' : ''}
                         </tr>
                     </thead>
                     <tbody>
                         ${results.map(item => {
                             const version = item['mini-swe-agent_version'] || '';
-                            const isLegacyVersion = isBashOnly && /^[01]\./.test(version);
+                            const isLegacyVersion = showReleaseColumn && /^[01]\./.test(version);
                             return `
                                 <tr
                                     data-os_model="${item.os_model ? 'true' : 'false'}"
@@ -149,14 +169,14 @@ function renderLeaderboardTable(leaderboard) {
                                     </td>
                                     <td><span class="label-date text-muted">${item.date}</span></td>
                                     ${!hasDetailedFeatures ? `<td class="centered-text text-center">
-                                        ${item.site ? `<a href="${item.site}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
+                                        ${item.site ? `<a href="${Array.isArray(item.site) ? item.site[0] : item.site}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
                                     </td>` : ''}
-                                    ${isBashOnly ? `<td><span class="${isLegacyVersion ? 'legacy-version' : 'text-muted'} font-mono">${item['mini-swe-agent_version'] && item['mini-swe-agent_version'] !== '0.0.0' ? `<a href="https://github.com/SWE-agent/mini-swe-agent/tree/v${item['mini-swe-agent_version']}" target="_blank" rel="noopener noreferrer">${item['mini-swe-agent_version']}</a>` : (item['mini-swe-agent_version'] || '-')}</span></td>` : ''}
+                                    ${showReleaseColumn ? `<td><span class="${isLegacyVersion ? 'legacy-version' : 'text-muted'} font-mono">${item['mini-swe-agent_version'] && item['mini-swe-agent_version'] !== '0.0.0' ? `<a href="https://github.com/SWE-agent/mini-swe-agent/tree/v${item['mini-swe-agent_version']}" target="_blank" rel="noopener noreferrer">${item['mini-swe-agent_version']}</a>` : (item['mini-swe-agent_version'] || '-')}</span></td>` : ''}
                                 </tr>
                             `;
                         }).join('')}
                         <tr class="no-results" style="display: none;">
-                            <td colspan="${hasDetailedFeatures ? (isBashOnly ? '8' : '7') : '7'}" class="text-center">
+                            <td colspan="${colCount}" class="text-center">
                                 No entries match the selected filters. Try adjusting your filters.
                             </td>
                         </tr>
@@ -167,30 +187,30 @@ function renderLeaderboardTable(leaderboard) {
     `;
 
     container.innerHTML = tableHtml;
-    loadedLeaderboards.add(leaderboard.name);
+    loadedLeaderboards.add(displayId);
 
     updateSortIndicators();
-    attachSortHandlers(leaderboard.name);
+    attachSortHandlers(displayId, leaderboard, options);
     
     if (hasDetailedFeatures) {
-        attachSelectAllHandler(leaderboard.name);
+        attachSelectAllHandler(displayId);
         updateSelectAllCheckbox();
     }
 
 }
 
-function attachSortHandlers(leaderboardName) {
+function attachSortHandlers(displayId, leaderboard, options) {
     const container = document.getElementById('leaderboard-container');
-    const tableWrapper = container.querySelector(`#leaderboard-${leaderboardName}`);
+    const tableWrapper = container.querySelector(`#leaderboard-${displayId}`);
     if (!tableWrapper) return;
     
     const sortableHeaders = tableWrapper.querySelectorAll('th.sortable');
     sortableHeaders.forEach(th => {
-        th.addEventListener('click', () => handleSortClick(th, leaderboardName));
+        th.addEventListener('click', () => handleSortClick(th, displayId, leaderboard, options));
     });
 }
 
-function handleSortClick(header, leaderboardName) {
+function handleSortClick(header, displayId, leaderboard, options) {
     const field = header.getAttribute('data-sort');
     
     if (sortState.field === field) {
@@ -200,12 +220,13 @@ function handleSortClick(header, leaderboardName) {
         sortState.direction = getDefaultSortDirection(field);
     }
     
-    const data = loadLeaderboardData();
-    if (!data) return;
-    
-    const leaderboard = data.find(lb => lb.name === leaderboardName);
     if (leaderboard) {
-        renderLeaderboardTable(leaderboard);
+        renderLeaderboardTable(leaderboard, options || {});
+    } else {
+        const data = loadLeaderboardData();
+        if (!data) return;
+        const lb = data.find(lb => lb.name === displayId);
+        if (lb) renderLeaderboardTable(lb);
     }
 }
 
@@ -223,7 +244,7 @@ function updateSortIndicators() {
     });
 }
 
-function attachSelectAllHandler(leaderboardName) {
+function attachSelectAllHandler(displayId) {
     const selectAllCheckbox = document.getElementById('select-all-checkbox');
     if (!selectAllCheckbox) return;
     
@@ -404,30 +425,92 @@ function updateMainResults(split, model) {
         });
 }
 
+/**
+ * Get the effective data source and rendering options for the Verified tab
+ * based on the current agent dropdown selection.
+ */
+function getVerifiedDisplayConfig(data) {
+    const agentMode = typeof getVerifiedAgentMode === 'function' ? getVerifiedAgentMode() : 'mini-v2';
+    
+    let sourceLeaderboard, renderOptions;
+    
+    if (agentMode === 'all-agents' || agentMode === 'all-oss-agents') {
+        const verified = data.find(lb => lb.name === 'Verified');
+        if (!verified) return null;
+
+        if (agentMode === 'all-oss-agents') {
+            sourceLeaderboard = {
+                ...verified,
+                results: verified.results.filter(r => r.os_system === true)
+            };
+        } else {
+            sourceLeaderboard = verified;
+        }
+
+        renderOptions = {
+            displayId: 'Verified',
+            hasDetailedFeatures: false,
+            showReleaseColumn: false
+        };
+    } else {
+        const bashOnly = data.find(lb => lb.name === 'bash-only');
+        if (!bashOnly) return null;
+
+        if (agentMode === 'mini-v2') {
+            sourceLeaderboard = {
+                ...bashOnly,
+                results: bashOnly.results.filter(r => {
+                    const version = r['mini-swe-agent_version'] || '';
+                    return /^2\./.test(version);
+                })
+            };
+        } else {
+            // all-mini: show all versions
+            sourceLeaderboard = bashOnly;
+        }
+        
+        renderOptions = {
+            displayId: 'Verified',
+            hasDetailedFeatures: true,
+            showReleaseColumn: true
+        };
+    }
+    
+    return { sourceLeaderboard, renderOptions };
+}
+
 function openLeaderboard(leaderboardName) {
     const data = loadLeaderboardData();
     if (!data) return;
     
-    // Find the leaderboard data
-    const leaderboard = data.find(lb => lb.name === leaderboardName);
-    if (!leaderboard) return;
-    
-    // Render the table if not already loaded
-    if (!loadedLeaderboards.has(leaderboardName)) {
-        renderLeaderboardTable(leaderboard);
+    if (leaderboardName === 'Verified') {
+        const config = getVerifiedDisplayConfig(data);
+        if (!config || !config.sourceLeaderboard) return;
+        
+        // Always re-render for Verified since agent dropdown can change data source
+        loadedLeaderboards.delete('Verified');
+        renderLeaderboardTable(config.sourceLeaderboard, config.renderOptions);
     } else {
-        // Just show the existing table
-        const container = document.getElementById('leaderboard-container');
-        const existingTable = container.querySelector(`#leaderboard-${leaderboardName}`);
-        if (existingTable) {
-            // Hide all other tables and show this one
-            container.querySelectorAll('.tabcontent').forEach(content => {
-                content.classList.remove('active');
-            });
-            existingTable.classList.add('active');
-            updateSortIndicators();
-        } else {
+        // Find the leaderboard data
+        const leaderboard = data.find(lb => lb.name === leaderboardName);
+        if (!leaderboard) return;
+        
+        // Render the table if not already loaded
+        if (!loadedLeaderboards.has(leaderboardName)) {
             renderLeaderboardTable(leaderboard);
+        } else {
+            // Just show the existing table
+            const container = document.getElementById('leaderboard-container');
+            const existingTable = container.querySelector(`#leaderboard-${leaderboardName}`);
+            if (existingTable) {
+                container.querySelectorAll('.tabcontent').forEach(content => {
+                    content.classList.remove('active');
+                });
+                existingTable.classList.add('active');
+                updateSortIndicators();
+            } else {
+                renderLeaderboardTable(leaderboard);
+            }
         }
     }
     
@@ -450,8 +533,8 @@ function openLeaderboard(leaderboardName) {
         updateFilterVisibility(leaderboardName);
     }
     
-    // Update tags dropdown for the new leaderboard
-    if (typeof updateTagsForLeaderboard === 'function') {
+    // Update tags dropdown for the new leaderboard (for non-Verified tabs)
+    if (leaderboardName !== 'Verified' && typeof updateTagsForLeaderboard === 'function') {
         updateTagsForLeaderboard(leaderboardName);
     }
     
@@ -460,18 +543,26 @@ function openLeaderboard(leaderboardName) {
         setTimeout(updateTable, 0);
     }
     
-    // Show/hide compare button based on leaderboard type
+    // Show/hide/disable compare button based on leaderboard type and agent mode
     const compareBtn = document.getElementById('compare-btn');
     const leaderboardNameLower = leaderboardName.toLowerCase();
-    const isBashOnlyTab = leaderboardNameLower === 'bash-only';
     const isMultilingualTab = leaderboardNameLower === 'multilingual';
-    const showDetailedFeatures = isBashOnlyTab || isMultilingualTab;
-
+    const isVerifiedTab = leaderboardNameLower === 'verified';
+    
     if (compareBtn) {
-        if (showDetailedFeatures) {
+        if (isMultilingualTab || isVerifiedTab) {
             compareBtn.style.display = '';
+            const agentMode = typeof getVerifiedAgentMode === 'function' ? getVerifiedAgentMode() : 'mini-v2';
+            const isAllAgents = isVerifiedTab && (agentMode === 'all-agents' || agentMode === 'all-oss-agents');
+            compareBtn.disabled = isAllAgents;
+            compareBtn.classList.toggle('button-disabled', isAllAgents);
+            compareBtn.title = isAllAgents
+                ? 'Comparison is only available for mini-SWE-agent results. Switch the Agent dropdown to use this feature.'
+                : 'Compare selected results';
         } else {
             compareBtn.style.display = 'none';
+            compareBtn.disabled = false;
+            compareBtn.classList.remove('button-disabled');
         }
     }
 }
@@ -493,7 +584,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (currentPage === 'index' && window.location.hash) {
             const currentHash = window.location.hash.substring(1);
             
-            if (linkPage === currentHash && !['bash-only', 'verified', 'lite', 'test', 'multimodal'].includes(currentHash.toLowerCase())) {
+            if (linkPage === currentHash && !['verified', 'lite', 'test', 'multimodal'].includes(currentHash.toLowerCase())) {
                 link.classList.add('active');
             }
         }
@@ -507,20 +598,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Load initial tab based on hash, page name, or default to bash-only
+    // Load initial tab based on hash, page name, or default to Verified
     const hash = window.location.hash.slice(1).toLowerCase();
-    const validTabs = ['bash-only', 'multilingual', 'verified', 'lite', 'test', 'multimodal'];
+    const validTabs = ['verified', 'multilingual', 'lite', 'test', 'multimodal'];
     const pageToTab = {
         'multilingual-leaderboard': 'Multilingual',
-        'bash-only': 'bash-only',
     };
-    
-    if (hash && validTabs.includes(hash)) {
+
+    // Backward compat: map old bash-only hash to Verified
+    if (hash === 'bash-only') {
+        openLeaderboard('Verified');
+    } else if (hash && validTabs.includes(hash)) {
         const tabName = hash.charAt(0).toUpperCase() + hash.slice(1);
         openLeaderboard(tabName);
     } else if (pageToTab[currentPage]) {
         openLeaderboard(pageToTab[currentPage]);
     } else {
-        openLeaderboard('bash-only');
+        openLeaderboard('Verified');
     }
 });
