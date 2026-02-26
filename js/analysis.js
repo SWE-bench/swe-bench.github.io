@@ -30,9 +30,15 @@
         // Get full leaderboard data (it's a direct array, not wrapped in a property)
         const leaderboardData = getLeaderboardData();
         
-        const activeLeaderboard = leaderboardData?.find(lb => {
-            return active.id === `leaderboard-${lb.name}`;
-        });
+        // For the Verified tab, always use bash-only data for comparison
+        let activeLeaderboard;
+        if (active.id === 'leaderboard-Verified') {
+            activeLeaderboard = leaderboardData?.find(lb => lb.name === 'bash-only');
+        } else {
+            activeLeaderboard = leaderboardData?.find(lb => {
+                return active.id === `leaderboard-${lb.name}`;
+            });
+        }
         
         return Array.from(checkboxes).map(cb => {
             const row = cb.closest('tr');
@@ -469,13 +475,21 @@
         // Get current leaderboard
         const container = document.getElementById('leaderboard-container');
         const active = container ? container.querySelector('.tabcontent.active') : null;
-        const leaderboardId = active ? active.id.replace('leaderboard-', '') : 'verified';
+        let leaderboardId = active ? active.id.replace('leaderboard-', '') : 'Verified';
+
+        // For Verified tab, include agent mode in the URL
+        const agentMode = (leaderboardId === 'Verified' && typeof getVerifiedAgentMode === 'function')
+            ? getVerifiedAgentMode()
+            : null;
         
         // Build URL parameters
         const params = new URLSearchParams();
         params.set('leaderboard', leaderboardId);
         params.set('chart', chartTypeValue);
         params.set('models', selected.map(m => m.name).join(','));
+        if (agentMode) {
+            params.set('agent', agentMode);
+        }
         
         // Create full URL
         const baseUrl = window.location.origin + window.location.pathname;
@@ -514,12 +528,28 @@
             return; // No state to restore
         }
         
-        const leaderboardName = params.get('leaderboard') || 'verified';
+        let leaderboardName = params.get('leaderboard') || 'Verified';
         const chartType = params.get('chart') || 'bar';
+        const agentMode = params.get('agent') || null;
         const modelNames = params.get('models').split(',').filter(m => m.trim());
         
         if (modelNames.length === 0) {
             return;
+        }
+
+        // Backward compat: map old bash-only to Verified with mini-SWE-agent
+        if (leaderboardName === 'bash-only') {
+            leaderboardName = 'Verified';
+            // Set agent dropdown to all-mini to include legacy versions
+            const agentDropdown = document.getElementById('agent-dropdown');
+            if (agentDropdown) {
+                agentDropdown.value = agentMode || 'all-mini';
+            }
+        } else if (leaderboardName === 'Verified' && agentMode) {
+            const agentDropdown = document.getElementById('agent-dropdown');
+            if (agentDropdown) {
+                agentDropdown.value = agentMode;
+            }
         }
         
         // Switch to the correct leaderboard tab
@@ -579,7 +609,7 @@
         // Open via delegated event to handle dynamic rendering
         document.addEventListener('click', (e) => {
             const trigger = e.target && typeof e.target.closest === 'function' ? e.target.closest('#compare-btn') : null;
-            if (trigger) {
+            if (trigger && !trigger.disabled) {
                 e.preventDefault();
                 e.stopPropagation();
                 openModal();

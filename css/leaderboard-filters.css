@@ -346,6 +346,46 @@
 }
 
 /* =============================================================================
+   VERIFIED FILTERS (Agent + Models dropdowns)
+   ============================================================================= */
+
+.verified-filters {
+  display: flex;
+  align-items: center;
+  gap: var(--size-sm);
+  flex-wrap: wrap;
+}
+
+.verified-filters .filter-title {
+  margin-bottom: 0;
+}
+
+.verified-filters select {
+  height: 31px;
+  font-size: var(--text-sm);
+  padding: var(--size-xs) var(--size-sm);
+  padding-right: 2rem;
+  width: auto;
+}
+
+#standard-filters {
+  display: flex;
+  align-items: center;
+  gap: var(--size-sm);
+  flex-wrap: wrap;
+}
+
+#standard-filters .filter-title {
+  margin-bottom: 0;
+}
+
+/* Compare button: allow hover for tooltip even when disabled */
+#compare-btn.button-disabled {
+  pointer-events: auto;
+  cursor: not-allowed;
+}
+
+/* =============================================================================
    UTILITY OVERRIDES
    ============================================================================= */
 

@@ -268,22 +268,47 @@ function updateTagsForLeaderboard(leaderboardName) {
 // Make function globally accessible
 window.updateTagsForLeaderboard = updateTagsForLeaderboard;
 
+// Function to get the current agent mode for the Verified tab
+function getVerifiedAgentMode() {
+    const dropdown = document.getElementById('agent-dropdown');
+    return dropdown ? dropdown.value : 'mini-v2';
+}
+
+// Function to get the current models filter for the Verified tab
+function getVerifiedModelsFilter() {
+    const dropdown = document.getElementById('models-dropdown');
+    return dropdown ? dropdown.value : 'all';
+}
+
+window.getVerifiedAgentMode = getVerifiedAgentMode;
+window.getVerifiedModelsFilter = getVerifiedModelsFilter;
+
 // Function to show/hide filter elements based on leaderboard type
 function updateFilterVisibility(leaderboardName) {
+    const verifiedFilters = document.getElementById('verified-filters');
+    const standardFilters = document.getElementById('standard-filters');
     const mainFiltersContainer = document.getElementById('main-filters');
     const tagFiltersContainer = document.getElementById('tag-filters');
+    const legacyVersionFilter = document.getElementById('legacy-version-filter');
 
     const leaderboardNameLower = leaderboardName.toLowerCase();
-    const isBashOnly = leaderboardNameLower === 'bash-only';
+    const isVerified = leaderboardNameLower === 'verified';
     const isMultilingual = leaderboardNameLower === 'multilingual';
-    const hideMainFilters = isBashOnly || isMultilingual;
 
-    // Hide main filters (open scaffold/weight/checked) for bash-only and multilingual, but keep tag filters visible
-    if (mainFiltersContainer) mainFiltersContainer.style.display = hideMainFilters ? 'none' : '';
-    if (tagFiltersContainer) tagFiltersContainer.style.display = '';
+    if (isVerified) {
+        // Show Verified-specific dropdowns, hide standard filters
+        if (verifiedFilters) verifiedFilters.style.display = '';
+        if (standardFilters) standardFilters.style.display = 'none';
+    } else {
+        // Show standard filters, hide Verified dropdowns
+        if (verifiedFilters) verifiedFilters.style.display = 'none';
+        if (standardFilters) standardFilters.style.display = '';
 
-    const legacyVersionFilter = document.getElementById('legacy-version-filter');
-    if (legacyVersionFilter) legacyVersionFilter.style.display = isBashOnly ? '' : 'none';
+        const hideMainFilters = isMultilingual;
+        if (mainFiltersContainer) mainFiltersContainer.style.display = hideMainFilters ? 'none' : '';
+        if (tagFiltersContainer) tagFiltersContainer.style.display = '';
+        if (legacyVersionFilter) legacyVersionFilter.style.display = 'none';
+    }
 }
 
 // Table Update Logic - Optimized for lazy loading
@@ -297,39 +322,56 @@ function updateTable() {
     
     const tableRows = visibleLeaderboard.querySelectorAll('.data-table tbody tr:not(.no-results)');
     let visibleRowCount = 0;
+
+    // Determine if we're on the Verified tab
+    const isVerifiedTab = visibleLeaderboard.id === 'leaderboard-Verified';
+    const modelsFilter = isVerifiedTab ? getVerifiedModelsFilter() : null;
     
     tableRows.forEach(row => {
         // Show row by default
         let showRow = true;
         
-        // Check filters
-        for (const filter of activeFilters) {
-            if (row.getAttribute(`data-${filter}`) !== 'true') {
-                showRow = false;
-                break;
-            }
-        }
-        
-        // Check legacy version filter
-        if (showRow) {
-            const legacyFilterContainer = document.getElementById('legacy-version-filter');
-            const showLegacyCheckbox = document.getElementById('show-legacy-versions');
-            if (legacyFilterContainer && legacyFilterContainer.style.display !== 'none' &&
-                showLegacyCheckbox && !showLegacyCheckbox.checked &&
-                row.classList.contains('legacy-version-row')) {
-                showRow = false;
-            }
-        }
-
-        // Check tag filter
-        if (showRow && window.tagFiltersDropdown) {
-            const selectedTags = window.tagFiltersDropdown.getSelectedValues();
-            const allTagsSelected = window.tagFiltersDropdown.isAllSelected();
-            
-            if (!allTagsSelected) {
-                const rowTags = (row.getAttribute('data-tags') || '').split(',').map(t => t.trim()).filter(Boolean);
-                if (!rowTags.some(tag => selectedTags.includes(tag))) {
+        if (isVerifiedTab) {
+            // For Verified tab, apply models filter
+            if (modelsFilter === 'open-source') {
+                if (row.getAttribute('data-os_model') !== 'true') {
                     showRow = false;
+                }
+            } else if (modelsFilter === 'proprietary') {
+                if (row.getAttribute('data-os_model') === 'true') {
+                    showRow = false;
+                }
+            }
+        } else {
+            // For non-Verified tabs, apply standard filters
+            for (const filter of activeFilters) {
+                if (row.getAttribute(`data-${filter}`) !== 'true') {
+                    showRow = false;
+                    break;
+                }
+            }
+            
+            // Check legacy version filter
+            if (showRow) {
+                const legacyFilterContainer = document.getElementById('legacy-version-filter');
+                const showLegacyCheckbox = document.getElementById('show-legacy-versions');
+                if (legacyFilterContainer && legacyFilterContainer.style.display !== 'none' &&
+                    showLegacyCheckbox && !showLegacyCheckbox.checked &&
+                    row.classList.contains('legacy-version-row')) {
+                    showRow = false;
+                }
+            }
+
+            // Check tag filter
+            if (showRow && window.tagFiltersDropdown) {
+                const selectedTags = window.tagFiltersDropdown.getSelectedValues();
+                const allTagsSelected = window.tagFiltersDropdown.isAllSelected();
+                
+                if (!allTagsSelected) {
+                    const rowTags = (row.getAttribute('data-tags') || '').split(',').map(t => t.trim()).filter(Boolean);
+                    if (!rowTags.some(tag => selectedTags.includes(tag))) {
+                        showRow = false;
+                    }
                 }
             }
         }
@@ -340,11 +382,10 @@ function updateTable() {
     });
     
     const noResultsMessage = visibleLeaderboard.querySelector('.no-results');
-    // Show/hide no results message
-    if (visibleRowCount === 0 && (activeFilters.size > 0 || !isAllTagsSelected())) {
-        noResultsMessage.style.display = 'table-row';
+    if (visibleRowCount === 0) {
+        if (noResultsMessage) noResultsMessage.style.display = 'table-row';
     } else {
-        noResultsMessage.style.display = 'none';
+        if (noResultsMessage) noResultsMessage.style.display = 'none';
     }
     
     // Update the select-all checkbox state after filtering
@@ -393,7 +434,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Initialize with tags for the default leaderboard (bash-only)
+    // Initialize with tags for the default leaderboard (Verified with bash-only data)
     updateTagsForLeaderboard('bash-only');
     
     // Set initial selection for main filters
@@ -411,14 +452,29 @@ document.addEventListener('DOMContentLoaded', function() {
         showLegacyCheckbox.addEventListener('change', updateTable);
     }
 
-    // Check for initial leaderboard visibility (in case landing directly on bash-only)
+    // Wire up Verified-specific dropdowns
+    const agentDropdown = document.getElementById('agent-dropdown');
+    if (agentDropdown) {
+        agentDropdown.addEventListener('change', () => {
+            if (typeof openLeaderboard === 'function') {
+                openLeaderboard('Verified');
+            }
+        });
+    }
+
+    const modelsDropdown = document.getElementById('models-dropdown');
+    if (modelsDropdown) {
+        modelsDropdown.addEventListener('change', updateTable);
+    }
+
+    // Check for initial leaderboard visibility
     setTimeout(() => {
         const activeLeaderboard = document.querySelector('.tabcontent.active');
         if (activeLeaderboard) {
             const leaderboardId = activeLeaderboard.id;
             const leaderboardName = leaderboardId.replace('leaderboard-', '');
             updateFilterVisibility(leaderboardName);
-            updateTagsForLeaderboard(leaderboardName); // Update tags for the initial leaderboard
+            updateTagsForLeaderboard(leaderboardName);
         }
     }, 100);
 });
@@ -429,10 +485,9 @@ function updateLeaderboardDescription(leaderboardName) {
     if (!textContainer) return;
     
     const descriptions = {
-        'bash-only': '<em>Bash Only</em> evaluates all LMs with <a href="https://github.com/SWE-agent/mini-swe-agent">mini-SWE-agent</a> on SWE-bench Verified (<a href="bash-only.html">details</a>).',
+        'verified': '<em>Verified</em> is a human-filtered subset of 500 instances. We use <a href="https://github.com/SWE-agent/mini-swe-agent">mini-SWE-agent</a> to evaluate all models with the same harness (<a href="verified.html">details</a>).',
         'multilingual': '<em>Multilingual</em> features 300 tasks across 9 programming languages (<a href="multilingual-leaderboard.html">details</a>)',
         'lite': '<em>Lite</em> is a subset of 300 instances for less costly evaluation (<a href="lite.html">details</a>)',
-        'verified': '<em>Verified</em> is a human-filtered subset of 500 instances (<a href="https://openai.com/index/introducing-swe-bench-verified/">details</a>)',
         'test': '<em>Full</em> is a large benchmark made of 2000 instances (<a href="original.html">details</a>)',
         'multimodal': '<em>Multimodal</em> features issues with visual elements (<a href="multimodal.html">details</a>)',
     };

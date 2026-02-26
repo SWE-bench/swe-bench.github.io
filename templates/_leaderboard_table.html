@@ -13,42 +13,63 @@
                 <span>Compare results</span>
             </button>
         </div>
-        <div class="filter-title">Filters:</div>
-        <div class="filter-buttons">
-            <!-- Main Filters Dropdown -->
-            <div class="multiselect-container" id="main-filters">
-                <button class="btn btn-sm btn-outline-secondary filter-toggle multiselect-toggle" type="button" title="Filter by system properties">
-                    <span class="multiselect-summary">Open Scaffold</span>
-                    <span class="multiselect-icon">▼</span>
-                </button>
-                <form class="multiselect-form">
-                    <div class="multiselect-dropdown">
-                        <div class="multiselect-options">
-                            <!-- Filter options will be dynamically populated here -->
-                        </div>
-                    </div>
-                </form>
-            </div>
 
-            <!-- Tags Dropdown -->
-            <div class="multiselect-container" id="tag-filters">
-                <button class="btn btn-sm btn-outline-secondary filter-toggle multiselect-toggle" type="button" title="Filter by tags">
-                    <span class="multiselect-summary">All Tags</span>
-                    <span class="multiselect-icon">▼</span>
-                </button>
-                <form class="multiselect-form">
-                    <div class="multiselect-dropdown">
-                        <div class="multiselect-options" id="tag-options-container">
-                            <!-- Tag options will be dynamically populated here -->
-                        </div>
-                    </div>
-                </form>
-            </div>
+        <!-- Verified-specific dropdowns (Agent + Models) -->
+        <div class="verified-filters" id="verified-filters" style="display: none;">
+            <div class="filter-title">Agent:</div>
+            <select id="agent-dropdown" class="form-control form-select form-select-sm">
+                <option value="mini-v2" selected>mini-SWE-agent v2</option>
+                <option value="all-mini">mini-SWE-agent v0-v2</option>
+                <option value="all-oss-agents">All OSS agents</option>
+                <option value="all-agents">All agents</option>
+            </select>
+            <div class="filter-title">Models:</div>
+            <select id="models-dropdown" class="form-control form-select form-select-sm">
+                <option value="all" selected>All models</option>
+                <option value="open-source">Open source only</option>
+                <option value="proprietary">Proprietary only</option>
+            </select>
         </div>
-        <div class="filter-checkbox" id="legacy-version-filter" style="display: none;">
-            <label>
-                <input type="checkbox" id="show-legacy-versions"> Show results from older agent versions
-            </label>
+
+        <!-- Standard filters for non-Verified leaderboards -->
+        <div id="standard-filters">
+            <div class="filter-title" id="filter-title-text">Filters:</div>
+            <div class="filter-buttons">
+                <!-- Main Filters Dropdown -->
+                <div class="multiselect-container" id="main-filters">
+                    <button class="btn btn-sm btn-outline-secondary filter-toggle multiselect-toggle" type="button" title="Filter by system properties">
+                        <span class="multiselect-summary">Open Scaffold</span>
+                        <span class="multiselect-icon">▼</span>
+                    </button>
+                    <form class="multiselect-form">
+                        <div class="multiselect-dropdown">
+                            <div class="multiselect-options">
+                                <!-- Filter options will be dynamically populated here -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Tags Dropdown -->
+                <div class="multiselect-container" id="tag-filters">
+                    <button class="btn btn-sm btn-outline-secondary filter-toggle multiselect-toggle" type="button" title="Filter by tags">
+                        <span class="multiselect-summary">All Tags</span>
+                        <span class="multiselect-icon">▼</span>
+                    </button>
+                    <form class="multiselect-form">
+                        <div class="multiselect-dropdown">
+                            <div class="multiselect-options" id="tag-options-container">
+                                <!-- Tag options will be dynamically populated here -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="filter-checkbox" id="legacy-version-filter" style="display: none;">
+                <label>
+                    <input type="checkbox" id="show-legacy-versions"> Show results from older agent versions
+                </label>
+            </div>
         </div>
     </div>
 </div>
@@ -168,11 +189,10 @@
 
 <div class="leaderboard-notes">
     <p>
-        SWE-bench <b>Bash Only</b> uses the SWE-bench Verified dataset with the <a href="https://github.com/SWE-agent/mini-swe-agent">mini-SWE-agent</a> environment for all models [<a href="bash-only.html">Post</a>].<br>
+        SWE-bench <b>Verified</b> is a human-filtered subset of 500 instances; use the Agent dropdown to compare LMs with <a href="https://github.com/SWE-agent/mini-swe-agent">mini-SWE-agent</a> or view all agents [<a href="verified.html">Post</a>].<br>
         SWE-bench <b>Multilingual</b> features 300 tasks across 9 programming languages [<a href="multilingual-leaderboard.html">Post</a>].<br>
         SWE-bench <b>Lite</b> is a subset curated for less costly evaluation [<a href="lite.html">Post</a>].<br>
-        SWE-bench <b>Verified</b> is a human-filtered subset [<a href="https://openai.com/index/introducing-swe-bench-verified/">Post</a>].<br>
         SWE-bench <b>Multimodal</b> features issues with visual elements [<a href="multimodal.html">Post</a>].<br>
     </p>
-    <p>Each entry reports the <b>% Resolved</b> metric, the percentage of instances solved (out of 2294 Full, 500 Verified & Bash Only, 300 Lite & Multilingual, 517 Multimodal).</p>
+    <p>Each entry reports the <b>% Resolved</b> metric, the percentage of instances solved (out of 2294 Full, 500 Verified, 300 Lite & Multilingual, 517 Multimodal).</p>
 </div>
