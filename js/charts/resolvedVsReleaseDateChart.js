@@ -1,9 +1,8 @@
 // Scatter chart for resolved % vs model release date
 function renderResolvedVsReleaseDateChart(ctx, selected, colors, backgroundPlugin) {
-    // Filter models with release dates
+    // Filter models with release dates (prefer inline model_release_date, fallback to JS lookup)
     const modelsWithDates = selected.filter(s => {
-        const releaseDate = getModelReleaseDate(s.tags);
-        return releaseDate !== null;
+        return s.model_release_date || getModelReleaseDate(s.tags);
     });
 
     if (modelsWithDates.length === 0) {
@@ -43,7 +42,7 @@ function renderResolvedVsReleaseDateChart(ctx, selected, colors, backgroundPlugi
 
     // Prepare scatter data
     const scatterData = modelsWithDates.map(s => {
-        const releaseDateInt = getModelReleaseDate(s.tags);
+        const releaseDateInt = s.model_release_date || getModelReleaseDate(s.tags);
         const releaseDate = parseReleaseDateInt(releaseDateInt);
         return {
             x: releaseDate.getTime(),
@@ -139,7 +138,8 @@ function renderResolvedVsReleaseDateChart(ctx, selected, colors, backgroundPlugi
                     callbacks: {
                         label: (ctx) => {
                             const model = modelsWithDates[ctx.dataIndex];
-                            const releaseDate = parseReleaseDateInt(getModelReleaseDate(model.tags));
+                            const releaseDateInt = model.model_release_date || getModelReleaseDate(model.tags);
+                            const releaseDate = parseReleaseDateInt(releaseDateInt);
                             const formattedDate = formatReleaseDate(releaseDate);
                             return `${model.name}: ${formattedDate}, ${ctx.parsed.y.toFixed(2)}%`;
                         }
