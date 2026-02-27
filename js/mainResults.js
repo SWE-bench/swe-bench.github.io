@@ -129,7 +129,7 @@ function renderLeaderboardTable(leaderboard, options = {}) {
                             <th class="sortable" data-sort="org">Org</th>
                             <th class="sortable" data-sort="date">Date</th>
                             ${!hasDetailedFeatures ? '<th class="sortable" data-sort="site">Site</th>' : ''}
-                            ${showReleaseColumn ? '<th class="sortable" data-sort="release" title="mini-swe-agent release with which the benchmark was run. Click the release to see the release note. Generally, results should be very comparable across releases.">Release</th>' : ''}
+                            ${showReleaseColumn ? '<th class="sortable" data-sort="release" title="mini-swe-agent release with which the benchmark was run. Click the release to see the release note. Generally, results should be very comparable across releases.">Agent</th>' : ''}
                         </tr>
                     </thead>
                     <tbody>
