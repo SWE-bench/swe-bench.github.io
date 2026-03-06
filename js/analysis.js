@@ -56,7 +56,8 @@
                 resolved: parseFloat(cb.getAttribute('data-resolved')) || 0,
                 cost: cost,
                 per_instance_details: fullModelData?.per_instance_details || null,
-                tags: fullModelData?.tags || null
+                tags: fullModelData?.tags || null,
+                model_release_date: fullModelData?.model_release_date || null
             };
         });
     }
