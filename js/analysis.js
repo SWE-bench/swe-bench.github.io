@@ -204,6 +204,7 @@
         'scatter': 'cost',
         'resolved-vs-avg-cost': 'cost',
         'grouped-bar': 'instances',
+        'grouped-bar-language': 'instances',
         'resolved-instances-matrix': 'instances',
         'cumulative-cost': 'instances',
         'cumulative-cost-resolved': 'instances',
@@ -339,6 +340,14 @@
             }
         } else if (chartType === 'grouped-bar') {
             compareChart = renderGroupedBarChart(ctx, selected, colors, backgroundPlugin);
+            if (!compareChart) {
+                if (empty) {
+                    empty.textContent = 'No per-instance data available for selected models.';
+                    empty.style.display = '';
+                }
+            }
+        } else if (chartType === 'grouped-bar-language') {
+            compareChart = renderGroupedBarChartByLanguage(ctx, selected, colors, backgroundPlugin);
             if (!compareChart) {
                 if (empty) {
                     empty.textContent = 'No per-instance data available for selected models.';

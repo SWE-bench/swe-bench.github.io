@@ -46,6 +46,9 @@ The site is statically generated and can be hosted on GitHub Pages or any other 
 
 ## Getting Started
 
+> [!note]
+> For better viewing of json diffs, run `git config diff.json.algorithm histogram`
+
 ### Prerequisites
 
 - Python 3.8 or higher
