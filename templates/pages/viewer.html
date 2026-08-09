@@ -9,8 +9,7 @@
 {% endblock %}
 
 {% block js_files %}
-    <script src="js/tableByYear.js"></script>
-    <script src="js/tableByRepo.js"></script>
+    <script src="js/viewerBreakdown.js"></script>
 {% endblock %}
 
 {% block content %}
@@ -20,83 +19,87 @@
         </div>
     </header>
     <div class="container">
-        <section class="content-box">
-            <div class="content-wrapper" style="display: flex; justify-content: center; align-items: center;">
-                <div style="background-color: black; padding: 1.5em 1em; color: white; border-radius: 1em; text-align: center; width: 80%;">
-                    Select the split & model below to get automated analyses of the model's performance on the SWE-bench split.
-                </div>
-            </div>
-            
-            <div style="text-align: center; margin: 1em 0 1.5em 0;">
-                <label for="split-select">Split:</label>
-                <select id="split-select">
-                    <option value="test">Test</option>
-                    <option value="verified">Verified</option>
-                    <option value="bash-only">Bash Only</option>
-                    <option value="lite">Lite</option>
-                    <option value="multimodal">Multimodal</option>
-                </select>
-                &nbsp;
-                <label for="model-select">Model:</label>
-                {% for leaderboard in leaderboards %}
-                    <select id="model-select-{{ leaderboard.name|lower }}" {% if not loop.first %}hidden{% endif %}>
-                        {% for item in leaderboard.results if not item.warning %}
-                            <option value="{{ item.folder }}">({{ item.date }}) {{ item.name }}</option>
-                        {% endfor %}
+        <section class="viewer">
+            <p class="viewer-intro">
+                Pick a split and a model to see an automated breakdown of how it performed on that SWE-bench split.
+            </p>
+
+            <div class="viewer-controls">
+                <div class="viewer-field">
+                    <label for="split-select">Split</label>
+                    <select id="split-select" class="form-control form-select">
+                        <option value="test">Test</option>
+                        <option value="verified">Verified</option>
+                        <option value="bash-only">Bash Only</option>
+                        <option value="lite">Lite</option>
+                        <option value="multimodal">Multimodal</option>
                     </select>
-                {% endfor %}
-                &nbsp;
-                <button id="loadData">Load Data</button>
-            </div>
-            
-            <div class="content-wrapper">
-                <div id="displaySelections">
-                    Viewing <span style="color:#0ca7ff" id="selectedModel"></span>'s performance
-                    on the SWE-bench <span style="color:#0ca7ff" id="selectedSplit"></span> split,
-                    which resolved <span style="color:#0ca7ff" id="selectedResolved">0.00</span>% of
-                    <span style="color:#0ca7ff" id="selectedSplitNum">0</span> issues.
-                    (<a href="#" id="modelSplitURL" target="_blank">Logs</a>)
                 </div>
-            </div>
-            
-            <div class="content-wrapper">
-                <div class="content-box" id="readme">
-                    <p>Select a model and click "Load Data" to view model details.</p>
+                <div class="viewer-field viewer-field-grow">
+                    <label for="model-select-test">Model</label>
+                    {% for leaderboard in leaderboards %}
+                        <select id="model-select-{{ leaderboard.name|lower }}" class="form-control form-select" {% if not loop.first %}hidden{% endif %}>
+                            {% for item in leaderboard.results if not item.warning %}
+                                <option value="{{ item.folder }}"
+                                        data-name="{{ item.display_name or item.name }}"
+                                        data-resolved="{{ item.resolved if item.resolved is not none else '' }}"
+                                        data-date="{{ item.date }}">{{ item.display_name or item.name }} &middot; {{ item.date }}</option>
+                            {% endfor %}
+                        </select>
+                    {% endfor %}
                 </div>
+                <button id="loadData" class="button button-primary">Load data</button>
             </div>
-            
-            <div class="content-wrapper">
-                <h3 style="flex: 0 0 15%; margin: 0;">% Resolved by Repository</h3>
-                <table id="table-by-repo" class="table-results">
-                    <thead>
-                        <tr>
-                            <th width="40%">Repository</th>
-                            <th>Resolved</th>
-                            <th>Total</th>
-                            <th>% Resolved</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-            
-            <br><br>
-            
-            <div class="content-wrapper">
-                <h3 style="flex: 0 0 15%; margin: 0;">% Resolved by Year</h3>
-                <table id="table-by-year" class="table-results">
-                    <thead>
-                        <tr>
-                            <th style="width: 40%">Year</th>
-                            <th>Resolved</th>
-                            <th>Total</th>
-                            <th>% Resolved</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+
+            <p id="displaySelections" class="viewer-summary">
+                <span class="viewer-summary-model" id="selectedModel"></span> resolved
+                <span class="viewer-summary-pct" id="selectedResolved">0.00</span>% of
+                <span id="selectedSplitNum">0</span> issues on SWE-bench
+                <span id="selectedSplit"></span>.
+                <a id="modelSplitURL" href="#" target="_blank" rel="noopener noreferrer">View logs</a>
+            </p>
+
+            <section class="viewer-section">
+                <h2 class="viewer-section-title">Submission notes</h2>
+                <div id="readme" class="viewer-readme">
+                    <p class="text-muted">Select a model and click &ldquo;Load data&rdquo; to view its details.</p>
+                </div>
+            </section>
+
+            <div class="viewer-breakdowns">
+                <section class="viewer-section">
+                    <h2 class="viewer-section-title">% Resolved by repository</h2>
+                    <table id="table-by-repo" class="viewer-table">
+                        <thead>
+                            <tr>
+                                <th>Repository</th>
+                                <th class="viewer-num">Resolved</th>
+                                <th class="viewer-num">Total</th>
+                                <th class="viewer-pct">% Resolved</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="viewer-table-message"><td colspan="4">Load a model to see its per-repository results.</td></tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="viewer-section">
+                    <h2 class="viewer-section-title">% Resolved by year</h2>
+                    <table id="table-by-year" class="viewer-table">
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th class="viewer-num">Resolved</th>
+                                <th class="viewer-num">Total</th>
+                                <th class="viewer-pct">% Resolved</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="viewer-table-message"><td colspan="4">Load a model to see its per-year results.</td></tr>
+                        </tbody>
+                    </table>
+                </section>
             </div>
         </section>
     </div>
@@ -104,86 +107,110 @@
 
 {% block scripts_extra %}
 <script>
+const SPLIT_SIZES = {
+    'test': 2294,
+    'verified': 500,
+    'bash-only': 500,
+    'lite': 300,
+    'multimodal': 517
+};
+
+// The "test" split is presented as "Full" everywhere else on the site
+const SPLIT_LABELS = {
+    'test': 'Full',
+    'verified': 'Verified',
+    'bash-only': 'Bash Only',
+    'lite': 'Lite',
+    'multimodal': 'Multimodal'
+};
+
+function getModelSelect(split) {
+    return document.getElementById(`model-select-${split}`);
+}
+
 function updateReadme(split, model) {
+    const readme = document.getElementById('readme');
+    readme.innerHTML = '<p class="text-muted">Loading…</p>';
     const url = `https://raw.githubusercontent.com/swe-bench/experiments/main/evaluation/${split}/${model}/README.md`;
     fetch(url)
-        .then(response => response.text())
+        .then(response => {
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.text();
+        })
         .then(data => {
-            if (data === '404: Not Found') {
-                document.getElementById('readme').innerHTML = "README.md not provided.";
+            if (data.trim() === '404: Not Found' || !data.trim()) {
+                readme.innerHTML = '<p class="text-muted">This submission did not include notes.</p>';
+            } else if (typeof marked === 'undefined') {
+                // Markdown renderer unavailable (e.g. blocked CDN): show the source
+                readme.textContent = data;
+                readme.classList.add('viewer-readme-plain');
             } else {
-                document.getElementById('readme').innerHTML = marked.parse(data);
+                readme.classList.remove('viewer-readme-plain');
+                readme.innerHTML = marked.parse(data);
             }
         })
-        .catch(error => {
-            document.getElementById('readme').innerHTML = "README.md not provided.";
+        .catch(() => {
+            readme.innerHTML = '<p class="text-muted">This submission did not include notes.</p>';
         });
 }
 
+// The resolved rate comes straight from the leaderboard data embedded in the
+// options, so it always matches the leaderboard and needs no extra request.
+function updateSelectionSummary(split, option) {
+    document.getElementById('selectedSplit').textContent = SPLIT_LABELS[split] || split;
+    document.getElementById('selectedModel').textContent = option.dataset.name || option.value;
+    document.getElementById('selectedSplitNum').textContent = SPLIT_SIZES[split] || 0;
+    document.getElementById('modelSplitURL').href =
+        `https://github.com/swe-bench/experiments/tree/main/evaluation/${split}/${option.value}`;
+
+    const resolved = parseFloat(option.dataset.resolved);
+    document.getElementById('selectedResolved').textContent =
+        isNaN(resolved) ? '—' : resolved.toFixed(2);
+}
+
 document.getElementById('loadData').addEventListener('click', () => {
-    const splitValue = document.getElementById('split-select').value;
-    const modelSelect = document.getElementById(`model-select-${splitValue}`);
-    
-    if (!modelSelect) {
-        console.error(`No model select found for split: ${splitValue}`);
+    const split = document.getElementById('split-select').value;
+    const modelSelect = getModelSelect(split);
+
+    if (!modelSelect || !modelSelect.selectedOptions.length) {
+        console.error(`No model select found for split: ${split}`);
         return;
     }
-    
-    const modelValue = modelSelect.value;
 
-    document.getElementById('selectedSplit').textContent = splitValue;
-    document.getElementById('selectedModel').textContent = modelValue;
-    document.getElementById('selectedSplitNum').textContent = 
-        splitValue === 'lite' ? 300 : 
-        splitValue === 'verified' ? 500 : 
-        splitValue === 'multimodal' ? 517 : 
-        splitValue === 'bash-only' ? 500 : 2294;
-    document.getElementById('modelSplitURL').href = `https://github.com/swe-bench/experiments/tree/main/evaluation/${splitValue}/${modelValue}`;
-
-    updateMainResults(splitValue, modelValue);
-    updateReadme(splitValue, modelValue);
-    updateTableByRepo(splitValue, modelValue);
-    updateTableByYear(splitValue, modelValue);
+    const option = modelSelect.selectedOptions[0];
+    updateSelectionSummary(split, option);
+    updateReadme(split, option.value);
+    updateTableByRepo(split, option.value);
+    updateTableByYear(split, option.value);
 });
 
 document.getElementById('split-select').addEventListener('change', () => {
-    const splitValue = document.getElementById('split-select').value;
-
-    for (const leaderboard of document.querySelectorAll('[id^="model-select-"]')) {
-        if (leaderboard.id === `model-select-${splitValue}`) {
-            leaderboard.removeAttribute('hidden');
-        } else {
-            leaderboard.setAttribute('hidden', '');
-        }
+    const split = document.getElementById('split-select').value;
+    for (const select of document.querySelectorAll('[id^="model-select-"]')) {
+        select.toggleAttribute('hidden', select.id !== `model-select-${split}`);
+    }
+    const modelSelect = getModelSelect(split);
+    const label = document.querySelector('label[for^="model-select-"]');
+    if (modelSelect && label) {
+        label.setAttribute('for', modelSelect.id);
+    }
+    if (modelSelect && modelSelect.selectedOptions.length) {
+        updateSelectionSummary(split, modelSelect.selectedOptions[0]);
     }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
     const defaultSplit = 'test';
-    
     document.getElementById('split-select').value = defaultSplit;
-    
-    const modelSelects = document.querySelectorAll('[id^="model-select-"]');
-    for (const select of modelSelects) {
-        if (select.id === `model-select-${defaultSplit}`) {
-            select.removeAttribute('hidden');
-        } else {
-            select.setAttribute('hidden', '');
-        }
+
+    for (const select of document.querySelectorAll('[id^="model-select-"]')) {
+        select.toggleAttribute('hidden', select.id !== `model-select-${defaultSplit}`);
     }
-    
-    const defaultModelSelect = document.getElementById(`model-select-${defaultSplit}`);
-    if (defaultModelSelect && defaultModelSelect.options.length > 0) {
-        const defaultModel = defaultModelSelect.options[0].value;
-        
-        document.getElementById('selectedSplit').textContent = defaultSplit;
-        document.getElementById('selectedModel').textContent = defaultModel;
-        document.getElementById('selectedSplitNum').textContent = 
-            defaultSplit === 'lite' ? 300 : 
-            defaultSplit === 'verified' ? 500 : 
-            defaultSplit === 'multimodal' ? 517 : 2294;
-        document.getElementById('modelSplitURL').href = `https://github.com/swe-bench/experiments/tree/main/evaluation/${defaultSplit}/${defaultModel}`;
+
+    const modelSelect = getModelSelect(defaultSplit);
+    if (modelSelect && modelSelect.selectedOptions.length) {
+        updateSelectionSummary(defaultSplit, modelSelect.selectedOptions[0]);
     }
 });
 </script>
-{% endblock %} 
+{% endblock %}

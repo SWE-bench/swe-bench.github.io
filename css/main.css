@@ -16,5 +16,8 @@
 /* Utilities */
 @import 'utilities.css';
 
-/* Leaderboard filters */
-@import 'leaderboard-filters.css';
+/* Leaderboard table and notes */
+@import 'leaderboard.css';
+
+/* Analysis viewer */
+@import 'viewer.css';

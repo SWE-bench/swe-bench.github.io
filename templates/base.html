@@ -31,7 +31,7 @@
     </script>
     {% block head_extra %}{% endblock %}
 </head>
-<body>
+<body class="{% block body_class %}{% endblock %}">
     {% include "_sidebar.html" %}
     
     <div class="main-content">
@@ -43,7 +43,7 @@
             <div class="container">
                 <div class="footer-content">
                     <div class="footer-copyright">
-                        &copy; 2025 SWE-bench Team. All rights reserved.
+                        &copy; 2026 SWE-bench Team. All rights reserved.
                     </div>
                     <div class="footer-links">
                         <a href="https://github.com/swe-bench/SWE-bench" target="_blank">GitHub</a>

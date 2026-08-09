@@ -6,46 +6,28 @@
     <div id="leaderboard-description-text">
         <!-- Dynamic text will be inserted here -->
     </div>
-    <div class="filter-controls-group border-top pt-2">
-        <div style="position: relative; display: inline-flex;">
-            <button id="compare-btn" class="button button-primary button-icon" type="button" title="Compare selected results" style="display: none;">
-                <i class="fa-solid fa-chart-column"></i>
-                <span>Compare results</span>
-            </button>
-            <span class="new-badge new-badge-button">New!</span>
-        </div>
-        <div class="filter-title">Filters:</div>
-        <div class="filter-buttons">
-            <!-- Main Filters Dropdown -->
-            <div class="multiselect-container" id="main-filters">
-                <button class="btn btn-sm btn-outline-secondary filter-toggle multiselect-toggle" type="button" title="Filter by system properties">
-                    <span class="multiselect-summary">Open Scaffold</span>
-                    <span class="multiselect-icon">▼</span>
-                </button>
-                <form class="multiselect-form">
-                    <div class="multiselect-dropdown">
-                        <div class="multiselect-options">
-                            <!-- Filter options will be dynamically populated here -->
-                        </div>
-                    </div>
-                </form>
-            </div>
+    <div class="filter-controls-group border-top pt-2" id="filter-bar">
+        <button id="compare-btn" class="button button-primary button-icon" type="button" title="Compare selected results" style="display: none;">
+            <i class="fa-solid fa-chart-column"></i>
+            <span>Compare results</span>
+        </button>
 
-            <!-- Tags Dropdown -->
-            <div class="multiselect-container" id="tag-filters">
-                <button class="btn btn-sm btn-outline-secondary filter-toggle multiselect-toggle" type="button" title="Filter by tags">
-                    <span class="multiselect-summary">All Tags</span>
-                    <span class="multiselect-icon">▼</span>
-                </button>
-                <form class="multiselect-form">
-                    <div class="multiselect-dropdown">
-                        <div class="multiselect-options" id="tag-options-container">
-                            <!-- Tag options will be dynamically populated here -->
-                        </div>
-                    </div>
-                </form>
-            </div>
+        <div class="filter-menu-container">
+            <button id="filter-toggle-btn" class="button button-secondary button-icon filter-toggle-icon" type="button"
+                    aria-haspopup="true" aria-expanded="false" aria-label="Filter results" title="Filter results">
+                <i class="fa-solid fa-filter"></i>
+            </button>
+            <div id="filter-menu" class="filter-menu" style="display: none;"></div>
         </div>
+
+        <div id="bash-only-toggle-wrapper" class="preset-toggle" style="display: none;">
+            <label title="Show only runs in the mini-SWE-agent environment, so scores compare models rather than harnesses">
+                <input type="checkbox" id="bash-only-toggle">
+                <span>Bash Only</span>
+            </label>
+        </div>
+
+        <div id="filter-chips" class="filter-chips" style="display: none;"></div>
     </div>
 </div>
 
@@ -56,10 +38,6 @@
 
 <script type="application/json" id="leaderboard-data">
     {{ leaderboards | tojson }}
-</script>
-
-<script type="application/json" id="leaderboard-tags-data">
-    {{ leaderboard_tags | tojson }}
 </script>
 
 <!-- Chart.js and analysis for comparison -->
@@ -157,11 +135,65 @@
 </div>
 
 <div class="leaderboard-notes">
-    <p>
-        SWE-bench <b>Bash Only</b> uses the SWE-bench Verified dataset with the <a href="https://github.com/SWE-agent/mini-swe-agent">mini-SWE-agent</a> environment for all models [<a href="bash-only.html">Post</a>].<br>
-        SWE-bench <b>Lite</b> is a subset curated for less costly evaluation [<a href="lite.html">Post</a>].<br>
-        SWE-bench <b>Verified</b> is a human-filtered subset [<a href="https://openai.com/index/introducing-swe-bench-verified/">Post</a>].<br>
-        SWE-bench <b>Multimodal</b> features issues with visual elements [<a href="multimodal.html">Post</a>].<br>
-    </p>
-    <p>Each entry reports the <b>% Resolved</b> metric, the percentage of instances solved (out of 2294 Full, 500 Verified & Bash Only, 300 Lite, 517 Multimodal).</p>
+    <p class="benchmark-cards-note">Each entry reports <b>% Resolved</b>, the percentage of task instances solved.</p>
+    <ul class="leaderboard-legend">
+        <li>
+            <span class="model-tag model-tag-open"><i class="fa-solid fa-lock-open"></i></span>
+            Open-weights model
+        </li>
+        <li>
+            <span class="model-tag model-tag-verified"><i class="fa-solid fa-circle-check"></i></span>
+            Run performed or directly checked by the SWE-bench team
+        </li>
+    </ul>
+    <div class="benchmark-cards">
+        <div class="benchmark-card">
+            <div class="benchmark-card-header">
+                <h4>SWE-bench</h4>
+                <span class="benchmark-card-count">2294 instances</span>
+            </div>
+            <p>The original benchmark: real GitHub issues from 12 Python repositories.</p>
+            <a class="benchmark-card-link" href="original.html">Read the post <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="benchmark-card">
+            <div class="benchmark-card-header">
+                <h4>Bash Only</h4>
+                <span class="benchmark-card-count">500 instances</span>
+            </div>
+            <p>The default Verified view: every model in the same <a href="https://github.com/SWE-agent/mini-swe-agent">mini-SWE-agent</a> environment.</p>
+            <a class="benchmark-card-link" href="bash-only.html">Read the post <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="benchmark-card">
+            <div class="benchmark-card-header">
+                <h4>Lite</h4>
+                <span class="benchmark-card-count">300 instances</span>
+            </div>
+            <p>A subset curated for less costly evaluation.</p>
+            <a class="benchmark-card-link" href="lite.html">Read the post <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="benchmark-card">
+            <div class="benchmark-card-header">
+                <h4>Verified</h4>
+                <span class="benchmark-card-count">500 instances</span>
+            </div>
+            <p>A human-filtered subset of SWE-bench.</p>
+            <a class="benchmark-card-link" href="https://openai.com/index/introducing-swe-bench-verified/">Read the post <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="benchmark-card">
+            <div class="benchmark-card-header">
+                <h4>Multilingual</h4>
+                <span class="benchmark-card-count">300 instances</span>
+            </div>
+            <p>Tasks from 42 repositories across 9 programming languages.</p>
+            <a class="benchmark-card-link" href="multilingual.html">Read the post <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="benchmark-card">
+            <div class="benchmark-card-header">
+                <h4>Multimodal</h4>
+                <span class="benchmark-card-count">517 instances</span>
+            </div>
+            <p>Issues described with visual elements.</p>
+            <a class="benchmark-card-link" href="multimodal.html">Read the post <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </div>
 </div>

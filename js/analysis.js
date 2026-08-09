@@ -35,11 +35,11 @@
         });
         
         return Array.from(checkboxes).map(cb => {
-            const row = cb.closest('tr');
-            const costCell = row ? row.querySelector('td:nth-child(4) .number') : null;
-            const costText = costCell ? costCell.textContent.trim().replace('$', '') : '';
-            const cost = costText ? parseFloat(costText) : null;
-            
+            // Read the cost off the checkbox rather than a positional cell, so
+            // adding or reordering columns cannot silently break it.
+            const costAttr = cb.getAttribute('data-cost');
+            const cost = costAttr ? parseFloat(costAttr) : null;
+
             const modelName = cb.getAttribute('data-model');
             
             // Find full model data from leaderboard
@@ -196,8 +196,60 @@
         }
     }
 
+    // Chart type -> the data it needs beyond a resolution rate. Only mini-SWE-agent
+    // runs publish cost and per-instance detail, so on other boards these chart
+    // types have nothing to draw and are offered as disabled options rather than
+    // rendering an empty canvas.
+    const CHART_REQUIREMENTS = {
+        'scatter': 'cost',
+        'resolved-vs-avg-cost': 'cost',
+        'grouped-bar': 'instances',
+        'resolved-instances-matrix': 'instances',
+        'cumulative-cost': 'instances',
+        'cumulative-cost-resolved': 'instances',
+        'cumulative-steps': 'instances',
+        'cumulative-steps-resolved': 'instances',
+        'resolved-vs-cost-limit': 'instances',
+        'resolved-vs-step-limit': 'instances',
+        'resolved-vs-release-date': 'release'
+    };
+
+    function selectionSupports(selected, requirement) {
+        if (requirement === 'cost') {
+            return selected.some(s => s.cost !== null && s.cost !== undefined && !isNaN(s.cost));
+        }
+        if (requirement === 'instances') {
+            return selected.some(s => s.per_instance_details);
+        }
+        if (requirement === 'release') {
+            return typeof getModelReleaseDate === 'function'
+                && selected.some(s => getModelReleaseDate(s.tags) !== null);
+        }
+        return true;
+    }
+
+    function updateChartTypeAvailability(selected) {
+        const select = document.getElementById('compare-chart-type');
+        if (!select) return;
+
+        Array.from(select.options).forEach(option => {
+            if (!option.dataset.label) option.dataset.label = option.textContent;
+            const requirement = CHART_REQUIREMENTS[option.value];
+            const supported = !requirement || selectionSupports(selected, requirement);
+            option.disabled = !supported;
+            option.textContent = supported
+                ? option.dataset.label
+                : option.dataset.label + ' — not reported for this selection';
+        });
+
+        if (select.selectedOptions.length && select.selectedOptions[0].disabled) {
+            select.value = 'bar';
+        }
+    }
+
     function renderChart() {
         const selected = getSelectedModels();
+        updateChartTypeAvailability(selected);
         const empty = document.getElementById('compare-empty');
         const canvas = document.getElementById('compare-chart');
         if (!canvas) return;
