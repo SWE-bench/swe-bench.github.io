@@ -234,14 +234,17 @@
   margin: 1rem 0;
 }
 
+/* The link is the bar, so the whole strip is clickable rather than just the text */
 .view-details-button {
-  align-items: center;
-  padding: 0.5rem 0.75rem;
+  display: block;
+  margin-top: 20px;
+  padding: 0.7rem 0.75rem;
   background-color: var(--color-accent-light);
   color: var(--color-accent);
   border-radius: var(--radius-md);
   font-size: var(--text-sm);
   font-weight: var(--weight-medium);
+  text-align: center;
   transition: all var(--transition-fast);
 }
 
@@ -710,4 +713,120 @@ code {
 
 .contact-container a:hover {
     text-decoration: underline;
+}
+
+/* ---------------------------------------------------------------------------
+   News timeline
+   A rail with one marker per entry, the date in its own column, so the list
+   scans by date instead of reading as a plain bullet list.
+   --------------------------------------------------------------------------- */
+
+.news-timeline {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* the rail, running through the middle of the markers */
+.news-timeline::before {
+  content: '';
+  position: absolute;
+  top: 1.15rem;
+  bottom: 1.15rem;
+  left: 0.78rem;
+  width: 1px;
+  background-color: var(--color-border);
+}
+
+.news-item {
+  display: grid;
+  grid-template-columns: 1.6rem 5.5rem 1fr;
+  align-items: baseline;
+  gap: 0 0.85rem;
+  padding: 0.5rem 0;
+}
+
+.news-marker {
+  position: relative;
+  top: 0.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background-color: var(--color-background);
+}
+
+.news-marker img {
+  width: 1rem;
+  height: 1rem;
+}
+
+.news-marker-dot::after {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-text-muted);
+}
+
+.news-date {
+  font-size: 0.6875rem;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.news-text {
+  color: var(--color-text-secondary);
+  line-height: var(--leading-normal);
+}
+
+.news-text b {
+  color: var(--color-text);
+  font-weight: var(--weight-semibold);
+}
+
+.news-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: 0.35rem;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+}
+
+.news-link i {
+  font-size: 0.7em;
+  transition: transform var(--transition-fast);
+}
+
+.news-link:hover i {
+  transform: translateX(2px);
+}
+
+.dark-mode .news-marker {
+  background-color: var(--gray-800);
+  border-color: var(--gray-700);
+}
+
+@media (max-width: 576px) {
+  .news-item {
+    grid-template-columns: 1.6rem 1fr;
+    gap: 0.15rem 0.75rem;
+  }
+
+  .news-date {
+    grid-column: 2;
+  }
+
+  .news-text {
+    grid-column: 2;
+  }
 }

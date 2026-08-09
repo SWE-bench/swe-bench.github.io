@@ -30,22 +30,16 @@
         // Get full leaderboard data (it's a direct array, not wrapped in a property)
         const leaderboardData = getLeaderboardData();
         
-        // For the Verified tab, always use bash-only data for comparison
-        let activeLeaderboard;
-        if (active.id === 'leaderboard-Verified') {
-            activeLeaderboard = leaderboardData?.find(lb => lb.name === 'bash-only');
-        } else {
-            activeLeaderboard = leaderboardData?.find(lb => {
-                return active.id === `leaderboard-${lb.name}`;
-            });
-        }
+        const activeLeaderboard = leaderboardData?.find(lb => {
+            return active.id === `leaderboard-${lb.name}`;
+        });
         
         return Array.from(checkboxes).map(cb => {
-            const row = cb.closest('tr');
-            const costCell = row ? row.querySelector('td:nth-child(4) .number') : null;
-            const costText = costCell ? costCell.textContent.trim().replace('$', '') : '';
-            const cost = costText ? parseFloat(costText) : null;
-            
+            // Read the cost off the checkbox rather than a positional cell, so
+            // adding or reordering columns cannot silently break it.
+            const costAttr = cb.getAttribute('data-cost');
+            const cost = costAttr ? parseFloat(costAttr) : null;
+
             const modelName = cb.getAttribute('data-model');
             
             // Find full model data from leaderboard
@@ -82,16 +76,11 @@
     }
 
     function openModal() {
-        // Always show the selection modal first
-        openNoSelectionModal();
-    }
-
-    function openCompareModal() {
         const selected = getSelectedModels();
-        if (!selected.length) return;
-        
-        closeNoSelectionModal();
-        
+        if (!selected.length) {
+            openNoSelectionModal();
+            return;
+        }
         const modal = document.getElementById('compare-modal');
         if (!modal) return;
         
@@ -110,31 +99,6 @@
         if (!modal) return;
         modal.classList.add('show');
         modal.setAttribute('aria-hidden', 'false');
-        updateCompareSelectedButton();
-        
-        // Focus the compare button for Enter key support
-        const compareBtn = document.getElementById('compare-selected-btn');
-        if (compareBtn) {
-            setTimeout(() => compareBtn.focus(), 50);
-        }
-    }
-
-    function updateCompareSelectedButton() {
-        const selected = getSelectedModels();
-        const btn = document.getElementById('compare-selected-btn');
-        const msg = document.getElementById('no-selection-message');
-        
-        if (!btn) return;
-        
-        if (selected.length > 0) {
-            btn.disabled = false;
-            btn.classList.remove('button-disabled');
-            if (msg) msg.style.display = 'none';
-        } else {
-            btn.disabled = true;
-            btn.classList.add('button-disabled');
-            if (msg) msg.style.display = '';
-        }
     }
 
     function closeNoSelectionModal() {
@@ -166,7 +130,7 @@
         });
         
         closeNoSelectionModal();
-        openCompareModal();
+        openModal();
     }
 
     function selectTopN(n, openWeightsOnly = false) {
@@ -197,10 +161,10 @@
         });
         
         closeNoSelectionModal();
-        openCompareModal();
+        openModal();
     }
 
-    function closeCompareModal() {
+    function closeModal() {
         const modal = document.getElementById('compare-modal');
         if (!modal) return;
         modal.classList.remove('show');
@@ -232,8 +196,61 @@
         }
     }
 
+    // Chart type -> the data it needs beyond a resolution rate. Only mini-SWE-agent
+    // runs publish cost and per-instance detail, so on other boards these chart
+    // types have nothing to draw and are offered as disabled options rather than
+    // rendering an empty canvas.
+    const CHART_REQUIREMENTS = {
+        'scatter': 'cost',
+        'resolved-vs-avg-cost': 'cost',
+        'grouped-bar': 'instances',
+        'grouped-bar-language': 'instances',
+        'resolved-instances-matrix': 'instances',
+        'cumulative-cost': 'instances',
+        'cumulative-cost-resolved': 'instances',
+        'cumulative-steps': 'instances',
+        'cumulative-steps-resolved': 'instances',
+        'resolved-vs-cost-limit': 'instances',
+        'resolved-vs-step-limit': 'instances',
+        'resolved-vs-release-date': 'release'
+    };
+
+    function selectionSupports(selected, requirement) {
+        if (requirement === 'cost') {
+            return selected.some(s => s.cost !== null && s.cost !== undefined && !isNaN(s.cost));
+        }
+        if (requirement === 'instances') {
+            return selected.some(s => s.per_instance_details);
+        }
+        if (requirement === 'release') {
+            return typeof getModelReleaseDate === 'function'
+                && selected.some(s => getModelReleaseDate(s.tags) !== null);
+        }
+        return true;
+    }
+
+    function updateChartTypeAvailability(selected) {
+        const select = document.getElementById('compare-chart-type');
+        if (!select) return;
+
+        Array.from(select.options).forEach(option => {
+            if (!option.dataset.label) option.dataset.label = option.textContent;
+            const requirement = CHART_REQUIREMENTS[option.value];
+            const supported = !requirement || selectionSupports(selected, requirement);
+            option.disabled = !supported;
+            option.textContent = supported
+                ? option.dataset.label
+                : option.dataset.label + ' — not reported for this selection';
+        });
+
+        if (select.selectedOptions.length && select.selectedOptions[0].disabled) {
+            select.value = 'bar';
+        }
+    }
+
     function renderChart() {
         const selected = getSelectedModels();
+        updateChartTypeAvailability(selected);
         const empty = document.getElementById('compare-empty');
         const canvas = document.getElementById('compare-chart');
         if (!canvas) return;
@@ -333,7 +350,7 @@
             compareChart = renderGroupedBarChartByLanguage(ctx, selected, colors, backgroundPlugin);
             if (!compareChart) {
                 if (empty) {
-                    empty.textContent = 'No per-instance data available for selected models, or language mapping not loaded.';
+                    empty.textContent = 'No per-instance data available for selected models.';
                     empty.style.display = '';
                 }
             }
@@ -475,21 +492,13 @@
         // Get current leaderboard
         const container = document.getElementById('leaderboard-container');
         const active = container ? container.querySelector('.tabcontent.active') : null;
-        let leaderboardId = active ? active.id.replace('leaderboard-', '') : 'Verified';
-
-        // For Verified tab, include agent mode in the URL
-        const agentMode = (leaderboardId === 'Verified' && typeof getVerifiedAgentMode === 'function')
-            ? getVerifiedAgentMode()
-            : null;
+        const leaderboardId = active ? active.id.replace('leaderboard-', '') : 'verified';
         
         // Build URL parameters
         const params = new URLSearchParams();
         params.set('leaderboard', leaderboardId);
         params.set('chart', chartTypeValue);
         params.set('models', selected.map(m => m.name).join(','));
-        if (agentMode) {
-            params.set('agent', agentMode);
-        }
         
         // Create full URL
         const baseUrl = window.location.origin + window.location.pathname;
@@ -528,28 +537,12 @@
             return; // No state to restore
         }
         
-        let leaderboardName = params.get('leaderboard') || 'Verified';
+        const leaderboardName = params.get('leaderboard') || 'verified';
         const chartType = params.get('chart') || 'bar';
-        const agentMode = params.get('agent') || null;
         const modelNames = params.get('models').split(',').filter(m => m.trim());
         
         if (modelNames.length === 0) {
             return;
-        }
-
-        // Backward compat: map old bash-only to Verified with mini-SWE-agent
-        if (leaderboardName === 'bash-only') {
-            leaderboardName = 'Verified';
-            // Set agent dropdown to all-mini to include legacy versions
-            const agentDropdown = document.getElementById('agent-dropdown');
-            if (agentDropdown) {
-                agentDropdown.value = agentMode || 'all-mini';
-            }
-        } else if (leaderboardName === 'Verified' && agentMode) {
-            const agentDropdown = document.getElementById('agent-dropdown');
-            if (agentDropdown) {
-                agentDropdown.value = agentMode;
-            }
         }
         
         // Switch to the correct leaderboard tab
@@ -576,14 +569,17 @@
                 }
             });
             
-            // Set the chart type before opening modal
+            // Open the compare modal
+            openModal();
+            
+            // Set the chart type
             const chartTypeSelect = document.getElementById('compare-chart-type');
             if (chartTypeSelect) {
                 chartTypeSelect.value = chartType;
             }
             
-            // Open the compare modal directly (bypass selection modal since models are from URL)
-            openCompareModal();
+            // Render the chart
+            renderChart();
         }, 300);
     }
 
@@ -609,7 +605,7 @@
         // Open via delegated event to handle dynamic rendering
         document.addEventListener('click', (e) => {
             const trigger = e.target && typeof e.target.closest === 'function' ? e.target.closest('#compare-btn') : null;
-            if (trigger && !trigger.disabled) {
+            if (trigger) {
                 e.preventDefault();
                 e.stopPropagation();
                 openModal();
@@ -623,7 +619,7 @@
                 const closeEl = e.target && typeof e.target.closest === 'function' ? e.target.closest('[data-close="true"]') : null;
                 if (closeEl) {
                     e.preventDefault();
-                    closeCompareModal();
+                    closeModal();
                 }
             });
         }
@@ -659,12 +655,12 @@
             });
         }
 
-        // Quickselect button handler (in compare modal, opens selection modal)
+        // Quickselect button handler
         const quickselectBtn = document.getElementById('quickselect-btn');
         if (quickselectBtn) {
             quickselectBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-                closeCompareModal();
+                closeModal();
                 openNoSelectionModal();
             });
         }
@@ -706,26 +702,6 @@
                     closeNoSelectionModal();
                 }
             });
-            
-            // Handle Enter key to trigger compare button
-            noSelectionModal.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    const btn = document.getElementById('compare-selected-btn');
-                    if (btn && !btn.disabled) {
-                        e.preventDefault();
-                        openCompareModal();
-                    }
-                }
-            });
-        }
-
-        // Compare selected models button
-        const compareSelectedBtn = document.getElementById('compare-selected-btn');
-        if (compareSelectedBtn) {
-            compareSelectedBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                openCompareModal();
-            });
         }
 
         // Quick select buttons
@@ -751,13 +727,8 @@
 
         document.addEventListener('change', (e) => {
             if (e.target && e.target.classList.contains('row-select')) {
-                // Update chart if compare modal is open
                 if (document.getElementById('compare-modal')?.classList.contains('show')) {
                     renderChart();
-                }
-                // Update button state if selection modal is open
-                if (document.getElementById('no-selection-modal')?.classList.contains('show')) {
-                    updateCompareSelectedButton();
                 }
             }
         });

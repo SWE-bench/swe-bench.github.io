@@ -1,22 +1,15 @@
 // Dictionary mapping status to natual language
-const statusToNaturalLanguage = {
-    'no_generation': 'No Generation',
-    'generated': 'Generated',
-    'with_logs': 'With Logs',
-    'install_fail': 'Install Failed',
-    'reset_failed': 'Reset Failed',
-    'no_apply': 'Patch Apply Failed',
-    'applied': 'Patch Applied',
-    'test_errored': 'Test Errored',
-    'test_timeout': 'Test Timed Out',
-    'resolved': 'Resolved'
-}
-
 // Store loaded leaderboards to avoid re-rendering
 const loadedLeaderboards = new Set();
 let leaderboardData = null;
 
 const sortState = { field: 'resolved', direction: 'desc' };
+
+function escapeAttr(value) {
+    return String(value == null ? '' : value).replace(/[&<>"']/g, ch => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[ch]));
+}
 
 function loadLeaderboardData() {
     if (!leaderboardData) {
@@ -33,6 +26,10 @@ function sortItems(a, b, field, direction) {
         switch (field) {
             case 'name':
                 return (item.name || '').toLowerCase();
+            case 'model':
+                return (item.model_display || item.name || '').toLowerCase();
+            case 'agent':
+                return (item.agent || '').toLowerCase();
             case 'resolved':
                 return parseFloat(item.resolved) || 0;
             case 'org':
@@ -67,6 +64,69 @@ function sortItems(a, b, field, direction) {
     return direction === 'asc' ? result : -result;
 }
 
+// Display-only cleanup of model names. The raw `name` stays untouched so that
+// data-model attributes, chart labels and shareable links keep matching the data.
+//
+// Only a fallback now: the table reads `model_display`, and `display_name` is
+// used if some older data still carries it.
+const DATE_SUFFIX_RE = /\s*\((?:\d{8}|\d{4}-\d{2}-\d{2})\)/g;
+
+function formatModelName(name) {
+    // "GPT-5.2 (2025-12-11) (high reasoning)" -> "GPT-5.2 (2025-12-11) (high)"
+    return (name || '').replace(/\(([^)]*?)\s+reasoning\)/gi, '($1)');
+}
+
+// Drop the trailing version date, e.g. "Claude 4.5 Opus medium (20251101)" ->
+// "Claude 4.5 Opus medium". The table already has a Date column, so the date is
+// redundant -- except where it is the only thing telling two entries of the same
+// product apart (e.g. "nFactorial (2024-11-05)" vs "nFactorial (2024-10-30)"),
+// in which case that entry keeps its date.
+function buildDisplayNames(results) {
+    const strippedCounts = new Map();
+    results.forEach(item => {
+        const stripped = formatModelName(item.name).replace(DATE_SUFFIX_RE, '').trim();
+        strippedCounts.set(stripped, (strippedCounts.get(stripped) || 0) + 1);
+    });
+
+    const displayNames = new Map();
+    results.forEach(item => {
+        if (item.display_name) {
+            displayNames.set(item.name, item.display_name);
+            return;
+        }
+        const withReasoningRemoved = formatModelName(item.name);
+        const stripped = withReasoningRemoved.replace(DATE_SUFFIX_RE, '').trim();
+        const isAmbiguous = strippedCounts.get(stripped) > 1;
+        displayNames.set(item.name, isAmbiguous ? withReasoningRemoved : stripped);
+    });
+    return displayNames;
+}
+
+// Rows with no logo get a muted initial circle instead of an empty cell. The
+// colour is derived from the agent, so one product looks the same on every board
+// and across reloads; the circle is decorative, since the name is already in the
+// row (hence aria-hidden).
+const LOGO_PLACEHOLDER_COLOURS = 6;
+
+function placeholderKey(item) {
+    const agent = item.agent && item.agent !== 'Undisclosed' ? item.agent : '';
+    return agent || item.model_display || item.name || '';
+}
+
+function placeholderInitial(item) {
+    const match = placeholderKey(item).match(/[a-z0-9]/i);
+    return match ? match[0].toUpperCase() : '?';
+}
+
+function placeholderColour(item) {
+    const key = placeholderKey(item).toLowerCase();
+    let hash = 0;
+    for (let i = 0; i < key.length; i++) {
+        hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
+    }
+    return hash % LOGO_PLACEHOLDER_COLOURS;
+}
+
 function getOrgName(item) {
     if (item.tags && item.tags.length > 0) {
         const orgTag = item.tags.find(tag => tag.startsWith('Org: '));
@@ -78,105 +138,163 @@ function getOrgName(item) {
 }
 
 function getDefaultSortDirection(field) {
-    const textFields = ['name', 'org', 'release'];
+    const textFields = ['name', 'model', 'agent', 'org', 'release'];
     return textFields.includes(field) ? 'asc' : 'desc';
 }
 
-/**
- * Render a leaderboard table.
- * @param {Object} leaderboard - The leaderboard data object with name and results.
- * @param {Object} [options] - Optional rendering overrides.
- * @param {string} [options.displayId] - The tab ID to use for the wrapper div (defaults to leaderboard.name).
- * @param {boolean} [options.hasDetailedFeatures] - Whether to show checkboxes, cost, trajs columns.
- * @param {boolean} [options.showReleaseColumn] - Whether to show the Release column.
- */
-function renderLeaderboardTable(leaderboard, options = {}) {
-    const container = document.getElementById('leaderboard-container');
-    const displayId = options.displayId || leaderboard.name;
-    const leaderboardNameLower = leaderboard.name.toLowerCase();
+// The Verified board cross-lists every mini-SWE-agent run, so what used to be the
+// "Bash Only" board is Verified with the Agent filter set to that one agent. The
+// filter is applied for you on first load (see DEFAULT_AGENT_FILTER in
+// leaderboardFilters.js) rather than being a separate mode.
+const MINI_SWE_AGENT = 'mini-SWE-agent';
 
-    // Determine display mode from options or infer from leaderboard name
-    const isBashOnlyData = leaderboardNameLower === 'bash-only' || leaderboardNameLower === 'multilingual';
-    const hasDetailedFeatures = options.hasDetailedFeatures !== undefined
-        ? options.hasDetailedFeatures
-        : isBashOnlyData;
-    const showReleaseColumn = options.showReleaseColumn !== undefined
-        ? options.showReleaseColumn
-        : isBashOnlyData;
-    
-    const results = leaderboard.results
-        .filter(item => !item.warning)
+function boardSupportsMiniView(leaderboard) {
+    return leaderboard.name.toLowerCase() === 'verified';
+}
+
+// Some boards (Multilingual) are made up entirely of mini-SWE-agent runs
+function boardIsAllMini(leaderboard) {
+    const results = leaderboard.results || [];
+    return results.length > 0 && results.every(item => item.agent === MINI_SWE_AGENT);
+}
+
+// Every board gets row selection and Compare. Boards outside the mini-SWE-agent
+// runs only carry resolution rates, so the chart picker greys out the chart types
+// that need cost or per-instance data (see CHART_REQUIREMENTS in analysis.js).
+function boardSupportsCompare() {
+    return true;
+}
+
+// Cost, trajectories and a harness version are only reported by mini-SWE-agent
+// runs, so those columns appear exactly when the view is narrowed to that agent.
+function showsHarnessColumns(leaderboard) {
+    if (boardIsAllMini(leaderboard)) return true;
+    if (!boardSupportsMiniView(leaderboard)) return false;
+    const agents = typeof getSelectedFilterValues === 'function'
+        ? getSelectedFilterValues('agent')
+        : [];
+    return agents.length === 1 && agents[0] === MINI_SWE_AGENT;
+}
+
+function visibleResults(leaderboard) {
+    return leaderboard.results.filter(item => !item.warning);
+}
+
+function renderLeaderboardTable(leaderboard) {
+    const container = document.getElementById('leaderboard-container');
+    const withHarness = showsHarnessColumns(leaderboard);
+    const withSelect = boardSupportsCompare(leaderboard);
+    const unfiltered = visibleResults(leaderboard);
+
+    // Rank reflects the score, not whichever column is currently sorted. Keyed by
+    // the entry itself: submission names are not unique (several products have
+    // more than one entry under the same name).
+    const ranks = new Map();
+    unfiltered
+        .slice()
+        .sort((a, b) => (parseFloat(b.resolved) || 0) - (parseFloat(a.resolved) || 0))
+        .forEach((item, index) => ranks.set(item, index + 1));
+
+    const results = unfiltered
         .slice()
         .sort((a, b) => sortItems(a, b, sortState.field, sortState.direction));
 
-    const colCount = 4
-        + (hasDetailedFeatures ? 2 : 0)
-        + (!hasDetailedFeatures ? 1 : 0)
-        + (showReleaseColumn ? 1 : 0);
+    // Scale the inline progress bars against the best score in this leaderboard
+    const maxResolved = results.reduce((max, item) => Math.max(max, parseFloat(item.resolved) || 0), 0) || 100;
 
-    // Create table content
+    const displayNames = buildDisplayNames(results);
+    const modelName = item => item.model_display || displayNames.get(item.name) || item.name;
+    const columnCount = 5 + (withSelect ? 1 : 0) + (withHarness ? 3 : 1);
+
+    // The table uses a fixed layout so the narrow columns keep their width no
+    // matter how many other columns are on screen. Every column is sized here
+    // except Model, which is left auto and therefore absorbs the leftover space.
+    const colgroup = [
+        withSelect ? '<col class="cw-select">' : '',
+        '<col class="cw-rank">',
+        '<col>',
+        '<col class="cw-agent">',
+        '<col class="cw-resolved">',
+        withHarness ? '<col class="cw-cost">' : '',
+        withHarness ? '<col class="cw-trajs">' : '',
+        '<col class="cw-org">',
+        '<col class="cw-date">',
+        withHarness ? '<col class="cw-release">' : '<col class="cw-site">'
+    ].join('');
+
     const tableHtml = `
-        <div class="tabcontent active" id="leaderboard-${displayId}">
+        <div class="tabcontent active" id="leaderboard-${leaderboard.name}">
             <div class="table-responsive">
-                <table class="table scrollable data-table ${hasDetailedFeatures ? 'has-select-col' : ''}">
+                <table class="table scrollable data-table ${withSelect ? 'has-select-col' : ''}" data-harness="${withHarness}">
+                    <colgroup>${colgroup}</colgroup>
                     <thead>
                         <tr>
-                            ${hasDetailedFeatures ? '<th class="select-col"><input type="checkbox" id="select-all-checkbox" aria-label="Select all models" title="Select all visible models"></th>' : ''}
-                            <th class="sortable" data-sort="name">Model</th>
-                            <th class="sortable" data-sort="resolved">% Resolved</th>
-                            ${hasDetailedFeatures ? '<th class="sortable" data-sort="instance_cost" title="Average cost per task instance in the benchmark">Avg. $</th>' : ''}
-                            ${hasDetailedFeatures ? '<th class="sortable" data-sort="trajs_docent">Trajs</th>' : ''}
-                            <th class="sortable" data-sort="org">Org</th>
+                            ${withSelect ? '<th class="select-col"><input type="checkbox" id="select-all-checkbox" aria-label="Select all models" title="Select all visible models"></th>' : ''}
+                            <th class="col-rank">#</th>
+                            <th class="sortable col-model" data-sort="model">Model</th>
+                            <th class="sortable col-agent" data-sort="agent">Agent</th>
+                            <th class="sortable col-resolved" data-sort="resolved">% Resolved</th>
+                            ${withHarness ? '<th class="sortable" data-sort="instance_cost" title="Average cost per task instance in the benchmark">Avg. $</th>' : ''}
+                            ${withHarness ? '<th class="sortable" data-sort="trajs_docent">Trajs</th>' : ''}
+                            <th class="sortable col-org" data-sort="org">Org</th>
                             <th class="sortable" data-sort="date">Date</th>
-                            ${!hasDetailedFeatures ? '<th class="sortable" data-sort="site">Site</th>' : ''}
-                            ${showReleaseColumn ? '<th class="sortable" data-sort="release" title="mini-swe-agent release with which the benchmark was run. Click the release to see the release note. Generally, results should be very comparable across releases.">Agent</th>' : ''}
+                            ${withHarness
+                                ? '<th class="sortable" data-sort="release" title="mini-swe-agent release with which the benchmark was run. Click the release to see the release note. Generally, results should be very comparable across releases.">Release</th>'
+                                : '<th class="sortable" data-sort="site">Site</th>'}
                         </tr>
                     </thead>
                     <tbody>
-                        ${results.map(item => {
-                            const version = item['mini-swe-agent_version'] || '';
-                            const isLegacyVersion = showReleaseColumn && /^[01]\./.test(version);
-                            return `
+                        ${results.map(item => `
                                 <tr
                                     data-os_model="${item.os_model ? 'true' : 'false'}"
                                     data-os_system="${item.os_system ? 'true' : 'false'}"
                                     data-checked="${item.checked ? 'true' : 'false'}"
-                                    data-tags="${item.tags ? item.tags.join(',') : ''}"
-                                    ${isLegacyVersion ? 'class="legacy-version-row"' : ''}
+                                    data-agent="${escapeAttr(item.agent)}"
+                                    data-model="${escapeAttr(modelName(item))}"
+                                    data-effort="${escapeAttr(item.reasoning_effort || '')}"
+                                    data-model-org="${escapeAttr(item.model_org || '')}"
+                                    data-agent-org="${escapeAttr(item.agent_org || '')}"
+                                    data-resolved="${parseFloat(item.resolved) || 0}"
+                                    data-tags="${item.tags ? escapeAttr(item.tags.join(',')) : ''}"
                                 >
-                                    ${hasDetailedFeatures ? `<td class="select-col centered-text"><input type="checkbox" class="row-select" aria-label="Select ${item.name}" data-model="${item.name}" data-resolved="${parseFloat(item.resolved).toFixed(2)}"></td>` : ''}
-                                    <td>
-                                        <div class="flex items-center gap-1">
-                                            <div class="model-badges">
-                                                ${item.date >= "2025-10-15" ? '<span>🆕</span>' : ''}
-                                                ${item.oss ? '<span>🤠</span>' : ''}
-                                                ${!hasDetailedFeatures && item.checked ? '<span title="The agent run was performed by or directly verified by the SWE-bench team">✅</span>' : ''}
-                                            </div>
-                                            <span class="model-name font-mono fw-medium">${item.name}</span>
+                                    ${withSelect ? `<td class="select-col centered-text"><input type="checkbox" class="row-select" aria-label="Select ${escapeAttr(modelName(item))}" data-model="${escapeAttr(item.name)}" data-resolved="${parseFloat(item.resolved).toFixed(2)}" data-cost="${item.instance_cost != null && !isNaN(item.instance_cost) ? item.instance_cost : ''}"></td>` : ''}
+                                    <td class="rank-cell">${ranks.get(item) || ''}</td>
+                                    <td class="model-cell">
+                                        <div class="model-cell-inner">
+                                            <span class="model-name fw-medium">${modelName(item)}</span>
+                                            ${item.reasoning_effort ? `<span class="model-effort" title="Reasoning effort">${item.reasoning_effort}</span>` : ''}
+                                            ${item.os_model ? '<span class="model-tag model-tag-open" title="Open-weights model" aria-label="Open-weights model"><i class="fa-solid fa-lock-open"></i></span>' : ''}
+                                            ${!withHarness && item.checked ? '<span class="model-tag model-tag-verified" title="The agent run was performed by or directly checked by the SWE-bench team" aria-label="Checked by the SWE-bench team"><i class="fa-solid fa-circle-check"></i></span>' : ''}
                                         </div>
                                     </td>
-                                    <td><span class="number fw-medium text-primary">${parseFloat(item.resolved).toFixed(2)}</span></td>
-                                    ${hasDetailedFeatures ? `<td class="text-right"><span class="number fw-medium text-primary">${item.instance_cost !== null && item.instance_cost !== undefined && item.instance_cost !== 0 && !isNaN(item.instance_cost) ? '$' + parseFloat(item.instance_cost).toFixed(2) : ''}</span></td>` : ''}
-                                    ${hasDetailedFeatures ? `<td class="centered-text text-center">
+                                    <td class="agent-cell"><span class="agent-name">${item.agent || '—'}</span></td>
+                                    <td class="resolved-cell">
+                                        <span class="resolved-meter">
+                                            <span class="resolved-value">${parseFloat(item.resolved).toFixed(2)}</span>
+                                            <span class="resolved-track"><span class="resolved-fill" style="width: ${((parseFloat(item.resolved) || 0) / maxResolved * 100).toFixed(1)}%"></span></span>
+                                        </span>
+                                    </td>
+                                    ${withHarness ? `<td class="text-right"><span class="number">${item.instance_cost !== null && item.instance_cost !== undefined && item.instance_cost !== 0 && !isNaN(item.instance_cost) ? '$' + parseFloat(item.instance_cost).toFixed(2) : ''}</span></td>` : ''}
+                                    ${withHarness ? `<td class="centered-text text-center">
                                         ${item.trajs_docent && item.trajs_docent !== false ? `<a href="${item.trajs_docent}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
                                     </td>` : ''}
-                                    <td>
+                                    <td class="org-cell">
                                         ${item.logo && item.logo.length > 0 ? `
-                                            <div style="display: flex; align-items: center;">
-                                                ${item.logo.map(logoUrl => `<img src="${logoUrl}" style="height: 1.5em;" />`).join('')}
+                                            <div class="org-logos">
+                                                ${item.logo.map(logoUrl => `<img src="${escapeAttr(logoUrl)}" alt="" class="org-logo" loading="lazy" onerror="this.remove()">`).join('')}
                                             </div>
-                                        ` : '-'}
+                                        ` : `<span class="org-placeholder org-placeholder-${placeholderColour(item)}" aria-hidden="true">${placeholderInitial(item)}</span>`}
                                     </td>
                                     <td><span class="label-date text-muted">${item.date}</span></td>
-                                    ${!hasDetailedFeatures ? `<td class="centered-text text-center">
-                                        ${item.site ? `<a href="${Array.isArray(item.site) ? item.site[0] : item.site}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
-                                    </td>` : ''}
-                                    ${showReleaseColumn ? `<td><span class="${isLegacyVersion ? 'legacy-version' : 'text-muted'} font-mono">${item['mini-swe-agent_version'] && item['mini-swe-agent_version'] !== '0.0.0' ? `<a href="https://github.com/SWE-agent/mini-swe-agent/tree/v${item['mini-swe-agent_version']}" target="_blank" rel="noopener noreferrer">${item['mini-swe-agent_version']}</a>` : (item['mini-swe-agent_version'] || '-')}</span></td>` : ''}
+                                    ${withHarness
+                                        ? `<td><span class="text-muted font-mono">${item['mini-swe-agent_version'] && item['mini-swe-agent_version'] !== '0.0.0' ? `<a href="https://github.com/SWE-agent/mini-swe-agent/tree/v${item['mini-swe-agent_version']}" target="_blank" rel="noopener noreferrer">${item['mini-swe-agent_version']}</a>` : (item['mini-swe-agent_version'] || '-')}</span></td>`
+                                        : `<td class="centered-text text-center">
+                                        ${item.site ? `<a href="${item.site}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
+                                    </td>`}
                                 </tr>
-                            `;
-                        }).join('')}
+                            `).join('')}
                         <tr class="no-results" style="display: none;">
-                            <td colspan="${colCount}" class="text-center">
+                            <td colspan="${columnCount}" class="text-center">
                                 No entries match the selected filters. Try adjusting your filters.
                             </td>
                         </tr>
@@ -187,30 +305,29 @@ function renderLeaderboardTable(leaderboard, options = {}) {
     `;
 
     container.innerHTML = tableHtml;
-    loadedLeaderboards.add(displayId);
+    loadedLeaderboards.add(leaderboard.name);
 
     updateSortIndicators();
-    attachSortHandlers(displayId, leaderboard, options);
-    
-    if (hasDetailedFeatures) {
-        attachSelectAllHandler(displayId);
+    attachSortHandlers(leaderboard.name);
+
+    if (withSelect) {
+        attachSelectAllHandler(leaderboard.name);
         updateSelectAllCheckbox();
     }
-
 }
 
-function attachSortHandlers(displayId, leaderboard, options) {
+function attachSortHandlers(leaderboardName) {
     const container = document.getElementById('leaderboard-container');
-    const tableWrapper = container.querySelector(`#leaderboard-${displayId}`);
+    const tableWrapper = container.querySelector(`#leaderboard-${leaderboardName}`);
     if (!tableWrapper) return;
     
     const sortableHeaders = tableWrapper.querySelectorAll('th.sortable');
     sortableHeaders.forEach(th => {
-        th.addEventListener('click', () => handleSortClick(th, displayId, leaderboard, options));
+        th.addEventListener('click', () => handleSortClick(th, leaderboardName));
     });
 }
 
-function handleSortClick(header, displayId, leaderboard, options) {
+function handleSortClick(header, leaderboardName) {
     const field = header.getAttribute('data-sort');
     
     if (sortState.field === field) {
@@ -220,13 +337,12 @@ function handleSortClick(header, displayId, leaderboard, options) {
         sortState.direction = getDefaultSortDirection(field);
     }
     
+    const data = loadLeaderboardData();
+    if (!data) return;
+    
+    const leaderboard = data.find(lb => lb.name === leaderboardName);
     if (leaderboard) {
-        renderLeaderboardTable(leaderboard, options || {});
-    } else {
-        const data = loadLeaderboardData();
-        if (!data) return;
-        const lb = data.find(lb => lb.name === displayId);
-        if (lb) renderLeaderboardTable(lb);
+        renderLeaderboardTable(leaderboard);
     }
 }
 
@@ -239,12 +355,15 @@ function updateSortIndicators() {
         const field = th.getAttribute('data-sort');
         const isActive = field === sortState.field;
         
-        th.classList.remove('sort-active', 'sort-inactive');
+        th.classList.remove('sort-active', 'sort-inactive', 'sort-asc', 'sort-desc');
         th.classList.add(isActive ? 'sort-active' : 'sort-inactive');
+        if (isActive) {
+            th.classList.add(sortState.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+        }
     });
 }
 
-function attachSelectAllHandler(displayId) {
+function attachSelectAllHandler(leaderboardName) {
     const selectAllCheckbox = document.getElementById('select-all-checkbox');
     if (!selectAllCheckbox) return;
     
@@ -320,252 +439,75 @@ function updateSelectAllCheckbox() {
 // Make the function globally accessible for filter updates
 window.updateSelectAllCheckbox = updateSelectAllCheckbox;
 
-function updateLogViewer(inst_id, split, model) {
-    if (inst_id == 'No Instance Selected') {
-        const logViewer = document.querySelector('#log-viewer');
-        logViewer.innerHTML = 'No instance selected.';
-        return;
-    }
-    const url = `https://raw.githubusercontent.com/swe-bench/experiments/main/evaluation/${split}/${model}/logs/${inst_id}.${model}.eval.log`;
-    fetch(url)
-        .then(response => response.text())
-        .then(data => {
-            const logViewer = document.querySelector('#log-viewer');
-            logViewer.innerHTML = '';
+let currentLeaderboardName = null;
 
-            const inst_p = document.createElement('p');
-            inst_p.textContent = `Instance ID: ${inst_id}`;
-            logViewer.appendChild(inst_p);
-
-            const pre = document.createElement('pre');
-            pre.textContent = data;
-            logViewer.appendChild(pre);
-        })
-        .catch(error => {
-            console.error('Error fetching the JSON data:', error);
-        });
-}
-
-function createTableHeader(keys, table) {
-    const headerRowWrapper = document.createElement('thead');
-    const headerRow = document.createElement('tr');
-    for (const status of keys) {
-        const th = document.createElement('th');
-        th.textContent = statusToNaturalLanguage[status];
-        headerRow.appendChild(th);
-    }
-    headerRowWrapper.appendChild(headerRow);
-    table.appendChild(headerRowWrapper);
-}
-
-function createTableBody(data, split, model, keys, table) {
-    const bodyRowWrapper = document.createElement('tbody');
-    const bodyRow = document.createElement('tr');
-    for (const status of keys) {
-        const td = document.createElement('td');
-
-        const ids = data[status].slice().sort();
-
-        ids.forEach(id => {
-            const div = document.createElement('div');
-            div.textContent = id;
-            if (!(status === 'no_generation' || status === 'generated')) {
-                div.classList.add('instance');
-                div.classList.add(id);
-            } else {
-                div.classList.add('instance-not-clickable');
-            }
-            td.appendChild(div);
-        });
-
-        bodyRow.appendChild(td);
-    }
-    bodyRowWrapper.appendChild(bodyRow);
-    table.appendChild(bodyRowWrapper);
-
-    for (const status of keys) {
-        const ids = data[status].slice().sort();
-        ids.forEach(id => {
-            if (!(status === 'no_generation' || status === 'generated')) {
-                const divs = document.getElementsByClassName(id);
-                Array.from(divs).forEach(div => {
-                    div.addEventListener('click', () => {
-                        updateLogViewer(id, split, model);
-                    });
-                });
-            }
-        });
-    }
-}
-
-function updateMainResults(split, model) {
-    const url = `https://raw.githubusercontent.com/swe-bench/experiments/main/evaluation/${split}/${model}/results/results.json`;
-    fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            if (data && data.resolved) {
-                const resolved = data.resolved.length;
-                                const total =
-                    split === 'lite' ? 300 :
-                    split === 'verified' ? 500 :
-                    split === 'multimodal' ? 517 :
-                    split === 'bash-only' ? 500 :
-                    split === 'multilingual' ? 300 : 2294;
-                const percentResolved = (resolved / total * 100).toFixed(2);
-                const resolvedElement = document.getElementById('selectedResolved');
-                resolvedElement.textContent = percentResolved;
-            } else {
-                console.error('Invalid results data format:', data);
-                document.getElementById('selectedResolved').textContent = 'N/A';
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching the results data:', error);
-            document.getElementById('selectedResolved').textContent = 'Error';
-        });
-}
-
-/**
- * Get the effective data source and rendering options for the Verified tab
- * based on the current agent dropdown selection.
- */
-function getVerifiedDisplayConfig(data) {
-    const agentMode = typeof getVerifiedAgentMode === 'function' ? getVerifiedAgentMode() : 'mini-v2';
-    
-    let sourceLeaderboard, renderOptions;
-    
-    if (agentMode === 'all-agents' || agentMode === 'all-oss-agents') {
-        const verified = data.find(lb => lb.name === 'Verified');
-        if (!verified) return null;
-
-        if (agentMode === 'all-oss-agents') {
-            sourceLeaderboard = {
-                ...verified,
-                results: verified.results.filter(r => r.os_system === true)
-            };
-        } else {
-            sourceLeaderboard = verified;
-        }
-
-        renderOptions = {
-            displayId: 'Verified',
-            hasDetailedFeatures: false,
-            showReleaseColumn: false
-        };
-    } else {
-        const bashOnly = data.find(lb => lb.name === 'bash-only');
-        if (!bashOnly) return null;
-
-        if (agentMode === 'mini-v2') {
-            sourceLeaderboard = {
-                ...bashOnly,
-                results: bashOnly.results.filter(r => {
-                    const version = r['mini-swe-agent_version'] || '';
-                    return /^2\./.test(version);
-                })
-            };
-        } else {
-            // all-mini: show all versions
-            sourceLeaderboard = bashOnly;
-        }
-        
-        renderOptions = {
-            displayId: 'Verified',
-            hasDetailedFeatures: true,
-            showReleaseColumn: true
-        };
-    }
-    
-    return { sourceLeaderboard, renderOptions };
+function findLeaderboard(name) {
+    const data = loadLeaderboardData();
+    if (!data) return null;
+    return data.find(lb => lb.name === name) || null;
 }
 
 function openLeaderboard(leaderboardName) {
-    const data = loadLeaderboardData();
-    if (!data) return;
-    
-    if (leaderboardName === 'Verified') {
-        const config = getVerifiedDisplayConfig(data);
-        if (!config || !config.sourceLeaderboard) return;
-        
-        // Always re-render for Verified since agent dropdown can change data source
-        loadedLeaderboards.delete('Verified');
-        renderLeaderboardTable(config.sourceLeaderboard, config.renderOptions);
-    } else {
-        // Find the leaderboard data
-        const leaderboard = data.find(lb => lb.name === leaderboardName);
-        if (!leaderboard) return;
-        
-        // Render the table if not already loaded
-        if (!loadedLeaderboards.has(leaderboardName)) {
-            renderLeaderboardTable(leaderboard);
-        } else {
-            // Just show the existing table
-            const container = document.getElementById('leaderboard-container');
-            const existingTable = container.querySelector(`#leaderboard-${leaderboardName}`);
-            if (existingTable) {
-                container.querySelectorAll('.tabcontent').forEach(content => {
-                    content.classList.remove('active');
-                });
-                existingTable.classList.add('active');
-                updateSortIndicators();
-            } else {
-                renderLeaderboardTable(leaderboard);
-            }
-        }
+    const leaderboard = findLeaderboard(leaderboardName);
+    if (!leaderboard) return;
+
+    currentLeaderboardName = leaderboardName;
+
+    if (typeof applyDefaultFilters === 'function') {
+        applyDefaultFilters(leaderboardName);
     }
-    
-    // Update tab button states
+
+    // Always re-render: which columns and rows are shown depends on the
+    // mini-SWE-agent view, which can change between visits to a tab.
+    renderLeaderboardTable(leaderboard);
+
     const tablinks = document.querySelectorAll('.tablinks');
     tablinks.forEach(link => link.classList.remove('active'));
-    
+
     const activeButton = document.querySelector(`.tablinks[data-leaderboard="${leaderboardName}"]`);
     if (activeButton) {
         activeButton.classList.add('active');
     }
-    
-    // Update the leaderboard description text
+
     if (typeof updateLeaderboardDescription === 'function') {
         updateLeaderboardDescription(leaderboardName);
     }
-    
-    // Update filter visibility based on leaderboard type
-    if (typeof updateFilterVisibility === 'function') {
-        updateFilterVisibility(leaderboardName);
+
+    if (typeof rebuildFilterFacets === 'function') {
+        rebuildFilterFacets();
     }
-    
-    // Update tags dropdown for the new leaderboard (for non-Verified tabs)
-    if (leaderboardName !== 'Verified' && typeof updateTagsForLeaderboard === 'function') {
-        updateTagsForLeaderboard(leaderboardName);
+
+    if (typeof updateBashOnlyToggle === 'function') {
+        updateBashOnlyToggle();
     }
-    
-    // Apply current filters to the newly displayed table
+
     if (typeof updateTable === 'function') {
         setTimeout(updateTable, 0);
     }
-    
-    // Show/hide/disable compare button based on leaderboard type and agent mode
+
+
     const compareBtn = document.getElementById('compare-btn');
-    const leaderboardNameLower = leaderboardName.toLowerCase();
-    const isMultilingualTab = leaderboardNameLower === 'multilingual';
-    const isVerifiedTab = leaderboardNameLower === 'verified';
-    
     if (compareBtn) {
-        if (isMultilingualTab || isVerifiedTab) {
-            compareBtn.style.display = '';
-            const agentMode = typeof getVerifiedAgentMode === 'function' ? getVerifiedAgentMode() : 'mini-v2';
-            const isAllAgents = isVerifiedTab && (agentMode === 'all-agents' || agentMode === 'all-oss-agents');
-            compareBtn.disabled = isAllAgents;
-            compareBtn.classList.toggle('button-disabled', isAllAgents);
-            compareBtn.title = isAllAgents
-                ? 'Comparison is only available for mini-SWE-agent results. Switch the Agent dropdown to use this feature.'
-                : 'Compare selected results';
-        } else {
-            compareBtn.style.display = 'none';
-            compareBtn.disabled = false;
-            compareBtn.classList.remove('button-disabled');
-        }
+        compareBtn.style.display = boardSupportsCompare(leaderboard) ? '' : 'none';
     }
 }
+
+// Re-render when the filter selection changes the set of columns that apply
+function refreshLeaderboardColumns() {
+    if (!currentLeaderboardName) return false;
+    const leaderboard = findLeaderboard(currentLeaderboardName);
+    if (!leaderboard) return false;
+
+    const container = document.getElementById('leaderboard-container');
+    const table = container ? container.querySelector('.data-table') : null;
+    const rendered = table ? table.getAttribute('data-harness') === 'true' : false;
+    if (rendered === showsHarnessColumns(leaderboard)) return false;
+
+    renderLeaderboardTable(leaderboard);
+    return true;
+}
+
+window.refreshLeaderboardColumns = refreshLeaderboardColumns;
 
 document.addEventListener('DOMContentLoaded', function() {
     const currentPath = window.location.pathname;
@@ -584,7 +526,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (currentPage === 'index' && window.location.hash) {
             const currentHash = window.location.hash.substring(1);
             
-            if (linkPage === currentHash && !['verified', 'lite', 'test', 'multimodal'].includes(currentHash.toLowerCase())) {
+            if (linkPage === currentHash && !['bash-only', 'verified', 'lite', 'test', 'multimodal'].includes(currentHash.toLowerCase())) {
                 link.classList.add('active');
             }
         }
@@ -597,23 +539,18 @@ document.addEventListener('DOMContentLoaded', function() {
             openLeaderboard(leaderboardType);
         });
     });
-    
-    // Load initial tab based on hash, page name, or default to Verified
+
+    // Load the tab named in the hash, defaulting to Verified. #bash-only is kept
+    // as an alias for the mini-SWE-agent view of Verified so old links still work.
     const hash = window.location.hash.slice(1).toLowerCase();
-    const validTabs = ['verified', 'multilingual', 'lite', 'test', 'multimodal'];
-    const pageToTab = {
-        'multilingual-leaderboard': 'Multilingual',
+    const tabsByHash = {
+        'bash-only': 'Verified',
+        'verified': 'Verified',
+        'lite': 'Lite',
+        'test': 'Test',
+        'multimodal': 'Multimodal',
+        'multilingual': 'Multilingual'
     };
 
-    // Backward compat: map old bash-only hash to Verified
-    if (hash === 'bash-only') {
-        openLeaderboard('Verified');
-    } else if (hash && validTabs.includes(hash)) {
-        const tabName = hash.charAt(0).toUpperCase() + hash.slice(1);
-        openLeaderboard(tabName);
-    } else if (pageToTab[currentPage]) {
-        openLeaderboard(pageToTab[currentPage]);
-    } else {
-        openLeaderboard('Verified');
-    }
+    openLeaderboard(tabsByHash[hash] || 'Verified');
 });

@@ -51,27 +51,6 @@ button:focus,
   border-color: var(--color-accent-dark);
 }
 
-/* Disabled button */
-.button-disabled,
-.button:disabled,
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-.button-primary.button-disabled,
-.button-primary:disabled {
-  background-color: var(--gray-400);
-  border-color: var(--gray-400);
-}
-
-.dark-mode .button-primary.button-disabled,
-.dark-mode .button-primary:disabled {
-  background-color: var(--gray-600);
-  border-color: var(--gray-600);
-}
-
 /* Secondary button */
 .button-secondary {
   background-color: var(--gray-100);
@@ -245,12 +224,6 @@ button:disabled {
   text-align: right;
 }
 
-/* Right-align percentage columns in results tables (viewer page) */
-.table-results th:nth-child(4),
-.table-results td:nth-child(4) {
-  text-align: right;
-}
-
 /* Right-align resolution rate columns in multilingual tables */
 .table th:last-child,
 .table td:last-child {
@@ -358,17 +331,6 @@ button:disabled {
   line-height: 1.2;
   hyphens: auto;
   overflow-wrap: break-word;
-}
-
-.model-badges {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 2px;
-  margin-right: 5px;
-}
-
-.model-badges span {
-  line-height: 1;
 }
 
 /* Column sizing for tables */
@@ -963,25 +925,6 @@ hr {
   filter: brightness(1.2);
 }
 
-/* Legacy version rows (0.x and 1.x mini-swe-agent) */
-.table tbody tr.legacy-version-row {
-  opacity: 0.45;
-}
-
-.table tbody tr.legacy-version-row:hover {
-  opacity: 0.7;
-}
-
-.legacy-version a,
-.legacy-version {
-  color: #c0623a !important;
-}
-
-.dark-mode .legacy-version a,
-.dark-mode .legacy-version {
-  color: #d48a6a !important;
-}
-
 /* Sort indicator styles - using design system variables */
 .table thead th.sortable {
   cursor: pointer;
@@ -1012,3 +955,4 @@ hr {
   text-decoration-thickness: 2px;
   text-decoration-color: var(--color-text-muted);
 }
+

@@ -1,506 +1,485 @@
-// Generic MultiSelect Dropdown Class
-class MultiSelectDropdown {
-    constructor(containerId, options = {}) {
-        this.containerId = containerId;
-        this.container = document.getElementById(containerId);
-        this.options = {
-            searchable: options.searchable || false,
-            allOptionText: options.allOptionText || 'All',
-            summaryPrefix: options.summaryPrefix || '',
-            noSelectionText: options.noSelectionText || 'Select...',
-            allSelectedText: options.allSelectedText || 'All',
-            items: options.items || [],
-            defaultSelected: options.defaultSelected || [],
-            onSelectionChange: options.onSelectionChange || (() => {}),
-            ...options
-        };
-        
-        this.init();
+/**
+ * Leaderboard filtering.
+ *
+ * One "Filter" button opens a list of categories (Agent, Model, Reasoning effort,
+ * ...); picking a category drills into its values. Everything currently applied is
+ * shown as a removable chip next to the button, so the active filter state is never
+ * hidden behind a closed menu.
+ *
+ * Facet values are read off the rendered rows (data-agent, data-model, ...) rather
+ * than from the leaderboard JSON, so the menu always matches the visible table.
+ */
+
+// Category -> how to read a row's value(s) for it. `multi` categories can hold
+// several values per row (tags); the rest are single-valued.
+const FILTER_CATEGORIES = [
+    { key: 'agent', label: 'Agent', attribute: 'data-agent' },
+    { key: 'model', label: 'Model', attribute: 'data-model' },
+    { key: 'effort', label: 'Reasoning effort', attribute: 'data-effort' },
+    { key: 'model-org', label: 'Model org', attribute: 'data-model-org' },
+    { key: 'agent-org', label: 'Agent org', attribute: 'data-agent-org' },
+    { key: 'resolved', label: 'Resolution rate', buckets: true },
+    { key: 'properties', label: 'Properties', properties: true },
+    { key: 'attempts', label: 'Attempts', tagPrefix: 'System: Attempts - ' },
+];
+
+// Resolution-rate buckets, evaluated top to bottom
+const RESOLVED_BUCKETS = [
+    { label: '70% and above', test: v => v >= 70 },
+    { label: '60 – 70%', test: v => v >= 60 && v < 70 },
+    { label: '50 – 60%', test: v => v >= 50 && v < 60 },
+    { label: '30 – 50%', test: v => v >= 30 && v < 50 },
+    { label: 'Below 30%', test: v => v < 30 },
+];
+
+// Boolean row properties, exposed as one category
+const ROW_PROPERTIES = [
+    { label: 'Open weights', attribute: 'data-os_model' },
+    { label: 'Open scaffold', attribute: 'data-os_system' },
+    { label: 'Checked', attribute: 'data-checked' },
+];
+
+// Filters are kept per board. A value like "mini-SWE-agent" simply does not exist
+// on Lite or Full, so a single shared selection would be pruned away the moment
+// you looked at another tab -- and would not come back on the way home.
+// board name -> Map(category key -> Set of selected values)
+const filtersByBoard = new Map();
+let activeBoard = null;
+
+// category key -> Set of selected values for the board on screen. An absent or
+// empty set means "all".
+let selectedFilters = new Map();
+
+// "Bash Only" is a preset rather than a mode: it means the Agent filter narrowed to
+// mini-SWE-agent and nothing else selected, so every model ran in the same harness.
+// Offered on the boards that mix harnesses or are entirely mini-SWE-agent runs; the
+// others always start out showing everything.
+const BASH_ONLY_BOARDS = new Set(['verified', 'multilingual']);
+const BASH_ONLY_CATEGORY = 'agent';
+const BASH_ONLY_VALUE = 'mini-SWE-agent';
+
+let openCategory = null;
+
+function isBashOnlyPreset() {
+    if (selectedFilters.size !== 1) return false;
+    const agents = selectedFilters.get(BASH_ONLY_CATEGORY);
+    return !!agents && agents.size === 1 && agents.has(BASH_ONLY_VALUE);
+}
+
+function applyBashOnlyPreset() {
+    selectedFilters.clear();
+    selectedFilters.set(BASH_ONLY_CATEGORY, new Set([BASH_ONLY_VALUE]));
+}
+
+function clearAllFilters() {
+    selectedFilters.clear();
+}
+
+// Reflects the preset state, and hides itself on boards that do not offer it
+function updateBashOnlyToggle() {
+    const wrapper = document.getElementById('bash-only-toggle-wrapper');
+    if (!wrapper) return;
+
+    const offered = BASH_ONLY_BOARDS.has(activeBoard);
+    wrapper.style.display = offered ? '' : 'none';
+
+    const checkbox = document.getElementById('bash-only-toggle');
+    if (checkbox && offered) checkbox.checked = isBashOnlyPreset();
+}
+
+window.updateBashOnlyToggle = updateBashOnlyToggle;
+
+function getSelectedFilterValues(categoryKey) {
+    const selected = selectedFilters.get(categoryKey);
+    return selected ? Array.from(selected) : [];
+}
+
+// Point `selectedFilters` at this board's own state. A board that offers the
+// Bash Only preset falls back to it whenever it has nothing selected, so arriving
+// with no filters means the same-harness view; an existing selection is kept.
+function applyDefaultFilters(leaderboardName) {
+    const board = (leaderboardName || '').toLowerCase();
+    activeBoard = board;
+
+    if (!filtersByBoard.has(board)) {
+        filtersByBoard.set(board, new Map());
     }
-    
-    init() {
-        if (!this.container) return;
-        
-        this.toggleButton = this.container.querySelector('.multiselect-toggle');
-        this.dropdownForm = this.container.querySelector('.multiselect-form');
-        this.multiselect = this.container.querySelector('.multiselect-dropdown');
-        this.summaryElement = this.container.querySelector('.multiselect-summary');
-        
-        if (!this.toggleButton || !this.dropdownForm || !this.multiselect || !this.summaryElement) return;
-        
-        this.setupEventListeners();
-        this.updateSelection();
-    }
-    
-    setupEventListeners() {
-        // Toggle dropdown
-        this.toggleButton.addEventListener('click', (e) => {
-            e.stopPropagation();
-            this.toggleDropdown();
-        });
-        
-        // Close dropdown when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!this.container.contains(e.target)) {
-                this.closeDropdown();
-            }
-        });
-        
-        // Handle checkbox changes
-        this.multiselect.addEventListener('change', (e) => {
-            if (e.target.classList.contains('checkbox-item')) {
-                this.handleCheckboxChange(e.target);
-            }
-        });
-        
-        // Setup search if enabled
-        if (this.options.searchable) {
-            this.setupSearch();
-        }
-    }
-    
-    setupSearch() {
-        const optionsContainer = this.multiselect.querySelector('.multiselect-options');
-        if (!optionsContainer) return;
-        
-        // Create search input if it doesn't exist
-        let searchInput = optionsContainer.querySelector('.multiselect-search');
-        if (!searchInput) {
-            searchInput = document.createElement('input');
-            searchInput.type = 'text';
-            searchInput.className = 'form-control form-control-sm multiselect-search';
-            searchInput.placeholder = 'Search tags...';
-            optionsContainer.insertBefore(searchInput, optionsContainer.firstChild);
-        }
-        
-        searchInput.addEventListener('input', (e) => {
-            this.filterOptions(e.target.value);
-        });
-    }
-    
-    rebuildOptions(items) {
-        const optionsContainer = this.multiselect.querySelector('.multiselect-options');
-        if (!optionsContainer) return;
-        
-        // Clear existing options
-        optionsContainer.innerHTML = '';
-        
-        // Add search input if searchable
-        if (this.options.searchable) {
-            const searchInput = document.createElement('input');
-            searchInput.type = 'text';
-            searchInput.className = 'form-control form-control-sm multiselect-search';
-            searchInput.placeholder = 'Search tags...';
-            optionsContainer.appendChild(searchInput);
-            
-            searchInput.addEventListener('input', (e) => {
-                this.filterOptions(e.target.value);
-            });
-        }
-        
-        // Add "All" option
-        const allOption = document.createElement('div');
-        allOption.className = 'multiselect-option';
-        allOption.innerHTML = `<label><input type="checkbox" class="checkbox-item" value="All" checked> <strong>(${this.options.allOptionText})</strong></label>`;
-        optionsContainer.appendChild(allOption);
-        
-        // Add individual options
-        items.forEach(item => {
-            const option = document.createElement('div');
-            option.className = 'multiselect-option';
-            // Use canonical display names for main filters, raw values for tags
-            const displayName = filterDisplayNames[item] || item;
-            option.innerHTML = `<label><input type="checkbox" class="checkbox-item" value="${item}" checked> ${displayName}</label>`;
-            optionsContainer.appendChild(option);
-        });
-        
-        this.updateSelection();
-    }
-    
-    toggleDropdown() {
-        const isOpen = this.dropdownForm.style.display === 'block';
-        if (isOpen) {
-            this.closeDropdown();
-        } else {
-            this.openDropdown();
-        }
-    }
-    
-    openDropdown() {
-        // Close all other dropdowns before opening this one
-        this.closeOtherDropdowns();
-        
-        this.dropdownForm.style.display = 'block';
-        const icon = this.toggleButton.querySelector('.multiselect-icon');
-        if (icon) icon.textContent = '▲';
-    }
-    
-    closeOtherDropdowns() {
-        // Close all other dropdown instances
-        [window.mainFiltersDropdown, window.tagFiltersDropdown].forEach(dropdown => {
-            if (dropdown && dropdown !== this && dropdown.dropdownForm.style.display === 'block') {
-                dropdown.closeDropdown();
-            }
-        });
-    }
-    
-    closeDropdown() {
-        this.dropdownForm.style.display = 'none';
-        const icon = this.toggleButton.querySelector('.multiselect-icon');
-        if (icon) icon.textContent = '▼';
-    }
-    
-    handleCheckboxChange(checkbox) {
-        if (checkbox.value === 'All') {
-            this.toggleAllItems(checkbox.checked);
-        } else {
-            this.updateAllCheckbox();
-        }
-        this.updateSelection();
-        this.options.onSelectionChange(this.getSelectedValues());
-    }
-    
-    toggleAllItems(checked) {
-        const checkboxes = this.multiselect.querySelectorAll('.checkbox-item:not([value="All"])');
-        checkboxes.forEach(cb => cb.checked = checked);
-    }
-    
-    updateAllCheckbox() {
-        const allCheckbox = this.multiselect.querySelector('.checkbox-item[value="All"]');
-        const otherCheckboxes = this.multiselect.querySelectorAll('.checkbox-item:not([value="All"])');
-        const checkedOthers = Array.from(otherCheckboxes).filter(cb => cb.checked);
-        
-        if (allCheckbox) {
-            allCheckbox.checked = checkedOthers.length === otherCheckboxes.length;
-        }
-    }
-    
-    getSelectedValues() {
-        const checkboxes = this.multiselect.querySelectorAll('.checkbox-item:not([value="All"])');
-        return Array.from(checkboxes).filter(cb => cb.checked).map(cb => cb.value);
-    }
-    
-    isAllSelected() {
-        const checkboxes = this.multiselect.querySelectorAll('.checkbox-item:not([value="All"])');
-        const selected = this.getSelectedValues();
-        return selected.length === checkboxes.length;
-    }
-    
-    updateSelection() {
-        const selected = this.getSelectedValues();
-        let text;
-        
-        if (selected.length === 0) {
-            text = this.options.noSelectionText;
-        } else if (this.isAllSelected()) {
-            text = this.options.allSelectedText;
-        } else if (selected.length === 1) {
-            // Use display name mapping for main filters dropdown
-            const displayName = filterDisplayNames[selected[0]] || selected[0];
-            text = `${this.options.summaryPrefix}${displayName}`.trim();
-        } else {
-            text = `${selected.length} ${this.options.summaryPrefix}Selected`.trim();
-        }
-        
-        this.summaryElement.textContent = text;
-    }
-    
-    filterOptions(searchTerm) {
-        if (!this.options.searchable) return;
-        
-        const filter = searchTerm.toLowerCase();
-        const options = this.multiselect.querySelectorAll('.multiselect-option');
-        options.forEach(opt => {
-            const isAllOption = opt.querySelector('.checkbox-item[value="All"]');
-            if (isAllOption || opt.textContent.toLowerCase().includes(filter)) {
-                opt.style.display = '';
-            } else {
-                opt.style.display = 'none';
-            }
-        });
-    }
-    
-    setSelectedValues(values) {
-        const checkboxes = this.multiselect.querySelectorAll('.checkbox-item:not([value="All"])');
-        checkboxes.forEach(cb => {
-            cb.checked = values.includes(cb.value);
-        });
-        this.updateAllCheckbox();
-        this.updateSelection();
+    selectedFilters = filtersByBoard.get(board);
+
+    if (BASH_ONLY_BOARDS.has(board) && selectedFilters.size === 0) {
+        applyBashOnlyPreset();
     }
 }
 
-// Global active filters set
-const activeFilters = new Set(['os_system']);
+window.getSelectedFilterValues = getSelectedFilterValues;
+window.applyDefaultFilters = applyDefaultFilters;
 
-// Mapping from filter codenames to display names
-const filterDisplayNames = {
-    'os_system': 'Open Scaffold',
-    'os_model': 'Open Weights', 
-    'checked': 'Checked'
-};
-
-// Global data
-let leaderboardTagsData = {};
-
-// Function to load leaderboard tags data
-function loadLeaderboardTagsData() {
-    if (Object.keys(leaderboardTagsData).length === 0) {
-        const dataScript = document.getElementById('leaderboard-tags-data');
-        if (dataScript) {
-            leaderboardTagsData = JSON.parse(dataScript.textContent);
-        }
-    }
-    return leaderboardTagsData;
-}
-
-// Function to update tag dropdown based on active leaderboard
-function updateTagsForLeaderboard(leaderboardName) {
-    if (!window.tagFiltersDropdown) return;
-    
-    const tagsData = loadLeaderboardTagsData();
-    const leaderboardTags = tagsData[leaderboardName] || [];
-    
-    // Rebuild the tag dropdown with leaderboard-specific tags
-    window.tagFiltersDropdown.rebuildOptions(leaderboardTags);
-}
-
-// Make function globally accessible
-window.updateTagsForLeaderboard = updateTagsForLeaderboard;
-
-// Function to get the current agent mode for the Verified tab
-function getVerifiedAgentMode() {
-    const dropdown = document.getElementById('agent-dropdown');
-    return dropdown ? dropdown.value : 'mini-v2';
-}
-
-// Function to get the current models filter for the Verified tab
-function getVerifiedModelsFilter() {
-    const dropdown = document.getElementById('models-dropdown');
-    return dropdown ? dropdown.value : 'all';
-}
-
-window.getVerifiedAgentMode = getVerifiedAgentMode;
-window.getVerifiedModelsFilter = getVerifiedModelsFilter;
-
-// Function to show/hide filter elements based on leaderboard type
-function updateFilterVisibility(leaderboardName) {
-    const verifiedFilters = document.getElementById('verified-filters');
-    const standardFilters = document.getElementById('standard-filters');
-    const mainFiltersContainer = document.getElementById('main-filters');
-    const tagFiltersContainer = document.getElementById('tag-filters');
-    const legacyVersionFilter = document.getElementById('legacy-version-filter');
-
-    const leaderboardNameLower = leaderboardName.toLowerCase();
-    const isVerified = leaderboardNameLower === 'verified';
-    const isMultilingual = leaderboardNameLower === 'multilingual';
-
-    if (isVerified) {
-        // Show Verified-specific dropdowns, hide standard filters
-        if (verifiedFilters) verifiedFilters.style.display = '';
-        if (standardFilters) standardFilters.style.display = 'none';
-    } else {
-        // Show standard filters, hide Verified dropdowns
-        if (verifiedFilters) verifiedFilters.style.display = 'none';
-        if (standardFilters) standardFilters.style.display = '';
-
-        const hideMainFilters = isMultilingual;
-        if (mainFiltersContainer) mainFiltersContainer.style.display = hideMainFilters ? 'none' : '';
-        if (tagFiltersContainer) tagFiltersContainer.style.display = '';
-        if (legacyVersionFilter) legacyVersionFilter.style.display = 'none';
-    }
-}
-
-// Table Update Logic - Optimized for lazy loading
-function updateTable() {
-    // Only process the currently visible leaderboard table
+function activeTableRows() {
     const container = document.getElementById('leaderboard-container');
-    if (!container) return;
-    
-    const visibleLeaderboard = container.querySelector('.tabcontent.active');
-    if (!visibleLeaderboard) return;
-    
-    const tableRows = visibleLeaderboard.querySelectorAll('.data-table tbody tr:not(.no-results)');
-    let visibleRowCount = 0;
+    const active = container ? container.querySelector('.tabcontent.active') : null;
+    if (!active) return [];
+    return Array.from(active.querySelectorAll('.data-table tbody tr:not(.no-results)'));
+}
 
-    // Determine if we're on the Verified tab
-    const isVerifiedTab = visibleLeaderboard.id === 'leaderboard-Verified';
-    const modelsFilter = isVerifiedTab ? getVerifiedModelsFilter() : null;
-    
-    tableRows.forEach(row => {
-        // Show row by default
-        let showRow = true;
-        
-        if (isVerifiedTab) {
-            // For Verified tab, apply models filter
-            if (modelsFilter === 'open-source') {
-                if (row.getAttribute('data-os_model') !== 'true') {
-                    showRow = false;
-                }
-            } else if (modelsFilter === 'proprietary') {
-                if (row.getAttribute('data-os_model') === 'true') {
-                    showRow = false;
-                }
-            }
-        } else {
-            // For non-Verified tabs, apply standard filters
-            for (const filter of activeFilters) {
-                if (row.getAttribute(`data-${filter}`) !== 'true') {
-                    showRow = false;
-                    break;
-                }
-            }
-            
-            // Check legacy version filter
-            if (showRow) {
-                const legacyFilterContainer = document.getElementById('legacy-version-filter');
-                const showLegacyCheckbox = document.getElementById('show-legacy-versions');
-                if (legacyFilterContainer && legacyFilterContainer.style.display !== 'none' &&
-                    showLegacyCheckbox && !showLegacyCheckbox.checked &&
-                    row.classList.contains('legacy-version-row')) {
-                    showRow = false;
-                }
-            }
-
-            // Check tag filter
-            if (showRow && window.tagFiltersDropdown) {
-                const selectedTags = window.tagFiltersDropdown.getSelectedValues();
-                const allTagsSelected = window.tagFiltersDropdown.isAllSelected();
-                
-                if (!allTagsSelected) {
-                    const rowTags = (row.getAttribute('data-tags') || '').split(',').map(t => t.trim()).filter(Boolean);
-                    if (!rowTags.some(tag => selectedTags.includes(tag))) {
-                        showRow = false;
-                    }
-                }
-            }
-        }
-        
-        // Toggle row visibility
-        row.style.display = showRow ? '' : 'none';
-        if (showRow) visibleRowCount++;
-    });
-    
-    const noResultsMessage = visibleLeaderboard.querySelector('.no-results');
-    if (visibleRowCount === 0) {
-        if (noResultsMessage) noResultsMessage.style.display = 'table-row';
-    } else {
-        if (noResultsMessage) noResultsMessage.style.display = 'none';
+function rowValues(row, category) {
+    if (category.properties) {
+        return ROW_PROPERTIES.filter(p => row.getAttribute(p.attribute) === 'true').map(p => p.label);
     }
-    
-    // Update the select-all checkbox state after filtering
+    if (category.buckets) {
+        const resolved = parseFloat(row.getAttribute('data-resolved')) || 0;
+        const bucket = RESOLVED_BUCKETS.find(b => b.test(resolved));
+        return bucket ? [bucket.label] : [];
+    }
+    if (category.tagPrefix) {
+        return (row.getAttribute('data-tags') || '')
+            .split(',')
+            .map(t => t.trim())
+            .filter(t => t.startsWith(category.tagPrefix))
+            .map(t => t.slice(category.tagPrefix.length));
+    }
+    const value = (row.getAttribute(category.attribute) || '').trim();
+    return value ? [value] : [];
+}
+
+// Values available for a category, in the order they should be listed
+function facetValues(category, rows) {
+    const counts = new Map();
+    rows.forEach(row => {
+        rowValues(row, category).forEach(value => {
+            counts.set(value, (counts.get(value) || 0) + 1);
+        });
+    });
+
+    let values = Array.from(counts.keys());
+    if (category.buckets) {
+        const order = RESOLVED_BUCKETS.map(b => b.label);
+        values.sort((a, b) => order.indexOf(a) - order.indexOf(b));
+    } else if (category.properties) {
+        const order = ROW_PROPERTIES.map(p => p.label);
+        values.sort((a, b) => order.indexOf(a) - order.indexOf(b));
+    } else {
+        // Most common first, then alphabetically
+        values.sort((a, b) => (counts.get(b) - counts.get(a)) || a.localeCompare(b));
+    }
+    return values.map(value => ({ value, count: counts.get(value) }));
+}
+
+function rowMatchesFilters(row) {
+    for (const category of FILTER_CATEGORIES) {
+        const selected = selectedFilters.get(category.key);
+        if (!selected || selected.size === 0) continue;
+        const values = rowValues(row, category);
+        if (!values.some(value => selected.has(value))) return false;
+    }
+    return true;
+}
+
+// Rank is "position among what you are looking at", so it stays 1..N with no
+// gaps whichever filters are applied, and always follows the score.
+function renumberRanks(visibleRows) {
+    visibleRows
+        .slice()
+        .sort((a, b) => (parseFloat(b.getAttribute('data-resolved')) || 0)
+                      - (parseFloat(a.getAttribute('data-resolved')) || 0))
+        .forEach((row, index) => {
+            const cell = row.querySelector('.rank-cell');
+            if (cell) cell.textContent = index + 1;
+        });
+}
+
+function updateTable() {
+    // Changing which agents are selected can add or remove whole columns, which
+    // means a fresh table. Re-run against the new rows; the second pass finds the
+    // columns already correct, so this cannot recurse further.
+    if (typeof refreshLeaderboardColumns === 'function' && refreshLeaderboardColumns()) {
+        updateTable();
+        return;
+    }
+
+    const rows = activeTableRows();
+    let visible = 0;
+
+    rows.forEach(row => {
+        const show = rowMatchesFilters(row);
+        row.style.display = show ? '' : 'none';
+        if (show) visible++;
+    });
+
+    renumberRanks(rows.filter(row => row.style.display !== 'none'));
+
+    const container = document.getElementById('leaderboard-container');
+    const active = container ? container.querySelector('.tabcontent.active') : null;
+    const noResults = active ? active.querySelector('.no-results') : null;
+    if (noResults) {
+        noResults.style.display = visible === 0 && rows.length > 0 ? 'table-row' : 'none';
+    }
+
     if (typeof updateSelectAllCheckbox === 'function') {
         updateSelectAllCheckbox();
     }
+    renderFilterChips();
+    updateBashOnlyToggle();
 }
 
-// Updated Filter Button Logic
-function updateActiveFilters(selectedFilters) {
-    activeFilters.clear();
-    selectedFilters.forEach(filter => activeFilters.add(filter));
+/* ------------------------------------------------------------------ menu ---- */
+
+function filterMenu() {
+    return document.getElementById('filter-menu');
+}
+
+function closeFilterMenu() {
+    const menu = filterMenu();
+    if (menu) menu.style.display = 'none';
+    const toggle = document.getElementById('filter-toggle-btn');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    openCategory = null;
+}
+
+function openFilterMenu() {
+    const menu = filterMenu();
+    if (!menu) return;
+    menu.style.display = 'block';
+    const toggle = document.getElementById('filter-toggle-btn');
+    if (toggle) toggle.setAttribute('aria-expanded', 'true');
+    renderFilterMenu();
+}
+
+function renderFilterMenu() {
+    const menu = filterMenu();
+    if (!menu) return;
+
+    const rows = activeTableRows();
+
+    if (!openCategory) {
+        menu.innerHTML = `
+            <div class="filter-menu-list">
+                ${FILTER_CATEGORIES.map(category => {
+                    const selected = selectedFilters.get(category.key);
+                    const count = selected ? selected.size : 0;
+                    const available = facetValues(category, rows).length;
+                    if (!available) return '';
+                    return `
+                        <button type="button" class="filter-menu-item" data-category="${category.key}">
+                            <span>${category.label}</span>
+                            <span class="filter-menu-item-meta">
+                                ${count ? `<span class="filter-menu-count">${count}</span>` : ''}
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        </button>`;
+                }).join('')}
+            </div>
+            ${selectedFilters.size ? '<button type="button" class="filter-menu-clear" data-clear-all="true">Clear all filters</button>' : ''}
+        `;
+        return;
+    }
+
+    const category = FILTER_CATEGORIES.find(c => c.key === openCategory);
+    const values = facetValues(category, rows);
+    const selected = selectedFilters.get(category.key) || new Set();
+
+    menu.innerHTML = `
+        <div class="filter-menu-header">
+            <button type="button" class="filter-menu-back" data-back="true">
+                <i class="fa-solid fa-chevron-left"></i> ${category.label}
+            </button>
+            ${selected.size ? `<button type="button" class="filter-menu-clear-one" data-clear="${category.key}">Clear</button>` : ''}
+        </div>
+        ${values.length > 8 ? '<input type="text" class="form-control form-control-sm filter-menu-search" placeholder="Search…">' : ''}
+        <div class="filter-menu-values">
+            ${values.map(({ value, count }) => `
+                <label class="filter-menu-value">
+                    <input type="checkbox" value="${escapeFilterAttr(value)}" ${selected.has(value) ? 'checked' : ''}>
+                    <span class="filter-menu-value-label">${escapeFilterHtml(value)}</span>
+                    <span class="filter-menu-value-count">${count}</span>
+                </label>`).join('')}
+        </div>
+    `;
+
+    const search = menu.querySelector('.filter-menu-search');
+    if (search) {
+        search.addEventListener('input', e => {
+            const term = e.target.value.toLowerCase();
+            menu.querySelectorAll('.filter-menu-value').forEach(el => {
+                el.style.display = el.textContent.toLowerCase().includes(term) ? '' : 'none';
+            });
+        });
+        search.focus();
+    }
+}
+
+function escapeFilterHtml(value) {
+    return String(value).replace(/[&<>"']/g, ch => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[ch]));
+}
+
+function escapeFilterAttr(value) {
+    return escapeFilterHtml(value);
+}
+
+function renderFilterChips() {
+    const holder = document.getElementById('filter-chips');
+    if (!holder) return;
+
+    const chips = [];
+    FILTER_CATEGORIES.forEach(category => {
+        const selected = selectedFilters.get(category.key);
+        if (!selected || !selected.size) return;
+        selected.forEach(value => {
+            chips.push(`
+                <button type="button" class="filter-chip" data-category="${category.key}" data-value="${escapeFilterAttr(value)}">
+                    <span class="filter-chip-category">${category.label}</span>
+                    <span>${escapeFilterHtml(value)}</span>
+                    <i class="fa-solid fa-xmark"></i>
+                </button>`);
+        });
+    });
+
+    holder.innerHTML = chips.join('');
+    holder.style.display = chips.length ? '' : 'none';
+}
+
+function toggleFilterValue(categoryKey, value, on) {
+    const selected = selectedFilters.get(categoryKey) || new Set();
+    if (on) {
+        selected.add(value);
+    } else {
+        selected.delete(value);
+    }
+    if (selected.size) {
+        selectedFilters.set(categoryKey, selected);
+    } else {
+        selectedFilters.delete(categoryKey);
+    }
     updateTable();
 }
 
-// Global dropdown instances
-let mainFiltersDropdown = null;
-let tagFiltersDropdown = null;
+// Drop selections whose value is gone from this board's own rows (data changed
+// under us). Selections for other boards live in their own maps and are untouched.
+function rebuildFilterFacets() {
+    const rows = activeTableRows();
+    if (!rows.length) return;
 
-// Event Listeners
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Main Filters Dropdown with dynamic options
-    mainFiltersDropdown = new MultiSelectDropdown('main-filters', {
-        searchable: false,
-        allOptionText: 'All Filters',
-        summaryPrefix: '',
-        noSelectionText: 'No Filters',
-        allSelectedText: 'All Filters',
-        defaultSelected: ['os_system'], // Default to Open Scaffold checked
-        onSelectionChange: updateActiveFilters
+    FILTER_CATEGORIES.forEach(category => {
+        const selected = selectedFilters.get(category.key);
+        if (!selected) return;
+        const available = new Set(facetValues(category, rows).map(v => v.value));
+        Array.from(selected).forEach(value => {
+            if (!available.has(value)) selected.delete(value);
+        });
+        if (!selected.size) selectedFilters.delete(category.key);
     });
-    
-    // Dynamically rebuild the main filters dropdown with canonical names
-    const filterOptions = Object.keys(filterDisplayNames);
-    mainFiltersDropdown.rebuildOptions(filterOptions);
-    
-    // Initialize Tag Filters Dropdown
-    tagFiltersDropdown = new MultiSelectDropdown('tag-filters', {
-        searchable: true,
-        allOptionText: 'All Tags',
-        summaryPrefix: '',
-        noSelectionText: 'No Tags',
-        allSelectedText: 'All Tags',
-        onSelectionChange: (selectedTags) => {
-            updateTable(); // Just update table when tag selection changes
+
+    renderFilterChips();
+    if (filterMenu() && filterMenu().style.display === 'block') renderFilterMenu();
+}
+
+window.rebuildFilterFacets = rebuildFilterFacets;
+window.updateTable = updateTable;
+
+/* ------------------------------------------------------------- lifecycle ---- */
+
+document.addEventListener('DOMContentLoaded', function () {
+    const toggle = document.getElementById('filter-toggle-btn');
+    const menu = filterMenu();
+    if (!toggle || !menu) return;
+
+    toggle.addEventListener('click', e => {
+        e.stopPropagation();
+        if (menu.style.display === 'block') {
+            closeFilterMenu();
+        } else {
+            openFilterMenu();
         }
     });
-    
-    // Initialize with tags for the default leaderboard (Verified with bash-only data)
-    updateTagsForLeaderboard('bash-only');
-    
-    // Set initial selection for main filters
-    if (mainFiltersDropdown) {
-        mainFiltersDropdown.setSelectedValues(['os_system']);
-    }
-    
-    // Make both dropdowns globally accessible
-    window.mainFiltersDropdown = mainFiltersDropdown;
-    window.tagFiltersDropdown = tagFiltersDropdown;
-    
-    // Wire up legacy version checkbox
-    const showLegacyCheckbox = document.getElementById('show-legacy-versions');
-    if (showLegacyCheckbox) {
-        showLegacyCheckbox.addEventListener('change', updateTable);
-    }
 
-    // Wire up Verified-specific dropdowns
-    const agentDropdown = document.getElementById('agent-dropdown');
-    if (agentDropdown) {
-        agentDropdown.addEventListener('change', () => {
-            if (typeof openLeaderboard === 'function') {
-                openLeaderboard('Verified');
+    menu.addEventListener('click', e => {
+        // Handling a click re-renders the menu, which detaches e.target. The
+        // outside-click listener below would then see a node that is no longer in
+        // the bar and close the menu, so keep menu clicks from reaching it.
+        e.stopPropagation();
+
+        const categoryButton = e.target.closest('.filter-menu-item');
+        if (categoryButton) {
+            openCategory = categoryButton.getAttribute('data-category');
+            renderFilterMenu();
+            return;
+        }
+        if (e.target.closest('[data-back]')) {
+            openCategory = null;
+            renderFilterMenu();
+            return;
+        }
+        const clearOne = e.target.closest('[data-clear]');
+        if (clearOne) {
+            selectedFilters.delete(clearOne.getAttribute('data-clear'));
+            updateTable();
+            renderFilterMenu();
+            return;
+        }
+        if (e.target.closest('[data-clear-all]')) {
+            selectedFilters.clear();
+            updateTable();
+            renderFilterMenu();
+        }
+    });
+
+    menu.addEventListener('change', e => {
+        if (e.target.matches('.filter-menu-value input[type="checkbox"]')) {
+            toggleFilterValue(openCategory, e.target.value, e.target.checked);
+            renderFilterMenu();
+        }
+    });
+
+    const bashOnly = document.getElementById('bash-only-toggle');
+    if (bashOnly) {
+        bashOnly.addEventListener('change', e => {
+            if (e.target.checked) {
+                applyBashOnlyPreset();
+            } else {
+                clearAllFilters();
             }
+            closeFilterMenu();
+            updateTable();
         });
     }
 
-    const modelsDropdown = document.getElementById('models-dropdown');
-    if (modelsDropdown) {
-        modelsDropdown.addEventListener('change', updateTable);
+    const chips = document.getElementById('filter-chips');
+    if (chips) {
+        chips.addEventListener('click', e => {
+            const chip = e.target.closest('.filter-chip');
+            if (!chip) return;
+            e.stopPropagation();
+            toggleFilterValue(chip.getAttribute('data-category'), chip.getAttribute('data-value'), false);
+        });
     }
 
-    // Check for initial leaderboard visibility
-    setTimeout(() => {
-        const activeLeaderboard = document.querySelector('.tabcontent.active');
-        if (activeLeaderboard) {
-            const leaderboardId = activeLeaderboard.id;
-            const leaderboardName = leaderboardId.replace('leaderboard-', '');
-            updateFilterVisibility(leaderboardName);
-            updateTagsForLeaderboard(leaderboardName);
-        }
-    }, 100);
+    document.addEventListener('click', e => {
+        const bar = document.getElementById('filter-bar');
+        if (bar && !bar.contains(e.target)) closeFilterMenu();
+    });
 });
 
-// --- Leaderboard Description Update ---
+/* ----------------------------------------------------------- description ---- */
+
 function updateLeaderboardDescription(leaderboardName) {
     const textContainer = document.getElementById('leaderboard-description-text');
     if (!textContainer) return;
-    
+
     const descriptions = {
-        'verified': '<em>Verified</em> is a human-filtered subset of 500 instances. We use <a href="https://github.com/SWE-agent/mini-swe-agent">mini-SWE-agent</a> to evaluate all models with the same harness (<a href="verified.html">details</a>).',
-        'multilingual': '<em>Multilingual</em> features 300 tasks across 9 programming languages (<a href="multilingual-leaderboard.html">details</a>)',
         'lite': '<em>Lite</em> is a subset of 300 instances for less costly evaluation (<a href="lite.html">details</a>)',
-        'test': '<em>Full</em> is a large benchmark made of 2000 instances (<a href="original.html">details</a>)',
+        // One description regardless of the filters, so it does not shift under you
+        'verified': '<em>Verified</em> is a human-filtered subset of 500 instances ' +
+            '(<a href="https://openai.com/index/introducing-swe-bench-verified/">details</a>). ' +
+            'Defaults to <a href="/bash-only"><i>bash-only</i></a> setting ' +
+            '(run with <a href="https://github.com/SWE-agent/mini-swe-agent">mini-SWE-agent</a>).',
+        'test': '<em>Full</em> is a large benchmark made of 2294 instances (<a href="original.html">details</a>)',
         'multimodal': '<em>Multimodal</em> features issues with visual elements (<a href="multimodal.html">details</a>)',
+        'multilingual': '<em>Multilingual</em> spans 300 instances across 9 programming languages ' +
+            '(<a href="multilingual.html">details</a>).'
     };
-    
-    const normalizedName = leaderboardName.toLowerCase();
-    textContainer.innerHTML = descriptions[normalizedName] || '';
+
+    textContainer.innerHTML = descriptions[(leaderboardName || '').toLowerCase()] || '';
 }
 
-// Make the function globally available
 window.updateLeaderboardDescription = updateLeaderboardDescription;
-
-// --- Legacy Functions for Backward Compatibility ---
-// These functions are kept for any external dependencies but use the new dropdown instances
-function getSelectedTags() {
-    return window.tagFiltersDropdown ? window.tagFiltersDropdown.getSelectedValues() : [];
-}
