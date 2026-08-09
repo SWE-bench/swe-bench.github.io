@@ -67,8 +67,8 @@ function sortItems(a, b, field, direction) {
 // Display-only cleanup of model names. The raw `name` stays untouched so that
 // data-model attributes, chart labels and shareable links keep matching the data.
 //
-// These rules mirror `display_name` in experiments/analysis/get_leaderboard.py;
-// when that field is present in the data we use it directly and skip this.
+// Only a fallback now: the table reads `model_display`, and `display_name` is
+// used if some older data still carries it.
 const DATE_SUFFIX_RE = /\s*\((?:\d{8}|\d{4}-\d{2}-\d{2})\)/g;
 
 function formatModelName(name) {
@@ -100,6 +100,31 @@ function buildDisplayNames(results) {
         displayNames.set(item.name, isAmbiguous ? withReasoningRemoved : stripped);
     });
     return displayNames;
+}
+
+// Rows with no logo get a muted initial circle instead of an empty cell. The
+// colour is derived from the agent, so one product looks the same on every board
+// and across reloads; the circle is decorative, since the name is already in the
+// row (hence aria-hidden).
+const LOGO_PLACEHOLDER_COLOURS = 6;
+
+function placeholderKey(item) {
+    const agent = item.agent && item.agent !== 'Undisclosed' ? item.agent : '';
+    return agent || item.model_display || item.name || '';
+}
+
+function placeholderInitial(item) {
+    const match = placeholderKey(item).match(/[a-z0-9]/i);
+    return match ? match[0].toUpperCase() : '?';
+}
+
+function placeholderColour(item) {
+    const key = placeholderKey(item).toLowerCase();
+    let hash = 0;
+    for (let i = 0; i < key.length; i++) {
+        hash = (hash * 31 + key.charCodeAt(i)) >>> 0;
+    }
+    return hash % LOGO_PLACEHOLDER_COLOURS;
 }
 
 function getOrgName(item) {
@@ -211,7 +236,7 @@ function renderLeaderboardTable(leaderboard) {
                             <th class="sortable col-resolved" data-sort="resolved">% Resolved</th>
                             ${withHarness ? '<th class="sortable" data-sort="instance_cost" title="Average cost per task instance in the benchmark">Avg. $</th>' : ''}
                             ${withHarness ? '<th class="sortable" data-sort="trajs_docent">Trajs</th>' : ''}
-                            <th class="sortable" data-sort="org">Org</th>
+                            <th class="sortable col-org" data-sort="org">Org</th>
                             <th class="sortable" data-sort="date">Date</th>
                             ${withHarness
                                 ? '<th class="sortable" data-sort="release" title="mini-swe-agent release with which the benchmark was run. Click the release to see the release note. Generally, results should be very comparable across releases.">Release</th>'
@@ -253,12 +278,12 @@ function renderLeaderboardTable(leaderboard) {
                                     ${withHarness ? `<td class="centered-text text-center">
                                         ${item.trajs_docent && item.trajs_docent !== false ? `<a href="${item.trajs_docent}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
                                     </td>` : ''}
-                                    <td>
+                                    <td class="org-cell">
                                         ${item.logo && item.logo.length > 0 ? `
-                                            <div style="display: flex; align-items: center;">
-                                                ${item.logo.map(logoUrl => `<img src="${logoUrl}" style="height: 1.5em;" />`).join('')}
+                                            <div class="org-logos">
+                                                ${item.logo.map(logoUrl => `<img src="${escapeAttr(logoUrl)}" alt="" class="org-logo" loading="lazy" onerror="this.remove()">`).join('')}
                                             </div>
-                                        ` : '-'}
+                                        ` : `<span class="org-placeholder org-placeholder-${placeholderColour(item)}" aria-hidden="true">${placeholderInitial(item)}</span>`}
                                     </td>
                                     <td><span class="label-date text-muted">${item.date}</span></td>
                                     ${withHarness

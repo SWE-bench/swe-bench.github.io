@@ -41,9 +41,9 @@
                         <select id="model-select-{{ leaderboard.name|lower }}" class="form-control form-select" {% if not loop.first %}hidden{% endif %}>
                             {% for item in leaderboard.results if not item.warning %}
                                 <option value="{{ item.folder }}"
-                                        data-name="{{ item.display_name or item.name }}"
+                                        data-name="{{ item.model_display or item.name }}{% if item.reasoning_effort %} ({{ item.reasoning_effort }}){% endif %}{% if item.agent and item.agent != 'Undisclosed' %} · {{ item.agent }}{% endif %}"
                                         data-resolved="{{ item.resolved if item.resolved is not none else '' }}"
-                                        data-date="{{ item.date }}">{{ item.display_name or item.name }} &middot; {{ item.date }}</option>
+                                        data-date="{{ item.date }}">{{ item.model_display or item.name }}{% if item.reasoning_effort %} ({{ item.reasoning_effort }}){% endif %}{% if item.agent and item.agent != 'Undisclosed' %} &middot; {{ item.agent }}{% endif %} &middot; {{ item.date }}</option>
                             {% endfor %}
                         </select>
                     {% endfor %}

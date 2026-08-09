@@ -863,3 +863,59 @@
   gap: var(--size-sm);
   flex-shrink: 0;
 }
+
+/* Logos are served from this site. Lazy-loaded because a board can hold a few
+   hundred rows; anything that fails to load is dropped rather than showing a
+   broken-image icon. */
+#leaderboard-container .org-logos {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+#leaderboard-container .org-logo {
+  height: 1.5em;
+  width: auto;
+  max-width: 3.5em;
+  object-fit: contain;
+}
+
+/* Placeholder for submissions with no logo: a muted initial circle, sized and
+   aligned exactly like a real logo. Deliberately desaturated so it reads as
+   "none supplied" and stays recessive next to real brand marks. */
+#leaderboard-container .org-placeholder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.3125rem;
+  height: 1.3125rem;
+  border-radius: var(--radius-full);
+  font-size: 0.6875rem;
+  font-weight: var(--weight-semibold);
+  line-height: 1;
+  user-select: none;
+}
+
+#leaderboard-container .org-placeholder-0 { background-color: #e4e7ea; color: #59616b; }
+#leaderboard-container .org-placeholder-1 { background-color: #e6e9e3; color: #5f6659; }
+#leaderboard-container .org-placeholder-2 { background-color: #e2e7ec; color: #566370; }
+#leaderboard-container .org-placeholder-3 { background-color: #eae4e8; color: #6b5f66; }
+#leaderboard-container .org-placeholder-4 { background-color: #ebe7e1; color: #6b6355; }
+#leaderboard-container .org-placeholder-5 { background-color: #e0e9e8; color: #566a68; }
+
+.dark-mode #leaderboard-container .org-placeholder-0 { background-color: #383e45; color: #c8cdd3; }
+.dark-mode #leaderboard-container .org-placeholder-1 { background-color: #3a3f38; color: #cbd0c6; }
+.dark-mode #leaderboard-container .org-placeholder-2 { background-color: #363e46; color: #c5ccd4; }
+.dark-mode #leaderboard-container .org-placeholder-3 { background-color: #423a40; color: #d2c8ce; }
+.dark-mode #leaderboard-container .org-placeholder-4 { background-color: #423d36; color: #d3cdc3; }
+.dark-mode #leaderboard-container .org-placeholder-5 { background-color: #364240; color: #c6d2d0; }
+
+/* Org is a single mark per row, so centre it in its column */
+#leaderboard-container th.col-org,
+#leaderboard-container td.org-cell {
+  text-align: center;
+}
+
+#leaderboard-container td.org-cell .org-logos {
+  justify-content: center;
+}
