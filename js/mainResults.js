@@ -5,6 +5,11 @@ let leaderboardData = null;
 
 const sortState = { field: 'resolved', direction: 'desc' };
 
+// A cell that has nothing in it is not a small value: it sorts last whichever
+// way the arrow points, so that "no per-instance results published" never reads
+// as "the smallest error" or "the top group".
+const MISSING = Symbol('missing');
+
 function escapeAttr(value) {
     return String(value == null ? '' : value).replace(/[&<>"']/g, ch => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -46,6 +51,11 @@ function sortItems(a, b, field, direction) {
                 return item.trajs_docent && item.trajs_docent !== false ? 1 : 0;
             case 'release':
                 return (item['mini-swe-agent_version'] || '').toLowerCase();
+            // Entries without per-instance results have no SE and no group.
+            case 'resolved_se':
+                return item.resolved_se == null ? MISSING : parseFloat(item.resolved_se);
+            case 'tie_group':
+                return item.tie_group == null ? MISSING : parseInt(item.tie_group, 10);
             default:
                 return '';
         }
@@ -53,7 +63,12 @@ function sortItems(a, b, field, direction) {
     
     const av = getValue(a, field);
     const bv = getValue(b, field);
-    
+
+    if (av === MISSING || bv === MISSING) {
+        if (av === MISSING && bv === MISSING) return 0;
+        return av === MISSING ? 1 : -1;
+    }
+
     let result;
     if (typeof av === 'number' && typeof bv === 'number') {
         result = av - bv;
@@ -204,7 +219,16 @@ function renderLeaderboardTable(leaderboard) {
 
     const displayNames = buildDisplayNames(results);
     const modelName = item => item.model_display || displayNames.get(item.name) || item.name;
-    const columnCount = 5 + (withSelect ? 1 : 0) + (withHarness ? 3 : 1);
+    // The two statistics columns need per-instance results, which only some
+    // submissions publish. They are shown when the group anchor is the row the
+    // reader is looking at the top of: either nothing on the board outranks it,
+    // or the view has been narrowed to the harness whose runs publish them.
+    // Anywhere else the column would be mostly dashes anchored on a row far
+    // down the page, which says less than leaving it out and explaining why.
+    const stats = leaderboard.statistics;
+    const withStats = !!stats && stats.groups > 0
+        && (withHarness || stats.unmeasured_above_anchor === 0);
+    const columnCount = 5 + (withSelect ? 1 : 0) + (withHarness ? 3 : 1) + (withStats ? 2 : 0);
 
     // The table uses a fixed layout so the narrow columns keep their width no
     // matter how many other columns are on screen. Every column is sized here
@@ -215,6 +239,8 @@ function renderLeaderboardTable(leaderboard) {
         '<col>',
         '<col class="cw-agent">',
         '<col class="cw-resolved">',
+        withStats ? '<col class="cw-se">' : '',
+        withStats ? '<col class="cw-tie">' : '',
         withHarness ? '<col class="cw-cost">' : '',
         withHarness ? '<col class="cw-trajs">' : '',
         '<col class="cw-org">',
@@ -225,7 +251,7 @@ function renderLeaderboardTable(leaderboard) {
     const tableHtml = `
         <div class="tabcontent active" id="leaderboard-${leaderboard.name}">
             <div class="table-responsive">
-                <table class="table scrollable data-table ${withSelect ? 'has-select-col' : ''}" data-harness="${withHarness}">
+                <table class="table scrollable data-table ${withSelect ? 'has-select-col' : ''}" data-harness="${withHarness}" data-stats="${withStats}">
                     <colgroup>${colgroup}</colgroup>
                     <thead>
                         <tr>
@@ -234,6 +260,8 @@ function renderLeaderboardTable(leaderboard) {
                             <th class="sortable col-model" data-sort="model">Model</th>
                             <th class="sortable col-agent" data-sort="agent">Agent</th>
                             <th class="sortable col-resolved" data-sort="resolved">% Resolved</th>
+                            ${withStats ? '<th class="sortable col-se" data-sort="resolved_se" title="Standard error of this entry\'s own resolve rate over the instances it was scored on: sqrt(p(1-p)/n), in percentage points. It is the precision of one number, not the error of a difference between two entries — two entries are scored on the same instances, so comparing them is a paired question, which is what the Tie column answers.">&plusmn; SE</th>' : ''}
+                            ${withStats ? '<th class="sortable col-tie" data-sort="tie_group" title="Significance group from an exact two-sided McNemar test on the shared instances, alpha = 0.05. The highest ungrouped entry anchors a group and every entry that cannot be separated from that anchor joins it, so membership is a statement about the paired comparison with the anchor, not a property of an entry on its own and not a claim that all members are mutually indistinguishable. No multiplicity correction is applied; one would only make the groups larger.">Tie</th>' : ''}
                             ${withHarness ? '<th class="sortable" data-sort="instance_cost" title="Average cost per task instance in the benchmark">Avg. $</th>' : ''}
                             ${withHarness ? '<th class="sortable" data-sort="trajs_docent">Trajs</th>' : ''}
                             <th class="sortable col-org" data-sort="org">Org</th>
@@ -274,6 +302,12 @@ function renderLeaderboardTable(leaderboard) {
                                             <span class="resolved-track"><span class="resolved-fill" style="width: ${((parseFloat(item.resolved) || 0) / maxResolved * 100).toFixed(1)}%"></span></span>
                                         </span>
                                     </td>
+                                    ${withStats ? `<td class="text-right stat-cell">${item.resolved_se != null
+                                        ? `<span class="number" title="${item.n_instances} instances scored">&plusmn;${parseFloat(item.resolved_se).toFixed(2)}</span>`
+                                        : '<span class="text-muted" title="No per-instance results published for this entry">&mdash;</span>'}</td>` : ''}
+                                    ${withStats ? `<td class="centered-text text-center stat-cell">${item.tie_group != null
+                                        ? `<span class="tie-group${item.tie_group === 1 ? ' tie-group-top' : ''}">${item.tie_group}</span>`
+                                        : '<span class="text-muted" title="No per-instance results published for this entry, so no paired comparison with the top entry is possible">&mdash;</span>'}</td>` : ''}
                                     ${withHarness ? `<td class="text-right"><span class="number">${item.instance_cost !== null && item.instance_cost !== undefined && item.instance_cost !== 0 && !isNaN(item.instance_cost) ? '$' + parseFloat(item.instance_cost).toFixed(2) : ''}</span></td>` : ''}
                                     ${withHarness ? `<td class="centered-text text-center">
                                         ${item.trajs_docent && item.trajs_docent !== false ? `<a href="${item.trajs_docent}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
@@ -301,6 +335,25 @@ function renderLeaderboardTable(leaderboard) {
                     </tbody>
                 </table>
             </div>
+            ${withStats ? `
+            <p class="stats-note text-muted">
+                <b>&plusmn; SE</b> is the standard error of a single entry's resolve rate,
+                <span class="font-mono">sqrt(p(1-p)/n)</span> in percentage points, over the
+                instances that entry was scored on. Two entries are scored on the same
+                instances, so whether they differ is a paired question and overlapping SEs are
+                not the answer to it.
+                <b>Tie</b> answers that paired question: entries an exact two-sided McNemar test
+                cannot separate (&alpha;&nbsp;=&nbsp;0.05) from the group's anchor share its
+                number, group 1 being anchored on
+                <b>${stats ? escapeAttr(stats.anchor) : ''}</b>, the highest entry here that
+                publishes per-instance results. It is a property of that comparison, not of an
+                entry on its own. No multiplicity correction is applied, so the groups are if
+                anything smaller than a corrected analysis would make them.
+                Computed over the ${stats ? stats.with_per_instance : 0} of
+                ${stats ? stats.entries : 0} entries on this board that publish per-instance
+                results. A dash means an entry publishes none, so neither number exists for
+                it &mdash; it does not mean the entry stands alone.
+            </p>` : ''}
         </div>
     `;
 

@@ -2,6 +2,7 @@
 import json
 import pathlib
 import shutil
+import sys
 from flask import Flask
 from flask_flatpages import FlatPages
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -10,6 +11,9 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 ROOT = pathlib.Path(__file__).parent
 TEMPLATES = ROOT / "templates"
 DIST = ROOT / "dist"
+
+sys.path.insert(0, str(ROOT / "data"))
+from leaderboard_statistics import annotate_all  # noqa: E402
 
 def get_pages():
     pages = {}
@@ -126,6 +130,23 @@ def main() -> None:
     # load data
     with open(ROOT / "data/leaderboards.json", "r") as f:
         leaderboards = json.load(f)
+
+    # Sampling error and significance groups, computed here rather than stored,
+    # so that leaderboards.json stays the record of what was submitted and these
+    # stay a function of it. Boards without per-instance results are untouched.
+    for summary in annotate_all(
+        leaderboards["leaderboards"] if isinstance(leaderboards, dict) else leaderboards
+    ):
+        line = (f"stats: {summary['name']}: {summary['with_per_instance']}/{summary['entries']} "
+                f"entries with per-instance results")
+        if summary["groups"]:
+            line += (f", {summary['groups']} significance groups, "
+                     f"{summary['top_tie_group_size']} in group 1 anchored on "
+                     f"{summary['anchor']}")
+            if summary["unmeasured_above_anchor"]:
+                line += f" ({summary['unmeasured_above_anchor']} higher entries publish none)"
+        print(line)
+
     with open(ROOT / "data/press.json", "r") as f:
         press = json.load(f)
         press = sorted(press, key=lambda x: x["date"], reverse=True)
