@@ -22,7 +22,19 @@ Two numbers are added to every entry that publishes per-instance results:
                   not a claim that all members are mutually indistinguishable,
                   and not a property of any entry on its own.
 
-Both require per-instance outcomes. Entries without them get neither number, and
+Both require per-instance outcomes, and both are computed from those outcomes
+rather than from the published rate. That makes the two artifacts checkable
+against each other, so they are checked: an entry is only annotated when the
+resolve rate implied by its per-instance results agrees with its published rate
+to within one instance (100/n percentage points). A larger disagreement means
+the two disagree about the outcome of at least one instance, and there is no way
+to tell from here which of them is right, so the entry gets no numbers and the
+reason is recorded rather than the disagreement being averaged away. This is not
+hypothetical: on the current board two submissions publish per-instance files
+whose implied rates are 0.00 % and 10.20 % against published rates of 69.60 %
+and 52.80 %.
+
+Entries without per-instance results get neither number, and
 the caller is expected to render that as "not published" rather than as a blank
 that reads like a pass. Where the highest entry on a board publishes nothing, the
 anchor is the highest entry that does, and the summary says who it is and how
@@ -59,14 +71,20 @@ def _binom_cdf_half(k: int, n: int) -> float:
     return sum(math.comb(n, i) for i in range(k + 1)) / (2.0**n)
 
 
-def mcnemar_exact(a: dict, b: dict) -> float:
+def mcnemar_exact(a: dict, b: dict) -> float | None:
     """Two-sided exact McNemar p-value over the instances both entries report.
 
     a and b map instance id -> bool (resolved). Only shared instances are used,
     because the test is paired: an instance one entry never attempted carries no
-    information about the difference between them.
+    information about the difference between them. Returns None when there is no
+    shared instance at all, which is "not comparable", not "not different".
     """
     shared = a.keys() & b.keys()
+    if not shared:
+        # No paired evidence at all. Returning 1.0 here would put two entries
+        # that were never scored on a common instance into the same group, i.e.
+        # report absence of data as absence of difference.
+        return None
     a_only = sum(1 for i in shared if a[i] and not b[i])
     b_only = sum(1 for i in shared if b[i] and not a[i])
     n = a_only + b_only
@@ -76,9 +94,13 @@ def mcnemar_exact(a: dict, b: dict) -> float:
 
 
 def binomial_se_pp(resolved: int, n: int) -> float:
-    """Standard error of a resolve rate, in percentage points."""
+    """Standard error of a resolve rate, in percentage points.
+
+    An empty sample raises rather than returning 0.0: no observations is not the
+    same fact as no error, and a zero in this column would read as the latter.
+    """
     if n <= 0:
-        return 0.0
+        raise ValueError("standard error of an empty sample is undefined, not zero")
     p = resolved / n
     return 100.0 * math.sqrt(p * (1.0 - p) / n)
 
@@ -90,20 +112,62 @@ def _outcomes(entry: dict) -> dict | None:
     return {k: bool(v.get("resolved")) for k, v in details.items()}
 
 
+def usable_outcomes(entry: dict) -> tuple[dict | None, str | None]:
+    """Per-instance outcomes for an entry, or None with the reason they are unusable.
+
+    Reasons are named rather than collapsed into a blank, because "nothing was
+    published" and "what was published contradicts the headline number" are
+    different facts about a submission and only one of them is the submitter's
+    silence.
+    """
+    outcomes = _outcomes(entry)
+    if outcomes is None:
+        return None, "not_published"
+
+    n = len(outcomes)
+    implied = 100.0 * sum(outcomes.values()) / n
+    published = entry.get("resolved")
+    if published is None:
+        return None, "no_published_rate"
+
+    # One instance is the finest step the published rate can move in, so a
+    # disagreement smaller than that is rounding or a denominator that differs
+    # by one, and anything larger means the two artifacts disagree about the
+    # outcome of at least one instance.
+    if abs(implied - float(published)) >= 100.0 / n:
+        entry["stats_implied_resolved"] = round(implied, 2)
+        return None, "inconsistent_with_published_rate"
+
+    return outcomes, None
+
+
 def annotate(leaderboard: dict, alpha: float = ALPHA) -> dict:
     """Add resolved_se / n_instances / tie_group in place. Returns a summary."""
     results = leaderboard.get("results", [])
     ranked = sorted(results, key=lambda r: -(float(r.get("resolved") or 0)))
 
+    usable: dict[int, dict] = {}
+    excluded: list[tuple[str, str]] = []
     for entry in results:
-        outcomes = _outcomes(entry)
+        outcomes, reason = usable_outcomes(entry)
         if outcomes is None:
+            if reason != "not_published":
+                entry["stats_excluded"] = reason
+                excluded.append((entry.get("model_display") or entry.get("name"), reason))
             continue
+        usable[id(entry)] = outcomes
         n = len(outcomes)
+        resolved = sum(outcomes.values())
         entry["n_instances"] = n
-        entry["resolved_se"] = round(binomial_se_pp(sum(outcomes.values()), n), 2)
+        if resolved in (0, n):
+            # sqrt(p(1-p)/n) is exactly zero at a boundary rate. That is a
+            # property of the estimator, not a measurement of this entry, and
+            # printing 0.00 in an error column would claim the opposite.
+            entry["stats_excluded"] = "degenerate_rate"
+        else:
+            entry["resolved_se"] = round(binomial_se_pp(resolved, n), 2)
 
-    measurable = [r for r in ranked if _outcomes(r) is not None]
+    measurable = [r for r in ranked if id(r) in usable]
     summary = {
         "name": leaderboard.get("name"),
         "entries": len(results),
@@ -113,6 +177,8 @@ def annotate(leaderboard: dict, alpha: float = ALPHA) -> dict:
         "top_tie_group_size": 0,
         "anchor": None,
         "unmeasured_above_anchor": 0,
+        "excluded": excluded,
+        "not_comparable": 0,
     }
     if not measurable:
         return summary
@@ -130,11 +196,18 @@ def annotate(leaderboard: dict, alpha: float = ALPHA) -> dict:
     while pending:
         group += 1
         anchor, rest = pending[0], pending[1:]
-        anchor_outcomes = _outcomes(anchor)
+        anchor_outcomes = usable[id(anchor)]
         anchor["tie_group"] = group
         pending = []
         for entry in rest:
-            if mcnemar_exact(anchor_outcomes, _outcomes(entry)) >= alpha:
+            p = mcnemar_exact(anchor_outcomes, usable[id(entry)])
+            if p is None:
+                # Shares no instance with this anchor: it cannot join the group
+                # and it cannot be said to differ from it either. It stays in
+                # the queue and will anchor a group of its own.
+                summary["not_comparable"] += 1
+                pending.append(entry)
+            elif p >= alpha:
                 entry["tie_group"] = group
             else:
                 pending.append(entry)
@@ -250,6 +323,72 @@ def selftest() -> int:
     if mcnemar_exact(short, long_) != 1.0:
         failures.append("instances missing from one entry were treated as failures")
 
+    # An empty sample has no standard error, and must not report one as zero.
+    try:
+        binomial_se_pp(0, 0)
+        failures.append("an empty sample was given a standard error")
+    except ValueError:
+        pass
+
+    # Per-instance results that contradict the published rate are not averaged
+    # away: the entry gets no numbers, and the reason is recorded by name.
+    liar = _entry("liar", [1] * 51 + [0] * 449)   # implies 10.2 %
+    liar["resolved"] = 52.8                        # but the board says 52.8 %
+    lb5 = {"name": "t5", "results": [_entry("lead", lead), liar, _entry("lag", lag)]}
+    s5 = annotate(lb5)
+    if "resolved_se" in liar or "tie_group" in liar:
+        failures.append("an entry contradicting its published rate was given statistics")
+    if liar.get("stats_excluded") != "inconsistent_with_published_rate":
+        failures.append(f"exclusion reason was {liar.get('stats_excluded')!r}")
+    if liar.get("stats_implied_resolved") != 10.2:
+        failures.append(f"implied rate was {liar.get('stats_implied_resolved')!r}, expected 10.2")
+    if ("liar", "inconsistent_with_published_rate") not in s5["excluded"]:
+        failures.append("the exclusion was not reported in the summary")
+
+    # A disagreement smaller than one instance is a rounding or denominator
+    # difference, not a contradiction, and must not drop the entry.
+    rounded = _entry("rounded", [1] * 324 + [0] * 176)  # implies 64.80 %
+    rounded["resolved"] = 64.93                          # published over 499
+    lb6 = {"name": "t6", "results": [rounded, _entry("lag", lag)]}
+    annotate(lb6)
+    if rounded.get("resolved_se") is None or rounded.get("tie_group") != 1:
+        failures.append("a sub-instance rounding difference dropped the entry")
+
+    # ... and the threshold is exactly one instance, so a disagreement just over
+    # it is excluded. Without this the gate could be loosened by an order of
+    # magnitude and every test above would still pass.
+    over = _entry("over", [1] * 324 + [0] * 176)   # implies 64.80 %
+    over["resolved"] = 65.05                        # 0.25 pp away, one instance is 0.20
+    lb6b = {"name": "t6b", "results": [over, _entry("lag", lag)]}
+    annotate(lb6b)
+    if over.get("stats_excluded") != "inconsistent_with_published_rate":
+        failures.append("a disagreement larger than one instance was accepted")
+
+    # At a boundary rate the binomial SE is exactly zero, which is a property of
+    # the estimator. It is withheld, but the entry is still compared.
+    perfect = _entry("perfect", [1] * 500)
+    lb7 = {"name": "t7", "results": [perfect, _entry("lag", lag)]}
+    annotate(lb7)
+    if "resolved_se" in perfect:
+        failures.append("a boundary rate published a zero standard error")
+    if perfect.get("stats_excluded") != "degenerate_rate" or perfect.get("tie_group") != 1:
+        failures.append("a boundary-rate entry was dropped from the comparison as well")
+
+    # Two entries scored on disjoint instance sets are not comparable, and
+    # absence of paired evidence must not be rendered as a tie.
+    left = {"name": "left", "resolved": 60.0,
+            "per_instance_details": {f"a{i}": {"resolved": i < 60} for i in range(100)}}
+    right = {"name": "right", "resolved": 55.0,
+             "per_instance_details": {f"b{i}": {"resolved": i < 55} for i in range(100)}}
+    lb8 = {"name": "t8", "results": [left, right]}
+    s8 = annotate(lb8)
+    if left.get("tie_group") == right.get("tie_group"):
+        failures.append("entries with no shared instances were put in one group")
+    if s8["not_comparable"] != 1:
+        failures.append(f"not_comparable was {s8['not_comparable']}, expected 1")
+    if mcnemar_exact({"a": True}, {"b": True}) is not None:
+        failures.append("a comparison with no shared instance returned a p-value")
+
     if failures:
         print("SELFTEST FAILED")
         for f in failures:
@@ -258,7 +397,10 @@ def selftest() -> int:
     print("selftest passed: identical entries never separated, planted flips detected, "
           "balanced discordance not called a difference, SE matches the binomial formula, "
           "the anchor is the highest measurable entry and is named, missing per-instance "
-          "results stay empty")
+          "results stay empty, per-instance results contradicting the published rate are "
+          "excluded by name, a sub-instance rounding difference is not a contradiction, a "
+          "boundary rate withholds the zero SE, an empty sample raises, and disjoint "
+          "instance sets are not a tie")
     return 0
 
 
@@ -276,6 +418,8 @@ def main() -> int:
     for s in annotate_all(boards):
         print(f"{s['name']:<14} entries={s['entries']:>4} with per-instance={s['with_per_instance']:>4} "
               f"grouped={s['grouped']:>4} groups={s['groups']:>3} top group={s['top_tie_group_size']:>3}")
+        for name, reason in s["excluded"]:
+            print(f"{'':<14} excluded: {name}: {reason}")
     return 0
 
 

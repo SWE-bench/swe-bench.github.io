@@ -145,7 +145,15 @@ def main() -> None:
                      f"{summary['anchor']}")
             if summary["unmeasured_above_anchor"]:
                 line += f" ({summary['unmeasured_above_anchor']} higher entries publish none)"
+        if summary["not_comparable"]:
+            line += (f", {summary['not_comparable']} entries share no instance with the "
+                     "anchor of their group")
         print(line)
+        # An entry dropped for contradicting its own published rate is a defect
+        # in the submitted data, not a quiet gap in a column, so the build says
+        # so by name rather than leaving a dash on the page as the only trace.
+        for name, reason in summary["excluded"]:
+            print(f"stats: {summary['name']}: {name}: {reason}")
 
     with open(ROOT / "data/press.json", "r") as f:
         press = json.load(f)

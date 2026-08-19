@@ -10,6 +10,27 @@ const sortState = { field: 'resolved', direction: 'desc' };
 // as "the smallest error" or "the top group".
 const MISSING = Symbol('missing');
 
+// Why a cell is empty is itself a fact about the submission, so the dash says
+// which of the reasons applies instead of collapsing them into silence.
+const STAT_GAP = {
+    inconsistent_with_published_rate:
+        'The per-instance results published for this entry imply a different resolve rate '
+        + 'than the one on the board, so neither number is computed from them',
+    no_published_rate:
+        'This entry has no published resolve rate to check the per-instance results against',
+    degenerate_rate:
+        'Every instance has the same outcome, where sqrt(p(1-p)/n) is exactly zero. That is a '
+        + 'property of the formula, not a measurement of this entry, so no error is shown',
+};
+
+function statGapTitle(item, fallback) {
+    const reason = STAT_GAP[item.stats_excluded];
+    if (!reason) return fallback;
+    return item.stats_implied_resolved != null
+        ? `${reason} (${item.stats_implied_resolved}% implied, ${item.resolved}% published)`
+        : reason;
+}
+
 function escapeAttr(value) {
     return String(value == null ? '' : value).replace(/[&<>"']/g, ch => ({
         '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -304,10 +325,10 @@ function renderLeaderboardTable(leaderboard) {
                                     </td>
                                     ${withStats ? `<td class="text-right stat-cell">${item.resolved_se != null
                                         ? `<span class="number" title="${item.n_instances} instances scored">&plusmn;${parseFloat(item.resolved_se).toFixed(2)}</span>`
-                                        : '<span class="text-muted" title="No per-instance results published for this entry">&mdash;</span>'}</td>` : ''}
+                                        : `<span class="text-muted" title="${escapeAttr(statGapTitle(item, 'No per-instance results published for this entry'))}">&mdash;</span>`}</td>` : ''}
                                     ${withStats ? `<td class="centered-text text-center stat-cell">${item.tie_group != null
                                         ? `<span class="tie-group${item.tie_group === 1 ? ' tie-group-top' : ''}">${item.tie_group}</span>`
-                                        : '<span class="text-muted" title="No per-instance results published for this entry, so no paired comparison with the top entry is possible">&mdash;</span>'}</td>` : ''}
+                                        : `<span class="text-muted" title="${escapeAttr(statGapTitle(item, 'No per-instance results published for this entry, so no paired comparison with the top entry is possible'))}">&mdash;</span>`}</td>` : ''}
                                     ${withHarness ? `<td class="text-right"><span class="number">${item.instance_cost !== null && item.instance_cost !== undefined && item.instance_cost !== 0 && !isNaN(item.instance_cost) ? '$' + parseFloat(item.instance_cost).toFixed(2) : ''}</span></td>` : ''}
                                     ${withHarness ? `<td class="centered-text text-center">
                                         ${item.trajs_docent && item.trajs_docent !== false ? `<a href="${item.trajs_docent}" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i></a>` : '<span class="text-muted">-</span>'}
