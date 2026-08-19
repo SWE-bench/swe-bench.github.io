@@ -34,6 +34,11 @@ correction would make separation harder and the groups larger, so the group
 sizes produced here are a lower bound on how much of a board is statistically
 indistinguishable.
 
+Neither number is a repeatability estimate. Both condition on the single run each
+entry reports. A rerun of the same system on the same instances is not observable
+in this data, so nothing here bounds how much a score would move on a second run,
+and neither column may be read as the uncertainty of the ranking itself.
+
     python leaderboard_statistics.py --selftest
     python leaderboard_statistics.py leaderboards.json     # report, writes nothing
 """

@@ -349,6 +349,9 @@ function renderLeaderboardTable(leaderboard) {
                 publishes per-instance results. It is a property of that comparison, not of an
                 entry on its own. No multiplicity correction is applied, so the groups are if
                 anything smaller than a corrected analysis would make them.
+                Neither number is a repeatability estimate: both condition on the single run
+                each entry reports, and a rerun of the same system is not observable here, so
+                neither is the uncertainty of the ranking.
                 Computed over the ${stats ? stats.with_per_instance : 0} of
                 ${stats ? stats.entries : 0} entries on this board that publish per-instance
                 results. A dash means an entry publishes none, so neither number exists for
