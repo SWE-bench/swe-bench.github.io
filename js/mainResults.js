@@ -281,7 +281,7 @@ function renderLeaderboardTable(leaderboard) {
                             <th class="sortable col-model" data-sort="model">Model</th>
                             <th class="sortable col-agent" data-sort="agent">Agent</th>
                             <th class="sortable col-resolved" data-sort="resolved">% Resolved</th>
-                            ${withStats ? '<th class="sortable col-se" data-sort="resolved_se" title="Standard error of this entry\'s own resolve rate over the instances it was scored on: sqrt(p(1-p)/n), in percentage points. It is the precision of one number, not the error of a difference between two entries — two entries are scored on the same instances, so comparing them is a paired question, which is what the Tie column answers.">&plusmn; SE</th>' : ''}
+                            ${withStats ? '<th class="sortable col-se" data-sort="resolved_se" title="sqrt(p(1-p)/n) over the instances this entry was scored on, in percentage points. On this fixed set of instances the resolve rate is exact, so this is not the error of the number beside it: it is model-based, and the model treats these instances as an exchangeable sample of comparable tasks. It is also the precision of one number, not the error of a difference between two entries — two entries are scored on the same instances, so comparing them is a paired question, which is what the Tie column answers.">&plusmn; SE</th>' : ''}
                             ${withStats ? '<th class="sortable col-tie" data-sort="tie_group" title="Significance group from an exact two-sided McNemar test on the shared instances, alpha = 0.05. The highest ungrouped entry anchors a group and every entry that cannot be separated from that anchor joins it, so membership is a statement about the paired comparison with the anchor, not a property of an entry on its own and not a claim that all members are mutually indistinguishable. No multiplicity correction is applied; one would only make the groups larger.">Tie</th>' : ''}
                             ${withHarness ? '<th class="sortable" data-sort="instance_cost" title="Average cost per task instance in the benchmark">Avg. $</th>' : ''}
                             ${withHarness ? '<th class="sortable" data-sort="trajs_docent">Trajs</th>' : ''}
@@ -358,9 +358,19 @@ function renderLeaderboardTable(leaderboard) {
             </div>
             ${withStats ? `
             <p class="stats-note text-muted">
-                <b>&plusmn; SE</b> is the standard error of a single entry's resolve rate,
-                <span class="font-mono">sqrt(p(1-p)/n)</span> in percentage points, over the
-                instances that entry was scored on. Two entries are scored on the same
+                <b>&plusmn; SE</b> is <span class="font-mono">sqrt(p(1-p)/n)</span> in
+                percentage points over the instances that entry was scored on, and it is not the
+                uncertainty of the number beside it. Every entry on a board is scored on the same
+                fixed set of instances, and on that fixed set the resolve rate is an exact
+                descriptive fact: 396 of 500 is 79.20&nbsp;%, with nothing left to estimate. That
+                quantity becomes a standard error only once the target of the inference is named,
+                and the target here is a wider population of comparable tasks of which this item
+                set is treated as an exchangeable sample. That assumption is the column's content,
+                and it is worth stating plainly that these item sets are curated and
+                human-filtered rather than randomly drawn, which makes the assumption questionable
+                rather than merely unstated. Read the column as how far the rate would move across
+                comparable item sets under that model, not as error bars on the benchmark result.
+                Two entries are scored on the same
                 instances, so whether they differ is a paired question and overlapping SEs are
                 not the answer to it.
                 <b>Tie</b> answers that paired question: entries an exact two-sided McNemar test
