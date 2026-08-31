@@ -474,7 +474,8 @@ function updateLeaderboardDescription(leaderboardName) {
             'Defaults to <a href="/bash-only"><i>bash-only</i></a> setting ' +
             '(run with <a href="https://github.com/SWE-agent/mini-swe-agent">mini-SWE-agent</a>).',
         'test': '<em>Full</em> is a large benchmark made of 2294 instances (<a href="original.html">details</a>)',
-        'multimodal': '<em>Multimodal</em> features issues with visual elements (<a href="multimodal.html">details</a>)',
+        'multimodal': '<em>Multimodal</em> features issues with visual elements (<a href="multimodal.html">details</a>). ' +
+            'V2 retains 480 tasks selected for reproducible evaluation.',
         'multilingual': '<em>Multilingual</em> spans 300 instances across 9 programming languages ' +
             '(<a href="multilingual.html">details</a>).'
     };
