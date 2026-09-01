@@ -6,8 +6,9 @@
  *   evaluation/<split>/<model>/results/resolved_by_time.json
  * Both are shaped { "<key>": { "resolved": <int>, "total": <int> }, ... }.
  *
- * Not every submission publishes them (bash-only entries have no results/
- * directory at all), so a missing file is a normal empty state, not an error.
+ * Not every submission publishes them (mini-SWE-agent entries carry a stored
+ * resolve rate instead of a results/ directory), so a missing file is a normal empty
+ * state, not an error.
  */
 
 const EXPERIMENTS_EVAL_URL = 'https://raw.githubusercontent.com/swe-bench/experiments/main/evaluation';

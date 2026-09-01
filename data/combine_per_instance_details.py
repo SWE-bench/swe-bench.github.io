@@ -2,6 +2,10 @@
 """
 Script to combine per-instance details from info_for_leaderboard.json
 into the leaderboards.json file for all model entries.
+
+Largely superseded: `analysis/get_leaderboard.py` in the experiments repo now attaches
+per_instance_details for any entry that ships the file. Kept for the handful of older
+rows in info_for_leaderboard.json that have no such file.
 """
 
 import json
@@ -47,20 +51,21 @@ def main():
     with open(leaderboards_file, 'r') as f:
         leaderboards_data = json.load(f)
 
-    # Find bash-only leaderboard
+    # mini-SWE-agent submissions live in the Verified board; there is no longer a
+    # separate 'bash-only' board to look in.
     bash_only = None
     bash_only_idx = None
     for idx, lb in enumerate(leaderboards_data['leaderboards']):
-        if lb.get('name') == 'bash-only':
+        if lb.get('name') == 'Verified':
             bash_only = lb
             bash_only_idx = idx
             break
 
     if bash_only is None:
-        print("Error: 'bash-only' leaderboard not found")
+        print("Error: 'Verified' leaderboard not found")
         return 1
 
-    print(f"Found 'bash-only' leaderboard with {len(bash_only['results'])} entries")
+    print(f"Found 'Verified' leaderboard with {len(bash_only['results'])} entries")
 
     # Track which models will be updated
     models_to_update = []
