@@ -541,6 +541,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Load the tab named in the hash, defaulting to Verified. #bash-only is kept
+    // as an alias: those submissions now live in the Verified board, reachable
+    // through the Bash Only filter preset rather than a board of their own.
     // as an alias for the mini-SWE-agent view of Verified so old links still work.
     const hash = window.location.hash.slice(1).toLowerCase();
     const tabsByHash = {
