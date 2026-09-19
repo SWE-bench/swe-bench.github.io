@@ -782,10 +782,49 @@
   min-width: 66rem;
 }
 
+/* The two statistics columns add sized width, so the point at which the wrapper
+   starts scrolling instead of squeezing Model moves with them. */
+#leaderboard-container .data-table[data-stats="true"] {
+  min-width: 74rem;
+}
+
 #leaderboard-container col.cw-select { width: 2rem; }
 #leaderboard-container col.cw-rank { width: 3.1rem; }
 #leaderboard-container col.cw-agent { width: 12rem; }
 #leaderboard-container col.cw-resolved { width: 7.25rem; }
+/* Statistics columns: the error on one entry, and the paired group it sits in */
+#leaderboard-container .stat-cell .number,
+#leaderboard-container .stat-cell .text-muted {
+  font-variant-numeric: tabular-nums;
+}
+
+#leaderboard-container .tie-group {
+  display: inline-block;
+  min-width: 1.5rem;
+  padding: 0.05rem 0.35rem;
+  border-radius: var(--radius-sm, 0.25rem);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+/* Group 1 is the one the headline number is read off, so it is the one worth
+   seeing at a glance. Emphasis, not a claim of quality. The tint is the same
+   accent the site already defines for both themes, so it stays visible in dark
+   mode instead of disappearing into the background. */
+#leaderboard-container .tie-group-top {
+  background-color: var(--color-accent-light);
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.stats-note {
+  margin: 0.5rem 0 0;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+#leaderboard-container col.cw-se { width: 4.75rem; }
+#leaderboard-container col.cw-tie { width: 3.5rem; }
 #leaderboard-container col.cw-cost { width: 5.25rem; }
 #leaderboard-container col.cw-trajs { width: 4.5rem; }
 #leaderboard-container col.cw-org { width: 4.75rem; }
